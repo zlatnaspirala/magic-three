@@ -1,0 +1,2 @@
+
+function NETWORK_ASSET() {}

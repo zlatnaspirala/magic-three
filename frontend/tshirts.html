@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js  visual js</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+		body {
+				font-family: Monospace;
+				background-color: #000;
+				color: #fff;
+				margin: 0px;
+				overflow: hidden;
+			}
+		
+		</style>
+	</head>
+	<body>
+	 <!-- Character by <a href="http://planetquake.gamespy.com/View.php?view=Quake2.Detail&id=368">Brian Collins</a> -->
+	 
+	 <!-- LIBS FILES -->
+		<script src="lib/threejs/three.min.js"></script>
+		<script src="lib/threejs/Detector.js"></script>
+		<script src="lib/starter.js"></script>
+		<script src="lib/loadScript.js"></script>
+				
+    	<!-- EDIT PROJECTS FILES  -->
+		<script src="js/import.js"></script>		
+		<script src="js/onWindowResize.js"></script>
+		<script src="js/render.js"></script>
+		<script src="js/camera.js"></script>
+		<script src="lib/addShape.js"></script>
+		<script src="js/grid.js"></script>
+		<script src="lib/text.js"></script>
+		<script src="lib/GPUParticleSystem.js" charset="utf-8"></script>
+<script>		
+
+/**
+@ globals variables
+
+
+*/
+
+
+			var container,camera,controls;
+			
+			
+			   if (PROGRAM.PHYSI == true) {
+			   
+					var scene;
+			   
+			   }
+			   else {
+			
+					var scene=new THREE.Scene();			
+			   
+			   }
+        
+		//	
+			
+			var clock = new THREE.Clock(true);
+			var mouse = new THREE.Vector2();
+			renderer=new THREE.WebGLRenderer(  { antialias: PROGRAM.ANTIALIAS }   );
+            var INTERSECTED;
+			 
+				
+			window.onload = function(){
+		
+
+//#####################################		
+			   if (PROGRAM.PHYSI == true) {
+			   
+		scene = new Physijs.Scene;
+		scene.setGravity(new THREE.Vector3( 0, -30, 0 ));
+		scene.addEventListener(
+			'update',
+			function() {
+				scene.simulate( undefined, 1 );
+				//physics_stats.update();
+			}
+		);
+		
+		scene.simulate();
+		
+		}
+//#####################################		
+		
+		
+			THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+			
+			
+			
+			
+			init();
+			render();
+			
+			
+			};
+			
+ 
+			
+			function init() {
+
+	
+				
+				var position = {x:0,y:240,z:260};
+				//  camera.position.set( 0, 230, 260 );
+						
+						CAMERA_INIT(position);
+						
+			
+      			        GRID_INIT()
+						
+						
+						if (PROGRAM.GROUND == true) {
+						
+							GROUND()
+						
+						}
+						
+					 
+  		    	var ambient = new THREE.AmbientLight( 0x444444 );
+				scene.add( ambient ); 
+	 
+
+				 directionalLight = new THREE.DirectionalLight( 0xffffff , 1 );
+				directionalLight.position.set( 1, 0, 1 ).normalize();
+				scene.add( directionalLight );
+              
+			   
+		/* 		 
+		  		controls = new THREE.OrbitControls( camera, renderer.domElement );
+				controls.addEventListener( 'change', render );
+				controls.maxPolarAngle = Math.PI / 2.1;
+				controls.enableZoom = true;
+				controls.enablePan = true;   
+ 
+				var triangleShape = new THREE.Shape();
+				triangleShape.moveTo(  80, 20 );
+				triangleShape.lineTo(  40, 80 );
+				triangleShape.lineTo( 120, 80 );
+				triangleShape.lineTo(  80, 20 );  
+			    var nikola = new addShape( "TROUGAO" , triangleShape, 0xffee00, -180, 0, 0, 0, 0, 0, 1 );
+		 
+			   */
+			  
+	
+ 
+		 
+			  
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				document.body.appendChild( renderer.domElement );
+			  
+			   if (PROGRAM.SKY == true) {
+
+				 initSky();
+			   
+			   }
+				
+				
+				 INCLUDE.SCRIPT("application/tshirts.js")
+				  
+				  
+				animate()
+				 
+				window.addEventListener( 'resize', onWindowResize, false );
+				 
+			} 
+			
+
+
+		</script>
+
+	</body>
+
+</html>
