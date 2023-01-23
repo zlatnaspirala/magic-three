@@ -37,7 +37,7 @@ function addStar(name, x, y) {
         });
 
     //var materialArray = [ materialFront, materialSide ];
-    var materialArray = [RM.rock_mats.Chrome2, RM.rock_mats.Chrome];
+    var materialArray = [RM.PhongMaterial, RM.cubeMaterial1];
 
     var starMaterial = new THREE.MeshFaceMaterial(materialArray);
 

@@ -510,4 +510,5 @@ function MATERIALS() {
 }
 
 var RM = new MATERIALS();
-var s = new RM.CREATE_CUBE_REFRACTION("res/textures/reflection1/", 'COLORFUN');
+
+// RM.M = new RM.CREATE_CUBE_REFRACTION("res/textures/reflection1/", 'COLORFUN');

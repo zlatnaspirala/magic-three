@@ -1,0 +1,27 @@
+{
+  "name": "magic-three",
+  "version": "1.0.0",
+  "description": "Three.js / cannon.js / more",
+  "main": "index.js",
+  "scripts": {
+    "app": "watchify app.js -p [esmify --noImplicitAny] -o public/app.js",
+    "build.app": "browserify app.js -p esmify > public/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "three.js",
+    "cannonjs"
+  ],
+  "author": "Nikola Lukic",
+  "license": "MIT",
+  "dependencies": {
+    "three": "^0.148.0",
+    "browser-resolve": "^2.0.0",
+    "cannon": "^0.6.2"
+  },
+  "devDependencies": {
+    "browserify": "^17.0.0",
+    "esmify": "^2.1.1",
+    "watchify": "^4.0.0"
+  }
+}

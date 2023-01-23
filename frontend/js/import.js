@@ -340,7 +340,7 @@ function createSceneSkin(geometry, materials, x, y, z, s, ROOT, name_) {
     ]; */
     for (var i = 0; i < 1; i++) {
 
-        var m = RM.COLORFUN.Chrome2;
+        var m = RM.PhongMaterial;
 
         m.skinning = true;
         m.morphTargets = true;
@@ -378,7 +378,7 @@ function createSceneSkin(geometry, materials, x, y, z, s, ROOT, name_) {
     helper.visible = false;
     scene.add(helper);
     ROOT.mixer = new THREE.AnimationMixer(ROOT.mesh);
-    bonesClip = geometry.animations[0];
+    // bonesClip = geometry.animations[0];
     facesClip = THREE.AnimationClip.CreateFromMorphTargetSequence('facialExpressions', ROOT.mesh.geometry.morphTargets, 3);
 
 }

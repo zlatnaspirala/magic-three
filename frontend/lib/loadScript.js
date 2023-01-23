@@ -18,8 +18,8 @@ if (PROGRAM.SKY == true) {
     INCLUDE.SCRIPT("lib/sky/sky.js");
 }
 if (PROGRAM.ACCOUNTS_NETWORKING == true) {
-    INCLUDE.SCRIPT("lib/io/socket.io.js");
-    INCLUDE.SCRIPT("network/account.js");
+    // INCLUDE.SCRIPT("lib/io/socket.io.js");
+    // INCLUDE.SCRIPT("network/account.js");
 }
 if (PROGRAM.STREAM_TEXTURE == true) {
     INCLUDE.SCRIPT("lib/rtc/checkCamera.js");

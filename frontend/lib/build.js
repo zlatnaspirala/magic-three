@@ -44794,7 +44794,7 @@ window.onload = function () {
 
         for (var i = 0; i < 1; i++) {
 
-            var m = RM.COLORFUN.Chrome2;
+            var m = RM.PhongMaterial;
 
             m.skinning = true;
             m.morphTargets = true;
@@ -45109,8 +45109,8 @@ window.onload = function () {
         ROOT.mirror = false;
 
         ROOT.material = new THREE.MultiMaterial([
-                    RM.COLORFUN.Chrome2,
-                    RM.COLORFUN.Chrome3
+                    RM.PhongMaterial,
+                    RM.PhongMaterial3
                     //new THREE.MeshPhongMaterial( { color: 0x5AA8FD, shading: THREE.FlatShading } ), // front
                     //new THREE.MeshPhongMaterial( { color: 0x5AA8FD, shading: THREE.SmoothShading } ) // side
                 ]);

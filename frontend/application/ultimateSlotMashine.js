@@ -71,12 +71,12 @@ var INSTANCE_SLOT = new IMPORT.OBJ('ULTIMATE_MASHINE', 'res/ultimateSlot/slot1.o
     ULTIMATE_MASHINE.scale.set(99, 99, 99)
     ULTIMATE_MASHINE.position.setY(-300)
 
-    //ULTIMATE_MASHINE.children[3].material = RM.COOL.Chrome1;
+    //ULTIMATE_MASHINE.children[3].material = RM.PhongMaterial;
 
     SYS.DOM.createElement('video', 'res/ultimateSlot/Animals.mp4', 'animals', true);
 
-    ULTIMATE_MASHINE.children[3].material = RM.COOL.Chrome2;
-    ULTIMATE_MASHINE.children[2].material = RM.COOL.Chrome1;
+    ULTIMATE_MASHINE.children[3].material = RM.PhongMaterial;
+    ULTIMATE_MASHINE.children[2].material = RM.PhongMaterial;
 
     SAVE_MATERIALS_FROM_STARTUP.R1 = REEL.children[0].material;
     SAVE_MATERIALS_FROM_STARTUP.R2 = REEL2.children[0].material;

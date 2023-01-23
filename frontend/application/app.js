@@ -778,7 +778,7 @@ BLOCK28.LOADED()
 
 // Rock
 //IMPORT.OBJ
-RM.CREATE_CUBE_REFRACTION('res/textures/reflection1/', 'rock_mats');
+// RM.CREATE_CUBE_REFRACTION('res/textures/reflection1/', 'rock_mats');
 //
 
 
@@ -816,7 +816,7 @@ ROCK3.position.set(-2622 , 50 ,  -1000)
  */
 
 var SUM_INITIAL_DIAMOND = 2;
-GENERATE_NEW_DIAMOND()
+// GENERATE_NEW_DIAMOND()
 function GENERATE_NEW_DIAMOND() {
     //randomIntFromTo
     window['diamond___' + SUM_INITIAL_DIAMOND] = new IMPORT.OBJ('diamond' + SUM_INITIAL_DIAMOND, 'res/obj/diamond/diamond.obj')

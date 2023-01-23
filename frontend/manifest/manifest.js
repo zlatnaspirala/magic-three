@@ -19,7 +19,7 @@ var APPLICATION = {
         DDSLoader: true,
         OBJLoader: true,
         MTLLoader: false,
-        MD2Loader: false,
+        MD2Loader: true,
         ColladaLoader: true,
         MD2Character: true,
         FBXLoader: false,

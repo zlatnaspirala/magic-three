@@ -48,8 +48,8 @@ function TEXT3D(position, forhud, helper) {
     ROOT.mirror = false;
 
     ROOT.material = new THREE.MultiMaterial([
-                RM.COOL.Chrome,
-                RM.COLORFUN.Chrome2
+                RM.PhongMaterial,
+                RM.PhongMaterial
             ]);
 
     ROOT.SET_POSITION = function (x, y, z) {
