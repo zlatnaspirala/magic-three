@@ -32,7 +32,7 @@ var APPLICATION = {
         STREAM_TEXTURE: true,
         VIDEO_CONFERENCE: false, // not work yet
         VIDEO_CONFERENCE_IO_NODEJS: false, // rtc 2.2
-        ACCOUNTS_NETWORKING: false,
+        ACCOUNTS_NETWORKING: true,
         PANORAMA_TEXTURES: true,
         THREEX_AR: true,
     }
