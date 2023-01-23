@@ -2,33 +2,25 @@
 "use strict";
 
 var THREE = _interopRequireWildcard(require("three"));
+var _camera = require("./src/camera");
+var _scene = require("./src/scene");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 // init
 
-const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+const camera = (0, _camera.createCamera)();
 camera.position.z = 1;
-const scene = new THREE.Scene();
+
+// CONTENT
 const geometry = new THREE.BoxGeometry(0.2, 0.2, 0.2);
 const material = new THREE.MeshNormalMaterial();
 const mesh = new THREE.Mesh(geometry, material);
-scene.add(mesh);
-const renderer = new THREE.WebGLRenderer({
-  antialias: true
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setAnimationLoop(animation);
-document.body.appendChild(renderer.domElement);
+_scene.scene.add(mesh);
+_scene.renderer.setSize(window.innerWidth, window.innerHeight);
+_scene.renderer.setAnimationLoop(_scene.draw);
+document.body.appendChild(_scene.renderer.domElement);
 
-// animation
-
-function animation(time) {
-  mesh.rotation.x = time / 2000;
-  mesh.rotation.y = time / 1000;
-  renderer.render(scene, camera);
-}
-
-},{"three":2}],2:[function(require,module,exports){
+},{"./src/camera":3,"./src/scene":4,"three":2}],2:[function(require,module,exports){
 "use strict";Object.defineProperty(exports,"__esModule",{value:true});exports.DstColorFactor=exports.DstAlphaFactor=exports.DoubleSide=exports.DodecahedronGeometry=exports.DodecahedronBufferGeometry=exports.DiscreteInterpolant=exports.DirectionalLightHelper=exports.DirectionalLight=exports.DepthTexture=exports.DepthStencilFormat=exports.DepthFormat=exports.DefaultLoadingManager=exports.DecrementWrapStencilOp=exports.DecrementStencilOp=exports.DataUtils=exports.DataTextureLoader=exports.DataTexture3D=exports.DataTexture2DArray=exports.DataTexture=exports.DataArrayTexture=exports.Data3DTexture=exports.Cylindrical=exports.CylinderGeometry=exports.CylinderBufferGeometry=exports.CustomToneMapping=exports.CustomBlending=exports.CurvePath=exports.Curve=exports.CullFaceNone=exports.CullFaceFrontBack=exports.CullFaceFront=exports.CullFaceBack=exports.CubicInterpolant=exports.CubicBezierCurve3=exports.CubicBezierCurve=exports.CubeUVReflectionMapping=exports.CubeTextureLoader=exports.CubeTexture=exports.CubeRefractionMapping=exports.CubeReflectionMapping=exports.CubeCamera=exports.ConeGeometry=exports.ConeBufferGeometry=exports.CompressedTextureLoader=exports.CompressedTexture=exports.CompressedArrayTexture=exports.ColorManagement=exports.ColorKeyframeTrack=exports.Color=exports.Clock=exports.ClampToEdgeWrapping=exports.CircleGeometry=exports.CircleBufferGeometry=exports.CineonToneMapping=exports.CatmullRomCurve3=exports.CapsuleGeometry=exports.CapsuleBufferGeometry=exports.CanvasTexture=exports.CameraHelper=exports.Camera=exports.Cache=exports.ByteType=exports.BufferGeometryLoader=exports.BufferGeometry=exports.BufferAttribute=exports.BoxHelper=exports.BoxGeometry=exports.BoxBufferGeometry=exports.Box3Helper=exports.Box3=exports.Box2=exports.BooleanKeyframeTrack=exports.Bone=exports.BasicShadowMap=exports.BasicDepthPacking=exports.BackSide=exports.AxesHelper=exports.AudioLoader=exports.AudioListener=exports.AudioContext=exports.AudioAnalyser=exports.Audio=exports.ArrowHelper=exports.ArrayCamera=exports.ArcCurve=exports.AnimationUtils=exports.AnimationObjectGroup=exports.AnimationMixer=exports.AnimationLoader=exports.AnimationClip=exports.AmbientLightProbe=exports.AmbientLight=exports.AlwaysStencilFunc=exports.AlwaysDepth=exports.AlphaFormat=exports.AdditiveBlending=exports.AdditiveAnimationBlendMode=exports.AddOperation=exports.AddEquation=exports.ACESFilmicToneMapping=void 0;exports.ImageUtils=exports.ImageLoader=exports.ImageBitmapLoader=exports.IcosahedronGeometry=exports.IcosahedronBufferGeometry=exports.HemisphereLightProbe=exports.HemisphereLightHelper=exports.HemisphereLight=exports.HalfFloatType=exports.Group=exports.GridHelper=exports.GreaterStencilFunc=exports.GreaterEqualStencilFunc=exports.GreaterEqualDepth=exports.GreaterDepth=exports.GLSL3=exports.GLSL1=exports.GLBufferAttribute=exports.Frustum=exports.FrontSide=exports.FramebufferTexture=exports.FogExp2=exports.Fog=exports.FloatType=exports.Float64BufferAttribute=exports.Float32BufferAttribute=exports.Float16BufferAttribute=exports.FileLoader=exports.ExtrudeGeometry=exports.ExtrudeBufferGeometry=exports.EventDispatcher=exports.Euler=exports.EquirectangularRefractionMapping=exports.EquirectangularReflectionMapping=exports.EqualStencilFunc=exports.EqualDepth=exports.EllipseCurve=exports.EdgesGeometry=exports.DynamicReadUsage=exports.DynamicDrawUsage=exports.DynamicCopyUsage=void 0;exports.ImmediateRenderObject=ImmediateRenderObject;exports.MathUtils=exports.MaterialLoader=exports.Material=exports.MOUSE=exports.LuminanceFormat=exports.LuminanceAlphaFormat=exports.LoopRepeat=exports.LoopPingPong=exports.LoopOnce=exports.LoadingManager=exports.LoaderUtils=exports.Loader=exports.LinearToneMapping=exports.LinearSRGBColorSpace=exports.LinearMipmapNearestFilter=exports.LinearMipmapLinearFilter=exports.LinearMipMapNearestFilter=exports.LinearMipMapLinearFilter=exports.LinearInterpolant=exports.LinearFilter=exports.LinearEncoding=exports.LineSegments=exports.LineLoop=exports.LineDashedMaterial=exports.LineCurve3=exports.LineCurve=exports.LineBasicMaterial=exports.Line3=exports.Line=exports.LightProbe=exports.Light=exports.LessStencilFunc=exports.LessEqualStencilFunc=exports.LessEqualDepth=exports.LessDepth=exports.Layers=exports.LatheGeometry=exports.LatheBufferGeometry=exports.LOD=exports.KeyframeTrack=exports.KeepStencilOp=exports.InvertStencilOp=exports.InterpolateSmooth=exports.InterpolateLinear=exports.InterpolateDiscrete=exports.Interpolant=exports.InterleavedBufferAttribute=exports.InterleavedBuffer=exports.IntType=exports.Int8BufferAttribute=exports.Int32BufferAttribute=exports.Int16BufferAttribute=exports.InstancedMesh=exports.InstancedInterleavedBuffer=exports.InstancedBufferGeometry=exports.InstancedBufferAttribute=exports.IncrementWrapStencilOp=exports.IncrementStencilOp=void 0;exports.RGB_S3TC_DXT1_Format=exports.RGB_PVRTC_4BPPV1_Format=exports.RGB_PVRTC_2BPPV1_Format=exports.RGB_ETC2_Format=exports.RGB_ETC1_Format=exports.RGBFormat=exports.RGBA_S3TC_DXT5_Format=exports.RGBA_S3TC_DXT3_Format=exports.RGBA_S3TC_DXT1_Format=exports.RGBA_PVRTC_4BPPV1_Format=exports.RGBA_PVRTC_2BPPV1_Format=exports.RGBA_ETC2_EAC_Format=exports.RGBA_BPTC_Format=exports.RGBA_ASTC_8x8_Format=exports.RGBA_ASTC_8x6_Format=exports.RGBA_ASTC_8x5_Format=exports.RGBA_ASTC_6x6_Format=exports.RGBA_ASTC_6x5_Format=exports.RGBA_ASTC_5x5_Format=exports.RGBA_ASTC_5x4_Format=exports.RGBA_ASTC_4x4_Format=exports.RGBA_ASTC_12x12_Format=exports.RGBA_ASTC_12x10_Format=exports.RGBA_ASTC_10x8_Format=exports.RGBA_ASTC_10x6_Format=exports.RGBA_ASTC_10x5_Format=exports.RGBA_ASTC_10x10_Format=exports.RGBAIntegerFormat=exports.RGBAFormat=exports.RGBADepthPacking=exports.REVISION=exports.QuaternionLinearInterpolant=exports.QuaternionKeyframeTrack=exports.Quaternion=exports.QuadraticBezierCurve3=exports.QuadraticBezierCurve=exports.PropertyMixer=exports.PropertyBinding=exports.PositionalAudio=exports.PolyhedronGeometry=exports.PolyhedronBufferGeometry=exports.PolarGridHelper=exports.PointsMaterial=exports.Points=exports.PointLightHelper=exports.PointLight=exports.PlaneHelper=exports.PlaneGeometry=exports.PlaneBufferGeometry=exports.Plane=exports.PerspectiveCamera=exports.Path=exports.PMREMGenerator=exports.PCFSoftShadowMap=exports.PCFShadowMap=exports.OrthographicCamera=exports.OneMinusSrcColorFactor=exports.OneMinusSrcAlphaFactor=exports.OneMinusDstColorFactor=exports.OneMinusDstAlphaFactor=exports.OneFactor=exports.OctahedronGeometry=exports.OctahedronBufferGeometry=exports.ObjectSpaceNormalMap=exports.ObjectLoader=exports.Object3D=exports.NumberKeyframeTrack=exports.NotEqualStencilFunc=exports.NotEqualDepth=exports.NormalBlending=exports.NormalAnimationBlendMode=exports.NoToneMapping=exports.NoColorSpace=exports.NoBlending=exports.NeverStencilFunc=exports.NeverDepth=exports.NearestMipmapNearestFilter=exports.NearestMipmapLinearFilter=exports.NearestMipMapNearestFilter=exports.NearestMipMapLinearFilter=exports.NearestFilter=exports.MultiplyOperation=exports.MultiplyBlending=exports.MixOperation=exports.MirroredRepeatWrapping=exports.MinEquation=exports.MeshToonMaterial=exports.MeshStandardMaterial=exports.MeshPhysicalMaterial=exports.MeshPhongMaterial=exports.MeshNormalMaterial=exports.MeshMatcapMaterial=exports.MeshLambertMaterial=exports.MeshDistanceMaterial=exports.MeshDepthMaterial=exports.MeshBasicMaterial=exports.Mesh=exports.MaxEquation=exports.Matrix4=exports.Matrix3=void 0;exports.WebGLRenderTarget=exports.WebGLMultisampleRenderTarget=exports.WebGLMultipleRenderTargets=exports.WebGLCubeRenderTarget=exports.WebGLArrayRenderTarget=exports.WebGL3DRenderTarget=exports.WebGL1Renderer=exports.VideoTexture=exports.VectorKeyframeTrack=exports.Vector4=exports.Vector3=exports.Vector2=exports.VSMShadowMap=exports.UnsignedShortType=exports.UnsignedShort5551Type=exports.UnsignedShort4444Type=exports.UnsignedIntType=exports.UnsignedInt248Type=exports.UnsignedByteType=exports.UniformsUtils=exports.UniformsLib=exports.UniformsGroup=exports.Uniform=exports.Uint8ClampedBufferAttribute=exports.Uint8BufferAttribute=exports.Uint32BufferAttribute=exports.Uint16BufferAttribute=exports.UVMapping=exports.TwoPassDoubleSide=exports.TubeGeometry=exports.TubeBufferGeometry=exports.TrianglesDrawMode=exports.TriangleStripDrawMode=exports.TriangleFanDrawMode=exports.Triangle=exports.TorusKnotGeometry=exports.TorusKnotBufferGeometry=exports.TorusGeometry=exports.TorusBufferGeometry=exports.TextureLoader=exports.Texture=exports.TetrahedronGeometry=exports.TetrahedronBufferGeometry=exports.TangentSpaceNormalMap=exports.TOUCH=exports.SubtractiveBlending=exports.SubtractEquation=exports.StringKeyframeTrack=exports.StreamReadUsage=exports.StreamDrawUsage=exports.StreamCopyUsage=exports.StereoCamera=exports.StaticReadUsage=exports.StaticDrawUsage=exports.StaticCopyUsage=exports.SrcColorFactor=exports.SrcAlphaSaturateFactor=exports.SrcAlphaFactor=exports.SpriteMaterial=exports.Sprite=exports.SpotLightHelper=exports.SpotLight=exports.SplineCurve=exports.SphericalHarmonics3=exports.Spherical=exports.SphereGeometry=exports.SphereBufferGeometry=exports.Sphere=exports.Source=exports.SkinnedMesh=exports.SkeletonHelper=exports.Skeleton=exports.ShortType=exports.ShapeUtils=exports.ShapePath=exports.ShapeGeometry=exports.ShapeBufferGeometry=exports.Shape=exports.ShadowMaterial=exports.ShaderMaterial=exports.ShaderLib=exports.ShaderChunk=exports.Scene=exports.SRGBColorSpace=exports.RingGeometry=exports.RingBufferGeometry=exports.ReverseSubtractEquation=exports.ReplaceStencilOp=exports.RepeatWrapping=exports.ReinhardToneMapping=exports.RedIntegerFormat=exports.RedFormat=exports.RectAreaLight=exports.Raycaster=exports.Ray=exports.RawShaderMaterial=exports.RGIntegerFormat=exports.RGFormat=void 0;exports.WebGLRenderer=WebGLRenderer;exports.WebGLUtils=WebGLUtils;exports.sRGBEncoding=exports._SRGBAFormat=exports.ZeroStencilOp=exports.ZeroSlopeEnding=exports.ZeroFactor=exports.ZeroCurvatureEnding=exports.WrapAroundEnding=exports.WireframeGeometry=void 0;/**
  * @license
  * Copyright 2010-2022 Three.js Authors
@@ -2525,5 +2517,54 @@ exports.SphereBufferGeometry=SphereBufferGeometry;class TetrahedronBufferGeometr
 exports.TetrahedronBufferGeometry=TetrahedronBufferGeometry;class TorusBufferGeometry extends TorusGeometry{constructor(radius,tube,radialSegments,tubularSegments,arc){console.warn('THREE.TorusBufferGeometry has been renamed to THREE.TorusGeometry.');super(radius,tube,radialSegments,tubularSegments,arc);}}// r144
 exports.TorusBufferGeometry=TorusBufferGeometry;class TorusKnotBufferGeometry extends TorusKnotGeometry{constructor(radius,tube,tubularSegments,radialSegments,p,q){console.warn('THREE.TorusKnotBufferGeometry has been renamed to THREE.TorusKnotGeometry.');super(radius,tube,tubularSegments,radialSegments,p,q);}}// r144
 exports.TorusKnotBufferGeometry=TorusKnotBufferGeometry;class TubeBufferGeometry extends TubeGeometry{constructor(path,tubularSegments,radius,radialSegments,closed){console.warn('THREE.TubeBufferGeometry has been renamed to THREE.TubeGeometry.');super(path,tubularSegments,radius,radialSegments,closed);}}exports.TubeBufferGeometry=TubeBufferGeometry;if(typeof __THREE_DEVTOOLS__!=='undefined'){__THREE_DEVTOOLS__.dispatchEvent(new CustomEvent('register',{detail:{revision:REVISION}}));}if(typeof window!=='undefined'){if(window.__THREE__){console.warn('WARNING: Multiple instances of Three.js being imported.');}else{window.__THREE__=REVISION;}}
+
+},{}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.createCamera = void 0;
+var THREE = _interopRequireWildcard(require("three"));
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+/**
+ * @description
+ * Optimal arg with default values
+ */
+// export const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 10);
+
+const createCamera = (fov = 70, aspect = window.innerWidth / window.innerHeight, near = 0.01, far = 10) => {
+  return new THREE.PerspectiveCamera(fov, aspect, near, far);
+};
+exports.createCamera = createCamera;
+
+},{"three":2}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Magic = void 0;
+exports.draw = draw;
+exports.scene = exports.renderer = void 0;
+const scene = new THREE.Scene();
+exports.scene = scene;
+const renderer = new THREE.WebGLRenderer({
+  antialias: true
+});
+exports.renderer = renderer;
+function draw(time) {
+  mesh.rotation.x = time / 2000;
+  mesh.rotation.y = time / 1000;
+  renderer.render(scene, camera);
+}
+class Magic {
+  constructor() {
+    this.elements = [];
+  }
+  draw = t => {};
+}
+exports.Magic = Magic;
 
 },{}]},{},[1]);
