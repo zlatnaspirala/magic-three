@@ -2,8 +2,6 @@
 import { Magic } from './src/scene';
 
 
-
-
 let MyApp = new Magic();
 
 // Classic three.js objects.
