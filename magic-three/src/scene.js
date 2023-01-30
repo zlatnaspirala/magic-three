@@ -1,12 +1,11 @@
 import * as THREE from 'three';
-import {is} from "./helper";
+import {getDom, is, getCanvasDom} from "./helper";
 import { createCamera } from "./camera";
 import {initCannon} from './physics';
 import CANNON from 'cannon';
 import {myMatCR} from './materials';
 
-import { Octree } from 'three/addons/math/Octree.js';
-import { OctreeHelper } from 'three/addons/helpers/OctreeHelper.js';
+import { Capsule, GLTFLoader, Octree , OctreeHelper } from 'three-addons';
 
 export class Magic {
 
@@ -18,6 +17,7 @@ export class Magic {
   constructor(renderSize) {
     this.rootElements = [];
 
+    this.clock = new THREE.Clock();
     this.CANNON_SCENE = new initCannon(this.scene, this.mats);
 
     if (is(renderSize)) {
@@ -25,23 +25,24 @@ export class Magic {
     } else {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
     }
+    document.body.appendChild(this.renderer.domElement);
+
+ 
 
 
-    // test 
-    const fillLight1 = new THREE.HemisphereLight( 0x4488bb, 0x002244, 0.5 );
-			fillLight1.position.set( 2, 1, 1 );
-			scene.add( fillLight1 );
-      
     this.camera.position.z = 1;
     this.scene.background = new THREE.Color( 0x88ccee );
     this.scene.fog = new THREE.Fog( 0x88ccee, 0, 50 );
 
-    document.body.appendChild(this.renderer.domElement);
+    
     this.renderer.setAnimationLoop(this.draw);
   }
 
 
   autoUpdate = () => {
+    var delta = this.clock.getDelta();
+
+    // this.camControls.update(delta);
     this.CANNON_SCENE.AUTO_UPDATE();
   }
 
