@@ -5,12 +5,15 @@ export class MagicThreeLoader {
   loaders = {};
 
   constructor() {
-    runScript('./loaders/MTLLoader.js').then((a) => {
-      console.log('Test', a);
+    runScript('./js/loaders/OBJLoader.js').then((a) => {
+      console.log('OBJLoader ready');
+    });
+    runScript('./js/loaders/MTLLoader.js').then((a) => {
+      console.log('MTL Loader ready');
     });
   }
 
-  prepareOBJ(name_, obj_name, path_to_obj, mtl_) {
+  loadObj(obj_name, path_to_obj, mtl_) {
 
     var onProgress = function(xhr) {
       if(xhr.lengthComputable) {
@@ -33,7 +36,17 @@ export class MagicThreeLoader {
       objLoader.load(obj_name, function(object) {
         object.position.y = 0;
         object.position.z = 0;
-        object.material.shading = THREE.SmoothShading;
+
+        object.traverse( function( child ) {
+          if ( child instanceof THREE.Mesh ) {
+              child.material.shading = THREE.SmoothShading;
+              console.log('YEAP')
+          }
+      
+      } );
+        // object.material.shading = THREE.SmoothShading;
+
+
         object.geometry.computeVertexNormals(true);
         object.geometry.mergeVertices();
         object.traverse(function(node) {

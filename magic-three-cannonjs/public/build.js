@@ -18,7 +18,11 @@ Application.createCubeRefraction('./assets/myCubeMap/reflection/');
 Application.createMyMaterials('./assets/metal/metal1.jpg');
 // Application.addChain()
 
+// "FEMALE", "tshirts.obj", "res/tshirts/", "tshirts.mtl")
+
 Application.useMyLoaders();
+
+// Application.loaders.loadObj('male02.obj', 'objs/male/', 'male02.mtl')
 console.log("What is ", Application.assets);
 const options = {
   position: {
@@ -30,6 +34,7 @@ const options = {
   material: Application.assets.front
 };
 Application.addMagicBox(options);
+window.Application = Application;
 console.info('Magic is here.');
 
 },{"./js/magic-base":2}],2:[function(require,module,exports){
@@ -593,11 +598,14 @@ var _magicUtils = require("./magic-utils");
 class MagicThreeLoader {
   loaders = {};
   constructor() {
-    (0, _magicUtils.runScript)('./loaders/MTLLoader.js').then(a => {
-      console.log('Test', a);
+    (0, _magicUtils.runScript)('./js/loaders/OBJLoader.js').then(a => {
+      console.log('OBJLoader ready');
+    });
+    (0, _magicUtils.runScript)('./js/loaders/MTLLoader.js').then(a => {
+      console.log('MTL Loader ready');
     });
   }
-  prepareOBJ(name_, obj_name, path_to_obj, mtl_) {
+  loadObj(obj_name, path_to_obj, mtl_) {
     var onProgress = function (xhr) {
       if (xhr.lengthComputable) {
         var percentComplete = xhr.loaded / xhr.total * 100;
@@ -616,7 +624,14 @@ class MagicThreeLoader {
       objLoader.load(obj_name, function (object) {
         object.position.y = 0;
         object.position.z = 0;
-        object.material.shading = THREE.SmoothShading;
+        object.traverse(function (child) {
+          if (child instanceof THREE.Mesh) {
+            child.material.shading = THREE.SmoothShading;
+            console.log('YEAP');
+          }
+        });
+        // object.material.shading = THREE.SmoothShading;
+
         object.geometry.computeVertexNormals(true);
         object.geometry.mergeVertices();
         object.traverse(function (node) {
