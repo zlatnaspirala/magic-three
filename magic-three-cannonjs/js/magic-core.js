@@ -1,4 +1,6 @@
 
+import {Raycaster} from "./magic-ray";
+
 export class MagicThree {
 
   // Physics staff
@@ -31,7 +33,11 @@ export class MagicThree {
   ballGeometry = new THREE.SphereGeometry(this.ballShape.radius, 32, 32);
   shootDirection = new THREE.Vector3();
   shootVelo = 15;
-  projector = new THREE.Projector();
+
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  scene = new THREE.Scene();
+  myRay = new Raycaster(this.camera, this.scene);
+  projector = this.myRay.raycaster;
 
   blocker = document.getElementById('blocker');
   instructions = document.getElementById('instructions');
@@ -69,6 +75,10 @@ export class MagicThree {
       document.addEventListener('pointerlockerror', this.pointerlockerror, false);
       document.addEventListener('mozpointerlockerror', this.pointerlockerror, false);
       document.addEventListener('webkitpointerlockerror', this.pointerlockerror, false);
+
+      this.myRay.RECALL = (o) => {
+        console.log(o.name)
+      };
 
       this.instructions.addEventListener('click', (event) => {
         this.instructions.style.display = 'none';
@@ -155,8 +165,6 @@ export class MagicThree {
 
   init() {
 
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.scene = new THREE.Scene();
     this.scene.fog = new THREE.Fog(0x000000, 0, 500);
     var ambient = new THREE.AmbientLight(0x111111);
     this.scene.add(ambient);
@@ -233,6 +241,15 @@ export class MagicThree {
   animate = () => {
     requestAnimationFrame(this.animate);
 
+    // this.myRay.raycaster.setFromCamera(this.myRay.mouse, this.camera);
+    // this.myRay.raycaster.intersectObjects(this.scene.children); 
+
+    // for (var i=0;i<intersects.length;i++) { 
+    //   intersects[i].object.material.color.set(0xff0000);
+    //   console.log('test ray',  intersects[i])
+    // }
+    this.myRay.updateRay();
+
     if(this.controls.enabled) {
       this.world.step(this.dt);
       // Update ball positions
@@ -254,7 +271,8 @@ export class MagicThree {
   getShootDir(targetVec) {
     var vector = targetVec;
     targetVec.set(0, 0, 1);
-    this.projector.unprojectVector(vector, this.camera);
+    vector.unproject(this.camera);
+    // this.myRay.raycaster.unprojectVector(vector, this.camera);
     var ray = new THREE.Ray(this.sphereBody.position, vector.sub(this.sphereBody.position).normalize());
     targetVec.copy(ray.direction);
   }

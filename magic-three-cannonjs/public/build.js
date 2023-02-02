@@ -15,10 +15,11 @@ let Application = new _magicBase.Magic();
  * - prepare materials
  */
 
-Application.createCubeRefraction('./assets/myCubeMap/');
+Application.createCubeRefraction('./assets/myCubeMap/reflection/');
 Application.createMyMaterials('./assets/metal/metal1.jpg');
 // Application.addChain()
 
+console.log("What is ", Application.assets);
 const options = {
   position: {
     x: 10,
@@ -46,7 +47,7 @@ class Magic extends _magicCore.MagicThree {
   createCubeRefraction = function (path) {
     this.path_to_images = path;
     this.urls = [this.path_to_images + "px.jpg", this.path_to_images + "nx.jpg", this.path_to_images + "py.jpg", this.path_to_images + "ny.jpg", this.path_to_images + "pz.jpg", this.path_to_images + "nz.jpg"];
-    this.assets.texCube = new THREE.CubeTexture().load(this.urls);
+    this.assets.texCube = new THREE.CubeTextureLoader().load(this.urls);
     this.assets.texCube.format = THREE.RGBFormat;
   };
   createMyMaterials(path) {
@@ -323,6 +324,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MagicThree = void 0;
+var _magicRay = require("./magic-ray");
 class MagicThree {
   // Physics staff
   sphereShape;
@@ -350,7 +352,10 @@ class MagicThree {
   ballGeometry = new THREE.SphereGeometry(this.ballShape.radius, 32, 32);
   shootDirection = new THREE.Vector3();
   shootVelo = 15;
-  projector = new THREE.Projector();
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  scene = new THREE.Scene();
+  myRay = new _magicRay.Raycaster(this.camera, this.scene);
+  projector = this.myRay.raycaster;
   blocker = document.getElementById('blocker');
   instructions = document.getElementById('instructions');
   havePointerLock = 'pointerLockElement' in document || 'mozPointerLockElement' in document || 'webkitPointerLockElement' in document;
@@ -380,6 +385,9 @@ class MagicThree {
       document.addEventListener('pointerlockerror', this.pointerlockerror, false);
       document.addEventListener('mozpointerlockerror', this.pointerlockerror, false);
       document.addEventListener('webkitpointerlockerror', this.pointerlockerror, false);
+      this.myRay.RECALL = o => {
+        console.log(o.name);
+      };
       this.instructions.addEventListener('click', event => {
         this.instructions.style.display = 'none';
         // Ask the browser to lock the pointer
@@ -454,8 +462,6 @@ class MagicThree {
     this.world.addBody(groundBody);
   }
   init() {
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.scene = new THREE.Scene();
     this.scene.fog = new THREE.Fog(0x000000, 0, 500);
     var ambient = new THREE.AmbientLight(0x111111);
     this.scene.add(ambient);
@@ -525,6 +531,15 @@ class MagicThree {
   };
   animate = () => {
     requestAnimationFrame(this.animate);
+
+    // this.myRay.raycaster.setFromCamera(this.myRay.mouse, this.camera);
+    // this.myRay.raycaster.intersectObjects(this.scene.children); 
+
+    // for (var i=0;i<intersects.length;i++) { 
+    //   intersects[i].object.material.color.set(0xff0000);
+    //   console.log('test ray',  intersects[i])
+    // }
+    this.myRay.updateRay();
     if (this.controls.enabled) {
       this.world.step(this.dt);
       // Update ball positions
@@ -545,7 +560,8 @@ class MagicThree {
   getShootDir(targetVec) {
     var vector = targetVec;
     targetVec.set(0, 0, 1);
-    this.projector.unprojectVector(vector, this.camera);
+    vector.unproject(this.camera);
+    // this.myRay.raycaster.unprojectVector(vector, this.camera);
     var ray = new THREE.Ray(this.sphereBody.position, vector.sub(this.sphereBody.position).normalize());
     targetVec.copy(ray.direction);
   }
@@ -580,5 +596,60 @@ class MagicThree {
   }
 }
 exports.MagicThree = MagicThree;
+
+},{"./magic-ray":4}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Raycaster = void 0;
+class Raycaster {
+  RECALL = function () {};
+  raycaster = new THREE.Raycaster();
+  INTERSECTED = 0;
+  mouse = new THREE.Vector2();
+  constructor(camera, scene) {
+    this.camera = camera;
+    this.scene = scene;
+    document.addEventListener('mousemove', this.onDocumentMouseMove, false);
+    document.addEventListener('click', this.onDocumentclick, false);
+  }
+  onDocumentMouseMove = event => {
+    event.preventDefault();
+    // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+  };
+
+  onDocumentclick = event => {
+    event.preventDefault();
+    this.mouse.x = event.clientX / window.innerWidth * 2 - 1;
+    this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    this.INTERSECTED = null;
+  };
+  updateRay = () => {
+    try {
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+      if (intersects.length > 0) {
+        if (this.INTERSECTED != intersects[0].object) {
+          this.INTERSECTED = intersects[0].object;
+          this.RECALL(this.INTERSECTED);
+          console.log('recall for ' + this.INTERSECTED.name);
+        }
+      } else {
+        this.INTERSECTED = null;
+      }
+    } catch (e) {
+      console.log("error in raycaster" + e);
+    }
+  };
+  DESTROY = function () {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove);
+    document.removeEventListener('click', this.onDocumentclick);
+    // PROGRAM.AUTO_UPDATE.unset(this); !!!!
+  };
+}
+exports.Raycaster = Raycaster;
 
 },{}]},{},[1]);

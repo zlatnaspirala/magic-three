@@ -14,11 +14,11 @@ let Application = new Magic();
  * - prepare materials
  */
 
-Application.createCubeRefraction('./assets/myCubeMap/')
+Application.createCubeRefraction('./assets/myCubeMap/reflection/')
 Application.createMyMaterials('./assets/metal/metal1.jpg');
 // Application.addChain()
 
-
+console.log("What is ", Application.assets);
 
 const options = {
   position: {x: 10, y: 10, z: 10},

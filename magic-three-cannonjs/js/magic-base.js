@@ -15,7 +15,7 @@ export class Magic extends MagicThree {
       this.path_to_images + "py.jpg", this.path_to_images + "ny.jpg",
       this.path_to_images + "pz.jpg", this.path_to_images + "nz.jpg"
     ];
-    this.assets.texCube = new THREE.CubeTexture().load(this.urls);
+    this.assets.texCube = new THREE.CubeTextureLoader().load(this.urls);
     this.assets.texCube.format = THREE.RGBFormat;
   }
 
