@@ -1,20 +1,26 @@
 import {MagicThree} from "./magic-core";
+import {MagicThreeLoader} from "./magic-loader";
 import {is, randName} from "./magic-utils";
 
 export class Magic extends MagicThree {
 
+  loaders = {};
   assets = {};
 
   constructor() {
     super();
   }
 
+  useMyLoaders() {
+    this.loaders = new MagicThreeLoader();
+  }
+
   createCubeRefraction = function(path) {
     this.path_to_images = path;
     this.urls = [
-      this.path_to_images + "px.jpg", this.path_to_images + "nx.jpg",
-      this.path_to_images + "py.jpg", this.path_to_images + "ny.jpg",
-      this.path_to_images + "pz.jpg", this.path_to_images + "nz.jpg"
+      this.path_to_images + "1.jpg", this.path_to_images + "2.jpg",
+      this.path_to_images + "3.jpg", this.path_to_images + "4.jpg",
+      this.path_to_images + "5.jpg", this.path_to_images + "6.jpg"
     ];
     this.assets.texCube = new THREE.CubeTextureLoader().load(this.urls);
     this.assets.texCube.format = THREE.RGBFormat;

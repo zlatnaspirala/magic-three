@@ -1,8 +1,7 @@
 
-
 export class Raycaster {
 
-  RECALL = function () {};
+  RECALL = function() {};
   raycaster = new THREE.Raycaster();
   INTERSECTED = 0;
   mouse = new THREE.Vector2();
@@ -15,40 +14,38 @@ export class Raycaster {
   }
 
   onDocumentMouseMove = (event) => {
-      event.preventDefault();
-      // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
-      // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
+    event.preventDefault();
+    // mouse.x = ( event.clientX / window.innerWidth ) * 2 - 1;
+    // mouse.y = - ( event.clientY / window.innerHeight ) * 2 + 1;
   };
 
   onDocumentclick = (event) => {
-      event.preventDefault();
-      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-      this.mouse.y =  - (event.clientY / window.innerHeight) * 2 + 1;
-      this.INTERSECTED = null;
+    event.preventDefault();
+    this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    this.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    this.INTERSECTED = null;
   };
 
   updateRay = () => {
-      try {
-          this.raycaster.setFromCamera(this.mouse, this.camera);
-          var intersects = this.raycaster.intersectObjects(this.scene.children, true);
-          if (intersects.length > 0) {
-              if (this.INTERSECTED != intersects[0].object) {
-                  this.INTERSECTED = intersects[0].object;
-                  this.RECALL(this.INTERSECTED);
-                  console.log( 'recall for ' + this.INTERSECTED.name );
-              }
-          } else {
-              this.INTERSECTED = null;
-          }
-      } catch (e) {
-          console.log("error in raycaster" + e)
+    try {
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+      var intersects = this.raycaster.intersectObjects(this.scene.children, true);
+      if(intersects.length > 0) {
+        if(this.INTERSECTED != intersects[0].object) {
+          this.INTERSECTED = intersects[0].object;
+          this.RECALL(this.INTERSECTED);
+          console.log('recall for ' + this.INTERSECTED.name);
+        }
+      } else {
+        this.INTERSECTED = null;
       }
+    } catch(e) {
+      console.log("error in raycaster" + e)
+    }
   };
 
-   DESTROY = function () {
-      document.removeEventListener('mousemove', this.onDocumentMouseMove);
-      document.removeEventListener('click', this.onDocumentclick);
-      // PROGRAM.AUTO_UPDATE.unset(this); !!!!
+  DESTROY = function() {
+    document.removeEventListener('mousemove', this.onDocumentMouseMove);
+    document.removeEventListener('click', this.onDocumentclick);
   };
-
 }

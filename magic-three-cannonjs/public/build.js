@@ -2,7 +2,6 @@
 "use strict";
 
 var _magicBase = require("./js/magic-base");
-var _magicCore = require("./js/magic-core");
 /**
  * @description
  * Main instance
@@ -19,6 +18,7 @@ Application.createCubeRefraction('./assets/myCubeMap/reflection/');
 Application.createMyMaterials('./assets/metal/metal1.jpg');
 // Application.addChain()
 
+Application.useMyLoaders();
 console.log("What is ", Application.assets);
 const options = {
   position: {
@@ -27,12 +27,12 @@ const options = {
     z: 10
   },
   dimension: [1, 1, 1],
-  material: Application.assets.Yellow_glass
+  material: Application.assets.front
 };
 Application.addMagicBox(options);
 console.info('Magic is here.');
 
-},{"./js/magic-base":2,"./js/magic-core":3}],2:[function(require,module,exports){
+},{"./js/magic-base":2}],2:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -40,15 +40,20 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Magic = void 0;
 var _magicCore = require("./magic-core");
+var _magicLoader = require("./magic-loader");
 var _magicUtils = require("./magic-utils");
 class Magic extends _magicCore.MagicThree {
+  loaders = {};
   assets = {};
   constructor() {
     super();
   }
+  useMyLoaders() {
+    this.loaders = new _magicLoader.MagicThreeLoader();
+  }
   createCubeRefraction = function (path) {
     this.path_to_images = path;
-    this.urls = [this.path_to_images + "px.jpg", this.path_to_images + "nx.jpg", this.path_to_images + "py.jpg", this.path_to_images + "ny.jpg", this.path_to_images + "pz.jpg", this.path_to_images + "nz.jpg"];
+    this.urls = [this.path_to_images + "1.jpg", this.path_to_images + "2.jpg", this.path_to_images + "3.jpg", this.path_to_images + "4.jpg", this.path_to_images + "5.jpg", this.path_to_images + "6.jpg"];
     this.assets.texCube = new THREE.CubeTextureLoader().load(this.urls);
     this.assets.texCube.format = THREE.RGBFormat;
   };
@@ -329,7 +334,7 @@ class Magic extends _magicCore.MagicThree {
 }
 exports.Magic = Magic;
 
-},{"./magic-core":3,"./magic-utils":5}],3:[function(require,module,exports){
+},{"./magic-core":3,"./magic-loader":4,"./magic-utils":6}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -577,7 +582,56 @@ class MagicThree {
 }
 exports.MagicThree = MagicThree;
 
-},{"./magic-ray":4}],4:[function(require,module,exports){
+},{"./magic-ray":5}],4:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MagicThreeLoader = void 0;
+var _magicUtils = require("./magic-utils");
+class MagicThreeLoader {
+  loaders = {};
+  constructor() {
+    (0, _magicUtils.runScript)('./loaders/MTLLoader.js').then(a => {
+      console.log('Test', a);
+    });
+  }
+  prepareOBJ(name_, obj_name, path_to_obj, mtl_) {
+    var onProgress = function (xhr) {
+      if (xhr.lengthComputable) {
+        var percentComplete = xhr.loaded / xhr.total * 100;
+        console.log(Math.round(percentComplete, 2) + '% downloaded');
+      }
+    };
+    var onError = function (xhr) {};
+    var mtlLoader = new THREE.MTLLoader();
+    mtlLoader.setBaseUrl(path_to_obj);
+    mtlLoader.setPath(path_to_obj);
+    mtlLoader.load(mtl_, function (materials) {
+      materials.preload();
+      var objLoader = new THREE.OBJLoader();
+      objLoader.setMaterials(materials);
+      objLoader.setPath(path_to_obj);
+      objLoader.load(obj_name, function (object) {
+        object.position.y = 0;
+        object.position.z = 0;
+        object.material.shading = THREE.SmoothShading;
+        object.geometry.computeVertexNormals(true);
+        object.geometry.mergeVertices();
+        object.traverse(function (node) {
+          if (node instanceof THREE.Mesh) {
+            node.geometry.computeVertexNormals();
+          }
+        });
+        scene.add(object);
+      }, onProgress, onError);
+    });
+  }
+}
+exports.MagicThreeLoader = MagicThreeLoader;
+
+},{"./magic-utils":6}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -627,12 +681,11 @@ class Raycaster {
   DESTROY = function () {
     document.removeEventListener('mousemove', this.onDocumentMouseMove);
     document.removeEventListener('click', this.onDocumentclick);
-    // PROGRAM.AUTO_UPDATE.unset(this); !!!!
   };
 }
 exports.Raycaster = Raycaster;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -640,6 +693,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.is = is;
 exports.randName = randName;
+exports.runScript = runScript;
 function randName(length) {
   let g = '';
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -656,6 +710,24 @@ function is(o) {
   } else {
     return true;
   }
+}
+async function runScript(src, id) {
+  return new Promise((resolve, reject) => {
+    var s = document.createElement('script');
+    s.onload = function (e) {
+      resolve('Script id loaded with src: ' + this.src);
+      console.log('Script id loaded with src: ' + this.src);
+    };
+    s.onerror = function (e) {
+      reject();
+      console.error('Script id loaded with src: ' + this.src);
+    };
+    s.setAttribute('src', src);
+    if (is(id)) {
+      s.setAttribute('id', id);
+    }
+    document.body.appendChild(s);
+  });
 }
 
 },{}]},{},[1]);
