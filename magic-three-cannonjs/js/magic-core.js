@@ -206,30 +206,7 @@ export class MagicThree {
     this.renderer.setClearColor(this.scene.fog.color, 1);
 
     document.body.appendChild(this.renderer.domElement);
-
     window.addEventListener('resize', this.onWindowResize, false);
-
-    // // Add boxes
-    // var halfExtents = new CANNON.Vec3(1, 1, 1);
-    // var boxShape = new CANNON.Box(halfExtents);
-    // var boxGeometry = new THREE.BoxGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2);
-    // for(var i = 0;i < 7;i++) {
-    //   var x = (Math.random() - 0.5) * 20;
-    //   var y = 1 + (Math.random() - 0.5) * 1;
-    //   var z = (Math.random() - 0.5) * 20;
-    //   var boxBody = new CANNON.Body({mass: 5});
-    //   boxBody.addShape(boxShape);
-    //   var boxMesh = new THREE.Mesh(boxGeometry, this.material);
-    //   this.world.addBody(boxBody);
-    //   this.scene.add(boxMesh);
-    //   boxBody.position.set(x, y, z);
-    //   boxMesh.position.set(x, y, z);
-    //   boxMesh.castShadow = true;
-    //   boxMesh.receiveShadow = true;
-    //   this.boxes.push(boxBody);
-    //   this.boxMeshes.push(boxMesh);
-    // }
-
   }
 
   onWindowResize = () => {
@@ -240,24 +217,13 @@ export class MagicThree {
 
   animate = () => {
     requestAnimationFrame(this.animate);
-
-    // this.myRay.raycaster.setFromCamera(this.myRay.mouse, this.camera);
-    // this.myRay.raycaster.intersectObjects(this.scene.children); 
-
-    // for (var i=0;i<intersects.length;i++) { 
-    //   intersects[i].object.material.color.set(0xff0000);
-    //   console.log('test ray',  intersects[i])
-    // }
     this.myRay.updateRay();
-
     if(this.controls.enabled) {
       this.world.step(this.dt);
-      // Update ball positions
       for(var i = 0;i < this.balls.length;i++) {
         this.ballMeshes[i].position.copy(this.balls[i].position);
         this.ballMeshes[i].quaternion.copy(this.balls[i].quaternion);
       }
-      // Update box positions
       for(var i = 0;i < this.boxes.length;i++) {
         this.boxMeshes[i].position.copy(this.boxes[i].position);
         this.boxMeshes[i].quaternion.copy(this.boxes[i].quaternion);

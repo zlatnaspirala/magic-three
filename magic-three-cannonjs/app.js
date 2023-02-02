@@ -22,7 +22,8 @@ console.log("What is ", Application.assets);
 
 const options = {
   position: {x: 10, y: 10, z: 10},
-  dimension: [1,1,1] 
+  dimension: [1,1,1],
+  material: Application.assets.Yellow_glass
 };
 
 Application.addMagicBox(options);

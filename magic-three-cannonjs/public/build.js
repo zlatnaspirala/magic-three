@@ -26,7 +26,8 @@ const options = {
     y: 10,
     z: 10
   },
-  dimension: [1, 1, 1]
+  dimension: [1, 1, 1],
+  material: Application.assets.Yellow_glass
 };
 Application.addMagicBox(options);
 console.info('Magic is here.');
@@ -39,6 +40,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Magic = void 0;
 var _magicCore = require("./magic-core");
+var _magicUtils = require("./magic-utils");
 class Magic extends _magicCore.MagicThree {
   assets = {};
   constructor() {
@@ -53,6 +55,16 @@ class Magic extends _magicCore.MagicThree {
   createMyMaterials(path) {
     var frontTexture = new THREE.TextureLoader().load(path);
     this.assets = {
+      "Yellow_glass": new THREE.MeshLambertMaterial({
+        color: 0xffffaa,
+        opacity: 0.75,
+        transparent: true
+      }),
+      "Orange_glass": new THREE.MeshLambertMaterial({
+        color: 0x995500,
+        opacity: 0.75,
+        transparent: true
+      }),
       "front": new THREE.MeshPhongMaterial({
         shininess: 1,
         map: frontTexture
@@ -99,155 +111,148 @@ class Magic extends _magicCore.MagicThree {
         shininess: 50,
         envMap: this.assets.texCube,
         combine: THREE.MultiplyOperation
-      }),
-      "Bronze": new THREE.MeshPhongMaterial({
-        color: 0x150505,
-        specular: 0xee6600,
-        shininess: 10,
-        envMap: this.assets.texCube,
-        combine: THREE.MixOperation,
-        reflectivity: 0.25
-      }),
-      "Chrome": new THREE.MeshPhongMaterial({
-        color: 0xffffff,
-        specular: 0xffffff,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
-      "Chrome1": new THREE.MeshPhongMaterial({
-        color: 0x696969,
-        specular: 0xf8c78d,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation,
-        reflectivity: 0.5
-      }),
-      "Chrome2": new THREE.MeshPhongMaterial({
-        color: 0x8f8f8f,
-        specular: 0xf8c78d,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation,
-        reflectivity: 0.4
-      }),
-      "Chrome3": new THREE.MeshPhongMaterial({
-        color: 0x000000,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation,
-        reflectivity: 0.4
-      }),
-      "Orange_metal": new THREE.MeshLambertMaterial({
-        color: 0xff6600,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
-      "Blue_metal": new THREE.MeshLambertMaterial({
-        color: 0x001133,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
-      "Red_metal": new THREE.MeshLambertMaterial({
-        color: 0x770000,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
-      "Green_metal": new THREE.MeshLambertMaterial({
-        color: 0x007711,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
-      "Black_metal": new THREE.MeshLambertMaterial({
-        color: 0x222222,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
-      "Pure_chrome": new THREE.MeshLambertMaterial({
-        color: 0xffffff,
-        envMap: this.assets.texCube
-      }),
-      "Dark_chrome": new THREE.MeshLambertMaterial({
-        color: 0x444444,
-        envMap: this.assets.texCube
-      }),
-      "Darker_chrome": new THREE.MeshLambertMaterial({
-        color: 0x222222,
-        envMap: this.assets.texCube
-      }),
-      "Black_glass": new THREE.MeshLambertMaterial({
-        color: 0x101016,
-        envMap: this.assets.texCube,
-        opacity: 0.975,
-        transparent: true
-      }),
-      "Dark_glass": new THREE.MeshLambertMaterial({
-        color: 0x101046,
-        envMap: this.assets.texCube,
-        opacity: 0.25,
-        transparent: true
-      }),
-      "Blue_glass": new THREE.MeshLambertMaterial({
-        color: 0x668899,
-        envMap: this.assets.texCube,
-        opacity: 0.75,
-        transparent: true
-      }),
-      "Light_glass": new THREE.MeshBasicMaterial({
-        color: 0x223344,
-        envMap: this.assets.texCube,
-        opacity: 0.25,
-        transparent: true,
-        combine: THREE.MixOperation,
-        reflectivity: 0.25
-      }),
-      "Red_glass": new THREE.MeshLambertMaterial({
-        color: 0xff0000,
-        opacity: 0.75,
-        transparent: true
-      }),
-      "Yellow_glass": new THREE.MeshLambertMaterial({
-        color: 0xffffaa,
-        opacity: 0.75,
-        transparent: true
-      }),
-      "Orange_glass": new THREE.MeshLambertMaterial({
-        color: 0x995500,
-        opacity: 0.75,
-        transparent: true
-      }),
-      "Orange_glass_50": new THREE.MeshLambertMaterial({
-        color: 0xffbb00,
-        opacity: 0.5,
-        transparent: true
-      }),
-      "Red_glass_50": new THREE.MeshLambertMaterial({
-        color: 0xff0000,
-        opacity: 0.5,
-        transparent: true
-      }),
-      "Fullblack_rough": new THREE.MeshLambertMaterial({
-        color: 0x000000
-      }),
-      "Black_rough": new THREE.MeshLambertMaterial({
-        color: 0x050505
-      }),
-      "Darkgray_rough": new THREE.MeshLambertMaterial({
-        color: 0x090909
-      }),
-      "Red_rough": new THREE.MeshLambertMaterial({
-        color: 0x330500
-      }),
-      "Darkgray_shiny": new THREE.MeshPhongMaterial({
-        color: 0x000000,
-        specular: 0x050505
-      }),
-      "Gray_shiny": new THREE.MeshPhongMaterial({
-        color: 0x050505,
-        shininess: 20
       })
+      // "Bronze": new THREE.MeshPhongMaterial({
+      //   color: 0x150505,
+      //   specular: 0xee6600,
+      //   shininess: 10,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MixOperation,
+      //   reflectivity: 0.25
+      // }),
+      // "Chrome": new THREE.MeshPhongMaterial({
+      //   color: 0xffffff,
+      //   specular: 0xffffff,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
+      // "Chrome1": new THREE.MeshPhongMaterial({
+      //   color: 0x696969,
+      //   specular: 0xf8c78d,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation,
+      //   reflectivity: 0.5
+      // }),
+      // "Chrome2": new THREE.MeshPhongMaterial({
+      //   color: 0x8f8f8f,
+      //   specular: 0xf8c78d,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation,
+      //   reflectivity: 0.4
+      // }),
+      // "Chrome3": new THREE.MeshPhongMaterial({
+      //   color: 0x000000,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation,
+      //   reflectivity: 0.4
+      // }),
+      // "Orange_metal": new THREE.MeshLambertMaterial({
+      //   color: 0xff6600,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
+      // "Blue_metal": new THREE.MeshLambertMaterial({
+      //   color: 0x001133,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
+      // "Red_metal": new THREE.MeshLambertMaterial({
+      //   color: 0x770000,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
+      // "Green_metal": new THREE.MeshLambertMaterial({
+      //   color: 0x007711,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
+      // "Black_metal": new THREE.MeshLambertMaterial({
+      //   color: 0x222222,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
+      // "Pure_chrome": new THREE.MeshLambertMaterial({
+      //   color: 0xffffff,
+      //   envMap: this.assets.texCube
+      // }),
+      // "Dark_chrome": new THREE.MeshLambertMaterial({
+      //   color: 0x444444,
+      //   envMap: this.assets.texCube
+      // }),
+      // "Darker_chrome": new THREE.MeshLambertMaterial({
+      //   color: 0x222222,
+      //   envMap: this.assets.texCube
+      // }),
+      // "Black_glass": new THREE.MeshLambertMaterial({
+      //   color: 0x101016,
+      //   envMap: this.assets.texCube,
+      //   opacity: 0.975,
+      //   transparent: true
+      // }),
+      // "Dark_glass": new THREE.MeshLambertMaterial({
+      //   color: 0x101046,
+      //   envMap: this.assets.texCube,
+      //   opacity: 0.25,
+      //   transparent: true
+      // }),
+      // "Blue_glass": new THREE.MeshLambertMaterial({
+      //   color: 0x668899,
+      //   envMap: this.assets.texCube,
+      //   opacity: 0.75,
+      //   transparent: true
+      // }),
+      // "Light_glass": new THREE.MeshBasicMaterial({
+      //   color: 0x223344,
+      //   envMap: this.assets.texCube,
+      //   opacity: 0.25,
+      //   transparent: true,
+      //   combine: THREE.MixOperation,
+      //   reflectivity: 0.25
+      // }),
+      // "Red_glass": new THREE.MeshLambertMaterial({
+      //   color: 0xff0000,
+      //   opacity: 0.75,
+      //   transparent: true
+      // }),
+      // "Orange_glass_50": new THREE.MeshLambertMaterial({
+      //   color: 0xffbb00,
+      //   opacity: 0.5,
+      //   transparent: true
+      // }),
+      // "Red_glass_50": new THREE.MeshLambertMaterial({
+      //   color: 0xff0000,
+      //   opacity: 0.5,
+      //   transparent: true
+      // }),
+      // "Fullblack_rough": new THREE.MeshLambertMaterial({
+      //   color: 0x000000
+      // }),
+      // "Black_rough": new THREE.MeshLambertMaterial({
+      //   color: 0x050505
+      // }),
+      // "Darkgray_rough": new THREE.MeshLambertMaterial({
+      //   color: 0x090909
+      // }),
+      // "Red_rough": new THREE.MeshLambertMaterial({
+      //   color: 0x330500
+      // }),
+      // "Darkgray_shiny": new THREE.MeshPhongMaterial({
+      //   color: 0x000000,
+      //   specular: 0x050505
+      // }),
+      // "Gray_shiny": new THREE.MeshPhongMaterial({
+      //   color: 0x050505,
+      //   shininess: 20
+      // })
     };
   }
+
   addMagicBox(o) {
     // Add boxes
-    if (typeof o === 'undefined') {
+    if (!(0, _magicUtils.is)(o)) {
+      console.info("Default Box args");
       let o = {
+        name: (0, _magicUtils.randName)(),
         position: {
           x: 10,
           y: 10,
@@ -266,7 +271,14 @@ class Magic extends _magicCore.MagicThree {
       mass: 5
     });
     boxBody.addShape(boxShape);
-    var boxMesh = new THREE.Mesh(boxGeometry, this.material);
+    var boxMesh;
+    if ((0, _magicUtils.is)(o.material)) {
+      boxMesh = new THREE.Mesh(boxGeometry, o.material);
+    } else {
+      boxMesh = new THREE.Mesh(boxGeometry, this.material);
+      console.info("Default material loaded.");
+    }
+    boxMesh.name = 'iAmBoxCube';
     this.world.addBody(boxBody);
     this.scene.add(boxMesh);
     boxBody.position.set(x, y, z);
@@ -317,7 +329,7 @@ class Magic extends _magicCore.MagicThree {
 }
 exports.Magic = Magic;
 
-},{"./magic-core":3}],3:[function(require,module,exports){
+},{"./magic-core":3,"./magic-utils":5}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -501,29 +513,7 @@ class MagicThree {
     this.renderer.setClearColor(this.scene.fog.color, 1);
     document.body.appendChild(this.renderer.domElement);
     window.addEventListener('resize', this.onWindowResize, false);
-
-    // // Add boxes
-    // var halfExtents = new CANNON.Vec3(1, 1, 1);
-    // var boxShape = new CANNON.Box(halfExtents);
-    // var boxGeometry = new THREE.BoxGeometry(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2);
-    // for(var i = 0;i < 7;i++) {
-    //   var x = (Math.random() - 0.5) * 20;
-    //   var y = 1 + (Math.random() - 0.5) * 1;
-    //   var z = (Math.random() - 0.5) * 20;
-    //   var boxBody = new CANNON.Body({mass: 5});
-    //   boxBody.addShape(boxShape);
-    //   var boxMesh = new THREE.Mesh(boxGeometry, this.material);
-    //   this.world.addBody(boxBody);
-    //   this.scene.add(boxMesh);
-    //   boxBody.position.set(x, y, z);
-    //   boxMesh.position.set(x, y, z);
-    //   boxMesh.castShadow = true;
-    //   boxMesh.receiveShadow = true;
-    //   this.boxes.push(boxBody);
-    //   this.boxMeshes.push(boxMesh);
-    // }
   }
-
   onWindowResize = () => {
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
@@ -531,23 +521,13 @@ class MagicThree {
   };
   animate = () => {
     requestAnimationFrame(this.animate);
-
-    // this.myRay.raycaster.setFromCamera(this.myRay.mouse, this.camera);
-    // this.myRay.raycaster.intersectObjects(this.scene.children); 
-
-    // for (var i=0;i<intersects.length;i++) { 
-    //   intersects[i].object.material.color.set(0xff0000);
-    //   console.log('test ray',  intersects[i])
-    // }
     this.myRay.updateRay();
     if (this.controls.enabled) {
       this.world.step(this.dt);
-      // Update ball positions
       for (var i = 0; i < this.balls.length; i++) {
         this.ballMeshes[i].position.copy(this.balls[i].position);
         this.ballMeshes[i].quaternion.copy(this.balls[i].quaternion);
       }
-      // Update box positions
       for (var i = 0; i < this.boxes.length; i++) {
         this.boxMeshes[i].position.copy(this.boxes[i].position);
         this.boxMeshes[i].quaternion.copy(this.boxes[i].quaternion);
@@ -651,5 +631,31 @@ class Raycaster {
   };
 }
 exports.Raycaster = Raycaster;
+
+},{}],5:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.is = is;
+exports.randName = randName;
+function randName(length) {
+  let g = '';
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  let c = 0;
+  while (c < length) {
+    g += chars.charAt(Math.floor(Math.random() * chars.length));
+    c += 1;
+  }
+  return g;
+}
+function is(o) {
+  if (typeof o === 'undefined') {
+    return false;
+  } else {
+    return true;
+  }
+}
 
 },{}]},{},[1]);
