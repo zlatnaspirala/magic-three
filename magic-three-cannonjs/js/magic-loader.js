@@ -37,23 +37,21 @@ export class MagicThreeLoader {
         object.position.y = 0;
         object.position.z = 0;
 
-        object.traverse( function( child ) {
-          if ( child instanceof THREE.Mesh ) {
-              child.material.shading = THREE.SmoothShading;
-              console.log('YEAP')
+        object.traverse(function(child) {
+          if(child instanceof THREE.Mesh) {
+            child.material.shading = THREE.SmoothShading;
+            console.log('YEAP object.geometry.computeVertexNormals ', child.geometry.computeVertexNormals)
+            child.geometry.computeVertexNormals(true);
+            child.geometry.mergeVertices();
           }
-      
-      } );
+        });
         // object.material.shading = THREE.SmoothShading;
-
-
-        object.geometry.computeVertexNormals(true);
-        object.geometry.mergeVertices();
         object.traverse(function(node) {
           if(node instanceof THREE.Mesh) {
             node.geometry.computeVertexNormals();
           }
         });
+
         scene.add(object);
       }, onProgress, onError);
 

@@ -174,13 +174,13 @@ export class MagicThree {
     light.target.position.set(0, 0, 0);
     if(true) {
       light.castShadow = true;
-      light.shadowCameraNear = 20;
-      light.shadowCameraFar = 50;//camera.far;
-      light.shadowCameraFov = 40;
+      light.shadow.camera.near = 20;
+      light.shadow.camera.far = 50;//camera.far;
+      light.shadow.camera.fov = 40;
       light.shadowMapBias = 0.1;
       light.shadowMapDarkness = 0.7;
-      light.shadowMapWidth = 2 * 512;
-      light.shadowMapHeight = 2 * 512;
+      light.shadow.mapSize.width = 2 * 512;
+      light.shadow.mapSize.height = 2 * 512;
       //light.shadowCameraVisible = true;
     }
     this.scene.add(light);
@@ -200,7 +200,7 @@ export class MagicThree {
     this.scene.add(this.mesh);
 
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.shadowMapEnabled = true;
+    this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMapSoft = true;
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setClearColor(this.scene.fog.color, 1);
