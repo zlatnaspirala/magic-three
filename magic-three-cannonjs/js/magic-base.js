@@ -9,10 +9,16 @@ export class Magic extends MagicThree {
 
   constructor() {
     super();
+    console.info("Scene =? ", this.scene)
   }
 
   useMyLoaders() {
-    this.loaders = new MagicThreeLoader();
+    return new Promise((resolve) => {
+      this.loaders = new MagicThreeLoader(this.scene, this.camera);
+      this.loaders.run().then((e) => {
+        resolve(e);
+      });
+    });
   }
 
   createCubeRefraction = function(path) {
@@ -244,12 +250,12 @@ export class Magic extends MagicThree {
     boxBody.addShape(boxShape);
 
     var boxMesh;
-    if (is(o.material)) {
+    if(is(o.material)) {
       boxMesh = new THREE.Mesh(boxGeometry, o.material);
     } else {
       boxMesh = new THREE.Mesh(boxGeometry, this.material);
       console.info("Default material loaded.");
-    } 
+    }
 
     boxMesh.name = 'iAmBoxCube';
     this.world.addBody(boxBody);

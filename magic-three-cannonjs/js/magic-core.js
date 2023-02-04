@@ -190,7 +190,7 @@ export class MagicThree {
 
     // floor
     this.geometry = new THREE.PlaneGeometry(300, 300, 50, 50);
-    this.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(- Math.PI / 2));
+    // this.geometry.applyMatrix(new THREE.Matrix4().makeRotationX(- Math.PI / 2));
 
     this.material = new THREE.MeshLambertMaterial({color: 0xdddddd});
 

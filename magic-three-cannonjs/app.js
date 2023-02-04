@@ -19,7 +19,12 @@ Application.createMyMaterials('./assets/metal/metal1.jpg');
 
 // "FEMALE", "tshirts.obj", "res/tshirts/", "tshirts.mtl")
 
-Application.useMyLoaders()
+Application.useMyLoaders().then(() => {
+  // Application.loaders.loadObj('objs/male/', 'male02.obj' , 'male02.mtl', { scale: 0.01}) pass
+  // Application.loaders.loadFbx('objs/scary-zombie-pack-woman/zombie-walk.fbx')  
+  // Application.loaders.loadFbx('objs/Samba Dancing.fbx')  not pass
+  Application.loaders.loadCollada('objs/collada/zombie/running crawl.dae');
+});
 
 // Application.loaders.loadObj('male02.obj', 'objs/male/', 'male02.mtl')
 console.log("What is ", Application.assets);
