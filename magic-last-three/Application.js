@@ -34,10 +34,10 @@ class Application {
   moveRight = false;
   canJump = false;
 
-   prevTime = performance.now();
-   velocity = new THREE.Vector3();
-   direction = new THREE.Vector3();
-   vertex = new THREE.Vector3();
+  prevTime = performance.now();
+  velocity = new THREE.Vector3();
+  direction = new THREE.Vector3();
+  vertex = new THREE.Vector3();
   color = new THREE.Color();
 
   // Physics variables
@@ -59,29 +59,55 @@ class Application {
   tempBtVec3_1;
   objectsToRemove = [];
 
-  constructor() {
+  // Player
+  ammoTmpPos;
+  ammoTmpQuat;
+  tmpTrans;
 
+  // kinekt
+  kMoveDirection = {left: 0, right: 0, forward: 0, back: 0};
+  // strick
+  moveDirection = {left: 0, right: 0, forward: 0, back: 0};
+  tmpPos = new THREE.Vector3();
+  tmpQuat = new THREE.Quaternion();
+
+  config;
+
+  constructor(config) {
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
 
+    this.config = config;
+    console.log('Test Ammo', this)
+
     Ammo().then((AmmoLib) => {
+
       Ammo = AmmoLib;
+
+      this.ammoTmpPos = new Ammo.btVector3();
+      this.ammoTmpQuat = new Ammo.btQuaternion();
+      this.tmpTrans = new Ammo.btTransform();
+
       this.init();
       this.animate();
-    });
-
+      // console.log('Test Ammo33222 ', this)
+    })
   }
 
   numObjectsToRemove = 0;
   impactPoint = new THREE.Vector3();
   impactNormal = new THREE.Vector3();
 
+  playerBody;
+
   init() {
     this.initGraphics();
     this.initPhysics();
     this.createObjects();
     this.initInput();
+
+    this.createPlayer()
   }
 
   createFPSController() {
@@ -128,6 +154,42 @@ class Application {
           this.canJump = false;
           break;
       }
+
+      switch(event.keyCode) {
+        case 87: //W: FORWARD
+          this.moveDirection.forward = 1
+          break;
+
+        case 83: //S: BACK
+          this.moveDirection.back = 1
+          break;
+
+        case 65: //A: LEFT
+          this.moveDirection.left = 1
+          break;
+
+        case 68: //D: RIGHT
+          this.moveDirection.right = 1
+          break;
+
+        case 38: //↑: FORWARD
+          this.kMoveDirection.forward = 1
+          break;
+
+        case 40: //↓: BACK
+          this.kMoveDirection.back = 1
+          break;
+
+        case 37: //←: LEFT
+          this.kMoveDirection.left = 1
+          break;
+
+        case 39: //→: RIGHT
+          this.kMoveDirection.right = 1
+          break;
+
+      }
+
     };
 
     const onKeyUp = (event) => {
@@ -147,6 +209,40 @@ class Application {
         case 'ArrowRight':
         case 'KeyD':
           this.moveRight = false;
+          break;
+      }
+
+      switch(event.keyCode) {
+        case 87: //FORWARD
+          this.moveDirection.forward = 0
+          break;
+
+        case 83: //BACK
+          this.moveDirection.back = 0
+          break;
+
+        case 65: //LEFT
+          this.moveDirection.left = 0
+          break;
+
+        case 68: //RIGHT
+          this.moveDirection.right = 0
+          break;
+
+        case 38: //↑: FORWARD
+          this.kMoveDirection.forward = 0
+          break;
+
+        case 40: //↓: BACK
+          this.kMoveDirection.back = 0
+          break;
+
+        case 37: //←: LEFT
+          this.kMoveDirection.left = 0
+          break;
+
+        case 39: //→: RIGHT
+          this.kMoveDirection.right = 0
           break;
       }
     };
@@ -246,6 +342,101 @@ class Application {
     this.createDebrisFromBreakableObject(object);
   }
 
+  createPlayer() {
+    const ballMass = 35;
+    const ballRadius = 2;
+    const ball = new THREE.Mesh(
+      new THREE.SphereGeometry(ballRadius, 14, 10),
+      this.ballMaterial
+    );
+    ball.castShadow = true;
+    ball.receiveShadow = true;
+    const ballShape = new Ammo.btSphereShape(ballRadius);
+    ballShape.setMargin(this.margin);
+    this.pos.copy(this.raycaster.ray.direction);
+    this.pos.add(this.raycaster.ray.origin);
+    this.quat.set(0, 0, 0, 1);
+    this.playerBody = ball;
+
+    // let localInertia = new Ammo.btVector3(0, 0, 0);
+    // ballShape.calculateLocalInertia(10, localInertia);
+
+    const playerB = this.createRigidBody(
+      ball,
+      ballShape,
+      ballMass,
+      this.pos,
+      this.quat
+    );
+    console.log("whts is ", this.playerBody)
+    playerB.setCollisionFlags(0);
+
+
+  }
+
+  moveKinematic() {
+    let scalingFactor = 0.3;
+    let moveX = this.kMoveDirection.right - this.kMoveDirection.left;
+    let moveZ = this.kMoveDirection.back - this.kMoveDirection.forward;
+    let moveY = 0;
+    let translateFactor = this.tmpPos.set(moveX, moveY, moveZ);
+    translateFactor.multiplyScalar(scalingFactor);
+    this.playerBody.translateX(translateFactor.x);
+    this.playerBody.translateY(translateFactor.y);
+    this.playerBody.translateZ(translateFactor.z);
+    this.playerBody.getWorldPosition(this.tmpPos);
+    this.playerBody.getWorldQuaternion(this.tmpQuat);
+    let physicsBody = this.playerBody.userData.physicsBody;
+    let ms = physicsBody.getMotionState();
+    if(ms) {
+      this.ammoTmpPos.setValue(this.tmpPos.x, this.tmpPos.y, this.tmpPos.z);
+      this.ammoTmpQuat.setValue(this.tmpQuat.x, this.tmpQuat.y, this.tmpQuat.z, this.tmpQuat.w);
+      this.tmpTrans.setIdentity();
+      this.tmpTrans.setOrigin(this.ammoTmpPos);
+      this.tmpTrans.setRotation(this.ammoTmpQuat);
+      ms.setWorldTransform(this.tmpTrans);
+    }
+  }
+
+  moveBall() {
+
+    let scalingFactor = 20;
+
+    let moveX =  this.moveDirection.right - this.moveDirection.left;
+    let moveZ =  this.moveDirection.back - this.moveDirection.forward;
+    let moveY =  0; 
+
+    if( moveX == 0 && moveY == 0 && moveZ == 0) return;
+
+    let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
+    resultantImpulse.op_mul(scalingFactor);
+
+    let physicsBody = this.playerBody.userData.physicsBody;
+    physicsBody.setLinearVelocity( resultantImpulse );
+
+}
+
+  createObjectStatic(mass, halfExtents, pos, quat, material) {
+    const object = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        halfExtents.x * 2,
+        halfExtents.y * 2,
+        halfExtents.z * 2
+      ),
+      material
+    );
+    object.position.copy(pos);
+    object.quaternion.copy(quat);
+    // this.convexBreaker.prepareBreakableObject(
+    //   object,
+    //   mass,
+    //   new THREE.Vector3(),
+    //   new THREE.Vector3(),
+    //   true
+    // );
+    // this.createDebrisFromBreakableObject(object);
+  }
+
   createObjects() {
     // Ground
     this.pos.set(0, -0.5, 0);
@@ -343,15 +534,7 @@ class Application {
     return shape;
   }
 
-  createRigidBody(
-    object,
-    physicsShape,
-    mass,
-    pos,
-    quat,
-    vel,
-    angVel
-  ) {
+  createRigidBody(object, physicsShape, mass, pos, quat, vel, angVel) {
     if(pos) {
       object.position.copy(pos);
     } else {
@@ -472,12 +655,18 @@ class Application {
     this.updatePhysics(deltaTime);
     this.updateControls()
 
+    // this.moveKinematic();
+    this.moveBall();
+
     this.renderer.render(this.scene, this.camera);
   }
 
   updatePhysics(deltaTime) {
     // Step world
     this.physicsWorld.stepSimulation(deltaTime, 10);
+
+    /// nidza test
+    // this.playerBody
 
     // Update rigid bodies
     for(let i = 0, il = this.rigidBodies.length;i < il;i++) {
@@ -628,7 +817,7 @@ class Application {
 
     if(this.controls.isLocked === true) {
       this.raycaster.ray.origin.copy(this.controls.getObject().position);
-      this.raycaster.ray.origin.y -= 10;
+      this.raycaster.ray.origin.y -= 5;
       const intersections = this.raycaster.intersectObjects(this.scene.children, false);
       const onObject = intersections.length > 0;
       const delta = (time - this.prevTime) / 1000;
@@ -650,16 +839,18 @@ class Application {
 
       this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
 
-      if(this.controls.getObject().position.y < 10) {
+      if(this.controls.getObject().position.y < 5) {
         this.velocity.y = 0;
-        this.controls.getObject().position.y = 10;
+        this.controls.getObject().position.y = 5;
         this.canJump = true;
       }
 
-      console.log('this.controls.', this.camera.position)
+      // console.log('this.controls.', this.camera.position)
     }
     this.prevTime = time;
   }
 }
 
 let App = new Application();
+
+window.App = App;
