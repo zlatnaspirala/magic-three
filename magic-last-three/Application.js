@@ -106,16 +106,13 @@ class Application {
     this.scene.add(this.controls.getObject());
 
     const onKeyDown = (event) => {
-      console.log('TEST')
       switch(event.code) {
         case 'ArrowUp':
         case 'KeyW':
-          console.log('TEST1')
           this.moveForward = true;
           break;
         case 'ArrowLeft':
         case 'KeyA':
-          console.log('TESTA')
           this.moveLeft = true;
           break;
         case 'ArrowDown':
@@ -257,7 +254,7 @@ class Application {
       new THREE.MeshPhongMaterial({color: 0xffffff})
     );
     ground.receiveShadow = true;
-    this.textureLoader.load("./", function(texture) {
+    this.textureLoader.load("./assets/textures/cube/crate.gif", function(texture) {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.repeat.set(40, 40);
@@ -265,7 +262,7 @@ class Application {
       ground.material.needsUpdate = true;
     });
 
-    // Tower 1
+    // Tower 1 Breakable
     const towerMass = 1000;
     const towerHalfExtents = new THREE.Vector3(2, 5, 2);
     this.pos.set(-8, 5, 0);
@@ -278,7 +275,7 @@ class Application {
       this.createMaterial(0xb03014)
     );
 
-    // Tower 2
+    // Tower 2 Normal
     this.pos.set(8, 5, 0);
     this.quat.set(0, 0, 0, 1);
     this.createObject(
@@ -291,15 +288,7 @@ class Application {
 
   }
 
-  createParalellepipedWithPhysics(
-    sx,
-    sy,
-    sz,
-    mass,
-    pos,
-    quat,
-    material
-  ) {
+  createParalellepipedWithPhysics(sx, sy, sz, mass, pos, quat, material) {
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1),
       material
@@ -308,9 +297,7 @@ class Application {
       new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5)
     );
     shape.setMargin(this.margin);
-
     this.createRigidBody(object, shape, mass, pos, quat);
-
     return object;
   }
 
@@ -669,10 +656,9 @@ class Application {
         this.canJump = true;
       }
 
+      console.log('this.controls.', this.camera.position)
     }
-
     this.prevTime = time;
-
   }
 }
 
