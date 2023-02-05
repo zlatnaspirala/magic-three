@@ -807,11 +807,8 @@ class Application {
 
   updateControls() {
     const time = performance.now();
-
-    this.camera.position.copy(this.playerBody.position)
-
-    return;
-
+    // this.camera.position.copy(this.playerBody.position);
+    // this.camera.quaternion.copy(this.playerBody.quaternion);
     if(this.controls.isLocked === true) {
       this.raycaster.ray.origin.copy(this.controls.getObject().position);
       this.raycaster.ray.origin.y -= 5;
@@ -833,6 +830,8 @@ class Application {
 
       this.controls.moveRight(- this.velocity.x * delta);
       this.controls.moveForward(- this.velocity.z * delta);
+
+      this.playerBody.position.copy(this.camera.position);
 
       this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
 
