@@ -10,6 +10,7 @@ import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import {ConvexObjectBreaker} from "three/addons/misc/ConvexObjectBreaker.js";
 import {ConvexGeometry} from "three/addons/geometries/ConvexGeometry.js";
+import {createRandomColor} from "./public/libs/utils";
 
 class Application {
 
@@ -343,12 +344,13 @@ class Application {
   }
 
   createPlayer() {
+    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
     const ballMass = 35;
     const ballRadius = 2;
-    const ball = new THREE.Mesh(
+    const ball = new THREE.Line(
       new THREE.SphereGeometry(ballRadius, 14, 10),
-      this.ballMaterial
-    );
+      material);
+    // const ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 14, 10), material);
     ball.castShadow = true;
     ball.receiveShadow = true;
     const ballShape = new Ammo.btSphereShape(ballRadius);
@@ -360,7 +362,6 @@ class Application {
 
     // let localInertia = new Ammo.btVector3(0, 0, 0);
     // ballShape.calculateLocalInertia(10, localInertia);
-
     const playerB = this.createRigidBody(
       ball,
       ballShape,
@@ -368,10 +369,8 @@ class Application {
       this.pos,
       this.quat
     );
-    console.log("whts is ", this.playerBody)
+    console.log("PlayerBody created. ", this.playerBody)
     playerB.setCollisionFlags(0);
-
-
   }
 
   moveKinematic() {
@@ -398,22 +397,20 @@ class Application {
     }
   }
 
-  moveBall() {
-
+  moveVelocity() {
     let scalingFactor = 20;
-
     let moveX =  this.moveDirection.right - this.moveDirection.left;
     let moveZ =  this.moveDirection.back - this.moveDirection.forward;
-    let moveY =  0; 
+    let moveY =  0;
 
-    if( moveX == 0 && moveY == 0 && moveZ == 0) return;
+    // Extra props brach this - enable for more innert move.
+    // if( moveX == 0 && moveY == 0 && moveZ == 0) return;
 
     let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
     resultantImpulse.op_mul(scalingFactor);
 
     let physicsBody = this.playerBody.userData.physicsBody;
     physicsBody.setLinearVelocity( resultantImpulse );
-
 }
 
   createObjectStatic(mass, halfExtents, pos, quat, material) {
@@ -591,10 +588,6 @@ class Application {
     return body;
   }
 
-  createRandomColor() {
-    return Math.floor(Math.random() * (1 << 24));
-  }
-
   createMaterial(color) {
     color = color || createRandomColor();
     return new THREE.MeshPhongMaterial({color: color});
@@ -656,7 +649,7 @@ class Application {
     this.updateControls()
 
     // this.moveKinematic();
-    this.moveBall();
+    this.moveVelocity();
 
     this.renderer.render(this.scene, this.camera);
   }
@@ -814,6 +807,10 @@ class Application {
 
   updateControls() {
     const time = performance.now();
+
+    this.camera.position.copy(this.playerBody.position)
+
+    return;
 
     if(this.controls.isLocked === true) {
       this.raycaster.ray.origin.copy(this.controls.getObject().position);
