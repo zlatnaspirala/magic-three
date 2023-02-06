@@ -1,7 +1,10 @@
 
-let config = {
-
+const config = {
   playerController: {
-    movementType: 'velocity' // kinematic
+    type: 'FPS', // FPS | orbit
+    movementType: 'velocity', // velocity | kinematic
+    cameraInitPosition: {x: 0, y: 5, z: 10}
   }
 }
+
+export default config;

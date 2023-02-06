@@ -1,8 +1,13 @@
+@font-face {
+  font-family: closeness;
+  src: url('./assets/fonts/Closeness.ttf');
+}
+
 body {
   margin: 0;
   background-color: #000;
   color: #fff;
-  font-family: Monospace;
+  font-family: closeness, Monospace;
   font-size: 13px;
   line-height: 24px;
   overscroll-behavior: none;

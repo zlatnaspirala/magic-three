@@ -10,20 +10,24 @@ import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import {ConvexObjectBreaker} from "three/addons/misc/ConvexObjectBreaker.js";
 import {ConvexGeometry} from "three/addons/geometries/ConvexGeometry.js";
-import {createRandomColor} from "./public/libs/utils";
+import {createRandomColor, getDom} from "./public/libs/utils";
+import {createFPSController} from "./public/magic/controllers";
+import config from './config';
+import {initPhysics} from "./public/magic/physics";
 
 class Application {
 
   // Graphics variables
-  container = null;
+  container = getDom("container");
   stats = null;
-  camera = null;
+
+  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.2, 2000);
+  scene = new THREE.Scene();
+  renderer = new THREE.WebGLRenderer();
+
   controls = null;
-  scene = null;
-  renderer = null;
   textureLoader = null;
   clock = new THREE.Clock();
-
   mouseCoords = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
   ballMaterial = new THREE.MeshPhongMaterial({color: 0x202020});
@@ -65,10 +69,11 @@ class Application {
   ammoTmpQuat;
   tmpTrans;
 
-  // kinekt
+  // kinekt type of movement
   kMoveDirection = {left: 0, right: 0, forward: 0, back: 0};
-  // strick
+  // velocity type of movement
   moveDirection = {left: 0, right: 0, forward: 0, back: 0};
+
   tmpPos = new THREE.Vector3();
   tmpQuat = new THREE.Quaternion();
 
@@ -80,7 +85,7 @@ class Application {
     }
 
     this.config = config;
-    console.log('Test Ammo', this)
+    console.log('Running under config', config);
 
     Ammo().then((AmmoLib) => {
 
@@ -92,7 +97,7 @@ class Application {
 
       this.init();
       this.animate();
-      // console.log('Test Ammo33222 ', this)
+      console.log('Ammo is ready! 100');
     })
   }
 
@@ -103,179 +108,42 @@ class Application {
   playerBody;
 
   init() {
+
+    this.initPhysics = initPhysics.bind(this);
+    this.moveVelocity = moveVelocity.bind(this);
+    this.createFPSController = createFPSController.bind(this);
+
     this.initGraphics();
     this.initPhysics();
     this.createObjects();
     this.initInput();
 
-    this.createPlayer()
-  }
-
-  createFPSController() {
-    this.controls = new PointerLockControls(this.camera, document.body);
-    const blocker = document.getElementById('blocker');
-    const instructions = document.getElementById('instructions');
-
-    instructions.addEventListener('click', () => {
-      this.controls.lock();
-    });
-
-    this.controls.addEventListener('lock', function() {
-      instructions.style.display = 'none';
-      blocker.style.display = 'none';
-    });
-
-    this.controls.addEventListener('unlock', function() {
-      blocker.style.display = 'block';
-      instructions.style.display = '';
-    });
-
-    this.scene.add(this.controls.getObject());
-
-    const onKeyDown = (event) => {
-      switch(event.code) {
-        case 'ArrowUp':
-        case 'KeyW':
-          this.moveForward = true;
-          break;
-        case 'ArrowLeft':
-        case 'KeyA':
-          this.moveLeft = true;
-          break;
-        case 'ArrowDown':
-        case 'KeyS':
-          this.moveBackward = true;
-          break;
-        case 'ArrowRight':
-        case 'KeyD':
-          this.moveRight = true;
-          break;
-        case 'Space':
-          if(this.canJump === true) this.velocity.y += 350;
-          this.canJump = false;
-          break;
-      }
-
-      switch(event.keyCode) {
-        case 87: //W: FORWARD
-          this.moveDirection.forward = 1
-          break;
-
-        case 83: //S: BACK
-          this.moveDirection.back = 1
-          break;
-
-        case 65: //A: LEFT
-          this.moveDirection.left = 1
-          break;
-
-        case 68: //D: RIGHT
-          this.moveDirection.right = 1
-          break;
-
-        case 38: //↑: FORWARD
-          this.kMoveDirection.forward = 1
-          break;
-
-        case 40: //↓: BACK
-          this.kMoveDirection.back = 1
-          break;
-
-        case 37: //←: LEFT
-          this.kMoveDirection.left = 1
-          break;
-
-        case 39: //→: RIGHT
-          this.kMoveDirection.right = 1
-          break;
-
-      }
-
-    };
-
-    const onKeyUp = (event) => {
-      switch(event.code) {
-        case 'ArrowUp':
-        case 'KeyW':
-          this.moveForward = false;
-          break;
-        case 'ArrowLeft':
-        case 'KeyA':
-          this.moveLeft = false;
-          break;
-        case 'ArrowDown':
-        case 'KeyS':
-          this.moveBackward = false;
-          break;
-        case 'ArrowRight':
-        case 'KeyD':
-          this.moveRight = false;
-          break;
-      }
-
-      switch(event.keyCode) {
-        case 87: //FORWARD
-          this.moveDirection.forward = 0
-          break;
-
-        case 83: //BACK
-          this.moveDirection.back = 0
-          break;
-
-        case 65: //LEFT
-          this.moveDirection.left = 0
-          break;
-
-        case 68: //RIGHT
-          this.moveDirection.right = 0
-          break;
-
-        case 38: //↑: FORWARD
-          this.kMoveDirection.forward = 0
-          break;
-
-        case 40: //↓: BACK
-          this.kMoveDirection.back = 0
-          break;
-
-        case 37: //←: LEFT
-          this.kMoveDirection.left = 0
-          break;
-
-        case 39: //→: RIGHT
-          this.kMoveDirection.right = 0
-          break;
-      }
-    };
-    document.addEventListener('keydown', onKeyDown);
-    document.addEventListener('keyup', onKeyUp);
+    this.createPlayer();
   }
 
   initGraphics() {
-    this.container = document.getElementById("container");
 
-    this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight,
-      0.2,
-      2000
-    );
-
-    this.scene = new THREE.Scene();
+    // this.container = document.getElementById("container");
     this.scene.background = new THREE.Color(0xbfd1e5);
 
-    this.camera.position.set(-14, 8, 16);
+    this.camera.position.set(
+      this.config.playerController.cameraInitPosition.x,
+      this.config.playerController.cameraInitPosition.y,
+      this.config.playerController.cameraInitPosition.z);
 
-    this.renderer = new THREE.WebGLRenderer();
+    // this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.shadowMap.enabled = true;
     this.container.appendChild(this.renderer.domElement);
 
-    // deplac later
-    // this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    // this.controls.target.set(0, 2, 0);
-    // this.controls.update();
-    this.createFPSController();
-
+    if(this.config.playerController.type === 'FPS') {
+      this.createFPSController();
+    } else {
+      this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+      this.controls.target.set(0, 2, 0);
+      this.controls.update();
+    }
 
     this.textureLoader = new THREE.TextureLoader();
 
@@ -304,24 +172,6 @@ class Application {
     window.addEventListener("resize", this.onWindowResize);
   }
 
-  initPhysics() {
-    // Physics configuration
-    this.collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
-    this.dispatcher = new Ammo.btCollisionDispatcher(this.collisionConfiguration);
-    this.broadphase = new Ammo.btDbvtBroadphase();
-    const solver = new Ammo.btSequentialImpulseConstraintSolver();
-    this.physicsWorld = new Ammo.btDiscreteDynamicsWorld(
-      this.dispatcher,
-      this.broadphase,
-      solver,
-      this.collisionConfiguration
-    );
-    this.physicsWorld.setGravity(new Ammo.btVector3(0, -this.gravityConstant, 0));
-
-    this.transformAux1 = new Ammo.btTransform();
-    this.tempBtVec3_1 = new Ammo.btVector3(0, 0, 0);
-  }
-
   createObject(mass, halfExtents, pos, quat, material) {
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
@@ -344,7 +194,7 @@ class Application {
   }
 
   createPlayer() {
-    const material = new THREE.LineBasicMaterial( { color: 0x0000ff } );
+    const material = new THREE.LineBasicMaterial({color: 0x0000ff});
     const ballMass = 35;
     const ballRadius = 2;
     const ball = new THREE.Line(
@@ -396,22 +246,6 @@ class Application {
       ms.setWorldTransform(this.tmpTrans);
     }
   }
-
-  moveVelocity() {
-    let scalingFactor = 20;
-    let moveX =  this.moveDirection.right - this.moveDirection.left;
-    let moveZ =  this.moveDirection.back - this.moveDirection.forward;
-    let moveY =  0;
-
-    // Extra props brach this - enable for more innert move.
-    // if( moveX == 0 && moveY == 0 && moveZ == 0) return;
-
-    let resultantImpulse = new Ammo.btVector3( moveX, moveY, moveZ )
-    resultantImpulse.op_mul(scalingFactor);
-
-    let physicsBody = this.playerBody.userData.physicsBody;
-    physicsBody.setLinearVelocity( resultantImpulse );
-}
 
   createObjectStatic(mass, halfExtents, pos, quat, material) {
     const object = new THREE.Mesh(
@@ -645,11 +479,15 @@ class Application {
 
   render() {
     const deltaTime = this.clock.getDelta();
-    this.updatePhysics(deltaTime);
-    this.updateControls()
 
-    // this.moveKinematic();
-    this.moveVelocity();
+    this.updatePhysics(deltaTime);
+    this.updateControls();
+
+    if(this.config.playerController.movementType === 'velocity') {
+      this.moveVelocity();
+    } else {
+      this.moveKinematic();
+    }
 
     this.renderer.render(this.scene, this.camera);
   }
@@ -847,6 +685,6 @@ class Application {
   }
 }
 
-let App = new Application();
+let App = new Application(config);
 
 window.App = App;
