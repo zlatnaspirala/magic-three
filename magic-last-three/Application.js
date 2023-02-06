@@ -12,8 +12,9 @@ import {ConvexObjectBreaker} from "three/addons/misc/ConvexObjectBreaker.js";
 import {ConvexGeometry} from "three/addons/geometries/ConvexGeometry.js";
 import {createRandomColor, getDom} from "./public/libs/utils";
 import {createFPSController} from "./public/magic/controllers";
+import {createConvexHullPhysicsShape, createDebrisFromBreakableObject, createParalellepipedWithPhysics, createRigidBody, initPhysics, moveKinematic, moveVelocity, removeDebris} from "./public/magic/physics";
+import {updatePhysics} from "./public/magic/updater";
 import config from './config';
-import {initPhysics} from "./public/magic/physics";
 
 class Application {
 
@@ -111,6 +112,13 @@ class Application {
 
     this.initPhysics = initPhysics.bind(this);
     this.moveVelocity = moveVelocity.bind(this);
+    this.moveKinematic = moveKinematic.bind(this);
+    this.updatePhysics = updatePhysics.bind(this);
+    this.createRigidBody = createRigidBody.bind(this);
+    this.removeDebris = removeDebris.bind(this);
+    this.createDebrisFromBreakableObject = createDebrisFromBreakableObject.bind(this);
+    this.createParalellepipedWithPhysics = createParalellepipedWithPhysics.bind(this);
+    this.createConvexHullPhysicsShape = createConvexHullPhysicsShape.bind(this);
     this.createFPSController = createFPSController.bind(this);
 
     this.initGraphics();
@@ -223,30 +231,6 @@ class Application {
     playerB.setCollisionFlags(0);
   }
 
-  moveKinematic() {
-    let scalingFactor = 0.3;
-    let moveX = this.kMoveDirection.right - this.kMoveDirection.left;
-    let moveZ = this.kMoveDirection.back - this.kMoveDirection.forward;
-    let moveY = 0;
-    let translateFactor = this.tmpPos.set(moveX, moveY, moveZ);
-    translateFactor.multiplyScalar(scalingFactor);
-    this.playerBody.translateX(translateFactor.x);
-    this.playerBody.translateY(translateFactor.y);
-    this.playerBody.translateZ(translateFactor.z);
-    this.playerBody.getWorldPosition(this.tmpPos);
-    this.playerBody.getWorldQuaternion(this.tmpQuat);
-    let physicsBody = this.playerBody.userData.physicsBody;
-    let ms = physicsBody.getMotionState();
-    if(ms) {
-      this.ammoTmpPos.setValue(this.tmpPos.x, this.tmpPos.y, this.tmpPos.z);
-      this.ammoTmpQuat.setValue(this.tmpQuat.x, this.tmpQuat.y, this.tmpQuat.z, this.tmpQuat.w);
-      this.tmpTrans.setIdentity();
-      this.tmpTrans.setOrigin(this.ammoTmpPos);
-      this.tmpTrans.setRotation(this.ammoTmpQuat);
-      ms.setWorldTransform(this.tmpTrans);
-    }
-  }
-
   createObjectStatic(mass, halfExtents, pos, quat, material) {
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
@@ -308,118 +292,6 @@ class Application {
       this.createMaterial(0xb03214)
     );
 
-  }
-
-  createParalellepipedWithPhysics(sx, sy, sz, mass, pos, quat, material) {
-    const object = new THREE.Mesh(
-      new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1),
-      material
-    );
-    const shape = new Ammo.btBoxShape(
-      new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5)
-    );
-    shape.setMargin(this.margin);
-    this.createRigidBody(object, shape, mass, pos, quat);
-    return object;
-  }
-
-  createDebrisFromBreakableObject(object) {
-    object.castShadow = true;
-    object.receiveShadow = true;
-
-    const shape = this.createConvexHullPhysicsShape(
-      object.geometry.attributes.position.array
-    );
-    shape.setMargin(this.margin);
-
-    const body = this.createRigidBody(
-      object,
-      shape,
-      object.userData.mass,
-      null,
-      null,
-      object.userData.velocity,
-      object.userData.angularVelocity
-    );
-
-    // Set pointer back to the three object only in the debris objects
-    const btVecUserData = new Ammo.btVector3(0, 0, 0);
-    btVecUserData.threeObject = object;
-    body.setUserPointer(btVecUserData);
-  }
-
-  removeDebris(object) {
-    this.scene.remove(object);
-    this.physicsWorld.removeRigidBody(object.userData.physicsBody);
-  }
-
-  createConvexHullPhysicsShape(coords) {
-    const shape = new Ammo.btConvexHullShape();
-
-    for(let i = 0, il = coords.length;i < il;i += 3) {
-      this.tempBtVec3_1.setValue(coords[i], coords[i + 1], coords[i + 2]);
-      const lastOne = i >= il - 3;
-      shape.addPoint(this.tempBtVec3_1, lastOne);
-    }
-
-    return shape;
-  }
-
-  createRigidBody(object, physicsShape, mass, pos, quat, vel, angVel) {
-    if(pos) {
-      object.position.copy(pos);
-    } else {
-      pos = object.position;
-    }
-
-    if(quat) {
-      object.quaternion.copy(quat);
-    } else {
-      quat = object.quaternion;
-    }
-
-    const transform = new Ammo.btTransform();
-    transform.setIdentity();
-    transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
-    transform.setRotation(
-      new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w)
-    );
-    const motionState = new Ammo.btDefaultMotionState(transform);
-
-    const localInertia = new Ammo.btVector3(0, 0, 0);
-    physicsShape.calculateLocalInertia(mass, localInertia);
-
-    const rbInfo = new Ammo.btRigidBodyConstructionInfo(
-      mass,
-      motionState,
-      physicsShape,
-      localInertia
-    );
-    const body = new Ammo.btRigidBody(rbInfo);
-
-    body.setFriction(0.5);
-
-    if(vel) {
-      body.setLinearVelocity(new Ammo.btVector3(vel.x, vel.y, vel.z));
-    }
-
-    if(angVel) {
-      body.setAngularVelocity(
-        new Ammo.btVector3(angVel.x, angVel.y, angVel.z)
-      );
-    }
-    object.userData.physicsBody = body;
-    object.userData.collided = false;
-    this.scene.add(object);
-
-    if(mass > 0) {
-      this.rigidBodies.push(object);
-      // Disable deactivation
-      body.setActivationState(4);
-    }
-
-    this.physicsWorld.addRigidBody(body);
-    return body;
   }
 
   createMaterial(color) {
@@ -490,157 +362,6 @@ class Application {
     }
 
     this.renderer.render(this.scene, this.camera);
-  }
-
-  updatePhysics(deltaTime) {
-    // Step world
-    this.physicsWorld.stepSimulation(deltaTime, 10);
-
-    /// nidza test
-    // this.playerBody
-
-    // Update rigid bodies
-    for(let i = 0, il = this.rigidBodies.length;i < il;i++) {
-      const objThree = this.rigidBodies[i];
-      const objPhys = objThree.userData.physicsBody;
-      const ms = objPhys.getMotionState();
-
-      if(ms) {
-        ms.getWorldTransform(this.transformAux1);
-        const p = this.transformAux1.getOrigin();
-        const q = this.transformAux1.getRotation();
-        objThree.position.set(p.x(), p.y(), p.z());
-        objThree.quaternion.set(q.x(), q.y(), q.z(), q.w());
-
-        objThree.userData.collided = false;
-      }
-    }
-
-    for(let i = 0, il = this.dispatcher.getNumManifolds();i < il;i++) {
-      const contactManifold = this.dispatcher.getManifoldByIndexInternal(i);
-      const rb0 = Ammo.castObject(
-        contactManifold.getBody0(),
-        Ammo.btRigidBody
-      );
-      const rb1 = Ammo.castObject(
-        contactManifold.getBody1(),
-        Ammo.btRigidBody
-      );
-
-      const threeObject0 = Ammo.castObject(
-        rb0.getUserPointer(),
-        Ammo.btVector3
-      ).threeObject;
-      const threeObject1 = Ammo.castObject(
-        rb1.getUserPointer(),
-        Ammo.btVector3
-      ).threeObject;
-
-      if(!threeObject0 && !threeObject1) {
-        continue;
-      }
-
-      const userData0 = threeObject0 ? threeObject0.userData : null;
-      const userData1 = threeObject1 ? threeObject1.userData : null;
-
-      const breakable0 = userData0 ? userData0.breakable : false;
-      const breakable1 = userData1 ? userData1.breakable : false;
-
-      const collided0 = userData0 ? userData0.collided : false;
-      const collided1 = userData1 ? userData1.collided : false;
-
-      if((!breakable0 && !breakable1) || (collided0 && collided1)) {
-        continue;
-      }
-
-      let contact = false;
-      let maxImpulse = 0;
-      for(let j = 0, jl = contactManifold.getNumContacts();j < jl;j++) {
-        const contactPoint = contactManifold.getContactPoint(j);
-
-        if(contactPoint.getDistance() < 0) {
-          contact = true;
-          const impulse = contactPoint.getAppliedImpulse();
-
-          if(impulse > maxImpulse) {
-            maxImpulse = impulse;
-            const pos = contactPoint.get_m_positionWorldOnB();
-            const normal = contactPoint.get_m_normalWorldOnB();
-            this.impactPoint.set(pos.x(), pos.y(), pos.z());
-            this.impactNormal.set(normal.x(), normal.y(), normal.z());
-          }
-
-          break;
-        }
-      }
-
-      // If no point has contact, abort
-      if(!contact) continue;
-      // Subdivision
-      const fractureImpulse = 250;
-
-      if(breakable0 && !collided0 && maxImpulse > fractureImpulse) {
-        const debris = this.convexBreaker.subdivideByImpact(
-          threeObject0,
-          this.impactPoint,
-          this.impactNormal,
-          1,
-          2,
-          1.5
-        );
-
-        const numObjects = debris.length;
-        for(let j = 0;j < numObjects;j++) {
-          const vel = rb0.getLinearVelocity();
-          const angVel = rb0.getAngularVelocity();
-          const fragment = debris[j];
-          fragment.userData.velocity.set(vel.x(), vel.y(), vel.z());
-          fragment.userData.angularVelocity.set(
-            angVel.x(),
-            angVel.y(),
-            angVel.z()
-          );
-          this.createDebrisFromBreakableObject(fragment);
-        }
-
-        this.objectsToRemove[this.numObjectsToRemove++] = threeObject0;
-        userData0.collided = true;
-      }
-
-      if(breakable1 && !collided1 && maxImpulse > fractureImpulse) {
-        const debris = this.convexBreaker.subdivideByImpact(
-          threeObject1,
-          this.impactPoint,
-          this.impactNormal,
-          1,
-          2,
-          1.5
-        );
-
-        const numObjects = debris.length;
-        for(let j = 0;j < numObjects;j++) {
-          const vel = rb1.getLinearVelocity();
-          const angVel = rb1.getAngularVelocity();
-          const fragment = debris[j];
-          fragment.userData.velocity.set(vel.x(), vel.y(), vel.z());
-          fragment.userData.angularVelocity.set(
-            angVel.x(),
-            angVel.y(),
-            angVel.z()
-          );
-
-          this.createDebrisFromBreakableObject(fragment);
-        }
-
-        this.objectsToRemove[this.numObjectsToRemove++] = threeObject1;
-        userData1.collided = true;
-      }
-    }
-
-    for(let i = 0;i < this.numObjectsToRemove;i++) {
-      this.removeDebris(this.objectsToRemove[i]);
-    }
-    this.numObjectsToRemove = 0;
   }
 
   updateControls() {
