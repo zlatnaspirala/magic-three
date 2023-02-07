@@ -1,3 +1,4 @@
+import * as THREE from "three";
 
 export function initPhysics() {
   // Physics configuration

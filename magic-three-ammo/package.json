@@ -9,7 +9,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "browser-resolve": "^2.0.0"
+    "browser-resolve": "^2.0.0",
+    "three": "^0.149.0",
+    "three-addons": "^1.2.0"
   },
   "devDependencies": {
     "browserify": "^17.0.0",

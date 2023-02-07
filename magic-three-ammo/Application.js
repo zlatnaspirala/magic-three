@@ -10,11 +10,11 @@ import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import {ConvexObjectBreaker} from "three/addons/misc/ConvexObjectBreaker.js";
 import {ConvexGeometry} from "three/addons/geometries/ConvexGeometry.js";
-import {createRandomColor, getDom} from "./public/libs/utils";
-import {createFPSController} from "./public/magic/controllers";
-import {createConvexHullPhysicsShape, createDebrisFromBreakableObject, createParalellepipedWithPhysics, createRigidBody, initPhysics, moveKinematic, moveVelocity, removeDebris} from "./public/magic/physics";
-import {updatePhysics} from "./public/magic/updater";
-import config from './config';
+import {createRandomColor, getDom} from "./public/libs/utils.js";
+import {createFPSController} from "./public/magic/controllers.js";
+import {createConvexHullPhysicsShape, createDebrisFromBreakableObject, createParalellepipedWithPhysics, createRigidBody, initPhysics, moveKinematic, moveVelocity, removeDebris} from "./public/magic/physics.js";
+import {updatePhysics} from "./public/magic/updater.js";
+import config from './config.js';
 
 class Application {
 

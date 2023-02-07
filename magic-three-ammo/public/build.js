@@ -1,0 +1,1 @@
+console.error("Error: Can't walk dependency graph: Cannot find module 'three/addons/libs/stats.module.js' from 'Application.js'\n    required by G:\\web_server\\xampp\\htdocs\\PRIVATE_SERVER\\my-threejs\\PROJECT\\magic-three-ammo\\Application.js");
