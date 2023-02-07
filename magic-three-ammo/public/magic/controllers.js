@@ -46,21 +46,21 @@ export function createFPSController() {
     }
 
     switch(event.keyCode) {
-      case 87: //W: FORWARD
-        this.moveDirection.forward = 1
-        break;
+      // case 87: //W: FORWARD
+      //   this.moveDirection.forward = 1
+      //   break;
 
-      case 83: //S: BACK
-        this.moveDirection.back = 1
-        break;
+      // case 83: //S: BACK
+      //   this.moveDirection.back = 1
+      //   break;
 
-      case 65: //A: LEFT
-        this.moveDirection.left = 1
-        break;
+      // case 65: //A: LEFT
+      //   this.moveDirection.left = 1
+      //   break;
 
-      case 68: //D: RIGHT
-        this.moveDirection.right = 1
-        break;
+      // case 68: //D: RIGHT
+      //   this.moveDirection.right = 1
+      //   break;
 
       case 38: //↑: FORWARD
         this.kMoveDirection.forward = 1
@@ -103,21 +103,21 @@ export function createFPSController() {
     }
 
     switch(event.keyCode) {
-      case 87: //FORWARD
-        this.moveDirection.forward = 0
-        break;
+      // case 87: //FORWARD
+      //   this.moveDirection.forward = 0
+      //   break;
 
-      case 83: //BACK
-        this.moveDirection.back = 0
-        break;
+      // case 83: //BACK
+      //   this.moveDirection.back = 0
+      //   break;
 
-      case 65: //LEFT
-        this.moveDirection.left = 0
-        break;
+      // case 65: //LEFT
+      //   this.moveDirection.left = 0
+      //   break;
 
-      case 68: //RIGHT
-        this.moveDirection.right = 0
-        break;
+      // case 68: //RIGHT
+      //   this.moveDirection.right = 0
+      //   break;
 
       case 38: //↑: FORWARD
         this.kMoveDirection.forward = 0

@@ -12,7 +12,13 @@ import {ConvexObjectBreaker} from "three/addons/misc/ConvexObjectBreaker.js";
 import {ConvexGeometry} from "three/addons/geometries/ConvexGeometry.js";
 import {createRandomColor, getDom} from "./public/libs/utils.js";
 import {createFPSController} from "./public/magic/controllers.js";
-import {createConvexHullPhysicsShape, createDebrisFromBreakableObject, createParalellepipedWithPhysics, createRigidBody, initPhysics, moveKinematic, moveVelocity, removeDebris} from "./public/magic/physics.js";
+import {
+  createConvexHullPhysicsShape,
+  createDebrisFromBreakableObject,
+  createParalellepipedWithPhysics,
+  createRigidBody, initPhysics,
+  moveKinematic, moveVelocity, removeDebris
+} from "./public/magic/physics.js";
 import {updatePhysics} from "./public/magic/updater.js";
 import config from './config.js';
 
@@ -242,14 +248,14 @@ class Application {
     );
     object.position.copy(pos);
     object.quaternion.copy(quat);
-    // this.convexBreaker.prepareBreakableObject(
-    //   object,
-    //   mass,
-    //   new THREE.Vector3(),
-    //   new THREE.Vector3(),
-    //   true
-    // );
-    // this.createDebrisFromBreakableObject(object);
+    this.convexBreaker.prepareBreakableObject(
+      object,
+      mass,
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      true
+    );
+    this.createDebrisFromBreakableObject(object);
   }
 
   createObjects() {
