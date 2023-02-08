@@ -1517,19 +1517,19 @@ class LDrawPartsGeometryCache {
 		const group = info.group;
 		if ( info.faces.length > 0 ) {
 
-			group.add( createObject( info.faces, 3, false, info.totalFaces ) );
+			group.add( createBreakableBox( info.faces, 3, false, info.totalFaces ) );
 
 		}
 
 		if ( info.lineSegments.length > 0 ) {
 
-			group.add( createObject( info.lineSegments, 2 ) );
+			group.add( createBreakableBox( info.lineSegments, 2 ) );
 
 		}
 
 		if ( info.conditionalSegments.length > 0 ) {
 
-			group.add( createObject( info.conditionalSegments, 2, true ) );
+			group.add( createBreakableBox( info.conditionalSegments, 2, true ) );
 
 		}
 
@@ -1637,7 +1637,7 @@ function sortByMaterial( a, b ) {
 
 }
 
-function createObject( elements, elementSize, isConditionalSegments = false, totalElements = null ) {
+function createBreakableBox( elements, elementSize, isConditionalSegments = false, totalElements = null ) {
 
 	// Creates a LineSegments (elementSize = 2) or a Mesh (elementSize = 3 )
 	// With per face / segment material, implemented with mesh groups and materials array

@@ -4,7 +4,7 @@
     // const bridgeHalfExtents = new THREE.Vector3(7, 0.2, 1.5);
     // pos.set(0, 10.2, 0);
     // quat.set(0, 0, 0, 1);
-    // createObject(
+    // createBreakableBox(
     //   bridgeMass,
     //   bridgeHalfExtents,
     //   pos,
@@ -20,7 +20,7 @@
     // for(let i = 0;i < numStones;i++) {
     //   pos.set(0, 2, 15 * (0.5 - i / (numStones + 1)));
 
-    //   createObject(
+    //   createBreakableBox(
     //     stoneMass,
     //     stoneHalfExtents,
     //     pos,

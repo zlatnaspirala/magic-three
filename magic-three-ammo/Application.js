@@ -7,22 +7,14 @@
 import * as THREE from "three";
 import Stats from "three/addons/libs/stats.module.js";
 import {OrbitControls} from "three/addons/controls/OrbitControls.js";
-import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
-import {ConvexObjectBreaker} from "three/addons/misc/ConvexObjectBreaker.js";
-import {ConvexGeometry} from "three/addons/geometries/ConvexGeometry.js";
 import {createRandomColor, getDom} from "./public/libs/utils.js";
 import {createFPSController} from "./public/magic/controllers.js";
-import {
-  createConvexHullPhysicsShape,
-  createDebrisFromBreakableObject,
-  createParalellepipedWithPhysics,
-  createRigidBody, initPhysics,
-  moveKinematic, moveVelocity, removeDebris
-} from "./public/magic/physics.js";
-import {updatePhysics} from "./public/magic/updater.js";
+import {MagicPhysics} from "./public/magic/physics.js";
+import {updateControls} from "./public/magic/updater.js";
 import config from './config.js';
+import {MagicMaterials} from "./public/magic/materials.js";
 
-class Application {
+class Application extends MagicPhysics {
 
   // Graphics variables
   container = getDom("container");
@@ -32,6 +24,7 @@ class Application {
   scene = new THREE.Scene();
   renderer = new THREE.WebGLRenderer();
 
+  materials = new MagicMaterials();
   controls = null;
   textureLoader = null;
   clock = new THREE.Clock();
@@ -52,86 +45,39 @@ class Application {
   vertex = new THREE.Vector3();
   color = new THREE.Color();
 
-  // Physics variables
-  gravityConstant = 7.8;
-  collisionConfiguration;
-  dispatcher;
-  broadphase;
-  solver;
-  physicsWorld;
-  margin = 0.05;
-
-  convexBreaker = new ConvexObjectBreaker();
-
-  // Rigid bodies include all movable objects
-  rigidBodies = [];
-  pos = new THREE.Vector3();
-  quat = new THREE.Quaternion();
-  transformAux1;
-  tempBtVec3_1;
-  objectsToRemove = [];
-
-  // Player
-  ammoTmpPos;
-  ammoTmpQuat;
-  tmpTrans;
-
-  // kinekt type of movement
-  kMoveDirection = {left: 0, right: 0, forward: 0, back: 0};
-  // velocity type of movement
-  moveDirection = {left: 0, right: 0, forward: 0, back: 0};
-
-  tmpPos = new THREE.Vector3();
-  tmpQuat = new THREE.Quaternion();
-
   config;
 
   constructor(config) {
+
+    super({config: config});
+    console.log('Running under config after super call', config);
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
-
     this.config = config;
-    console.log('Running under config', config);
 
+    this.updateControls = updateControls.bind(this);
     Ammo().then((AmmoLib) => {
-
       Ammo = AmmoLib;
-
       this.ammoTmpPos = new Ammo.btVector3();
       this.ammoTmpQuat = new Ammo.btQuaternion();
       this.tmpTrans = new Ammo.btTransform();
 
       this.init();
       this.animate();
-      console.log('Ammo is ready! 100');
+      console.log('Ammo is ready! 101');
     })
   }
-
-  numObjectsToRemove = 0;
-  impactPoint = new THREE.Vector3();
-  impactNormal = new THREE.Vector3();
 
   playerBody;
 
   init() {
 
-    this.initPhysics = initPhysics.bind(this);
-    this.moveVelocity = moveVelocity.bind(this);
-    this.moveKinematic = moveKinematic.bind(this);
-    this.updatePhysics = updatePhysics.bind(this);
-    this.createRigidBody = createRigidBody.bind(this);
-    this.removeDebris = removeDebris.bind(this);
-    this.createDebrisFromBreakableObject = createDebrisFromBreakableObject.bind(this);
-    this.createParalellepipedWithPhysics = createParalellepipedWithPhysics.bind(this);
-    this.createConvexHullPhysicsShape = createConvexHullPhysicsShape.bind(this);
     this.createFPSController = createFPSController.bind(this);
-
     this.initGraphics();
     this.initPhysics();
     this.createObjects();
     this.initInput();
-
     this.createPlayer();
   }
 
@@ -186,7 +132,7 @@ class Application {
     window.addEventListener("resize", this.onWindowResize);
   }
 
-  createObject(mass, halfExtents, pos, quat, material) {
+  createBreakableBox(mass, halfExtents, pos, quat, material) {
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
         halfExtents.x * 2,
@@ -237,7 +183,7 @@ class Application {
     playerB.setCollisionFlags(0);
   }
 
-  createObjectStatic(mass, halfExtents, pos, quat, material) {
+  createSimpleBox(mass, halfExtents, pos, quat, material) {
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
         halfExtents.x * 2,
@@ -248,14 +194,31 @@ class Application {
     );
     object.position.copy(pos);
     object.quaternion.copy(quat);
-    this.convexBreaker.prepareBreakableObject(
-      object,
-      mass,
-      new THREE.Vector3(),
-      new THREE.Vector3(),
-      true
-    );
-    this.createDebrisFromBreakableObject(object);
+
+    var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
+      startTransform = new Ammo.btTransform();
+
+    startTransform.setIdentity();
+
+    var mass = 10,
+      isDynamic = (mass !== 0),
+      localInertia = new Ammo.btVector3(0, 0, 0);
+
+    if(isDynamic)
+      colShape.calculateLocalInertia(mass, localInertia);
+
+    startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
+
+    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
+      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
+      body = new Ammo.btRigidBody(rbInfo);
+
+    object.userData.physicsBody = body;
+    // object.userData.collided = false;
+    this.rigidBodies.push(object);
+    this.scene.add(object);
+
+    this.physicsWorld.addRigidBody(body);
   }
 
   createObjects() {
@@ -279,23 +242,23 @@ class Application {
     const towerHalfExtents = new THREE.Vector3(2, 5, 2);
     this.pos.set(-8, 5, 0);
     this.quat.set(0, 0, 0, 1);
-    this.createObject(
+    this.createBreakableBox(
       towerMass,
       towerHalfExtents,
       this.pos,
       this.quat,
-      this.createMaterial(0xb03014)
+      App.materials.assets.front
     );
 
     // Tower 2 Normal
     this.pos.set(8, 5, 0);
     this.quat.set(0, 0, 0, 1);
-    this.createObject(
+    this.createSimpleBox(
       towerMass,
       towerHalfExtents,
       this.pos,
       this.quat,
-      this.createMaterial(0xb03214)
+      App.materials.assets.front
     );
 
   }
@@ -370,46 +333,7 @@ class Application {
     this.renderer.render(this.scene, this.camera);
   }
 
-  updateControls() {
-    const time = performance.now();
-    // this.camera.position.copy(this.playerBody.position);
-    // this.camera.quaternion.copy(this.playerBody.quaternion);
-    if(this.controls.isLocked === true) {
-      this.raycaster.ray.origin.copy(this.controls.getObject().position);
-      this.raycaster.ray.origin.y -= 5;
-      const intersections = this.raycaster.intersectObjects(this.scene.children, false);
-      const onObject = intersections.length > 0;
-      const delta = (time - this.prevTime) / 1000;
-      this.velocity.x -= this.velocity.x * 10.0 * delta;
-      this.velocity.z -= this.velocity.z * 10.0 * delta;
-      this.velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
-      this.direction.z = Number(this.moveForward) - Number(this.moveBackward);
-      this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
-      this.direction.normalize(); // this ensures consistent movements in all directions
-      if(this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 400.0 * delta;
-      if(this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
-      if(onObject === true) {
-        this.velocity.y = Math.max(0, this.velocity.y);
-        this.canJump = true;
-      }
 
-      this.controls.moveRight(- this.velocity.x * delta);
-      this.controls.moveForward(- this.velocity.z * delta);
-
-      this.playerBody.position.copy(this.camera.position);
-
-      this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
-
-      if(this.controls.getObject().position.y < 5) {
-        this.velocity.y = 0;
-        this.controls.getObject().position.y = 5;
-        this.canJump = true;
-      }
-
-      // console.log('this.controls.', this.camera.position)
-    }
-    this.prevTime = time;
-  }
 }
 
 let App = new Application(config);
