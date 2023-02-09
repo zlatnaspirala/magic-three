@@ -1,5 +1,9 @@
 
 const config = {
+  map: {
+    floorWidth: 200,
+    floorHeight: 200,
+  },
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic

@@ -6,83 +6,99 @@ export class MagicMaterials {
   assets = {};
 
   constructor() {
-    console.info("MagicMaterials...")
+    console.info("MagicMaterials...");
     this.createCubeRefraction('./assets/textures/cube/');
-
-    this.createMyMaterials('./assets/textures/cube/2.jpg')
+    this.createMyMat('./assets/textures/metal/metal1.jpg');
+    this.createBlackWall();
   }
 
   createCubeRefraction = function(path) {
     this.path_to_images = path;
     this.urls = [
-      this.path_to_images + "1.jpg", this.path_to_images + "2.jpg",
-      this.path_to_images + "1.jpg", this.path_to_images + "2.jpg",
-      this.path_to_images + "1.jpg", this.path_to_images + "2.jpg"
+      this.path_to_images + "metal-r1-blue.png", this.path_to_images + "metal-r1-blue.png",
+      this.path_to_images + "metal-r1-blue.png", this.path_to_images + "metal-r1-blue.png",
+      this.path_to_images + "metal-r1-blue.png", this.path_to_images + "metal-r1-blue.png"
     ];
     this.assets.texCube = new THREE.CubeTextureLoader().load(this.urls);
     this.assets.texCube.format = THREE.RGBFormat;
   }
 
-  createMyMaterials = function(path) {
-    var frontTexture = new THREE.TextureLoader().load(path);
-    this.assets = {
-      "Yellow_glass": new THREE.MeshLambertMaterial({
-        color: 0xffffaa,
-        opacity: 0.75,
-        transparent: true
-      }),
-      "Orange_glass": new THREE.MeshLambertMaterial({
-        color: 0x995500,
-        opacity: 0.75,
-        transparent: true
-      }),
-      "front": new THREE.MeshPhongMaterial({
-        shininess: 1,
-        map: frontTexture
-      }),
-      "Orange": new THREE.MeshLambertMaterial({
-        color: 0xff6600,
-        envMap: this.assets.texCube,
-        combine: THREE.MixOperation,
-        reflectivity: 0.1
-      }),
-      "Blue": new THREE.MeshLambertMaterial({
-        color: 0x001133,
-        envMap: this.assets.texCube,
-        combine: THREE.MixOperation,
-        reflectivity: 0.3
-      }),
-      "Red": new THREE.MeshLambertMaterial({
-        color: 0x660000,
+  createBlackWall = function() {
+    this.assets.Black = new THREE.MeshLambertMaterial({
+        color: 0xf0f0ff,
         envMap: this.assets.texCube,
         combine: THREE.MixOperation,
         reflectivity: 0.25
-      }),
-      "Black": new THREE.MeshLambertMaterial({
-        color: 0x000000,
-        envMap: this.assets.texCube,
-        combine: THREE.MixOperation,
-        reflectivity: 0.15
-      }),
-      "White": new THREE.MeshLambertMaterial({
-        color: 0xffffff,
-        envMap: this.assets.texCube,
-        combine: THREE.MixOperation,
-        reflectivity: 0.25
-      }),
-      "Carmine": new THREE.MeshPhongMaterial({
-        color: 0x770000,
-        specular: 0xffaaaa,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
-      "Gold": new THREE.MeshPhongMaterial({
-        color: 0xaa9944,
-        specular: 0xbbaa99,
-        shininess: 50,
-        envMap: this.assets.texCube,
-        combine: THREE.MultiplyOperation
-      }),
+      });
+  }
+
+  createMyMat = function(path) {
+    this.assets.Yellow_glass = new THREE.MeshLambertMaterial({
+      color: 0xffffaa,
+      opacity: 0.95,
+      transparent: true
+    })
+    var frontTexture = new THREE.TextureLoader().load(path, (texture) => {
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(1, 2);
+      this.assets.Yellow_glass.map = texture;
+      this.assets.Yellow_glass.needsUpdate = true;
+    });
+
+    // this.assets = {
+      // "Orange_glass": new THREE.MeshLambertMaterial({
+      //   color: 0x995500,
+      //   opacity: 0.75,
+      //   transparent: true
+      // }),
+      // "front": new THREE.MeshPhongMaterial({
+      //   shininess: 1,
+      //   map: frontTexture
+      // }),
+      // "Orange": new THREE.MeshLambertMaterial({
+      //   color: 0xff6600,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MixOperation,
+      //   reflectivity: 0.1
+      // }),
+      // "Blue": new THREE.MeshLambertMaterial({
+      //   color: 0x001133,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MixOperation,
+      //   reflectivity: 0.3
+      // }),
+      // "Red": new THREE.MeshLambertMaterial({
+      //   color: 0x660000,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MixOperation,
+      //   reflectivity: 0.25
+      // }),
+      // "Black": new THREE.MeshLambertMaterial({
+      //   color: 0x000000,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MixOperation,
+      //   reflectivity: 0.15
+      // }),
+      // "White": new THREE.MeshLambertMaterial({
+      //   color: 0xffffff,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MixOperation,
+      //   reflectivity: 0.25
+      // }),
+      // "Carmine": new THREE.MeshPhongMaterial({
+      //   color: 0x770000,
+      //   specular: 0xffaaaa,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
+      // "Gold": new THREE.MeshPhongMaterial({
+      //   color: 0xaa9944,
+      //   specular: 0xbbaa99,
+      //   shininess: 50,
+      //   envMap: this.assets.texCube,
+      //   combine: THREE.MultiplyOperation
+      // }),
       // "Bronze": new THREE.MeshPhongMaterial({
       //   color: 0x150505,
       //   specular: 0xee6600,
@@ -215,7 +231,7 @@ export class MagicMaterials {
       //   color: 0x050505,
       //   shininess: 20
       // })
-    }
+      //    }
   }
 
 

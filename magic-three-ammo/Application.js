@@ -45,12 +45,12 @@ class Application extends MagicPhysics {
   vertex = new THREE.Vector3();
   color = new THREE.Color();
 
+  playerBody;
   config;
 
   constructor(config) {
-
     super({config: config});
-    console.log('Running under config after super call', config);
+
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
@@ -66,10 +66,8 @@ class Application extends MagicPhysics {
       this.init();
       this.animate();
       console.log('Ammo is ready! 101');
-    })
+    });
   }
-
-  playerBody;
 
   init() {
 
@@ -225,8 +223,12 @@ class Application extends MagicPhysics {
     // Ground
     this.pos.set(0, -0.5, 0);
     this.quat.set(0, 0, 0, 1);
-    const ground = this.createParalellepipedWithPhysics(40, 1, 40, 0, this.pos, this.quat,
-      new THREE.MeshPhongMaterial({color: 0xffffff})
+    const ground = this.createParalellepipedWithPhysics(
+      this.config.map.floorWidth, 1,
+      this.config.map.floorHeight, 0,
+      this.pos, this.quat,
+      // new THREE.MeshPhongMaterial({color: 0xffffff})
+      this.materials.assets.Orange_glass
     );
     ground.receiveShadow = true;
     this.textureLoader.load("./assets/textures/cube/crate.gif", function(texture) {
@@ -247,7 +249,7 @@ class Application extends MagicPhysics {
       towerHalfExtents,
       this.pos,
       this.quat,
-      App.materials.assets.front
+      App.materials.assets.Yellow_glass
     );
 
     // Tower 2 Normal
@@ -258,7 +260,7 @@ class Application extends MagicPhysics {
       towerHalfExtents,
       this.pos,
       this.quat,
-      App.materials.assets.front
+      App.materials.assets.Black
     );
 
   }
