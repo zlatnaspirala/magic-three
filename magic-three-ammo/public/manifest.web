@@ -10,10 +10,9 @@
   "lang": "en-US",
   "icons": [
     {
-      "src": "assets/icons/512.png",
+      "src": "assets/icons/icon.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "assets/icons/icon96.png",

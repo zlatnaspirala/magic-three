@@ -181,80 +181,6 @@ class Application extends MagicPhysics {
     playerB.setCollisionFlags(0);
   }
 
-  createSimpleBox(mass, halfExtents, pos, quat, material) {
-    const object = new THREE.Mesh(
-      new THREE.BoxGeometry(
-        halfExtents.x * 2,
-        halfExtents.y * 2,
-        halfExtents.z * 2
-      ),
-      material
-    );
-    object.position.copy(pos);
-    object.quaternion.copy(quat);
-
-    var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
-      startTransform = new Ammo.btTransform();
-
-    startTransform.setIdentity();
-
-    var mass = 10,
-      isDynamic = (mass !== 0),
-      localInertia = new Ammo.btVector3(0, 0, 0);
-
-    if(isDynamic)
-      colShape.calculateLocalInertia(mass, localInertia);
-
-    startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
-
-    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
-      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
-      body = new Ammo.btRigidBody(rbInfo);
-
-    object.userData.physicsBody = body;
-    // object.userData.collided = false;
-    this.rigidBodies.push(object);
-    this.scene.add(object);
-
-    this.physicsWorld.addRigidBody(body);
-  }
-
-  createCilinder(mass, halfExtents, pos, quat, material) {
-    const object = new THREE.Mesh(
-      new THREE.CylinderGeometry( 5, 5, 20, 32 ),
-      material
-    );
-    object.position.copy(pos);
-    object.quaternion.copy(quat);
-
-    var colShape = this.createConvexHullPhysicsShape(   object.geometry.attributes.position.array)
-    colShape.setMargin(this.margin);
-    // var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
-    let startTransform = new Ammo.btTransform();
-
-    startTransform.setIdentity();
-
-    var mass = 10,
-      isDynamic = (mass !== 0),
-      localInertia = new Ammo.btVector3(0, 0, 0);
-
-    if(isDynamic)
-      colShape.calculateLocalInertia(mass, localInertia);
-
-    startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
-
-    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
-      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
-      body = new Ammo.btRigidBody(rbInfo);
-
-    object.userData.physicsBody = body;
-    // object.userData.collided = false;
-    this.rigidBodies.push(object);
-    this.scene.add(object);
-
-    this.physicsWorld.addRigidBody(body);
-  }
-
   createObjects() {
     // Ground
     this.pos.set(0, -0.5, 0);
@@ -299,18 +225,17 @@ class Application extends MagicPhysics {
       App.materials.assets.Bronze
     );
 
-    // Tower 3 Normal
+    // Tower Cilinder Physic but big mass
     this.pos.set(8, 5, 0);
     this.quat.set(0, 0, 0, 1);
     this.createCilinder(
-      towerMass,
-      towerHalfExtents,
+      10000,
+      [5, 5, 20, 32],
       this.pos,
       this.quat,
       App.materials.assets.Bronze
     );
 
-    
   }
 
   createMaterial(color) {
@@ -329,7 +254,7 @@ class Application extends MagicPhysics {
 
       // Creates a ball and throws it
       const ballMass = 35;
-      const ballRadius = 0.4;
+      const ballRadius = 0.2;
       const ball = new THREE.Mesh(
         new THREE.SphereGeometry(ballRadius, 14, 10),
         this.ballMaterial
@@ -350,7 +275,7 @@ class Application extends MagicPhysics {
       );
 
       this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(24);
+      this.pos.multiplyScalar(48);
       ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
     });
   }
