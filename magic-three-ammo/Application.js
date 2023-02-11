@@ -219,6 +219,42 @@ class Application extends MagicPhysics {
     this.physicsWorld.addRigidBody(body);
   }
 
+  createCilinder(mass, halfExtents, pos, quat, material) {
+    const object = new THREE.Mesh(
+      new THREE.CylinderGeometry( 5, 5, 20, 32 ),
+      material
+    );
+    object.position.copy(pos);
+    object.quaternion.copy(quat);
+
+    var colShape = this.createConvexHullPhysicsShape(   object.geometry.attributes.position.array)
+    colShape.setMargin(this.margin);
+    // var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
+    let startTransform = new Ammo.btTransform();
+
+    startTransform.setIdentity();
+
+    var mass = 10,
+      isDynamic = (mass !== 0),
+      localInertia = new Ammo.btVector3(0, 0, 0);
+
+    if(isDynamic)
+      colShape.calculateLocalInertia(mass, localInertia);
+
+    startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
+
+    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
+      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
+      body = new Ammo.btRigidBody(rbInfo);
+
+    object.userData.physicsBody = body;
+    // object.userData.collided = false;
+    this.rigidBodies.push(object);
+    this.scene.add(object);
+
+    this.physicsWorld.addRigidBody(body);
+  }
+
   createObjects() {
     // Ground
     this.pos.set(0, -0.5, 0);
@@ -241,7 +277,7 @@ class Application extends MagicPhysics {
 
     // Tower 1 Breakable
     const towerMass = 1000;
-    const towerHalfExtents = new THREE.Vector3(2, 5, 2);
+    const towerHalfExtents = new THREE.Vector3(5, 5, 0.3);
     this.pos.set(-8, 5, 0);
     this.quat.set(0, 0, 0, 1);
     this.createBreakableBox(
@@ -260,9 +296,21 @@ class Application extends MagicPhysics {
       towerHalfExtents,
       this.pos,
       this.quat,
-      App.materials.assets.Black
+      App.materials.assets.Bronze
     );
 
+    // Tower 3 Normal
+    this.pos.set(8, 5, 0);
+    this.quat.set(0, 0, 0, 1);
+    this.createCilinder(
+      towerMass,
+      towerHalfExtents,
+      this.pos,
+      this.quat,
+      App.materials.assets.Bronze
+    );
+
+    
   }
 
   createMaterial(color) {

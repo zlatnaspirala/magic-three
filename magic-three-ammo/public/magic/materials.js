@@ -8,16 +8,16 @@ export class MagicMaterials {
   constructor() {
     console.info("MagicMaterials...");
     this.createCubeRefraction('./assets/textures/cube/');
-    this.createMyMat('./assets/textures/metal/metal1.jpg');
+    this.createMyMat('./assets/textures/cube/metal-r1-blue.png');
     this.createBlackWall();
   }
 
   createCubeRefraction = function(path) {
     this.path_to_images = path;
     this.urls = [
-      this.path_to_images + "metal-r1-blue.png", this.path_to_images + "metal-r1-blue.png",
-      this.path_to_images + "metal-r1-blue.png", this.path_to_images + "metal-r1-blue.png",
-      this.path_to_images + "metal-r1-blue.png", this.path_to_images + "metal-r1-blue.png"
+      this.path_to_images + "metal-r1.png", this.path_to_images + "metal-r1.png",
+      this.path_to_images + "metal-r1.png", this.path_to_images + "metal-r1.png",
+      this.path_to_images + "metal-r1.png", this.path_to_images + "metal-r1.png"
     ];
     this.assets.texCube = new THREE.CubeTextureLoader().load(this.urls);
     this.assets.texCube.format = THREE.RGBFormat;
@@ -25,23 +25,31 @@ export class MagicMaterials {
 
   createBlackWall = function() {
     this.assets.Black = new THREE.MeshLambertMaterial({
-        color: 0xf0f0ff,
+        color: 0x000000,
         envMap: this.assets.texCube,
         combine: THREE.MixOperation,
-        reflectivity: 0.25
+        reflectivity: 1
       });
+      this.assets.Bronze= new THREE.MeshPhongMaterial({
+        color: 0x15f5f5,
+        specular: 0xee6600,
+        shininess: 110,
+        map: this.assets.frontTexture,
+        combine: THREE.MixOperation,
+        reflectivity: 0.25
+      })
   }
 
   createMyMat = function(path) {
-    this.assets.Yellow_glass = new THREE.MeshLambertMaterial({
+    this.assets.Yellow_glass = new THREE.MeshPhongMaterial({
       color: 0xffffaa,
       opacity: 0.95,
       transparent: true
     })
-    var frontTexture = new THREE.TextureLoader().load(path, (texture) => {
+    this.assets.frontTexture = new THREE.TextureLoader().load(path, (texture) => {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat.set(1, 2);
+      texture.repeat.set(2, 2);
       this.assets.Yellow_glass.map = texture;
       this.assets.Yellow_glass.needsUpdate = true;
     });
