@@ -40,7 +40,6 @@ export class MagicPhysics {
   tmpQuat = new THREE.Quaternion();
 
   constructor(options) {
-
     console.log("MagicPhysics =>", options)
     this.updatePhysics = updatePhysics.bind(this);
     this.config = options.config;

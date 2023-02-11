@@ -1,5 +1,10 @@
 
+/**
+ * @description
+ * MagicThree config file.
+ */
 const config = {
+  cache: true,
   map: {
     floorWidth: 200,
     floorHeight: 200,
