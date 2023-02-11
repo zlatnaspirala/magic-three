@@ -208,6 +208,7 @@ class Application extends MagicPhysics {
       ground.material.map = texture;
       ground.material.needsUpdate = true;
     });
+    ground.name = 'ground';
 
     // Tower 1 Breakable
     const towerMass = 1000;
@@ -324,7 +325,18 @@ class Application extends MagicPhysics {
     }
 
     // test
-    if (this.loader.mixer) this.loader.mixer.update(deltaTime);
+    if(this.loader.mixer) this.loader.mixer.update(deltaTime);
+
+    // etst
+    // update the picking ray with the camera and pointer position
+    this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+
+    // calculate objects intersecting the picking ray
+    const intersects = this.raycaster.intersectObjects(this.scene.children);
+    for(let i = 0;i < intersects.length;i++) {
+      // intersects[i].object;
+      if (intersects[i].object.name) console.log("on hit =>", intersects[i].object.name)
+    }
 
     this.renderer.render(this.scene, this.camera);
   }
