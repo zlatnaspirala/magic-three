@@ -62,14 +62,14 @@ class Application extends MagicPhysics {
       this.objectsToRemove[i] = null;
     }
 
-    console.warn("MagicThree: Worker test.");
+    console.info("MagicThree: Worker test.");
     runCache(this.config.cache);
 
-    // test
+    // Content - Objs and etc
     this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx')
 
-
     this.updateControls = updateControls.bind(this);
+
     Ammo().then((AmmoLib) => {
       Ammo = AmmoLib;
       this.ammoTmpPos = new Ammo.btVector3();
@@ -78,12 +78,11 @@ class Application extends MagicPhysics {
 
       this.init();
       this.animate();
-      console.log('Ammo is ready! 101');
+      console.log('Ammo is ready.');
     });
   }
 
   init() {
-
     this.createFPSController = createFPSController.bind(this);
     this.initGraphics();
     this.initPhysics();
@@ -94,8 +93,8 @@ class Application extends MagicPhysics {
 
   initGraphics() {
 
-    // this.container = document.getElementById("container");
-    this.scene.background = new THREE.Color(0xbfd1e5);
+    console.log('this.config.map.background',this.config.map.background)
+    this.scene.background = new THREE.Color(this.config.map.background);
 
     this.camera.position.set(
       this.config.playerController.cameraInitPosition.x,
