@@ -61,7 +61,7 @@ class Application extends MagicPhysics {
     this.config = config;
 
     // test
-    this.loader.fbx('./assets/objects/zombies/zombie-running2.fbx')
+    this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx')
 
 
     this.updateControls = updateControls.bind(this);

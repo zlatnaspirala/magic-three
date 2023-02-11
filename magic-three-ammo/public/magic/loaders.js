@@ -16,8 +16,8 @@ export class MagicLoader {
     const loader = new FBXLoader();
     loader.load(p, (object) => {
       this.mixer = new THREE.AnimationMixer(object);
-      const action = this.mixer.clipAction(object.animations[0]);
-      action.play();
+      this.action = this.mixer.clipAction(object.animations[0]);
+      this.action.play();
       object.traverse(function(child) {
         if(child.isMesh) {
           child.castShadow = true;
