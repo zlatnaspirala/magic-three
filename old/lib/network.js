@@ -1,2 +1,0 @@
-
-function NETWORK_ASSET() {}

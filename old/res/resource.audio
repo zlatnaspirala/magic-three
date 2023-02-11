@@ -1,5 +1,0 @@
-  
- var AUDIO_RESOURCE = new Object(); AUDIO_RESOURCE ={"source":['onconnect.ogg' , 
- ] }; 
-SYS.DEBUG.LOG('Audio resources loaded. ' + 1); 
-  AUDIO_RESOURCE.SUM = 1; 
