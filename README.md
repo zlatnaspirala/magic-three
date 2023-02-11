@@ -1,14 +1,12 @@
+
 # MagicThree
 
-Using power of Three.js and cannonjs. MagicThree is nice class sorted top level of threejs/cannonjs.
+## Logo
+![](https://github.com/zlatnaspirala/magic-three-ammo/blob/master/public/icons/icon.png)
 
- - old [threejs version 75 , 68 etc...]
-   Lot of crazzy staff but you need to make it running... [deplaced methodology]
- - Magic-three-cannonjs old but still good! [threejs version 75]
-   Very simple top level code! [Still developing at this base]
- - Magic-three new version threejs version 149 
-   [New module variant with last version of threejs] Recommendation.
 
+Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of threejs and ammo.js. Magic-three use the new version threejs 149.
+[JS type of script `module` variant with last version of three.module.js] 
 
 ## Description
   Magic-Three is First Person Oriented but can be used for any other case of app flow.
@@ -16,3 +14,12 @@ Using power of Three.js and cannonjs. MagicThree is nice class sorted top level 
 ## Next features
  - Add 3d object loader
  - Integrate networking
+
+## More info
+
+At separated branch you can find [old-arhive]:
+- old [threejs version 75 , 68 etc...]
+   Lot of crazzy staff but you need to make it running... [deplaced methodology]
+
+- Magic-three-cannonjs old but still good! [threejs version 75]
+Very simple top level code! [Still developing at this base]
