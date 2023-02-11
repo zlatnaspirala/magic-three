@@ -1,0 +1,35 @@
+{
+  "name": "Magic three",
+  "short_name": "magic-three",
+  "start_url": "module.html",
+  "orientation": "any",
+  "theme_color": "lime",
+  "background_color": "black",
+  "description": "Based on three.js and ammo.js. Power full tool.",
+  "display": "standalone",
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "assets/icons/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/apple.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "author": {
+      "name": "Nikola Lukic",
+      "website": "https://maximumroulette.com",
+      "github": "https://github.com/zlatnaspirala",
+      "source-repo": "https://github.com/zlatnaspirala/magic-three"
+  }
+}

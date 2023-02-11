@@ -1,11 +1,21 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Base</title>
+  <title>Magic three</title>
+  <link rel="manifest" href="manifest.web" />
   <meta charset="utf-8" />
+  <meta description="Based on threejs, cannonjs, ammo.js. Powerfull" />
+  <link rel="apple-touch-icon" href="assets/icons/icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon.png" />
-  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/icon96.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/apple.png" />
+  <meta name="viewport" content="width=device-width, user-scalable=no" />
   <link type="text/css" rel="stylesheet" href="main.css" />
 </head>
+
 <body>
   <div id="info">
     Magic Three
@@ -32,7 +42,7 @@
   <script type="importmap">
       {
         "imports": {
-          "three": "./libs/three.module.js",
+          "three": "./libs/three.module.min.js",
           "three/addons/": "./jsm/"
         }
       }
