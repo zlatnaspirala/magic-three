@@ -13,6 +13,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import config from './config.js';
 import {MagicMaterials} from "./public/magic/materials.js";
+import {MagicLoader} from "./public/magic/loaders.js";
 
 class Application extends MagicPhysics {
 
@@ -51,10 +52,17 @@ class Application extends MagicPhysics {
   constructor(config) {
     super({config: config});
 
+    // Loaders
+    this.loader = new MagicLoader(this.scene);
+
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
     this.config = config;
+
+    // test
+    this.loader.fbx('./assets/objects/zombies/zombie-running2.fbx')
+
 
     this.updateControls = updateControls.bind(this);
     Ammo().then((AmmoLib) => {
@@ -193,7 +201,7 @@ class Application extends MagicPhysics {
       this.materials.assets.Orange_glass
     );
     ground.receiveShadow = true;
-    this.textureLoader.load("./assets/textures/cube/crate.gif", function(texture) {
+    this.textureLoader.load("./assets/textures/cube/wall-black.png", function(texture) {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.repeat.set(40, 40);
@@ -231,6 +239,16 @@ class Application extends MagicPhysics {
     this.createCilinder(
       10000,
       [5, 5, 20, 32],
+      this.pos,
+      this.quat,
+      App.materials.assets.Bronze
+    );
+
+    this.pos.set(-8, 5, 0);
+    this.quat.set(0, 0, 0, 1);
+    this.createTorus(
+      10000,
+      [10, 3, 16, 100],
       this.pos,
       this.quat,
       App.materials.assets.Bronze
@@ -304,6 +322,9 @@ class Application extends MagicPhysics {
     } else {
       this.moveKinematic();
     }
+
+    // test
+    if (this.loader.mixer) this.loader.mixer.update(deltaTime);
 
     this.renderer.render(this.scene, this.camera);
   }

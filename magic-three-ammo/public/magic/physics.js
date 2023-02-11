@@ -287,4 +287,39 @@ export class MagicPhysics {
 
     this.physicsWorld.addRigidBody(body);
   }
+
+  createTorus(mass, geo, pos, quat, material) {
+    const object = new THREE.Mesh(
+      new THREE.TorusGeometry(geo[0],geo[1],geo[2],geo[3]),
+      material
+    );
+    object.position.copy(pos);
+    object.quaternion.copy(quat);
+
+    var colShape = this.createConvexHullPhysicsShape(object.geometry.attributes.position.array)
+    colShape.setMargin(this.margin);
+    // var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
+    let startTransform = new Ammo.btTransform();
+
+    startTransform.setIdentity();
+    var isDynamic = (mass !== 0),
+      localInertia = new Ammo.btVector3(0, 0, 0);
+
+    if(isDynamic)
+      colShape.calculateLocalInertia(mass, localInertia);
+
+    startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
+
+    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
+      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
+      body = new Ammo.btRigidBody(rbInfo);
+
+    object.userData.physicsBody = body;
+    // object.userData.collided = false;
+    this.rigidBodies.push(object);
+    this.scene.add(object);
+
+    this.physicsWorld.addRigidBody(body);
+  }
+
 }
