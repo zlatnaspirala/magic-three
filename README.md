@@ -2,7 +2,7 @@
 # MagicThree
 
 ## Logo
-![](https://github.com/zlatnaspirala/magic-three-ammo/blob/master/public/icons/icon.png)
+![](https://github.com/zlatnaspirala/magic-three/blob/main/magic-three-ammo/public/assets/icons/icon.png)
 
 
 Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of threejs and ammo.js. Magic-three use the new version threejs 149.
