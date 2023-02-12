@@ -12,10 +12,45 @@ broadcaster = new Broadcaster(serverConfig);
 
 if (serverConfig.ownHosting == true) {
 
+  const compression = require("compression");
+  const fs = require("fs");
   var express = require("express");
   var cors = require("cors");
   var https = require("https");
+
+  
   var hostingHTTP = express();
+
+  hostingHTTP.use(compression());
+hostingHTTP.use(cors());
+
+
+  hostingHTTP.get('*', function(req, res, next) {
+    // console.log(">>" , req.hostname);
+    /* if (req.hostname == "ai.maximumroulette.com") {
+      //console.log(" REDIRECT NOW " )
+      //req.location = "/apps/ai/";
+      //res.sendFile("/apps/ai/index.html");
+      //res.end();
+    } */
+    next();
+  });
+
+  hostingHTTP.use(function (req, res, next) {
+    // res.setHeader("Content-Type", "text/html")
+    res.setHeader('Content-Encoding', 'gzip');
+    // Website you wish to allow to connect
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Request headers you wish to allow
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', false);
+    // Pass to next layer of middleware
+    next();
+  });
 
   if (serverConfig.serverMode === "dev") {
     options = {
