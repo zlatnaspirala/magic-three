@@ -16,7 +16,7 @@ import {updateControls} from "./public/magic/updater.js";
 import config from './config.js';
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {runCache} from "./public/magic/utility";
+import {runCache} from "./public/magic/utility.js";
 
 class Application extends MagicPhysics {
 

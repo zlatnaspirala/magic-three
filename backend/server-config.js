@@ -16,7 +16,7 @@ class ServerConfig {
     this.serverMode = "dev";
 
     this.ownHosting = true;
-    this.ownHttpHostPort = 777;
+
 
     this.networkDeepLogs = false;
     this.rtcServerPort = 11034;

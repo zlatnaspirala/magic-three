@@ -17,11 +17,11 @@ export function runCache(f) {
   if("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       if(isiOS()) {
-        navigator.serviceWorker.register("./cache.ios.js").then(() => {
+        navigator.serviceWorker.register("../cache.ios.js").then(() => {
           console.log('Worker runned.');
         });
       } else {
-      navigator.serviceWorker.register("./cache.js").then(() => {
+      navigator.serviceWorker.register("../cache.js").then(() => {
         console.log('Worker runned.');
       });
     }

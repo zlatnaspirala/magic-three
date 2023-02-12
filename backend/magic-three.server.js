@@ -10,7 +10,7 @@ const serverConfig = new ServerConfig();
 var Broadcaster = require("./broadcaster");
 broadcaster = new Broadcaster(serverConfig);
 
-if (serverConfig.ownHosting == true) {
+if(serverConfig.ownHosting == true) {
 
   const compression = require("compression");
   const fs = require("fs");
@@ -18,15 +18,16 @@ if (serverConfig.ownHosting == true) {
   var cors = require("cors");
   var https = require("https");
 
-  
+
   var hostingHTTP = express();
 
   hostingHTTP.use(compression());
-hostingHTTP.use(cors());
+  hostingHTTP.use(cors());
 
+  hostingHTTP.use(express.static("G://web_server/xampp/htdocs/PRIVATE_SERVER/my-threejs/PROJECT/magic-three-ammo/"));
 
   hostingHTTP.get('*', function(req, res, next) {
-    // console.log(">>" , req.hostname);
+     console.log(">>" , req.hostname);
     /* if (req.hostname == "ai.maximumroulette.com") {
       //console.log(" REDIRECT NOW " )
       //req.location = "/apps/ai/";
@@ -36,7 +37,7 @@ hostingHTTP.use(cors());
     next();
   });
 
-  hostingHTTP.use(function (req, res, next) {
+  hostingHTTP.use(function(req, res, next) {
     // res.setHeader("Content-Type", "text/html")
     res.setHeader('Content-Encoding', 'gzip');
     // Website you wish to allow to connect
@@ -52,13 +53,13 @@ hostingHTTP.use(cors());
     next();
   });
 
-  if (serverConfig.serverMode === "dev") {
+  if(serverConfig.serverMode === "dev") {
     options = {
       key: fs.readFileSync(serverConfig.certPathSelf.pKeyPath),
       cert: fs.readFileSync(serverConfig.certPathSelf.pCertPath),
       ca: fs.readFileSync(serverConfig.certPathSelf.pCBPath),
     };
-  } else if (serverConfig.serverMode === "prod") {
+  } else if(serverConfig.serverMode === "prod") {
     options = {
       key: fs.readFileSync(serverConfig.certPathProd.pKeyPath),
       cert: fs.readFileSync(serverConfig.certPathProd.pCertPath),
@@ -69,6 +70,19 @@ hostingHTTP.use(cors());
       "Something wrong with serverConfig certPathProd/certPathSelf path."
     );
   }
+
+  if(serverConfig.ownHosting === true) {
+  https.createServer(options, hostingHTTP).listen(serverConfig.ownHttpHostPort, error => {
+    if (error) {
+      console.warn("Something wrong with rocket-craft own host server.");
+      console.error(error);
+      return process.exit(1);
+    } else {
+      console.info("Rocket helper unsecured host started at " + serverConfig.ownHttpHostPort + " port.");
+    }
+  });
+}
+
 }
 
 var Reset = '\x1b[0m';

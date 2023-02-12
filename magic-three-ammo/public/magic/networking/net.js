@@ -1,5 +1,5 @@
 
-import {byId, createAppEvent, htmlHeader} from "./utility";
+import {byId, createAppEvent, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement";
 import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3";
