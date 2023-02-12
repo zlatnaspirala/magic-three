@@ -6,7 +6,7 @@
 const config = {
   cache: true,
   map: {
-    background: '335533',
+    background: 0xbfd1e5,
     floorWidth: 200,
     floorHeight: 200,
   },
