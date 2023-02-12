@@ -9,10 +9,42 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
 
 ## Description
   Magic-Three is First Person Oriented but can be used for any other case of app flow.
+  - No build needed, just copy/paste.
+  - No package.json [if this repo become npm package then will be back]
+
+### Config
+
+```js
+const config = {
+  cache: true,
+  map: {
+    background: '335533',
+    floorWidth: 200,
+    floorHeight: 200,
+  },
+  playerController: {
+    type: 'FPS', // FPS | orbit
+    movementType: 'velocity', // velocity | kinematic
+    cameraInitPosition: {x: 0, y: 5, z: 10}
+  }
+}
+```
+
+
+## Features
+ - Dynamic Cache/Worker [pwa]
+ - Graphics/Physics ready.
 
 ## Next features
- - Add 3d object loader
+ - Add 3d object loaders
  - Integrate networking
+
+## Credits
+
+ - https://threejs.org/
+ - https://github.com/kripken/ammo.js/
+ - In Assets i use great mixamo.com.
+
 
 ## More info
 

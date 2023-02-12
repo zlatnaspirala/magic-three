@@ -2,11 +2,13 @@
 /**
  * @description
  * Main instance
+ * Important note
+ * Dont import unused modules.
  */
 
 import * as THREE from "three";
 import Stats from "three/addons/libs/stats.module.js";
-import {OrbitControls} from "three/addons/controls/OrbitControls.js";
+// import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {createRandomColor, getDom} from "./public/libs/utils.js";
 import {createFPSController} from "./public/magic/controllers.min.js";
 import {MagicPhysics} from "./public/magic/physics.js";
@@ -65,8 +67,10 @@ class Application extends MagicPhysics {
     console.info("MagicThree: Worker test.");
     runCache(this.config.cache);
 
-    // Content - Objs and etc
-    this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx')
+    setTimeout(() => {
+      // Content - Objs and etc
+      this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx')
+    }, 1000)
 
     this.updateControls = updateControls.bind(this);
 
@@ -338,8 +342,7 @@ class Application extends MagicPhysics {
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     for(let i = 0;i < intersects.length;i++) {
-      // intersects[i].object;
-      if (intersects[i].object.name) console.log("on hit =>", intersects[i].object.name)
+      // if (intersects[i].object.name) console.log("on hit =>", intersects[i].object.name)
     }
 
     this.renderer.render(this.scene, this.camera);

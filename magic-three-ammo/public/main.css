@@ -6,11 +6,17 @@
 body {
   margin: 0;
   background-color: #000;
-  color: #fff;
+  color: orangered;
   font-family: closeness, Monospace;
   font-size: 13px;
   line-height: 24px;
   overscroll-behavior: none;
+}
+
+div, p {
+  background: black;
+  /*linear-gradient(90deg, rgba(23, 28, 2, 0.1) 14%, rgba(31, 10, 3, 0.2) 46%, rgb(90, 71, 4) 100%);
+  */
 }
 
 a {
@@ -27,11 +33,20 @@ button {
   text-transform: uppercase;
 }
 
+span {
+  width: 200px;
+}
+
+.flex-menu {
+  width: 100%;
+}
+
 #info {
   position: absolute;
+  display:flex;
   top: 0px;
   width: 100%;
-  padding: 10px;
+  padding: 3px;
   box-sizing: border-box;
   text-align: center;
   -moz-user-select: none;
@@ -41,6 +56,7 @@ button {
   pointer-events: none;
   z-index: 1;
   /* TODO Solve this in HTML */
+
 }
 
 a,
