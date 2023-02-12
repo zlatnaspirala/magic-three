@@ -39,6 +39,18 @@ export class MagicPhysics {
   tmpPos = new THREE.Vector3();
   tmpQuat = new THREE.Quaternion();
 
+  // deep integration net
+  activateNet = () => {
+    if(typeof App.net !== 'undefinde' && App.net === true) {
+      var t = new ClientConfig();
+      net = new Broadcaster(t);
+      console.info('Networking is active.', net);
+    }
+  };
+
+
+
+
   constructor(options) {
     console.log("MagicPhysics =>", options)
     this.updatePhysics = updatePhysics.bind(this);

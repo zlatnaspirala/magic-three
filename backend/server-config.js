@@ -13,17 +13,10 @@ class ServerConfig {
 
      // enum : 'dev', 'prod', `mongodb.net` or `mongodb.net-dev`
     // this.serverMode = "mongodb.net";
-    this.serverMode = "mongodb.net-dev";
+    this.serverMode = "dev";
 
-    this.ownHosting = false;
-    this.ownHttpHostPort = 443;
-    this.ownHostingVirtualHostsEnabled = false;
-    this.ownHostingVirtualHosts = [
-      // {
-      //   dir: "/var/www/html/apps/ultimate-roulette/",
-      //   name: "roulette.maximumroulette.com"
-      // }
-    ];
+    this.ownHosting = true;
+    this.ownHttpHostPort = 777;
 
     this.networkDeepLogs = false;
     this.rtcServerPort = 11034;
