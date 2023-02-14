@@ -211,7 +211,7 @@ class Application extends MagicPhysics {
       this.materials.assets.Orange_glass
     );
     ground.receiveShadow = true;
-    this.textureLoader.load("./assets/textures/cube/wall-black.png", function(texture) {
+    this.textureLoader.load("./assets/textures/cube/wall-black.webp", function(texture) {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.repeat.set(40, 40);
