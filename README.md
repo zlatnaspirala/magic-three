@@ -48,9 +48,10 @@ const config = {
 
 ## More info
 
-I have performance stable at 90% value. I load extra fbx animation 22Mb to test little more better.
+I have performance stable at ~90% value. I load extra fbx animation 22Mb to test little more better.
 Image formats like WebP and AVIF often provide better compression than PNG or JPEG, 
-which means faster downloads and less data consumption.
+which means faster downloads and less data consumption. I use freeware GIMP he had a webp format support for exports.
+Lighthouse screenshot:
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/pwa.png" width="800" height="500">
 
 
