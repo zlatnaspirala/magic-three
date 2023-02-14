@@ -4,6 +4,7 @@
  * MatrixNet - Main networking class
  * for matrix-engine workplace.
  */
+var Reset = '\x1b[0m';
 const ServerConfig = require("./server-config.js");
 const serverConfig = new ServerConfig();
 
@@ -83,12 +84,12 @@ if(serverConfig.ownHosting == true) {
         console.error(error);
         return process.exit(1);
       } else {
-        console.info("Rocket helper host started at " + serverConfig.ownHttpHostPort + " port.");
+        console.log('\x1b[42m', 'Commpression enabled.', Reset);
+        console.log('\x1b[42m', 'Magic-Three-Server running... 🤘 [Enjoy]', Reset);
+        console.log('\x1b[42m', 'Simple http server started.', Reset);
+        console.log('\x1b[42m', 'Port: ' + serverConfig.ownHttpHostPort + " port.", Reset);
       }
     });
   }
 
 }
-
-var Reset = '\x1b[0m';
-console.log('\x1b[42m', 'Magic-Three-Server running... 🤘 [Enjoy]', Reset);
