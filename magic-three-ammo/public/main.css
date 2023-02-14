@@ -1,7 +1,8 @@
-/* @font-face {
+@font-face {
   font-family: closeness;
-  src: url('./assets/fonts/Closeness.ttf');
-} */
+  src: url('./assets/fonts/Closeness.ttf'),
+       url('./assets/fonts/Closeness.woff2') format('woff2');
+}
 
 body {
   margin: 0;
