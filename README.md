@@ -51,7 +51,7 @@ const config = {
 ### Image formats like WebP and AVIF often provide better compression than PNG or JPEG, 
 ### which means faster downloads and less data consumption.
 
-<img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/pwa.png" width="600" height="500">
+<img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/pwa.png" width="800" height="500">
 
 
 ### At separated branch you can find [old-arhive]:
