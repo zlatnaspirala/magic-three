@@ -4,7 +4,7 @@
  * MagicThree config file.
  */
 const config = {
-  cache: true,
+  cache: false,
   map: {
     background: 0xbfd1e5,
     floorWidth: 200,
@@ -13,7 +13,7 @@ const config = {
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
-    cameraInitPosition: {x: 0, y: 5, z: 10}
+    cameraInitPosition: {x: 10, y: 5, z: 10}
   }
 }
 

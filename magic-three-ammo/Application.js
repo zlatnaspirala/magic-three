@@ -242,8 +242,8 @@ class Application extends MagicPhysics {
       App.materials.assets.Bronze
     );
 
-    // Tower Cilinder Physic but big mass
-    this.pos.set(8, 5, 0);
+    // Tower Cilinder Physic but big mass    lisdbglia
+    this.pos.set(18, 5, 0);
     this.quat.set(0, 0, 0, 1);
     this.createCilinder(
       10000,
@@ -253,7 +253,7 @@ class Application extends MagicPhysics {
       App.materials.assets.Bronze
     );
 
-    this.pos.set(-8, 5, 0);
+    this.pos.set(-18, 5, 0);
     this.quat.set(0, 0, 0, 1);
     this.createTorus(
       10000,

@@ -48,9 +48,6 @@ export class MagicPhysics {
     }
   };
 
-
-
-
   constructor(options) {
     console.log("MagicPhysics =>", options)
     this.updatePhysics = updatePhysics.bind(this);

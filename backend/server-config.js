@@ -16,6 +16,7 @@ class ServerConfig {
     this.serverMode = "dev";
 
     this.ownHosting = true;
+    this.ownHttpHostPort = 777;
 
 
     this.networkDeepLogs = false;
@@ -40,15 +41,13 @@ class ServerConfig {
      * Interest prop for manipulation.
      * This can be upgraded to the Object type.
      */
-    this.masterServerKey = "magic.three.channel";
+    this.masterServerKey = "magic.three.main.channel";
 
     /**
      * @description
      * Strongly recommended https for local also for production!
      */
     this.protocol = "https";
-
-    this.isSecure = false;
 
     /**
      * @description

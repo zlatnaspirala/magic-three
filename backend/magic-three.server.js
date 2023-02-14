@@ -17,15 +17,12 @@ if(serverConfig.ownHosting == true) {
   var express = require("express");
   var cors = require("cors");
   var https = require("https");
-
-
+  var http = require("http");
   var hostingHTTP = express();
 
   hostingHTTP.use(compression());
   hostingHTTP.use(cors());
-
   hostingHTTP.use(express.static("G://web_server/xampp/htdocs/PRIVATE_SERVER/my-threejs/PROJECT/magic-three-ammo/"));
-
   hostingHTTP.get('*', function(req, res, next) {
      console.log(">>" , req.hostname);
     /* if (req.hostname == "ai.maximumroulette.com") {
@@ -72,13 +69,16 @@ if(serverConfig.ownHosting == true) {
   }
 
   if(serverConfig.ownHosting === true) {
-  https.createServer(options, hostingHTTP).listen(serverConfig.ownHttpHostPort, error => {
+  let runningHost = http;
+  if (serverConfig.protocol == 'https') runningHost = https;
+
+  runningHost.createServer(options, hostingHTTP).listen(serverConfig.ownHttpHostPort, error => {
     if (error) {
       console.warn("Something wrong with rocket-craft own host server.");
       console.error(error);
       return process.exit(1);
     } else {
-      console.info("Rocket helper unsecured host started at " + serverConfig.ownHttpHostPort + " port.");
+      console.info("Rocket helper host started at " + serverConfig.ownHttpHostPort + " port.");
     }
   });
 }

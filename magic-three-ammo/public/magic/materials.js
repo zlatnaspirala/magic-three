@@ -7,7 +7,7 @@ export class MagicMaterials {
 
   constructor() {
     console.info("MagicMaterials...");
-    this.createCubeRefraction('./assets/textures/cube/');
+    // this.createCubeRefraction('./assets/textures/cube/');
     this.createMyMat('./assets/textures/cube/metal-r1-blue.png');
     this.createBlackWall();
   }
@@ -26,7 +26,7 @@ export class MagicMaterials {
   createBlackWall = function() {
     this.assets.Black = new THREE.MeshLambertMaterial({
         color: 0x000000,
-        envMap: this.assets.texCube,
+        map: this.assets.frontTexture,
         combine: THREE.MixOperation,
         reflectivity: 1
       });
