@@ -67,10 +67,12 @@ class Application extends MagicPhysics {
     console.info("MagicThree: Worker test.");
     runCache(this.config.cache);
 
-    setTimeout(() => {
-      // Content - Objs and etc
-      this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx')
-    }, 1000)
+    addEventListener("click", () => {
+      setTimeout(() => {
+        // Content - Objs and etc
+        this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx')
+      }, 2000);
+    })
 
     this.updateControls = updateControls.bind(this);
 

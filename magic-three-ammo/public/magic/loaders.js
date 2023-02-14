@@ -12,7 +12,8 @@ export class MagicLoader {
     this.scene = scene;
   }
 
-  fbx(p) {
+  async fbx(p) {
+    return new Promise((resolve, reject) => {
     const loader = new FBXLoader();
     loader.load(p, (object) => {
       this.mixer = new THREE.AnimationMixer(object);
@@ -29,5 +30,7 @@ export class MagicLoader {
       this.scene.add(object);
       this.loadedMeshs.push(object);
     });
+  })
   }
+
 }

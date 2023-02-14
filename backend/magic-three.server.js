@@ -20,17 +20,22 @@ if(serverConfig.ownHosting == true) {
   var http = require("http");
   var hostingHTTP = express();
 
-  hostingHTTP.use(compression());
+  const shouldCompress = (req, res) => {
+    if(req.headers['x-no-compression']) {
+      return false;
+    }
+    return compression.filter(req, res);
+  };
+
+  hostingHTTP.use(compression({
+    filter: shouldCompress,
+    threshold: 0
+  }));
+
   hostingHTTP.use(cors());
   hostingHTTP.use(express.static("G://web_server/xampp/htdocs/PRIVATE_SERVER/my-threejs/PROJECT/magic-three-ammo/"));
   hostingHTTP.get('*', function(req, res, next) {
-     console.log(">>" , req.hostname);
-    /* if (req.hostname == "ai.maximumroulette.com") {
-      //console.log(" REDIRECT NOW " )
-      //req.location = "/apps/ai/";
-      //res.sendFile("/apps/ai/index.html");
-      //res.end();
-    } */
+    console.info("Matrix server handle:", req.hostname);
     next();
   });
 
@@ -69,19 +74,19 @@ if(serverConfig.ownHosting == true) {
   }
 
   if(serverConfig.ownHosting === true) {
-  let runningHost = http;
-  if (serverConfig.protocol == 'https') runningHost = https;
+    let runningHost = http;
+    if(serverConfig.protocol == 'https') runningHost = https;
 
-  runningHost.createServer(options, hostingHTTP).listen(serverConfig.ownHttpHostPort, error => {
-    if (error) {
-      console.warn("Something wrong with rocket-craft own host server.");
-      console.error(error);
-      return process.exit(1);
-    } else {
-      console.info("Rocket helper host started at " + serverConfig.ownHttpHostPort + " port.");
-    }
-  });
-}
+    runningHost.createServer(options, hostingHTTP).listen(serverConfig.ownHttpHostPort, error => {
+      if(error) {
+        console.warn("Something wrong with rocket-craft own host server.");
+        console.error(error);
+        return process.exit(1);
+      } else {
+        console.info("Rocket helper host started at " + serverConfig.ownHttpHostPort + " port.");
+      }
+    });
+  }
 
 }
 
