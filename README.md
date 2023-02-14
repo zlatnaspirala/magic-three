@@ -48,9 +48,9 @@ const config = {
 
 ## More info
 
-### Image formats like WebP and AVIF often provide better compression than PNG or JPEG, 
-### which means faster downloads and less data consumption.
-
+I have performance stable at 90% value. I load extra fbx animation 22Mb to test little more better.
+Image formats like WebP and AVIF often provide better compression than PNG or JPEG, 
+which means faster downloads and less data consumption.
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/pwa.png" width="800" height="500">
 
 
