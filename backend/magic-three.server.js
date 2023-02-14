@@ -36,7 +36,7 @@ if(serverConfig.ownHosting == true) {
   hostingHTTP.use(cors());
   hostingHTTP.use(express.static("G://web_server/xampp/htdocs/PRIVATE_SERVER/my-threejs/PROJECT/magic-three-ammo/"));
   hostingHTTP.get('*', function(req, res, next) {
-    console.info("Matrix server handle:", req.hostname);
+    // console.info("Matrix server handle:", req.hostname);
     next();
   });
 
