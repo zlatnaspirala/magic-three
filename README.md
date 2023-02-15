@@ -13,7 +13,12 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
   - No package.json [if this repo become npm package then will be back]
   - Must be fully PWA [cache, server compression, image format webp etc...]
 
-### Config
+```js
+Frontend -> Three.js, Ammo.js
+Backend  -> Node.js, MultiRTC3
+```
+
+### Client Config
 
 ```js
 const config = {
@@ -37,8 +42,9 @@ const config = {
  - Graphics/Physics ready.
 
 ## Next features
- - Add 3d object loaders
- - Integrate networking
+ - Add 3d object loaders [fbx]
+ - Integrate networking and self hosting based on node.js
+ - Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
 
 ## Credits
  - https://threejs.org/
@@ -47,7 +53,6 @@ const config = {
 
 
 ## More info
-
 I have performance stable at ~90% value. I load extra fbx animation 22Mb to test little more better.
 Image formats like WebP and AVIF often provide better compression than PNG or JPEG, 
 which means faster downloads and less data consumption. I use freeware GIMP he had a webp format support for exports.

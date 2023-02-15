@@ -1,3 +1,4 @@
 
 backend/node_modules
 magic-three-ammo/*.min.js
+magic-three-ammo/public/magic/*.prod.js
