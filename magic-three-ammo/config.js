@@ -4,7 +4,7 @@
  * MagicThree config file.
  */
 const config = {
-  cache: false,
+  cache: true,
   map: {
     background: 0xbfd1e5,
     floorWidth: 200,

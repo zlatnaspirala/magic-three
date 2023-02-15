@@ -47,7 +47,7 @@ class ServerConfig {
      * @description
      * Strongly recommended https for local also for production!
      */
-    this.protocol = "https";
+    this.protocol = "http";
 
     /**
      * @description
