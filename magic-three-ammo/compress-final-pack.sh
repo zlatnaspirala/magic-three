@@ -2,6 +2,7 @@
 # Magic three dev tool
 echo "----------------------";
 echo "Magic Three compressor";
+echo "-Compress all        -";
 echo "----------------------";
 
 function compressFolder () {
