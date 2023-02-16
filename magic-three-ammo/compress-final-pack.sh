@@ -5,6 +5,9 @@ echo "Magic Three compressor";
 echo "-Compress all        -";
 echo "----------------------";
 
+# Must be special file with prod.js imports!
+# minify Application.js > Application.prod.js;
+
 function compressFolder () {
   yourfilenames=$1;
   echo "Compressing $yourfilenames";

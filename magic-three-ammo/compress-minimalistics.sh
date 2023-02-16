@@ -7,6 +7,8 @@ echo " Folders:            -";
 echo " public/magic/*/*.js -";
 echo "----------------------";
 
+#minify Application.js > Application.prod.js;
+
 function compressFolder () {
   yourfilenames=$1;
   echo "Compressing $yourfilenames";
