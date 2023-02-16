@@ -5,9 +5,8 @@
  * Important note
  * Dont import unused modules.
  */
-
 import * as THREE from "three";
-import Stats from "three/addons/libs/stats.module.js";
+// import Stats from "three/addons/libs/stats.module.js";
 // import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {createRandomColor, getDom} from "./public/libs/utils.js";
 import {createFPSController} from "./public/magic/controllers.js";
@@ -140,10 +139,12 @@ class Application extends MagicPhysics {
     this.light.shadow.mapSize.y = 1024;
     this.scene.add(this.light);
 
-    this.stats = new Stats();
-    this.stats.domElement.style.position = "absolute";
-    this.stats.domElement.style.top = "0px";
-    this.container.appendChild(this.stats.domElement);
+    if (this.config.stats == true) {
+      this.stats = new Stats();
+      this.stats.domElement.style.position = "absolute";
+      this.stats.domElement.style.top = "0px";
+      this.container.appendChild(this.stats.domElement);
+    }
 
     window.addEventListener("resize", this.onWindowResize);
   }
@@ -319,7 +320,7 @@ class Application extends MagicPhysics {
   animate = () => {
     requestAnimationFrame(this.animate);
     this.render();
-    this.stats.update();
+    if (this.stats) this.stats.update();
   }
 
   render() {
