@@ -38,7 +38,7 @@ const config = {
 
 
 ## Features
- - Dynamic Cache/Worker [pwa]
+ - Dynamic Cache/Worker, add to home screen. [pwa]
  - Graphics/Physics ready.
 
 ## Next features
