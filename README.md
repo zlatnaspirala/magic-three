@@ -9,8 +9,9 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
 
 ## Description
   Magic-Three is First Person Oriented but can be used for any other case of app flow.
-  - No build needed, just copy/paste.
+  - No build needed, just copy/paste for both dev and prod mode.
   - No package.json [if this repo become npm package then will be back]
+    In folder ./backend we have package.json to import deps for server part.
   - Must be fully PWA [cache, server compression, image format webp etc...]
 
 ```js
@@ -23,6 +24,7 @@ Backend  -> Node.js, MultiRTC3
 ```js
 const config = {
   cache: true,
+  stats: false,
   map: {
     background: 0xbfd1e5,
     floorWidth: 200,
@@ -40,6 +42,7 @@ const config = {
 ## Features
  - Dynamic Cache/Worker, add to home screen. [pwa]
  - Graphics/Physics ready.
+ - Prod/Dev Mode switch [now]
 
 ## Next features
  - Add 3d object loaders [fbx]
