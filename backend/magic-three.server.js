@@ -86,8 +86,7 @@ if(serverConfig.ownHosting == true) {
       } else {
         console.log('\x1b[42m', 'Commpression enabled.', Reset);
         console.log('\x1b[42m', 'Magic-Three-Server running... 🤘 [Enjoy]', Reset);
-        console.log('\x1b[42m', 'Simple http server started.', Reset);
-        console.log('\x1b[42m', 'Port: ' + serverConfig.ownHttpHostPort + " port.", Reset);
+        console.log('\x1b[42m', `Simple http server started at ${serverConfig.protocol}://${serverConfig.domain.dev}:${serverConfig.ownHttpHostPort}`, Reset);
       }
     });
   }

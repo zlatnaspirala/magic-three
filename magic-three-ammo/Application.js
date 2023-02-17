@@ -172,14 +172,13 @@ class Application extends MagicPhysics {
 
   createPlayer() {
     const material = new THREE.LineBasicMaterial({color: 0x0000ff});
-    const ballMass = 35;
+    const ballMass = 0.1;
     const ballRadius = 2;
     const ball = new THREE.Line(
       new THREE.SphereGeometry(ballRadius, 14, 10),
       material);
-    // const ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 14, 10), material);
-    ball.castShadow = true;
-    ball.receiveShadow = true;
+    ball.castShadow = false;
+    ball.receiveShadow = false;
     const ballShape = new Ammo.btSphereShape(ballRadius);
     ballShape.setMargin(this.margin);
     this.pos.copy(this.raycaster.ray.direction);
@@ -187,8 +186,9 @@ class Application extends MagicPhysics {
     this.quat.set(0, 0, 0, 1);
     this.playerBody = ball;
 
-    // let localInertia = new Ammo.btVector3(0, 0, 0);
-    // ballShape.calculateLocalInertia(10, localInertia);
+    let localInertia = new Ammo.btVector3(0, 0, 0);
+    ballShape.calculateLocalInertia(0, localInertia);
+
     const playerB = this.createRigidBody(
       ball,
       ballShape,
@@ -197,7 +197,7 @@ class Application extends MagicPhysics {
       this.quat
     );
     console.log("PlayerBody created. ", this.playerBody)
-    playerB.setCollisionFlags(0);
+    //playerB.setCollisionFlags(0);
   }
 
   createObjects() {
@@ -208,7 +208,6 @@ class Application extends MagicPhysics {
       this.config.map.floorWidth, 1,
       this.config.map.floorHeight, 0,
       this.pos, this.quat,
-      // new THREE.MeshPhongMaterial({color: 0xffffff})
       this.materials.assets.Orange_glass
     );
     ground.receiveShadow = true;
@@ -245,7 +244,7 @@ class Application extends MagicPhysics {
       App.materials.assets.Bronze
     );
 
-    // Tower Cilinder Physic but big mass    lisdbglia
+    // Tower Cilinder Physic but big mass
     this.pos.set(18, 5, 0);
     this.quat.set(0, 0, 0, 1);
     this.createCilinder(
@@ -357,3 +356,4 @@ class Application extends MagicPhysics {
 let App = new Application(config);
 
 window.App = App;
+window.THREE = THREE;

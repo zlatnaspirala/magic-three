@@ -79,7 +79,7 @@ export class MagicPhysics {
     let moveY = 0;
 
     // Extra props brach this - enable for more innert move.
-    // if( moveX == 0 && moveY == 0 && moveZ == 0) return;
+    if( moveX == 0 && moveY == 0 && moveZ == 0) return;
 
     let resultantImpulse = new Ammo.btVector3(moveX, moveY, moveZ)
     resultantImpulse.op_mul(scalingFactor);
@@ -144,7 +144,9 @@ export class MagicPhysics {
     );
     const body = new Ammo.btRigidBody(rbInfo);
 
-    body.setFriction(0.5);
+    // body.setFriction(0.05);
+    body.setFriction(4);
+    body.setRollingFriction(10);
 
     if(vel) {
       body.setLinearVelocity(new Ammo.btVector3(vel.x, vel.y, vel.z));
@@ -161,8 +163,10 @@ export class MagicPhysics {
 
     if(mass > 0) {
       this.rigidBodies.push(object);
+
       // Disable deactivation
       body.setActivationState(4);
+
     }
 
     this.physicsWorld.addRigidBody(body);

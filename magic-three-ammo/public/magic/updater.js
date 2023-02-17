@@ -150,6 +150,7 @@ export function updatePhysics(deltaTime) {
   this.numObjectsToRemove = 0;
 }
 
+let localPingPong = true;
 export function updateControls() {
   const time = performance.now();
   // this.camera.position.copy(this.playerBody.position);
@@ -162,29 +163,71 @@ export function updateControls() {
     const delta = (time - this.prevTime) / 1000;
     this.velocity.x -= this.velocity.x * 10.0 * delta;
     this.velocity.z -= this.velocity.z * 10.0 * delta;
-    this.velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+    this.velocity.y -= 9.8 * 10 * delta;
     this.direction.z = Number(this.moveForward) - Number(this.moveBackward);
     this.direction.x = Number(this.moveRight) - Number(this.moveLeft);
     this.direction.normalize(); // this ensures consistent movements in all directions
     if(this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 400.0 * delta;
     if(this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
+
+
+    this.velocity.y = Math.max(0, this.velocity.y);
+
     if(onObject === true) {
-      this.velocity.y = Math.max(0, this.velocity.y);
-      this.canJump = true;
+//        this.velocity.y = Math.max(0, this.velocity.y);
+       this.canJump = true;
     }
 
-    this.controls.moveRight(- this.velocity.x * delta);
-    this.controls.moveForward(- this.velocity.z * delta);
+    var testJump = new Ammo.btVector3();
 
-    this.playerBody.position.copy(this.camera.position);
+    if (this.JUMP == true) {
+      console.log('goood')
+      if (localPingPong == true) {
+        testJump.setValue(0,10000,0);
 
-    this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
+        this.pos.copy(this.raycaster.ray.direction);
+        this.pos.multiplyScalar(48);
+        // this.playerBody.userData.physicsBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
+        this.playerBody.userData.physicsBody.setLinearVelocity(new Ammo.btVector3(0,10,0));
+        this.camera.position.copy(this.playerBody.position);
 
-    if(this.controls.getObject().position.y < 5) {
-      this.velocity.y = 0;
-      this.controls.getObject().position.y = 5;
-      this.canJump = true;
-    }
+        localPingPong = !localPingPong;
+      } else {
+        this.playerBody.position.copy(this.camera.position);
+        localPingPong = !localPingPong;
+      }
+     } else {
+      this.camera.position.copy(this.playerBody.position);
+      // this.playerBody.position.copy(this.camera.position);
+     }
+    // this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
+
+    if (this.moveForward == true) {
+      console.log('TEST moveForward this.velocity.x ',  this.velocity.x , "   delta" ,delta )
+      this.pos.copy(this.raycaster.ray.direction);
+      this.pos.multiplyScalar(12);
+      this.playerBody.userData.physicsBody.setLinearVelocity(
+        new Ammo.btVector3(this.pos.x,this.pos.y,this.pos.z));
+    } else if (this.moveBackward == true) {
+      this.pos.copy(this.raycaster.ray.direction);
+      this.pos.multiplyScalar(12);
+      this.playerBody.userData.physicsBody.setLinearVelocity(
+        new Ammo.btVector3(-this.pos.x,this.pos.y,-this.pos.z));
+    } else if (this.moveLeft == true) {
+      this.pos.copy(this.raycaster.ray.direction);
+      this.pos.multiplyScalar(12);
+      this.playerBody.userData.physicsBody.setLinearVelocity(
+        new Ammo.btVector3(this.pos.x, 0, this.pos.z));
+     } else if (this.moveRight == true) {
+      this.pos.copy(this.raycaster.ray.direction);
+      this.pos.multiplyScalar(12);
+      this.playerBody.userData.physicsBody.setLinearVelocity(
+        new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
+     }
+
+    // Kinematic controls works !
+     this.controls.moveRight(- this.velocity.x * delta);
+     this.controls.moveForward(- this.velocity.z * delta);
 
     // console.log('this.controls.', this.camera.position)
   }

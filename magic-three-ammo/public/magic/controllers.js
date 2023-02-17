@@ -5,6 +5,8 @@ export function createFPSController() {
   const blocker = document.getElementById('blocker');
   const instructions = document.getElementById('instructions');
 
+  this.controls.JUMP = false;
+
   instructions.addEventListener('click', () => {
     this.controls.lock();
   });
@@ -41,7 +43,10 @@ export function createFPSController() {
         break;
       case 'Space':
         if(this.canJump === true) this.velocity.y += 350;
-        this.canJump = false;
+        this.JUMP = true;
+        setTimeout(() => {
+          this.JUMP = false
+        }, 3000);
         break;
     }
 
