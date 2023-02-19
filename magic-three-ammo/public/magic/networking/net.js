@@ -1,15 +1,15 @@
 
 import {byId, createAppEvent, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
-import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement";
-import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3";
-import * as io from "./rtc-multi-connection/socket.io";
-import App from "../program/manifest.js";
+import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
+import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
+// import * as io from "./rtc-multi-connection/socket.io.js";
 
 export class Broadcaster {
 
   constructor(config) {
 
+    console.log('Broadcaster client part contructor');
     this.injector;
     this.openOrJoinBtn;
     this.connection;
@@ -33,31 +33,34 @@ export class Broadcaster {
       },
       update(e) {
         if(e.data.netPos) {
-          // console.log('INFO ZA UPDATE', e);
-          if (e.data.netPos.x) App.scene[e.data.netObjId].position.SetX(e.data.netPos.x, 'noemit');
-          if (e.data.netPos.y) App.scene[e.data.netObjId].position.SetY(e.data.netPos.y, 'noemit');
-          if (e.data.netPos.z) App.scene[e.data.netObjId].position.SetZ(e.data.netPos.z, 'noemit');
-        } else if (e.data.netRot) {
-          // console.log('ROT INFO ZA UPDATE', e);
-          if (e.data.netRot.x) App.scene[e.data.netObjId].rotation.rotx = e.data.netRot.x; // , 'noemit');
-          if (e.data.netRot.y) App.scene[e.data.netObjId].rotation.roty = e.data.netRot.y;
-          if (e.data.netRot.z) App.scene[e.data.netObjId].rotation.rotz = e.data.netRot.z;
-        } else if (e.data.netScale) {
-           // console.log('netScale INFO ZA UPDATE', e);
-          if (e.data.netScale.x) App.scene[e.data.netObjId].geometry.setScaleByX(e.data.netScale.x, 'noemit');
-          if (e.data.netScale.y) App.scene[e.data.netObjId].geometry.setScaleByY(e.data.netScale.y, 'noemit');
-          if (e.data.netScale.z) App.scene[e.data.netObjId].geometry.setScaleByZ(e.data.netScale.z, 'noemit');
-          if (e.data.netScale.scale) App.scene[e.data.netObjId].geometry.setScale(e.data.netScale.scale, 'noemit');
-        } else if (e.data.texScaleFactor) {
-          // console.log('texScaleFactor INFO ZA UPDATE', e);
-          if (e.data.texScaleFactor.newScaleFactror) {
-            App.scene[e.data.netObjId].geometry.setTexCoordScaleFactor(e.data.texScaleFactor.newScaleFactror, 'noemit');
-          }
-        } else if (e.data.spitz) {
-          if (e.data.spitz.newValueFloat) {
-            App.scene[e.data.netObjId].geometry.setSpitz(e.data.spitz.newValueFloat, 'noemit');
-          }
+          console.log('INFO FOR UPDATE e.data.netPos', e.data.netPos);
+          // this is from matrix engine also from visual-ts game engine
+          // if (e.data.netPos.x) App.scene[e.data.netObjId].position.SetX(e.data.netPos.x, 'noemit');
+          // if (e.data.netPos.y) App.scene[e.data.netObjId].position.SetY(e.data.netPos.y, 'noemit');
+          // if (e.data.netPos.z) App.scene[e.data.netObjId].position.SetZ(e.data.netPos.z, 'noemit');
+
         }
+        // else if (e.data.netRot) {
+        //   // console.log('ROT INFO ZA UPDATE', e);
+        //   if (e.data.netRot.x) App.scene[e.data.netObjId].rotation.rotx = e.data.netRot.x; // , 'noemit');
+        //   if (e.data.netRot.y) App.scene[e.data.netObjId].rotation.roty = e.data.netRot.y;
+        //   if (e.data.netRot.z) App.scene[e.data.netObjId].rotation.rotz = e.data.netRot.z;
+        // } else if (e.data.netScale) {
+        //    // console.log('netScale INFO ZA UPDATE', e);
+        //   if (e.data.netScale.x) App.scene[e.data.netObjId].geometry.setScaleByX(e.data.netScale.x, 'noemit');
+        //   if (e.data.netScale.y) App.scene[e.data.netObjId].geometry.setScaleByY(e.data.netScale.y, 'noemit');
+        //   if (e.data.netScale.z) App.scene[e.data.netObjId].geometry.setScaleByZ(e.data.netScale.z, 'noemit');
+        //   if (e.data.netScale.scale) App.scene[e.data.netObjId].geometry.setScale(e.data.netScale.scale, 'noemit');
+        // } else if (e.data.texScaleFactor) {
+        //   // console.log('texScaleFactor INFO ZA UPDATE', e);
+        //   if (e.data.texScaleFactor.newScaleFactror) {
+        //     App.scene[e.data.netObjId].geometry.setTexCoordScaleFactor(e.data.texScaleFactor.newScaleFactror, 'noemit');
+        //   }
+        // } else if (e.data.spitz) {
+        //   if (e.data.spitz.newValueFloat) {
+        //     App.scene[e.data.netObjId].geometry.setSpitz(e.data.spitz.newValueFloat, 'noemit');
+        //   }
+        // }
 
       },
 
@@ -73,8 +76,8 @@ export class Broadcaster {
 
     (window).io = io;
 
-    this.engineConfig = config;
-    if(this.engineConfig.getRunBroadcasterOnInt()) {
+    this.engineConfig = config.networking;
+    if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
     }
   }
@@ -143,12 +146,12 @@ export class Broadcaster {
         data: options.session.data,
       };
     } else {
-      this.connection.enableFileSharing = root.engineConfig.getBroadcasterSessionDefaults().enableFileSharing;
+      this.connection.enableFileSharing = root.engineConfig.broadcasterSessionDefaults.enableFileSharing;
 
       this.connection.session = {
-        audio: root.engineConfig.getBroadcasterSessionDefaults().sessionAudio,
-        video: root.engineConfig.getBroadcasterSessionDefaults().sessionVideo,
-        data: root.engineConfig.getBroadcasterSessionDefaults().sessionData,
+        audio: root.engineConfig.broadcasterSessionDefaults.sessionAudio,
+        video: root.engineConfig.broadcasterSessionDefaults.sessionVideo,
+        data: root.engineConfig.broadcasterSessionDefaults.sessionData,
       };
     }
 
@@ -159,7 +162,7 @@ export class Broadcaster {
 
     this.connection.iceServers = [
       {
-        urls: root.engineConfig.getStunList(),
+        urls: root.engineConfig.stunList,
       },
     ];
 
@@ -324,8 +327,8 @@ export class Broadcaster {
       roomid = root.connection.token();
     }
 
-    if(root.engineConfig.getMasterServerKey()) {
-      roomid = root.engineConfig.getMasterServerKey();
+    if(root.engineConfig.masterServerKey) {
+      roomid = root.engineConfig.masterServerKey;
     }
 
     (root.inputRoomId).value = roomid;
@@ -494,7 +497,7 @@ export class Broadcaster {
         myInstance.popupUI.style = 'table';
         myInstance.popupUI.innerHTML = html;
 
-        if(myInstance.engineConfig.getShowBroadcasterOnInt()) {
+        if(myInstance.engineConfig.broadcasterInit == true) {
           myInstance.popupUI.style.display = "table";
         } else {
           myInstance.popupUI.style.display = "none";
@@ -503,9 +506,9 @@ export class Broadcaster {
         myInstance.initDOM();
         myInstance.attachEvents();
         myInstance.initWebRtc();
-        myInstance.inputRoomId.nodeValue = myInstance.engineConfig.getMasterServerKey();
+        myInstance.inputRoomId.nodeValue = myInstance.engineConfig.masterServerKey;
 
-        if(myInstance.engineConfig.getBroadcastAutoConnect()) {
+        if(myInstance.engineConfig.broadcastAutoConnect) {
           console.log("Try auto connect for broadcaster.");
           myInstance.openOrJoinBtn.click();
         }

@@ -66,3 +66,18 @@ export const htmlHeader = new Headers({
   "Content-Type": "text/html",
   "Accept": "text/plain",
 });
+
+export function byId(d) {
+  return document.getElementById(d)
+};
+
+export function getProtocolFromAddressBar() {
+  return (location.protocol === "https:" ? "https://" : "http://");
+}
+
+export function getDomain() {
+  if(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+    return window.location.hostname;
+  }
+  return this.domain;
+}

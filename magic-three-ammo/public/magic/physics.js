@@ -2,8 +2,10 @@ import * as THREE from "three";
 import {ConvexObjectBreaker} from "../jsm/misc/ConvexObjectBreaker.js";
 import {updatePhysics} from "./updater.js";
 import ClientConfig from "../../config.js";
+import {Broadcaster} from "./networking/net.js";
+import {MagicNetworking} from "./networking/magic-netwoking.js";
 
-export class MagicPhysics {
+export class MagicPhysics extends MagicNetworking {
 
   // Physics variables
   gravityConstant = 7.8;
@@ -42,14 +44,12 @@ export class MagicPhysics {
 
   // deep integration net
   activateNet = () => {
-    if(typeof App.net !== 'undefinde' && App.net === true) {
-      var t = new ClientConfig();
-      net = new Broadcaster(t);
-      console.info('Networking is active.', net);
-    }
+    this.net = new Broadcaster(ClientConfig);
+    console.info('Networking is active.', this.net);
   };
 
   constructor(options) {
+    super();
     console.log("MagicPhysics =>", options)
     this.updatePhysics = updatePhysics.bind(this);
     this.config = options.config;
@@ -80,7 +80,7 @@ export class MagicPhysics {
     let moveY = 0;
 
     // Extra props brach this - enable for more innert move.
-    if( moveX == 0 && moveY == 0 && moveZ == 0) return;
+    if(moveX == 0 && moveY == 0 && moveZ == 0) return;
 
     let resultantImpulse = new Ammo.btVector3(moveX, moveY, moveZ)
     resultantImpulse.op_mul(scalingFactor);
@@ -269,7 +269,7 @@ export class MagicPhysics {
 
   createCilinder(mass, geo, pos, quat, material) {
     const object = new THREE.Mesh(
-      new THREE.CylinderGeometry(geo[0],geo[1],geo[2],geo[3]),
+      new THREE.CylinderGeometry(geo[0], geo[1], geo[2], geo[3]),
       material
     );
     object.position.copy(pos);
@@ -303,7 +303,7 @@ export class MagicPhysics {
 
   createTorus(mass, geo, pos, quat, material) {
     const object = new THREE.Mesh(
-      new THREE.TorusGeometry(geo[0],geo[1],geo[2],geo[3]),
+      new THREE.TorusGeometry(geo[0], geo[1], geo[2], geo[3]),
       material
     );
     object.position.copy(pos);

@@ -36,7 +36,9 @@ if(serverConfig.ownHosting == true) {
   hostingHTTP.use(cors());
   hostingHTTP.use(express.static("G://web_server/xampp/htdocs/PRIVATE_SERVER/my-threejs/PROJECT/magic-three-ammo/"));
   hostingHTTP.get('*', function(req, res, next) {
-    // console.info("Matrix server handle:", req.hostname);
+    console.info("Matrix server handle:", req.hostname);
+    // https://localhost:777
+    res.setHeader('Access-Control-Allow-Origin', '*');
     next();
   });
 
@@ -44,7 +46,8 @@ if(serverConfig.ownHosting == true) {
     // res.setHeader("Content-Type", "text/html")
     res.setHeader('Content-Encoding', 'gzip');
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', '*');
+    // res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Origin', 'https://localhost:777');
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     // Request headers you wish to allow

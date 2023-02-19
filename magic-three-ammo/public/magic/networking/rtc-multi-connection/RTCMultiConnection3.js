@@ -1,16 +1,14 @@
 'use strict';
 
-// Last time updated: 2019-06-15 4:26:11 PM UTC
-
-// _________________________
-// RTCMultiConnection v3.6.9
-
-// Open-Sourced: https://github.com/muaz-khan/RTCMultiConnection
-
-// --------------------------------------------------
-// Muaz Khan     - www.MuazKhan.com
-// MIT License   - www.WebRTC-Experiment.com/licence
-// --------------------------------------------------
+/**
+ * Last time updated: 2019-06-15 4:26:11 PM UTC
+ *  _________________________
+ * RTCMultiConnection v3.6.9
+ * Open-Sourced: https://github.com/muaz-khan/RTCMultiConnection
+ * --------------------------------------------------
+ * Muaz Khan     - www.MuazKhan.com 
+ * MIT License   - www.WebRTC-Experiment.com/licence
+ */
 
 var RTCMultiConnection3 = function(roomid, forceOptions) {
 
@@ -167,7 +165,7 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
 
         if (connection.enableLogs) {
             if (connection.socketURL == '/') {
-                connection.socketURL = "http://localhost:9001/";
+                connection.socketURL = "http://localhost:9010/";
             }
         }
 
@@ -5901,7 +5899,8 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
 
 };
 
-if (typeof module !== 'undefined' /* && !!module.exports*/ ) {
+// f it
+if (typeof module !== 'undefined' && !!module.exports ) {
   module.exports = exports = RTCMultiConnection3;
 }
 
@@ -5910,3 +5909,5 @@ if (typeof define === 'function' && define.amd) {
         return RTCMultiConnection3;
     });
 }
+
+export default RTCMultiConnection3;

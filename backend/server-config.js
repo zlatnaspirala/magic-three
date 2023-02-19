@@ -6,22 +6,23 @@ class ServerConfig {
     /**
      * Define backend staff
      * 
-     * @version 0.2.0 WIP
+     * @version 0.2.0
      * Implementing multiRTC3 for data streaming operation
      */
     this.version = "0.2.0";
 
-     // enum : 'dev', 'prod', `mongodb.net` or `mongodb.net-dev`
+    // not implemented yet
+    // enum : 'dev', 'prod', `mongodb.net` or `mongodb.net-dev`
     // this.serverMode = "mongodb.net";
     this.serverMode = "dev";
 
     this.ownHosting = true;
-    this.ownHttpHostPort = 777;
-
-
+    // For noe i force default broser ports to avoid CORS errors
+    // at for https://localhost:PORT any port.
+    this.ownHttpHostPort = 443;
     this.networkDeepLogs = false;
     this.rtcServerPort = 11034;
-    this.rtc3ServerPort = 9110;
+    this.rtc3ServerPort = 9010;
     this.connectorPort = 9111;
 
     /**
@@ -47,7 +48,7 @@ class ServerConfig {
      * @description
      * Strongly recommended https for local also for production!
      */
-    this.protocol = "http";
+    this.protocol = "https";
 
     /**
      * @description
@@ -55,9 +56,9 @@ class ServerConfig {
      * No pem currently used at the moment.
      */
     this.certPathSelfOrigin = {
-      pKeyPath:  "./apache-local-cert/server.key",
+      pKeyPath: "./apache-local-cert/server.key",
       pCertPath: "./apache-local-cert/server.crt",
-      pCBPath:   "./apache-local-cert/server.csr",
+      pCBPath: "./apache-local-cert/server.csr",
     };
 
     /**
@@ -82,7 +83,7 @@ class ServerConfig {
     this.databaseName = "masterdatabase";
 
     this.databaseRoot = {
-      dev: "mongodb://localhost:27017" ,
+      dev: "mongodb://localhost:27017",
       prod: "mongodb://userAdmin:*************@localhost:27017/admin",
       freeService: "mongodb+srv://userAdmin:**********@cluster0.piqav.mongodb.net/masterdatabase?retryWrites=true&w=majority"
     };
@@ -93,9 +94,9 @@ class ServerConfig {
 
     console.log("Server running under configuration => ", this.serverMode);
 
-    if (this.serverMode == "dev") {
+    if(this.serverMode == "dev") {
       console.log("-rtc domain dev", this.domain.dev);
-    } else if (this.serverMode == "prod") {
+    } else if(this.serverMode == "prod") {
       console.log("-rtc domain prod", this.domain.prod);
     }
 
@@ -117,9 +118,9 @@ class ServerConfig {
   };
 
   get getProtocol() {
-    if (this.isSecure) {
+    if(this.isSecure) {
       this.protocol = "https";
-    } else if (this.serverMode === "mongodb.net" || this.serverMode === "mongodb.net-dev") {
+    } else if(this.serverMode === "mongodb.net" || this.serverMode === "mongodb.net-dev") {
       this.protocol = "https";
     } else {
       this.protocol = "http";
@@ -137,11 +138,11 @@ class ServerConfig {
 
   get getDatabaseRoot() {
 
-    if (this.serverMode == "dev") {
+    if(this.serverMode == "dev") {
       return this.databaseRoot.dev;
-    } else if (this.serverMode == "prod") {
+    } else if(this.serverMode == "prod") {
       return this.databaseRoot.prod;
-    } else if (this.serverMode == "mongodb.net" || this.serverMode === "mongodb.net-dev") {
+    } else if(this.serverMode == "mongodb.net" || this.serverMode === "mongodb.net-dev") {
       return this.databaseRoot.freeService;
     }
 
@@ -157,13 +158,13 @@ class ServerConfig {
 
   get getRemoteServerAddress() {
 
-    if (this.serverMode == "dev") {
+    if(this.serverMode == "dev") {
       return (this.isSecure ? "wss" : "ws") + "://" + this.domain.dev + ":" + this.rtcServerPort + "/";
-    } else if (this.serverMode == "prod") {
-    return (this.isSecure ? "wss" : "ws") + "://" + this.domain.prod + ":" + this.rtcServerPort + "/";
-    } else if (this.serverMode == "mongodb.net") {
+    } else if(this.serverMode == "prod") {
       return (this.isSecure ? "wss" : "ws") + "://" + this.domain.prod + ":" + this.rtcServerPort + "/";
-    } else if (this.serverMode == "mongodb.net-dev") {
+    } else if(this.serverMode == "mongodb.net") {
+      return (this.isSecure ? "wss" : "ws") + "://" + this.domain.prod + ":" + this.rtcServerPort + "/";
+    } else if(this.serverMode == "mongodb.net-dev") {
       return (this.isSecure ? "wss" : "ws") + "://" + this.domain.dev + ":" + this.rtcServerPort + "/";
     }
 

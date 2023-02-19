@@ -56,6 +56,8 @@ class Application extends MagicPhysics {
     super({config: config});
     this.config = config;
 
+    this.activateNet()
+
     // Loaders
     this.loader = new MagicLoader(this.scene);
 

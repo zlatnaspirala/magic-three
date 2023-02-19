@@ -1,10 +1,10 @@
 {
-  "socketURL": "https://localhost:9001/",
+  "socketURL": "https://localhost:9010/",
   "dirPath": "/",
   "homePage": "https://localhost",
   "socketMessageEvent": "RTCMultiConnection-Message",
   "socketCustomEvent": "RTCMultiConnection-Custom-Message",
-  "port": "9001",
+  "port": "9010",
   "enableLogs": "false",
   "autoRebootServerOnFailure": "false",
   "isUseHTTPs": "true",
