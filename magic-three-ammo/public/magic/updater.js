@@ -1,3 +1,4 @@
+import {MathUtils} from "three";
 
 export function updatePhysics(deltaTime) {
   // Step world
@@ -177,7 +178,7 @@ export function updateControls() {
 //        this.velocity.y = Math.max(0, this.velocity.y);
        this.canJump = true;
     }
-
+     
     var testJump = new Ammo.btVector3();
 
     if (this.JUMP == true) {
@@ -218,17 +219,23 @@ export function updateControls() {
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(-this.pos.x, 0, -this.pos.z));
     } else if (this.moveLeft == true) {
-      // NOT WORK
-      this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(12);
+      // WORK
+      let fixedDirection1 = this.raycaster.ray.direction.clone();
+      fixedDirection1.applyAxisAngle(
+        new THREE.Vector3(0,1,0), MathUtils.degToRad(90))
+      this.pos.copy(fixedDirection1);
+      this.pos.multiplyScalar(8);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      } else if (this.moveRight == true) {
       // NOT WORK
-      this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(12);
+      let fixedDirection1 = this.raycaster.ray.direction.clone();
+      fixedDirection1.applyAxisAngle(
+        new THREE.Vector3(0,1,0), MathUtils.degToRad(-90))
+      this.pos.copy(fixedDirection1);
+      this.pos.multiplyScalar(8);
       this.playerBody.userData.physicsBody.setLinearVelocity(
-        new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
+        new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      }
 
     // Kinematic controls works !
