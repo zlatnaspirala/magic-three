@@ -37,6 +37,17 @@ const config = {
   }
 }
 ```
+## If you wanna start http server and broadcaster[webRtc] then :
+
+```js
+cd backend
+npm i
+npm run magic
+```
+
+After all goto http://localhost:777/public/module.html
+You can easy manage paths. Defoult is http protocol.
+
 
 
 ## Features

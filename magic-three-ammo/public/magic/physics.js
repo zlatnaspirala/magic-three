@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import {ConvexObjectBreaker} from "../jsm/misc/ConvexObjectBreaker.js";
 import {updatePhysics} from "./updater.js";
+import ClientConfig from "../../config.js";
 
 export class MagicPhysics {
 

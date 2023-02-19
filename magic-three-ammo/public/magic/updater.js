@@ -203,22 +203,26 @@ export function updateControls() {
     // this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
 
     if (this.moveForward == true) {
-      console.log('TEST moveForward this.velocity.x ',  this.velocity.x , "   delta" ,delta )
+      // WORK
+      // console.log('TEST moveForward this.velocity.x ',  this.velocity.x , "   delta" ,delta )
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(12);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x,this.pos.y,this.pos.z));
     } else if (this.moveBackward == true) {
+      // WORK
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(12);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(-this.pos.x,this.pos.y,-this.pos.z));
     } else if (this.moveLeft == true) {
+      // NOT WORK
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(12);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      } else if (this.moveRight == true) {
+      // NOT WORK
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(12);
       this.playerBody.userData.physicsBody.setLinearVelocity(
