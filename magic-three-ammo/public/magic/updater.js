@@ -183,14 +183,15 @@ export function updateControls() {
     if (this.JUMP == true) {
       console.log('JUMP TEST')
       if (localPingPong == true) {
-        testJump.setValue(0, 200, 0);
-
+        // testJump.setValue(0, 200, 0);
         this.pos.copy(this.raycaster.ray.direction);
         this.pos.multiplyScalar(48);
         // this.playerBody.userData.physicsBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
-        this.playerBody.userData.physicsBody.setLinearVelocity(new Ammo.btVector3(0,10,0));
+        this.playerBody.userData.physicsBody.setLinearVelocity(new Ammo.btVector3(0, 15, 0));
         this.camera.position.copy(this.playerBody.position);
 
+        this.JUMP = false;
+        // this.JUMP 
         localPingPong = !localPingPong;
       } else {
         this.playerBody.position.copy(this.camera.position);
@@ -206,15 +207,16 @@ export function updateControls() {
       // WORK
       // console.log('TEST moveForward this.velocity.x ',  this.velocity.x , "   delta" ,delta )
       this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(12);
+      this.pos.multiplyScalar(8);
       this.playerBody.userData.physicsBody.setLinearVelocity(
-        new Ammo.btVector3(this.pos.x,this.pos.y,this.pos.z));
+        // new Ammo.btVector3(this.pos.x,this.pos.y,this.pos.z));
+        new Ammo.btVector3(this.pos.x, 0, this.pos.z));
     } else if (this.moveBackward == true) {
       // WORK
       this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(12);
+      this.pos.multiplyScalar(8);
       this.playerBody.userData.physicsBody.setLinearVelocity(
-        new Ammo.btVector3(-this.pos.x,this.pos.y,-this.pos.z));
+        new Ammo.btVector3(-this.pos.x, 0, -this.pos.z));
     } else if (this.moveLeft == true) {
       // NOT WORK
       this.pos.copy(this.raycaster.ray.direction);

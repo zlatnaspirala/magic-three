@@ -13,6 +13,7 @@ body {
   font-size: 13px;
   line-height: 24px;
   overscroll-behavior: none;
+  overflow: hidden;
 }
 
 div, p {

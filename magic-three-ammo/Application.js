@@ -174,7 +174,7 @@ class Application extends MagicPhysics {
 
   createPlayer() {
     const material = new THREE.LineBasicMaterial({color: 0x0000ff});
-    const ballMass = 0.1;
+    const ballMass = 10;
     const ballRadius = 2;
     const ball = new THREE.Line(
       new THREE.SphereGeometry(ballRadius, 14, 10),

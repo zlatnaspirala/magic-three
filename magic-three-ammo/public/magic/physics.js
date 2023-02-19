@@ -7,8 +7,8 @@ import {MagicNetworking} from "./networking/magic-netwoking.js";
 
 export class MagicPhysics extends MagicNetworking {
 
-  // Physics variables
-  gravityConstant = 7.8;
+  // Physics variables - negative aspect
+  gravityConstant = 17.8;
   collisionConfiguration;
   dispatcher;
   broadphase;
