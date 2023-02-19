@@ -181,9 +181,9 @@ export function updateControls() {
     var testJump = new Ammo.btVector3();
 
     if (this.JUMP == true) {
-      console.log('goood')
+      console.log('JUMP TEST')
       if (localPingPong == true) {
-        testJump.setValue(0,10000,0);
+        testJump.setValue(0, 200, 0);
 
         this.pos.copy(this.raycaster.ray.direction);
         this.pos.multiplyScalar(48);

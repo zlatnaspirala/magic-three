@@ -11,7 +11,7 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
   Magic-Three is First Person Oriented but can be used for any other case of app flow.
   - No build needed, just copy/paste for both dev and prod mode.
   - No package.json [if this repo become npm package then will be back]
-    In folder ./backend we have package.json to import deps for server part.
+    In folder ./backend we have package.json to import deps (npm i) for server part.
   - Must be fully PWA [cache, server compression, image format webp etc...]
 
 ```js
@@ -37,7 +37,7 @@ const config = {
   }
 }
 ```
-## If you wanna start http server and broadcaster[webRtc] then :
+## If you wanna start host server and broadcaster[webRtc] then:
 
 ```js
 cd backend
@@ -50,7 +50,6 @@ For `localhost` cert doesnt matter. For public server you need classic ssl setup
 
 After all goto https://localhost/public/module.html
 You can easy manage paths. Defoult is `https` protocol.
-
 
 ## Features
  - Dynamic Cache/Worker, add to home screen. [pwa]
