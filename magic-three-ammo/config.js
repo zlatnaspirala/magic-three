@@ -15,7 +15,10 @@ const config = {
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
-    cameraInitPosition: {x: 10, y: 5, z: 10}
+    cameraInitPosition: {x: 10, y: 5, z: 10},
+    movementSpeed : {
+      left: 8, right: 8, jump : 10
+    }
   },
   networking: {
     broadcasterPort: 9001,

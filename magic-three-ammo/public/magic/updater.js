@@ -154,8 +154,6 @@ export function updatePhysics(deltaTime) {
 let localPingPong = true;
 export function updateControls() {
   const time = performance.now();
-  // this.camera.position.copy(this.playerBody.position);
-  // this.camera.quaternion.copy(this.playerBody.quaternion);
   if(this.controls.isLocked === true) {
     this.raycaster.ray.origin.copy(this.controls.getObject().position);
     this.raycaster.ray.origin.y -= 5;
@@ -171,28 +169,22 @@ export function updateControls() {
     if(this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 400.0 * delta;
     if(this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
 
-
     this.velocity.y = Math.max(0, this.velocity.y);
 
-    if(onObject === true) {
-//        this.velocity.y = Math.max(0, this.velocity.y);
-       this.canJump = true;
-    }
-     
-    var testJump = new Ammo.btVector3();
+    if (this.config.playerController.movementType == "kinematic") {
+      // Kinematic controls works !
+      this.controls.moveRight(- this.velocity.x * delta);
+      this.controls.moveForward(- this.velocity.z * delta);
+      return;
+     }
 
     if (this.JUMP == true) {
       console.log('JUMP TEST')
       if (localPingPong == true) {
-        // testJump.setValue(0, 200, 0);
-        this.pos.copy(this.raycaster.ray.direction);
-        this.pos.multiplyScalar(48);
-        // this.playerBody.userData.physicsBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
-        this.playerBody.userData.physicsBody.setLinearVelocity(new Ammo.btVector3(0, 15, 0));
+        this.playerBody.userData.physicsBody.setLinearVelocity(
+          new Ammo.btVector3(0, this.config.playerController.movementSpeed.jump, 0));
         this.camera.position.copy(this.playerBody.position);
-
         this.JUMP = false;
-        // this.JUMP 
         localPingPong = !localPingPong;
       } else {
         this.playerBody.position.copy(this.camera.position);
@@ -200,26 +192,19 @@ export function updateControls() {
       }
      } else {
       this.camera.position.copy(this.playerBody.position);
-      // this.playerBody.position.copy(this.camera.position);
      }
-    // this.controls.getObject().position.y += (this.velocity.y * delta); // new behavior
 
     if (this.moveForward == true) {
-      // WORK
-      // console.log('TEST moveForward this.velocity.x ',  this.velocity.x , "   delta" ,delta )
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(8);
       this.playerBody.userData.physicsBody.setLinearVelocity(
-        // new Ammo.btVector3(this.pos.x,this.pos.y,this.pos.z));
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
     } else if (this.moveBackward == true) {
-      // WORK
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(8);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(-this.pos.x, 0, -this.pos.z));
     } else if (this.moveLeft == true) {
-      // WORK
       let fixedDirection1 = this.raycaster.ray.direction.clone();
       fixedDirection1.applyAxisAngle(
         new THREE.Vector3(0,1,0), MathUtils.degToRad(90))
@@ -228,7 +213,6 @@ export function updateControls() {
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      } else if (this.moveRight == true) {
-      // NOT WORK
       let fixedDirection1 = this.raycaster.ray.direction.clone();
       fixedDirection1.applyAxisAngle(
         new THREE.Vector3(0,1,0), MathUtils.degToRad(-90))
@@ -238,11 +222,6 @@ export function updateControls() {
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      }
 
-    // Kinematic controls works !
-     this.controls.moveRight(- this.velocity.x * delta);
-     this.controls.moveForward(- this.velocity.z * delta);
-
-    // console.log('this.controls.', this.camera.position)
   }
   this.prevTime = time;
 }
