@@ -45,9 +45,11 @@ npm i
 npm run magic
 ```
 
-After all goto http://localhost:777/public/module.html
-You can easy manage paths. Defoult is http protocol.
+I force default browser port 443! To make all works fine.
+For `localhost` cert doesnt matter. For public server you need classic ssl setup.
 
+After all goto https://localhost/public/module.html
+You can easy manage paths. Defoult is `https` protocol.
 
 
 ## Features
@@ -64,7 +66,6 @@ You can easy manage paths. Defoult is http protocol.
  - https://threejs.org/
  - https://github.com/kripken/ammo.js/
  - In Assets i use great mixamo.com.
-
 
 ## More info
 I have performance stable at ~90% value. I load extra fbx animation 22Mb to test little more better.

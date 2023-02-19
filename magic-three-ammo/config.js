@@ -27,7 +27,7 @@ const config = {
      * like : 192.168.0.XXX if you wanna run ant test app with server.
      */
     // domain: "maximumroulette.com",
-    domain: "localhost:777",
+    domain: "localhost",
     /**
      * networkDeepLogs control of dev logs for webRTC context only.
      */
