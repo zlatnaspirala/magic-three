@@ -18,7 +18,6 @@ export function createFPSController() {
   });
 
   this.controls.addEventListener('unlock', function() {
-    
     blocker.style.display = 'block';
     instructions.style.display = '';
   });

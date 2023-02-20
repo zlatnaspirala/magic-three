@@ -13,6 +13,7 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
   - No package.json [if this repo become npm package then will be back]
     In folder ./backend we have package.json to import deps (npm i) for server part.
   - Must be fully PWA [cache, server compression, image format webp etc...]
+  - MultiLang support
 
 ```js
 Frontend -> Three.js, Ammo.js
@@ -41,13 +42,8 @@ const config = {
   networking: {
     broadcasterPort: 9001,
     broadcasterInit: true,
-    // domain: "maximumroulette.com",
-    domain: "localhost",
+    domain: "localhost", // domain: "maximumroulette.com",
     networkDeepLogs: true,
-    /**
-     * masterServerKey is channel access id used to connect
-     * endpoint p2p. Multimedia server channel/multiRTC3 used.
-     */
     masterServerKey: "magic.three.main.channel",
     runBroadcasterOnInt: true,
     broadcasterPort: 9010,

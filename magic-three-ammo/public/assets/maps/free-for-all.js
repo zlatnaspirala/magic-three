@@ -1,6 +1,5 @@
 
 let map = {
-  // test breakable boxs
   breakable: [
     {
       mass: 100,
@@ -31,6 +30,14 @@ let map = {
       quat: [0,0,0,1]
     }
   ],
+  torus: [
+    {
+      mass: 1000,
+      scale: [10, 3, 16, 100],
+      pos: {x:30 , y:1, z:1},
+      quat: [0,0,0,1]
+    }
+  ]
 };
 
 export default map;

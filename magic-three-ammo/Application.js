@@ -291,15 +291,15 @@ class Application extends MagicPhysics {
     //   App.materials.assets.Bronze
     // );
 
-    this.pos.set(-18, 5, 0);
-    this.quat.set(0, 0, 0, 1);
-    this.createTorus(
-      10000,
-      [10, 3, 16, 100],
-      this.pos,
-      this.quat,
-      App.materials.assets.Bronze
-    );
+    // this.pos.set(-18, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createTorus(
+    //   10000,
+    //   [10, 3, 16, 100],
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Bronze
+    // );
 
   }
 
@@ -390,8 +390,6 @@ class Application extends MagicPhysics {
 }
 
 let App = new Application(config);
-
 // Remove this after all
 // this is only for easy access from console
 window.App = App;
-// window.THREE = THREE;

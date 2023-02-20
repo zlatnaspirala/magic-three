@@ -47,7 +47,18 @@ export function loadMap() {
       this.quat,
       App.materials.assets.Yellow_glass
     );
+  });
 
+  map.torus.forEach((b, index)=>{
+    this.pos.set(b.pos.x, b.pos.y, b.pos.z);
+    this.quat.set(b.quat[0], b.quat[1], b.quat[2], b.quat[3]);
+    this.createTorus(
+      b.mass,
+      [b.scale[0], b.scale[1], b.scale[2], b.scale[3]],
+      this.pos,
+      this.quat,
+      App.materials.assets.Bronze
+    );
   })
 
 };
