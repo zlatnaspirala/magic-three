@@ -15,7 +15,9 @@ import {updateControls} from "./public/magic/updater.js";
 import config from './config.js';
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {runCache} from "./public/magic/utility.js";
+import {byId, createAppEvent, runCache} from "./public/magic/utility.js";
+import {startUpScreen} from "./public/assets/inlineStyle/style.js";
+import {loadMap} from "./public/magic/magicmap-loader.js";
 
 class Application extends MagicPhysics {
 
@@ -51,10 +53,18 @@ class Application extends MagicPhysics {
   playerBody;
   config;
 
+  playerItems = {
+    munition: 10
+  };
+
   constructor(config) {
 
     super({config: config});
     this.config = config;
+
+    addEventListener('Multi lang ready', () => {
+      console.info('READY MULTI 123')
+    })
 
     this.activateNet()
 
@@ -65,16 +75,33 @@ class Application extends MagicPhysics {
       this.objectsToRemove[i] = null;
     }
 
-    console.info("MagicThree: Worker test.");
+    console.info("MagicThree: Worker [dynamic-cache] test cache config status:", this.config.cache);
     runCache(this.config.cache);
 
-    // addEventListener("click", () => {
-    setTimeout(() => {
-        // Content - Objs and etc
-        this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx')
-    }, 5000);
-    // })
+    // Big data loading procedure
+    // myBigDataFlag got undefined array fill because 
+    // i pass then call (func void) - work ok.
+    let myBigDataFlag = [];
 
+    myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx').then((r) => {
+      console.info('Setup this obj =>', r);
+      r.position.set(-10, 0, -10)
+    }));
+
+    myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-running2.fbx').then((r) => {
+      console.info('Setup this obj =>', r);
+      r.position.set(10, 0, 10)
+    }));
+
+    Promise.all(myBigDataFlag).then((values) => {
+      console.log('Big data promise all => ', values);
+      const domLoader = document.getElementById('instructions');
+      // MultiLang is async call
+      domLoader.innerHTML = startUpScreen();
+    });
+
+    // Attach funcs
+    this.loadMap = loadMap.bind(this);
     this.updateControls = updateControls.bind(this);
 
     Ammo().then((AmmoLib) => {
@@ -85,7 +112,7 @@ class Application extends MagicPhysics {
 
       this.init();
       this.animate();
-      console.log('Ammo is ready.');
+      console.info('Ammo is ready.');
     });
   }
 
@@ -94,13 +121,16 @@ class Application extends MagicPhysics {
     this.initGraphics();
     this.initPhysics();
     this.createObjects();
-    this.initInput();
+    this.attachFire();
     this.createPlayer();
   }
 
-  initGraphics() {
+  initGamePlayEvents () {
+    createAppEvent('player.shoot' , {});
+  }
 
-    console.log('this.config.map.background',this.config.map.background)
+  initGraphics() {
+    console.info('config.map.background => ', this.config.map.background)
     this.scene.background = new THREE.Color(this.config.map.background);
 
     this.camera.position.set(
@@ -108,7 +138,6 @@ class Application extends MagicPhysics {
       this.config.playerController.cameraInitPosition.y,
       this.config.playerController.cameraInitPosition.z);
 
-    // this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.shadowMap.enabled = true;
@@ -141,7 +170,7 @@ class Application extends MagicPhysics {
     this.light.shadow.mapSize.y = 1024;
     this.scene.add(this.light);
 
-    if (this.config.stats == true) {
+    if(this.config.stats == true) {
       this.stats = new Stats();
       this.stats.domElement.style.position = "absolute";
       this.stats.domElement.style.top = "0px";
@@ -222,40 +251,45 @@ class Application extends MagicPhysics {
     });
     ground.name = 'ground';
 
+    // Load map items
+    this.loadMap();
+
+    // Load custom elements
+
     // Tower 1 Breakable
     const towerMass = 1000;
     const towerHalfExtents = new THREE.Vector3(5, 5, 0.3);
-    this.pos.set(-8, 5, 0);
-    this.quat.set(0, 0, 0, 1);
-    this.createBreakableBox(
-      towerMass,
-      towerHalfExtents,
-      this.pos,
-      this.quat,
-      App.materials.assets.Yellow_glass
-    );
+    // this.pos.set(-8, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createBreakableBox(
+    //   towerMass,
+    //   towerHalfExtents,
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Yellow_glass
+    // );
 
     // Tower 2 Normal
-    this.pos.set(8, 5, 0);
-    this.quat.set(0, 0, 0, 1);
-    this.createSimpleBox(
-      towerMass,
-      towerHalfExtents,
-      this.pos,
-      this.quat,
-      App.materials.assets.Bronze
-    );
+    // this.pos.set(8, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createSimpleBox(
+    //   towerMass,
+    //   towerHalfExtents,
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Bronze
+    // );
 
     // Tower Cilinder Physic but big mass
-    this.pos.set(18, 5, 0);
-    this.quat.set(0, 0, 0, 1);
-    this.createCilinder(
-      10000,
-      [5, 5, 20, 32],
-      this.pos,
-      this.quat,
-      App.materials.assets.Bronze
-    );
+    // this.pos.set(18, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createCilinder(
+    //   10000,
+    //   [5, 5, 20, 32],
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Bronze
+    // );
 
     this.pos.set(-18, 5, 0);
     this.quat.set(0, 0, 0, 1);
@@ -274,8 +308,11 @@ class Application extends MagicPhysics {
     return new THREE.MeshPhongMaterial({color: color});
   }
 
-  initInput() {
+  attachFire() {
     window.addEventListener("pointerdown", (event) => {
+
+      // playerItems
+      this.playerItems
       this.mouseCoords.set(
         (event.clientX / window.innerWidth) * 2 - 1,
         -(event.clientY / window.innerHeight) * 2 + 1
@@ -321,7 +358,7 @@ class Application extends MagicPhysics {
   animate = () => {
     requestAnimationFrame(this.animate);
     this.render();
-    if (this.stats) this.stats.update();
+    if(this.stats) this.stats.update();
   }
 
   render() {
@@ -339,10 +376,8 @@ class Application extends MagicPhysics {
     // test
     if(this.loader.mixer) this.loader.mixer.update(deltaTime);
 
-    // etst
     // update the picking ray with the camera and pointer position
     this.raycaster.setFromCamera(this.mouseCoords, this.camera);
-
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects(this.scene.children);
     for(let i = 0;i < intersects.length;i++) {
@@ -352,10 +387,11 @@ class Application extends MagicPhysics {
     this.renderer.render(this.scene, this.camera);
   }
 
-
 }
 
 let App = new Application(config);
 
+// Remove this after all
+// this is only for easy access from console
 window.App = App;
-window.THREE = THREE;
+// window.THREE = THREE;

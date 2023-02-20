@@ -1,8 +1,8 @@
 {
   "name": "Magic three",
   "short_name": "magic-three",
-  "start_url": "https://maximumroulette.com/apps/magic/public/module.html",
-  "orientation": "any",
+  "start_url": "https://localhost/public/module.html",
+  "orientation": "landscape",
   "theme_color": "lime",
   "background_color": "black",
   "description": "Based on three.js and ammo.js. Power full tool.",

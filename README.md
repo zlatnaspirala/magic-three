@@ -23,7 +23,7 @@ Backend  -> Node.js, MultiRTC3
 
 ```js
 const config = {
-  cache: true,
+  cache: false,
   stats: false,
   map: {
     background: 0xbfd1e5,
@@ -33,11 +33,46 @@ const config = {
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
-    cameraInitPosition: {x: 0, y: 5, z: 10}
+    cameraInitPosition: {x: 10, y: 5, z: 10},
+    movementSpeed : {
+      forward: 8, backward: 6, left: 8, right: 8, jump : 10
+    }
+  },
+  networking: {
+    broadcasterPort: 9001,
+    broadcasterInit: true,
+    // domain: "maximumroulette.com",
+    domain: "localhost",
+    networkDeepLogs: true,
+    /**
+     * masterServerKey is channel access id used to connect
+     * endpoint p2p. Multimedia server channel/multiRTC3 used.
+     */
+    masterServerKey: "magic.three.main.channel",
+    runBroadcasterOnInt: true,
+    broadcastAutoConnect: true,
+    broadcasterPort: 9010,
+    broadcastAutoConnect: false,
+    broadcasterSessionDefaults: {
+      sessionAudio: true,
+      sessionVideo: false,
+      sessionData: true,
+      enableFileSharing: true,
+    },
+    stunList: [
+      "stun:stun.l.google.com:19302",
+      "stun:stun1.l.google.com:19302",
+      "stun:stun.l.google.com:19302?transport=udp",
+    ],
+    getBroadcastSockRoute() {
+      return getProtocolFromAddressBar() + getDomain() + ":" + this.broadcasterPort + "/";
+    }
   }
 }
 ```
-## If you wanna start host server and broadcaster[webRtc] then:
+
+## Backend part based on multiRTC3.
+If you wanna start host server and broadcaster[webRtc] then:
 
 ```js
 cd backend

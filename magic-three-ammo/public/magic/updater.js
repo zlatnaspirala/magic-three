@@ -1,4 +1,5 @@
 import {MathUtils} from "three";
+import * as THREE from "three";
 
 export function updatePhysics(deltaTime) {
   // Step world
@@ -168,7 +169,6 @@ export function updateControls() {
     this.direction.normalize(); // this ensures consistent movements in all directions
     if(this.moveForward || this.moveBackward) this.velocity.z -= this.direction.z * 400.0 * delta;
     if(this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
-
     this.velocity.y = Math.max(0, this.velocity.y);
 
     if (this.config.playerController.movementType == "kinematic") {
@@ -179,7 +179,6 @@ export function updateControls() {
      }
 
     if (this.JUMP == true) {
-      console.log('JUMP TEST')
       if (localPingPong == true) {
         this.playerBody.userData.physicsBody.setLinearVelocity(
           new Ammo.btVector3(0, this.config.playerController.movementSpeed.jump, 0));
@@ -196,12 +195,12 @@ export function updateControls() {
 
     if (this.moveForward == true) {
       this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(8);
+      this.pos.multiplyScalar(this.config.playerController.movementSpeed.forward);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
     } else if (this.moveBackward == true) {
       this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(8);
+      this.pos.multiplyScalar(this.config.playerController.movementSpeed.backward);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(-this.pos.x, 0, -this.pos.z));
     } else if (this.moveLeft == true) {
@@ -209,7 +208,7 @@ export function updateControls() {
       fixedDirection1.applyAxisAngle(
         new THREE.Vector3(0,1,0), MathUtils.degToRad(90))
       this.pos.copy(fixedDirection1);
-      this.pos.multiplyScalar(8);
+      this.pos.multiplyScalar(this.config.playerController.movementSpeed.left);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      } else if (this.moveRight == true) {
@@ -217,7 +216,7 @@ export function updateControls() {
       fixedDirection1.applyAxisAngle(
         new THREE.Vector3(0,1,0), MathUtils.degToRad(-90))
       this.pos.copy(fixedDirection1);
-      this.pos.multiplyScalar(8);
+      this.pos.multiplyScalar(this.config.playerController.movementSpeed.right);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      }

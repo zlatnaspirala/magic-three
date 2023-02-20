@@ -29,6 +29,7 @@ export class MagicLoader {
       object.scale.setScalar(0.045);
       this.scene.add(object);
       this.loadedMeshs.push(object);
+      resolve(object);
     });
   })
   }

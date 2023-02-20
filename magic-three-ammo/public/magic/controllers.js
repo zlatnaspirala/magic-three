@@ -8,6 +8,7 @@ export function createFPSController() {
   this.controls.JUMP = false;
 
   instructions.addEventListener('click', () => {
+    console.log("LOCK CLICK")
     this.controls.lock();
   });
 
@@ -17,6 +18,7 @@ export function createFPSController() {
   });
 
   this.controls.addEventListener('unlock', function() {
+    
     blocker.style.display = 'block';
     instructions.style.display = '';
   });
