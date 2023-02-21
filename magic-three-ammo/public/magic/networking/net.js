@@ -17,15 +17,16 @@ export class Broadcaster {
     this.engineConfig;
     this.popupUI = null;
     this.broadcasterUI = null;
-    this.titleStatusthis = null;
-    this.openRoomBtnthis = null;
-    this.joinRoomBtnthis = null;
-    this.leaveRoomBtnthis = null;
-    this.shareFileBtnthis = null;
-    this.inputChatthis = null;
-    this.inputRoomIdthis = null;
+    this.titleStatus = null;
+    this.openRoomBtn = null;
+    this.joinRoomBtn = null;
+    this.leaveRoomBtn = null;
+    this.shareFileBtn = null;
+    this.inputChat = null;
+    this.inputRoomId = null;
     this.openDataSession = () => {};
 
+    // This is main object for multiplayer staff
     this.multiPlayerRef = {
       root: this,
       init(rtcEvent) {
@@ -95,6 +96,7 @@ export class Broadcaster {
   };
 
   activateDataStream() {
+    // comes with this.injector , because we no need always net scripts in runtime mem
     this.injector = this.multiPlayerRef;
     setTimeout(() => {
       this.openOrJoinBtn.click();

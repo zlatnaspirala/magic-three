@@ -57,6 +57,8 @@ class Application extends MagicPhysics {
     munition: 10
   };
 
+  networkEmisionObjs = [];
+
   constructor(config) {
 
     super({config: config});
@@ -227,7 +229,12 @@ class Application extends MagicPhysics {
       this.pos,
       this.quat
     );
-    console.log("PlayerBody created. ", this.playerBody)
+
+    // local player 
+    this.playerBody.name = 'player';
+    console.log("PlayerBody created and pushed to netView. ", this.playerBody);
+
+    this.networkEmisionObjs.push(this.playerBody);
     //playerB.setCollisionFlags(0);
   }
 
@@ -253,53 +260,7 @@ class Application extends MagicPhysics {
 
     // Load map items
     this.loadMap();
-
-    // Load custom elements
-
-    // Tower 1 Breakable
-    const towerMass = 1000;
-    const towerHalfExtents = new THREE.Vector3(5, 5, 0.3);
-    // this.pos.set(-8, 5, 0);
-    // this.quat.set(0, 0, 0, 1);
-    // this.createBreakableBox(
-    //   towerMass,
-    //   towerHalfExtents,
-    //   this.pos,
-    //   this.quat,
-    //   App.materials.assets.Yellow_glass
-    // );
-
-    // Tower 2 Normal
-    // this.pos.set(8, 5, 0);
-    // this.quat.set(0, 0, 0, 1);
-    // this.createSimpleBox(
-    //   towerMass,
-    //   towerHalfExtents,
-    //   this.pos,
-    //   this.quat,
-    //   App.materials.assets.Bronze
-    // );
-
-    // Tower Cilinder Physic but big mass
-    // this.pos.set(18, 5, 0);
-    // this.quat.set(0, 0, 0, 1);
-    // this.createCilinder(
-    //   10000,
-    //   [5, 5, 20, 32],
-    //   this.pos,
-    //   this.quat,
-    //   App.materials.assets.Bronze
-    // );
-
-    // this.pos.set(-18, 5, 0);
-    // this.quat.set(0, 0, 0, 1);
-    // this.createTorus(
-    //   10000,
-    //   [10, 3, 16, 100],
-    //   this.pos,
-    //   this.quat,
-    //   App.materials.assets.Bronze
-    // );
+    // Load custom elements ...
 
   }
 
@@ -311,6 +272,7 @@ class Application extends MagicPhysics {
   attachFire() {
     window.addEventListener("pointerdown", (event) => {
 
+      console.log('TEST' , byId('munition'))
       // playerItems
       this.playerItems
       this.mouseCoords.set(
@@ -364,6 +326,18 @@ class Application extends MagicPhysics {
   render() {
     const deltaTime = this.clock.getDelta();
 
+    // here 
+    // 
+    this.networkEmisionObjs.forEach((i, index) => {
+      console.log('>>>>', i.name)
+      if(this.net.connection) this.net.connection.send({
+        netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+        netObjId: i.name || 'netObjNAME__',
+      });
+
+    });
+
+
     this.updatePhysics(deltaTime);
     this.updateControls();
 
@@ -374,7 +348,12 @@ class Application extends MagicPhysics {
     }
 
     // test
-    if(this.loader.mixer) this.loader.mixer.update(deltaTime);
+    // if(this.loader.mixer) this.loader.mixer.update(deltaTime);
+
+    this.loader.mixers.forEach((i , index) => {
+      // i hope
+      i.update(deltaTime);
+    });
 
     // update the picking ray with the camera and pointer position
     this.raycaster.setFromCamera(this.mouseCoords, this.camera);

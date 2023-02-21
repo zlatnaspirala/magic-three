@@ -38,7 +38,7 @@ const config = {
     masterServerKey: "magic.three.main.channel",
     runBroadcasterOnInt: true,
     broadcasterPort: 9010,
-    broadcastAutoConnect: false,
+    broadcastAutoConnect: true,
     broadcasterSessionDefaults: {
       sessionAudio: true,
       sessionVideo: false,

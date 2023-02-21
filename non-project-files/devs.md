@@ -1,4 +1,76 @@
 
+Next features:
+ - fix animation for multi fbx    <- fixed
+ - connect first emit data for multiplayer  < -
+   i have already done this in matrix -engine
+
+
+ we dont have in threejs access like that 
+ from base class
+ i will use update samestaff\
+
+
+   we no need all object to be emited !!!
+   
+
+        if(net && net.connection && typeof em === 'undefined') net.connection.send({
+          netPos: {x: this.x, y: this.y, z: this.z},
+          netObjId: this.nameUniq,
+        });
+
+
+
+ // Load custom elements
+
+    // Tower 1 Breakable
+    const towerMass = 1000;
+    const towerHalfExtents = new THREE.Vector3(5, 5, 0.3);
+    // this.pos.set(-8, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createBreakableBox(
+    //   towerMass,
+    //   towerHalfExtents,
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Yellow_glass
+    // );
+
+    // Tower 2 Normal
+    // this.pos.set(8, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createSimpleBox(
+    //   towerMass,
+    //   towerHalfExtents,
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Bronze
+    // );
+
+    // Tower Cilinder Physic but big mass
+    // this.pos.set(18, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createCilinder(
+    //   10000,
+    //   [5, 5, 20, 32],
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Bronze
+    // );
+
+    // this.pos.set(-18, 5, 0);
+    // this.quat.set(0, 0, 0, 1);
+    // this.createTorus(
+    //   10000,
+    //   [10, 3, 16, 100],
+    //   this.pos,
+    //   this.quat,
+    //   App.materials.assets.Bronze
+    // );
+
+
+ MORE =>
+
+
     // //Bridge
     // const bridgeMass = 100;
     // const bridgeHalfExtents = new THREE.Vector3(7, 0.2, 1.5);

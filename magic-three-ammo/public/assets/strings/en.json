@@ -1,5 +1,8 @@
 {
-  "title": "Magic three",
+  "title": "MAGIC THREE - HANG3D",
   "play": "PLAY",
-  "munition": "Munition:"
+  "munition": "Munition:",
+  "move": "MOVE",
+  "jump": "JUMP",
+  "look": "LOOK"
 }
