@@ -329,11 +329,11 @@ class Application extends MagicPhysics {
     // here 
     // 
     this.networkEmisionObjs.forEach((i, index) => {
-      console.log('>>>>', i.name)
-      if(this.net.connection) this.net.connection.send({
-        netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
-        netObjId: i.name || 'netObjNAME__',
-      });
+    
+      // if(this.net.connection) this.net.connection.send({
+      //   netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+      //   netObjId: i.name || 'netObjNAME__',
+      // });
 
     });
 
