@@ -3,12 +3,7 @@ import {urlFlag} from "./utility.js";
 class MultiLang {
 
   constructor(l) {
-    console.info('MULTILANG CONSTR')
-    if(l !== null) {
-      this.curLang = l;
-    } else {
-      this.curLang = 'en';
-    }
+    if(l !== null) {this.curLang = l;} else {this.curLang = 'en';}
     this.get = {};
     this.update = function() {
       document.querySelectorAll("[data-langname]").forEach((el) => {
@@ -20,7 +15,7 @@ class MultiLang {
 
   t = (wordId) => {
     if(typeof wordId === 'undefined') {
-      return ' - ';
+      return '*';
     } else if(typeof this.get[wordId] !== 'undefined') {
       return this.get[wordId];
     }
@@ -58,7 +53,7 @@ let label = new MultiLang(lang);
 label.loadPack(lang, function() {
   const mlready = new CustomEvent('Multi lang ready', {});
   dispatchEvent(mlready);
-  console.info('MultiLang loaded.');
+  // console.info('MultiLang loaded.');
 });
 
 export default label.t;

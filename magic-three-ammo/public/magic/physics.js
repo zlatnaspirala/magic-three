@@ -42,7 +42,6 @@ export class MagicPhysics extends MagicNetworking {
   tmpPos = new THREE.Vector3();
   tmpQuat = new THREE.Quaternion();
 
-  // deep integration net
   activateNet = () => {
     this.net = new Broadcaster(ClientConfig, this.scene);
     console.info('Networking is active =>', this.net);
@@ -53,6 +52,8 @@ export class MagicPhysics extends MagicNetworking {
     console.log("MagicPhysics =>", options);
     this.updatePhysics = updatePhysics.bind(this);
     this.config = options.config;
+
+    this.gravityConstant = this.config.map.gravityConstant;
   }
 
   initPhysics() {
@@ -144,7 +145,6 @@ export class MagicPhysics extends MagicNetworking {
       localInertia
     );
     const body = new Ammo.btRigidBody(rbInfo);
-
     // body.setFriction(0.05);
     body.setFriction(4);
     body.setRollingFriction(10);

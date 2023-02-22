@@ -1,8 +1,11 @@
 {
-  "title": "MAGIC THREE - HANG3D",
+  "title": "MAGIC THREE - REAL WORLD",
   "play": "PLAY",
   "munition": "Munition:",
   "move": "MOVE",
   "jump": "JUMP",
-  "look": "LOOK"
+  "look": "LOOK",
+  "wasd": "WASD",
+  "space": "SPACE",
+  "mouse": "MOUSE"
 }

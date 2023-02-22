@@ -16,6 +16,7 @@ const config = {
     background: 0xbfd1e5,
     floorWidth: 200,
     floorHeight: 200,
+    gravityConstant: 17.5
   },
   playerController: {
     type: 'FPS', // FPS | orbit

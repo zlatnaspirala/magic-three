@@ -231,12 +231,14 @@ class Application extends MagicPhysics {
       this.quat
     );
 
-    // local player 
+    // local player
     this.playerBody.name = 'player';
     console.log("PlayerBody created and pushed to netView. ", this.playerBody);
 
     this.networkEmisionObjs.push(this.playerBody);
     //playerB.setCollisionFlags(0);
+
+    byId('player.munition').innerHTML = this.playerItems.munition;
   }
 
   createObjects() {
@@ -272,8 +274,7 @@ class Application extends MagicPhysics {
 
   attachFire() {
     window.addEventListener("pointerdown", (event) => {
-
-      console.log('TEST', byId('munition'))
+      //console.log('TEST ........................', byId('player.munition'))
       // playerItems
       this.playerItems
       this.mouseCoords.set(

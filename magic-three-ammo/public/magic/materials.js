@@ -6,7 +6,7 @@ export class MagicMaterials {
   assets = {};
 
   constructor() {
-    console.info("MagicMaterials...");
+    // console.info("MagicMaterials");
     // this.createCubeRefraction('./assets/textures/cube/');
     this.createMyMat('./assets/textures/cube/metal-r1-blue.webp');
     this.createBlackWall();
