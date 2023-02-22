@@ -4,7 +4,6 @@ import {byId, createAppEvent, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
 import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
-// import * as io from "./rtc-multi-connection/socket.io.js";
 
 export class Broadcaster {
 
@@ -12,7 +11,6 @@ export class Broadcaster {
 
     this.scene = scene;
     this.loader = new MagicLoader(scene);
-    console.log('Broadcaster client part contructor. scene inject ->', scene);
     this.injector;
     this.openOrJoinBtn;
     this.connection;
@@ -35,47 +33,33 @@ export class Broadcaster {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
-        console.log("rtcEvent add new net object -> ", rtcEvent.userid);
-        console.log("rtcEvent add new net object this.netPlayers -> ", this.root.netPlayers);
+        console.log("rtcEvent add new, net object -> ", rtcEvent.userid);
+        console.log("rtcEvent add new, netPlayers -> ", this.root.netPlayers);
         this.myBigDataFlag.push(this.root.loader.fbx('./assets/objects/player/walk-forward.fbx', 'netPlayer').then((r) => {
           console.info('Setup player animation character obj =>', r);
-          // i need ref for three obj
-          //  'net_' + rtcEvent.userid will be patern
+          // 'net_' + rtcEvent.userid will be patern
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
-          r.position.set(10, 0, 10);
+          // r.position.set(10, 0, 10);
         }));
       },
       update(e) {
         if(e.data.netPos) {
-          console.log('INFO FOR UPDATE e.data.netPos', e.data.netPos);
           if (e.data.netType == 'netPlayer') {
             // console.log('INFO FOR UPDATE e.data.netObjId =>', e.data.netObjId);
-            // OK this.root.netPlayers['net_' + e.data.netObjId] 
             if (typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
               this.root.netPlayers['net_' + e.data.netObjId].position.set(
                 e.data.netPos.x,
-                e.data.netPos.y,
+                e.data.netPos.y - 2, // correction
                 e.data.netPos.z,
               );
+              // For now only Y, x or y for arms in future...
+              this.root.netPlayers['net_' + e.data.netObjId].rotation.y = e.data.netRot.y;
             }
           }
         }
-        // NEXT !!! netRot
-        // else if (e.data.netRot) {
-        //   // console.log('ROT INFO ZA UPDATE', e);
-        //   if (e.data.netRot.x) App.scene[e.data.netObjId].rotation.rotx = e.data.netRot.x; // , 'noemit');
-        //   if (e.data.netRot.y) App.scene[e.data.netObjId].rotation.roty = e.data.netRot.y;
-        //   if (e.data.netRot.z) App.scene[e.data.netObjId].rotation.rotz = e.data.netRot.z;
-        // }
-        // else if (e.data.netScale) {
-        //    // console.log('netScale INFO ZA UPDATE', e);
-        //   if (e.data.netScale.x) App.scene[e.data.netObjId].geometry.setScaleByX(e.data.netScale.x, 'noemit');
-        //   if (e.data.netScale.y) App.scene[e.data.netObjId].geometry.setScaleByY(e.data.netScale.y, 'noemit');
-        //   if (e.data.netScale.z) App.scene[e.data.netObjId].geometry.setScaleByZ(e.data.netScale.z, 'noemit');
-        //   if (e.data.netScale.scale) App.scene[e.data.netObjId].geometry.setScale(e.data.netScale.scale, 'noemit');
       },
-
       /**
+       * @description
        * If someone leaves all client actions is here
        * - remove from scene
        * - clear object from netObject_x
@@ -85,12 +69,13 @@ export class Broadcaster {
       }
     };
 
-    (window).io = io;
-
+    // (window).io = io;
     this.engineConfig = config.networking;
     if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
     }
+
+    // console.info('Broadcaster client part constructed with success.');
   }
 
   closeAllPeers() {
@@ -106,7 +91,7 @@ export class Broadcaster {
   };
 
   activateDataStream() {
-    // comes with this.injector , because we no need always net scripts in runtime mem
+    // comes with this.injector, because we no need always net scripts in runtime mem
     this.injector = this.multiPlayerRef;
     setTimeout(() => {
       this.openOrJoinBtn.click();
@@ -123,7 +108,6 @@ export class Broadcaster {
     this.shareFileBtn = byId("share-file");
     this.inputChat = byId("input-text-chat");
     this.inputRoomId = byId("room-id");
-
     this.openRoomBtnVisible(true);
   }
 
@@ -151,7 +135,6 @@ export class Broadcaster {
     if(typeof options !== "undefined") {
       // by default, it is "false".
       this.connection.enableFileSharing = options.enableFileSharing;
-
       this.connection.session = {
         audio: options.session.audio,
         video: options.session.video,
@@ -159,7 +142,6 @@ export class Broadcaster {
       };
     } else {
       this.connection.enableFileSharing = root.engineConfig.broadcasterSessionDefaults.enableFileSharing;
-
       this.connection.session = {
         audio: root.engineConfig.broadcasterSessionDefaults.sessionAudio,
         video: root.engineConfig.broadcasterSessionDefaults.sessionVideo,
@@ -169,7 +151,7 @@ export class Broadcaster {
 
     this.connection.sdpConstraints.mandatory = {
       OfferToReceiveAudio: true,
-      OfferToReceiveVideo: true,
+      OfferToReceiveVideo: false,
     };
 
     this.connection.iceServers = [
@@ -236,12 +218,8 @@ export class Broadcaster {
         root.injector.init(event);
       }
 
-      console.info(
-        "You are connected with: " +
-        root.connection.getAllParticipants().join(", ")
-      );
-      (document.querySelector("#rtc3log")).innerHTML =
-        "You are connected with: " +
+      console.info("You are connected with: " + root.connection.getAllParticipants().join(", "));
+      (document.querySelector("#rtc3log")).innerHTML = "You are connected with: " +
         root.connection.getAllParticipants().join(", ");
     };
 
@@ -294,7 +272,7 @@ export class Broadcaster {
   };
 
   showRoomURL(roomid) {
-    console.info('B Entering in room: ', roomid);
+    console.info('Entering in room: ', roomid);
     return;
   }
 
@@ -521,8 +499,7 @@ export class Broadcaster {
         myInstance.inputRoomId.nodeValue = myInstance.engineConfig.masterServerKey;
 
         if(myInstance.engineConfig.broadcastAutoConnect) {
-          console.log("Try auto connect for broadcaster.");
-          // comes with this.injector , because we no need always net scripts in runtime mem
+          console.log("Try auto connect [broadcaster].");
           myInstance.injector = myInstance.multiPlayerRef;
           myInstance.openOrJoinBtn.click();
         }

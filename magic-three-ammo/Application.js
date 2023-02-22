@@ -128,8 +128,8 @@ class Application extends MagicPhysics {
     this.createPlayer();
   }
 
-  initGamePlayEvents () {
-    createAppEvent('player.shoot' , {});
+  initGamePlayEvents() {
+    createAppEvent('player.shoot', {});
   }
 
   initGraphics() {
@@ -273,7 +273,7 @@ class Application extends MagicPhysics {
   attachFire() {
     window.addEventListener("pointerdown", (event) => {
 
-      console.log('TEST' , byId('munition'))
+      console.log('TEST', byId('munition'))
       // playerItems
       this.playerItems
       this.mouseCoords.set(
@@ -328,18 +328,21 @@ class Application extends MagicPhysics {
 
   render() {
     const deltaTime = this.clock.getDelta();
-    // TEST NETWORK
-    // 
+    // NETWORK
     this.netflag++;
-    if (this.netflag > 10) {
-    this.networkEmisionObjs.forEach((i, index) => {
-    
-      if(this.net.connection) this.net.connection.send({
-        netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
-        netObjId: this.net.connection.userid || i.name,
-        netType: 'netPlayer' // can be shared or enemy comp
-      });
-
+    if(this.netflag > 10) {
+      this.networkEmisionObjs.forEach((i, index) => {
+        if(this.net.connection) this.net.connection.send({
+          netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+          netRot: {
+            x: this.camera.rotation.x,
+            y: this.camera.rotation.y,
+            z: this.camera.rotation.z,
+           // w: this.camera.quaternion.w
+          },
+          netObjId: this.net.connection.userid || i.name,
+          netType: 'netPlayer' // can be shared or enemy comp
+        });
       });
       this.netflag = 0;
     }
