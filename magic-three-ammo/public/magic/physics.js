@@ -44,7 +44,7 @@ export class MagicPhysics extends MagicNetworking {
 
   // deep integration net
   activateNet = () => {
-    this.net = new Broadcaster(ClientConfig);
+    this.net = new Broadcaster(ClientConfig, this.scene);
     console.info('Networking is active =>', this.net);
   };
 

@@ -111,6 +111,13 @@ Lighthouse screenshot:
 No need for PWA at dev/localhost work.
 In final time you can use .prod.js compressed files to make full optimised app with better preformance.
 
+
+### Networking
+
+  Every player send own `net.connection.userid`.
+  
+
+
 ### At separated branch you can find [old-arhive]:
 - old [threejs version 75 , 68 etc...]
    Lot of crazzy staff but you need to make it running... [deplaced methodology]

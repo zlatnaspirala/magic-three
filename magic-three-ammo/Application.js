@@ -50,6 +50,8 @@ class Application extends MagicPhysics {
   vertex = new THREE.Vector3();
   color = new THREE.Color();
 
+  myBigDataFlag = [];
+
   playerBody;
   config;
 
@@ -83,19 +85,18 @@ class Application extends MagicPhysics {
     // Big data loading procedure
     // myBigDataFlag got undefined array fill because 
     // i pass then call (func void) - work ok.
-    let myBigDataFlag = [];
 
-    myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx').then((r) => {
-      console.info('Setup this obj =>', r);
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
+      console.info('Setup enemy obj =>', r);
       r.position.set(-10, 0, -10)
     }));
 
-    myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-running2.fbx').then((r) => {
-      console.info('Setup this obj =>', r);
-      r.position.set(10, 0, 10)
-    }));
+    // myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-running2.fbx').then((r) => {
+    //   console.info('Setup this obj =>', r);
+    //   r.position.set(10, 0, 10)
+    // }));
 
-    Promise.all(myBigDataFlag).then((values) => {
+    Promise.all(this.myBigDataFlag).then((values) => {
       console.log('Big data promise all => ', values);
       const domLoader = document.getElementById('instructions');
       // MultiLang is async call
@@ -335,7 +336,8 @@ class Application extends MagicPhysics {
     
       if(this.net.connection) this.net.connection.send({
         netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
-        netObjId: i.name || 'netObjNAME',
+        netObjId: this.net.connection.userid || i.name,
+        netType: 'netPlayer' // can be shared or enemy comp
       });
 
       });

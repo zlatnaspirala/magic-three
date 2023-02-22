@@ -12,7 +12,7 @@ export class MagicLoader {
     this.scene = scene;
   }
 
-  async fbx(p) {
+  async fbx(p, refName) {
     return new Promise((resolve, reject) => {
     const loader = new FBXLoader();
     loader.load(p, (object) => {
@@ -25,7 +25,7 @@ export class MagicLoader {
           child.receiveShadow = true;
         }
       });
-      object.name = 'zombie';
+      object.name = refName || 'zombie';
       object.scale.setScalar(0.045);
       this.scene.add(object);
       this.loadedMeshs.push(object);

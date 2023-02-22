@@ -1,4 +1,5 @@
 
+import {MagicLoader} from "../loaders.js";
 import {byId, createAppEvent, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
@@ -7,9 +8,11 @@ import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3
 
 export class Broadcaster {
 
-  constructor(config) {
+  constructor(config, scene) {
 
-    console.log('Broadcaster client part contructor');
+    this.scene = scene;
+    this.loader = new MagicLoader(scene);
+    console.log('Broadcaster client part contructor. scene inject ->', scene);
     this.injector;
     this.openOrJoinBtn;
     this.connection;
@@ -27,42 +30,49 @@ export class Broadcaster {
     this.openDataSession = () => {};
 
     // This is main object for multiplayer staff
+    this.netPlayers = {};
     this.multiPlayerRef = {
       root: this,
+      myBigDataFlag: [],
       init(rtcEvent) {
         console.log("rtcEvent add new net object -> ", rtcEvent.userid);
+        console.log("rtcEvent add new net object this.netPlayers -> ", this.root.netPlayers);
+        this.myBigDataFlag.push(this.root.loader.fbx('./assets/objects/player/walk-forward.fbx', 'netPlayer').then((r) => {
+          console.info('Setup player animation character obj =>', r);
+          // i need ref for three obj
+          //  'net_' + rtcEvent.userid will be patern
+          this.root.netPlayers['net_' + rtcEvent.userid] = r;
+          r.position.set(10, 0, 10);
+        }));
       },
       update(e) {
         if(e.data.netPos) {
           console.log('INFO FOR UPDATE e.data.netPos', e.data.netPos);
-          // this is from matrix engine also from visual-ts game engine
-          // if (e.data.netPos.x) App.scene[e.data.netObjId].position.SetX(e.data.netPos.x, 'noemit');
-          // if (e.data.netPos.y) App.scene[e.data.netObjId].position.SetY(e.data.netPos.y, 'noemit');
-          // if (e.data.netPos.z) App.scene[e.data.netObjId].position.SetZ(e.data.netPos.z, 'noemit');
-
+          if (e.data.netType == 'netPlayer') {
+            // console.log('INFO FOR UPDATE e.data.netObjId =>', e.data.netObjId);
+            // OK this.root.netPlayers['net_' + e.data.netObjId] 
+            if (typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
+              this.root.netPlayers['net_' + e.data.netObjId].position.set(
+                e.data.netPos.x,
+                e.data.netPos.y,
+                e.data.netPos.z,
+              );
+            }
+          }
         }
+        // NEXT !!! netRot
         // else if (e.data.netRot) {
         //   // console.log('ROT INFO ZA UPDATE', e);
         //   if (e.data.netRot.x) App.scene[e.data.netObjId].rotation.rotx = e.data.netRot.x; // , 'noemit');
         //   if (e.data.netRot.y) App.scene[e.data.netObjId].rotation.roty = e.data.netRot.y;
         //   if (e.data.netRot.z) App.scene[e.data.netObjId].rotation.rotz = e.data.netRot.z;
-        // } else if (e.data.netScale) {
+        // }
+        // else if (e.data.netScale) {
         //    // console.log('netScale INFO ZA UPDATE', e);
         //   if (e.data.netScale.x) App.scene[e.data.netObjId].geometry.setScaleByX(e.data.netScale.x, 'noemit');
         //   if (e.data.netScale.y) App.scene[e.data.netObjId].geometry.setScaleByY(e.data.netScale.y, 'noemit');
         //   if (e.data.netScale.z) App.scene[e.data.netObjId].geometry.setScaleByZ(e.data.netScale.z, 'noemit');
         //   if (e.data.netScale.scale) App.scene[e.data.netObjId].geometry.setScale(e.data.netScale.scale, 'noemit');
-        // } else if (e.data.texScaleFactor) {
-        //   // console.log('texScaleFactor INFO ZA UPDATE', e);
-        //   if (e.data.texScaleFactor.newScaleFactror) {
-        //     App.scene[e.data.netObjId].geometry.setTexCoordScaleFactor(e.data.texScaleFactor.newScaleFactror, 'noemit');
-        //   }
-        // } else if (e.data.spitz) {
-        //   if (e.data.spitz.newValueFloat) {
-        //     App.scene[e.data.netObjId].geometry.setSpitz(e.data.spitz.newValueFloat, 'noemit');
-        //   }
-        // }
-
       },
 
       /**
