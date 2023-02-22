@@ -56,7 +56,8 @@ class MultiLang {
 var lang = urlFlag('lang');
 let label = new MultiLang(lang);
 label.loadPack(lang, function() {
-  dispatchEvent('Multi lang ready');
+  const mlready = new CustomEvent('Multi lang ready', {});
+  dispatchEvent(mlready);
   console.info('MultiLang loaded.');
 });
 

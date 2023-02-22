@@ -45,12 +45,12 @@ export class MagicPhysics extends MagicNetworking {
   // deep integration net
   activateNet = () => {
     this.net = new Broadcaster(ClientConfig);
-    console.info('Networking is active.', this.net);
+    console.info('Networking is active =>', this.net);
   };
 
   constructor(options) {
     super();
-    console.log("MagicPhysics =>", options)
+    console.log("MagicPhysics =>", options);
     this.updatePhysics = updatePhysics.bind(this);
     this.config = options.config;
   }
@@ -82,7 +82,7 @@ export class MagicPhysics extends MagicNetworking {
     // Extra props brach this - enable for more innert move.
     if(moveX == 0 && moveY == 0 && moveZ == 0) return;
 
-    let resultantImpulse = new Ammo.btVector3(moveX, moveY, moveZ)
+    let resultantImpulse = new Ammo.btVector3(moveX, moveY, moveZ);
     resultantImpulse.op_mul(scalingFactor);
 
     let physicsBody = this.playerBody.userData.physicsBody;

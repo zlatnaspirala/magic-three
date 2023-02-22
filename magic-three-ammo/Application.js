@@ -64,11 +64,11 @@ class Application extends MagicPhysics {
     super({config: config});
     this.config = config;
 
-    addEventListener('Multi lang ready', () => {
-      console.info('READY MULTI 123')
-    })
+    // addEventListener('Multi lang ready', () => {
+    //   console.info('if you have some situation use this')
+    // })
 
-    this.activateNet()
+    this.activateNet();
 
     // Loaders
     this.loader = new MagicLoader(this.scene);
@@ -323,19 +323,25 @@ class Application extends MagicPhysics {
     if(this.stats) this.stats.update();
   }
 
+  netflag = 0;
+
   render() {
     const deltaTime = this.clock.getDelta();
-
-    // here 
+    // TEST NETWORK
     // 
+    this.netflag++;
+    if (this.netflag > 10) {
     this.networkEmisionObjs.forEach((i, index) => {
     
-      // if(this.net.connection) this.net.connection.send({
-      //   netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
-      //   netObjId: i.name || 'netObjNAME__',
-      // });
+      if(this.net.connection) this.net.connection.send({
+        netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+        netObjId: i.name || 'netObjNAME',
+      });
 
-    });
+      });
+      this.netflag = 0;
+    }
+
 
 
     this.updatePhysics(deltaTime);
@@ -347,11 +353,7 @@ class Application extends MagicPhysics {
       this.moveKinematic();
     }
 
-    // test
-    // if(this.loader.mixer) this.loader.mixer.update(deltaTime);
-
-    this.loader.mixers.forEach((i , index) => {
-      // i hope
+    this.loader.mixers.forEach((i) => {
       i.update(deltaTime);
     });
 

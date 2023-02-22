@@ -297,12 +297,12 @@ export class Broadcaster {
   };
 
   appendDIV = event => {
-    if(event.data && 
+    if(event.data &&
       (event.data.netPos ||
-       event.data.netRot ||
-       event.data.netScale ||
-       event.data.spitz ||
-       event.data.texScaleFactor)) {
+        event.data.netRot ||
+        event.data.netScale ||
+        event.data.spitz ||
+        event.data.texScaleFactor)) {
       this.injector.update(event);
       return;
     }
@@ -512,6 +512,8 @@ export class Broadcaster {
 
         if(myInstance.engineConfig.broadcastAutoConnect) {
           console.log("Try auto connect for broadcaster.");
+          // comes with this.injector , because we no need always net scripts in runtime mem
+          myInstance.injector = myInstance.multiPlayerRef;
           myInstance.openOrJoinBtn.click();
         }
 
