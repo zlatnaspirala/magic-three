@@ -9,8 +9,10 @@ export let startUpScreen = () => `
   ${t('move')}: ${t('wasd')}<br/>
   ${t('jump')}: ${t('space')}<br/>
   ${t('look')}: ${t('mouse')}
-  </p>`;
+  </p>
+  <br>
+  <br>
+  <small>Project source code : <a href='https://github.com/zlatnaspirala/magic-three'>github</a></small>
+  <small>Based on <a href='https://threejs.org/'>Three.js</a> and <a href="https://github.com/kripken/ammo.js/">Ammo.js</a></small>
+  `;
 
-export let munitionLabel = () => `
-
-`;

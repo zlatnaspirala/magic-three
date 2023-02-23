@@ -29,6 +29,7 @@ const config = {
     },
     bullet: {
       mass: 30,
+      radius: 0.2,
       power: 100
     }
   },
