@@ -24,6 +24,9 @@ const config = {
     cameraInitPosition: {x: 10, y: 5, z: 10},
     movementSpeed : {
       forward: 8, backward: 6, left: 8, right: 8, jump : 10
+    },
+    bullet: {
+      power: 100
     }
   },
   networking: {

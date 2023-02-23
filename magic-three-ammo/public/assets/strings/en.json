@@ -1,12 +1,13 @@
 {
   "title": "MAGIC THREE - REAL WORLD",
   "play": "PLAY",
-  "munition": "Munition:",
+  "munition": "Munition: ",
   "move": "MOVE",
   "jump": "JUMP",
   "look": "LOOK",
   "wasd": "WASD",
   "space": "SPACE",
   "mouse": "MOUSE",
-  "loading": "loading..."
+  "loading": "loading...",
+  "kills.label": "KILLS: "
 }

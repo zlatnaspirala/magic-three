@@ -15,7 +15,7 @@ import {updateControls} from "./public/magic/updater.js";
 import config from './config.js';
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {byId, createAppEvent, runCache} from "./public/magic/utility.js";
+import {byId, createAppEvent, load, runCache, save} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import t from "./public/magic/multi-lang.js";
@@ -60,6 +60,8 @@ class Application extends MagicPhysics {
     munition: 10
   };
 
+  playerData = {};
+
   networkEmisionObjs = [];
 
   constructor(config) {
@@ -74,10 +76,23 @@ class Application extends MagicPhysics {
       byId('header.title').innerHTML = t('title');
       byId('player.munition.label').innerHTML = t('munition');
       byId('loading.label').innerHTM = t('loading');
-      
+      byId('player.kills.label').innerHTML = t('kills.label');
     });
 
     this.activateNet();
+
+    // Player data - locals only - this is not secured if you wanna some validation data...
+    if (load('playerData') !== false) {
+      this.playerData = load('playerData');
+    } else {
+      this.playerData = {
+        kills: 0
+      };
+      save('playerData', this.playerData);
+    }
+
+    byId('player.kills').innerHTML = this.playerData.kills;
+    console.info('playerData' , this.playerData);
 
     // Loaders
     this.loader = new MagicLoader(this.scene);
@@ -97,6 +112,11 @@ class Application extends MagicPhysics {
       console.info('Setup enemy obj =>', r);
       r.position.set(-10, 0, -10)
     }));
+
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walk-forward.fbx', 'netPlayer').then((r) => {
+    //   console.info('Setup player animation character obj =>', r);
+    //   // r.position.set(10, 0, 10);
+    // }));
 
     // myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-running2.fbx').then((r) => {
     //   console.info('Setup this obj =>', r);
@@ -245,6 +265,7 @@ class Application extends MagicPhysics {
     this.networkEmisionObjs.push(this.playerBody);
     //playerB.setCollisionFlags(0);
 
+    // storage session
     byId('player.munition').innerHTML = this.playerItems.munition;
   }
 
@@ -314,7 +335,7 @@ class Application extends MagicPhysics {
       );
 
       this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(48);
+      this.pos.multiplyScalar(this.config.playerController.bullet.power);
       ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
     });
   }
@@ -367,6 +388,11 @@ class Application extends MagicPhysics {
     }
 
     this.loader.mixers.forEach((i) => {
+      i.update(deltaTime);
+    });
+
+    // for now
+    this.net.loader.mixers.forEach((i) => {
       i.update(deltaTime);
     });
 

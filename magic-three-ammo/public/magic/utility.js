@@ -1,19 +1,19 @@
 
 export function isiOS() {
-    return [
-      'iPad Simulator',
-      'iPhone Simulator',
-      'iPod Simulator',
-      'iPad',
-      'iPhone',
-      'iPod'
-    ].includes(navigator.platform)
+  return [
+    'iPad Simulator',
+    'iPhone Simulator',
+    'iPod Simulator',
+    'iPad',
+    'iPhone',
+    'iPod'
+  ].includes(navigator.platform)
     // iPad on iOS 13 detection
     || (navigator.userAgent.includes("Mac") && "ontouchend" in document)
 }
 
 export function runCache(f) {
-  if (f == false) return;
+  if(f == false) return;
   if("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       if(isiOS()) {
@@ -21,10 +21,10 @@ export function runCache(f) {
           console.log('Worker runned.');
         });
       } else {
-      navigator.serviceWorker.register("cache.js").then(() => {
-        console.log('Worker runned.');
-      });
-    }
+        navigator.serviceWorker.register("cache.js").then(() => {
+          console.log('Worker runned.');
+        });
+      }
     });
   } else {
     console.warn("MagicThree: No support for web workers in this browser.");
@@ -84,10 +84,25 @@ export function getDomain() {
 
 export function urlFlag(name) {
   let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
-  if (results == null) {
+  if(results == null) {
     return null;
   } else {
     return decodeURI(results[1]) || 0;
+  }
+}
+
+export function save(name, obj) {
+  localStorage.setItem(name, JSON.stringify(obj));
+}
+
+export function load(name) {
+  if(localStorage.getItem(name) == 'undefined' ||
+     localStorage.getItem(name) == null ||
+     localStorage.getItem(name) == "") {
+    return false;
+  }
+  else {
+    return JSON.parse(localStorage.getItem(name));
   }
 }
 

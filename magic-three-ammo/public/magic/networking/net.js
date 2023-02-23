@@ -35,12 +35,12 @@ export class Broadcaster {
       init(rtcEvent) {
         console.log("rtcEvent add new, net object -> ", rtcEvent.userid);
         console.log("rtcEvent add new, netPlayers -> ", this.root.netPlayers);
-        this.myBigDataFlag.push(this.root.loader.fbx('./assets/objects/player/walk-forward.fbx', 'netPlayer').then((r) => {
+        this.root.loader.fbx('./assets/objects/player/walk-forward.fbx', 'netPlayer').then((r) => {
           console.info('Setup player animation character obj =>', r);
           // 'net_' + rtcEvent.userid will be patern
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
           // r.position.set(10, 0, 10);
-        }));
+        })
       },
       update(e) {
         if(e.data.netPos) {
