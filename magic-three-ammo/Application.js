@@ -313,7 +313,7 @@ class Application extends MagicPhysics {
       this.raycaster.setFromCamera(this.mouseCoords, this.camera);
 
       // Creates a ball and throws it
-      const ballMass = 35;
+      const ballMass = this.config.playerController.bullet.mass;
       const ballRadius = 0.2;
       const ball = new THREE.Mesh(
         new THREE.SphereGeometry(ballRadius, 14, 10),
