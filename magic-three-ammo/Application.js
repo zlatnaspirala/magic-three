@@ -18,6 +18,7 @@ import {MagicLoader} from "./public/magic/loaders.js";
 import {byId, createAppEvent, runCache} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
+import t from "./public/magic/multi-lang.js";
 
 class Application extends MagicPhysics {
 
@@ -66,9 +67,13 @@ class Application extends MagicPhysics {
     super({config: config});
     this.config = config;
 
-    // addEventListener('Multi lang ready', () => {
-    //   console.info('if you have some situation use this')
-    // })
+    addEventListener('multi-lang-ready', () => {
+      // console.info('if you have some situation use this')
+      // setup strings label 0 use here t('')
+      byId('header.title').innerHTML = t('title');
+      byId('player.munition.label').innerHTML = t('munition');
+
+    });
 
     this.activateNet();
 

@@ -95,12 +95,8 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Integrate networking and self hosting based on node.js
  - Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
 
-## Credits && Licence
- - https://threejs.org/
- - https://github.com/kripken/ammo.js/
- - In Assets i use great https://mixamo.com/
 
-## More info
+## More info about PWA
 I have performance stable at ~90% value. I load extra fbx animation 22Mb to test little more better.
 Image formats like WebP and AVIF often provide better compression than PNG or JPEG, 
 which means faster downloads and less data consumption. I use freeware GIMP he had a webp format support for exports.
@@ -111,12 +107,29 @@ Lighthouse screenshot:
 No need for PWA at dev/localhost work.
 In final time you can use .prod.js compressed files to make full optimised app with better preformance.
 
+### MultiLang [strings]
+
+Only on startup for now:
+```js
+    addEventListener('multi-lang-ready', () => {
+      byId('header.title').innerHTML = t('title');
+      byId('player.munition.label').innerHTML = t('munition');
+      ...
+    });
+```
 
 ### Networking
 
-  Every player send own `net.connection.userid`.
+  1) Every player send own `net.connection.userid`.
   
 
+## Credits && Licence
+ - https://threejs.org/
+ - https://github.com/kripken/ammo.js/
+ - In Assets i use great https://mixamo.com/
+
+
+## More
 
 ### At separated branch you can find [old-arhive]:
 - old [threejs version 75 , 68 etc...]

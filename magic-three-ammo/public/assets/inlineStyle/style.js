@@ -10,3 +10,7 @@ export let startUpScreen = () => `
   ${t('jump')}: ${t('space')}<br/>
   ${t('look')}: ${t('mouse')}
   </p>`;
+
+export let munitionLabel = () => `
+
+`;
