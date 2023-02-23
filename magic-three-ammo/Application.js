@@ -234,7 +234,7 @@ class Application extends MagicPhysics {
   createPlayer() {
     const material = new THREE.LineBasicMaterial({color: 0x0000ff});
     const ballMass = 10;
-    const ballRadius = 2;
+    const ballRadius = 1;
     const ball = new THREE.Line(
       new THREE.SphereGeometry(ballRadius, 14, 10),
       material);
@@ -304,7 +304,7 @@ class Application extends MagicPhysics {
     window.addEventListener("pointerdown", (event) => {
       //console.log('TEST ........................', byId('player.munition'))
       // playerItems
-      this.playerItems
+      // this.playerItems
       this.mouseCoords.set(
         (event.clientX / window.innerWidth) * 2 - 1,
         -(event.clientY / window.innerHeight) * 2 + 1
@@ -315,19 +315,19 @@ class Application extends MagicPhysics {
       // Creates a ball and throws it
       const ballMass = this.config.playerController.bullet.mass;
       const ballRadius = this.config.playerController.bullet.radius;
-      const ball = new THREE.Mesh(
+      const bulletMesh = new THREE.Mesh(
         new THREE.SphereGeometry(ballRadius, 14, 10),
         this.ballMaterial
       );
-      ball.castShadow = true;
-      ball.receiveShadow = true;
+      bulletMesh.castShadow = true;
+      bulletMesh.receiveShadow = true;
       const ballShape = new Ammo.btSphereShape(ballRadius);
       ballShape.setMargin(this.margin);
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.add(this.raycaster.ray.origin);
       this.quat.set(0, 0, 0, 1);
       const ballBody = this.createRigidBody(
-        ball,
+        bulletMesh,
         ballShape,
         ballMass,
         this.pos,
@@ -337,6 +337,11 @@ class Application extends MagicPhysics {
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(this.config.playerController.bullet.power);
       ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
+
+      setTimeout(() => {
+        this.destroySceneObject(bulletMesh);
+      }, this.config.playerController.bullet.bulletLiveTime);
+
     });
   }
 

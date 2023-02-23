@@ -30,7 +30,8 @@ const config = {
     bullet: {
       mass: 30,
       radius: 0.2,
-      power: 100
+      power: 100,
+      bulletLiveTime: 1000
     }
   },
   networking: {

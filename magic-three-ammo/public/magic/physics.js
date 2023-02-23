@@ -335,4 +335,9 @@ export class MagicPhysics extends MagicNetworking {
     this.physicsWorld.addRigidBody(body);
   }
 
+  destroySceneObject(o) {
+    this.scene.remove(o);
+    this.physicsWorld.removeRigidBody(o.userData.physicsBody);
+  }
+
 }
