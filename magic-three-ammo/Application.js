@@ -70,9 +70,11 @@ class Application extends MagicPhysics {
     addEventListener('multi-lang-ready', () => {
       // console.info('if you have some situation use this')
       // setup strings label 0 use here t('')
+      document.title = t('title');
       byId('header.title').innerHTML = t('title');
       byId('player.munition.label').innerHTML = t('munition');
-
+      byId('loading.label').innerHTM = t('loading');
+      
     });
 
     this.activateNet();

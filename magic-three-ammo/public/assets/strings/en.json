@@ -7,5 +7,6 @@
   "look": "LOOK",
   "wasd": "WASD",
   "space": "SPACE",
-  "mouse": "MOUSE"
+  "mouse": "MOUSE",
+  "loading": "loading..."
 }
