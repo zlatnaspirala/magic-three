@@ -178,12 +178,12 @@ export function updateControls() {
       return;
      }
 
-    if (this.JUMP == true) {
+    if (this.controls.JUMP == true) {
       if (localPingPong == true) {
         this.playerBody.userData.physicsBody.setLinearVelocity(
           new Ammo.btVector3(0, this.config.playerController.movementSpeed.jump, 0));
         this.camera.position.copy(this.playerBody.position);
-        this.JUMP = false;
+        this.controls.JUMP = false;
         localPingPong = !localPingPong;
       } else {
         this.playerBody.position.copy(this.camera.position);
@@ -197,7 +197,7 @@ export function updateControls() {
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(this.config.playerController.movementSpeed.forward);
       this.playerBody.userData.physicsBody.setLinearVelocity(
-        new Ammo.btVector3(this.pos.x, 0, this.pos.z));
+        new Ammo.btVector3(this.pos.x, -1, this.pos.z));
     } else if (this.moveBackward == true) {
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(this.config.playerController.movementSpeed.backward);

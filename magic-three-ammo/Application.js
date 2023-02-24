@@ -36,14 +36,14 @@ class Application extends MagicPhysics {
   clock = new THREE.Clock();
   mouseCoords = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
-  ballMaterial = new THREE.MeshPhongMaterial({color: 0x202020});
+  bulletMaterial = new THREE.MeshPhongMaterial({color: 0x202020});
 
   // FPShooter Controller
   moveForward = false;
   moveBackward = false;
   moveLeft = false;
   moveRight = false;
-  canJump = false;
+  // canJump = false;
 
   prevTime = performance.now();
   velocity = new THREE.Vector3();
@@ -317,7 +317,7 @@ class Application extends MagicPhysics {
       const ballRadius = this.config.playerController.bullet.radius;
       const bulletMesh = new THREE.Mesh(
         new THREE.SphereGeometry(ballRadius, 14, 10),
-        this.ballMaterial
+        this.bulletMaterial
       );
       bulletMesh.castShadow = true;
       bulletMesh.receiveShadow = true;
@@ -363,8 +363,11 @@ class Application extends MagicPhysics {
   render() {
     const deltaTime = this.clock.getDelta();
     // NETWORK
+    //  We cant send whot complex object with methods !!! via network
+    // only varable
+
     this.netflag++;
-    if(this.netflag > 10) {
+    if(this.netflag > 2) {
       this.networkEmisionObjs.forEach((i, index) => {
         if(this.net.connection) this.net.connection.send({
           netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
@@ -373,7 +376,8 @@ class Application extends MagicPhysics {
             y: this.camera.rotation.y,
             z: this.camera.rotation.z,
            // w: this.camera.quaternion.w
-          },
+          }, 
+          netQuaternion: this.camera.quaternion,
           netObjId: this.net.connection.userid || i.name,
           netType: 'netPlayer' // can be shared or enemy comp
         });

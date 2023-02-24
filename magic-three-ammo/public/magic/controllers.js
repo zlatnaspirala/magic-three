@@ -43,11 +43,15 @@ export function createFPSController() {
         this.moveRight = true;
         break;
       case 'Space':
-        if(this.canJump === true) this.velocity.y += 350;
-        this.JUMP = true;
-        setTimeout(() => {
-          this.JUMP = false
-        }, 3000);
+        // if(this.canJump === true) this.velocity.y += 350;
+        console.log('ssssssssssssssssssssssssss')
+        if (this.controls.JUMP == false) {
+          this.controls.JUMP = true;
+          setTimeout(() => {
+            this.controls.JUMP = false
+          }, 3000);
+        }
+
         break;
     }
 

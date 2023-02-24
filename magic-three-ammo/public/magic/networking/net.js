@@ -1,4 +1,4 @@
-
+import * as THREE from "three";
 import {MagicLoader} from "../loaders.js";
 import {byId, createAppEvent, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
@@ -43,15 +43,32 @@ export class Broadcaster {
       update(e) {
         if(e.data.netPos) {
           if (e.data.netType == 'netPlayer') {
-            // console.log('INFO FOR UPDATE e.data.netObjId =>', e.data.netObjId);
+             
             if (typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
               this.root.netPlayers['net_' + e.data.netObjId].position.set(
                 e.data.netPos.x,
-                e.data.netPos.y - 2, // correction
+                e.data.netPos.y - 1, // correction
                 e.data.netPos.z,
               );
               // For now only Y, x or y for arms in future...
-              this.root.netPlayers['net_' + e.data.netObjId].rotation.y = e.data.netRot.y;
+              // not good rotation
+
+              const quaternion = new THREE.Quaternion();
+
+              // console.log('INFO FOR ROTATE ???? e.data.netObjId =>', this.root.netPlayers['net_' + e.data.netObjId]);
+              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.x = e.data.netQuaternion.x;
+              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.y = e.data.netQuaternion.y;
+              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.z = e.data.netQuaternion.z;
+              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.w = e.data.netQuaternion.w;
+
+              quaternion.fromArray ([
+                e.data.netQuaternion._x,
+                e.data.netQuaternion._y,
+                e.data.netQuaternion._z,
+                e.data.netQuaternion._w]);
+
+                this.root.netPlayers['net_' + e.data.netObjId].rotation.setFromQuaternion(quaternion)
+              // this.root.netPlayers['net_' + e.data.netObjId].rotation.y = e.data.netRot.y;
             }
           }
         }

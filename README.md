@@ -51,7 +51,8 @@ const config = {
     bullet: {
       mass: 30,
       radius: 0.2,
-      power: 100
+      power: 100,
+      bulletLiveTime: 1000
     }
   },
   networking: {
@@ -108,6 +109,7 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Add 3d object loaders [fbx]
 
 ## Next feature
+ - Fix Jump
  - Add shooting `fire`
  - Add player items handler
  - Integrate networking and self hosting based on node.js
