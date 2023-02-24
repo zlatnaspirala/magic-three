@@ -5,6 +5,9 @@ export function createFPSController() {
   const blocker = document.getElementById('blocker');
   const instructions = document.getElementById('instructions');
 
+  this.controls.minPolarAngle = 0; // radians
+  this.controls.maxPolarAngle = Math.PI / 2; // radians
+
   this.controls.JUMP = false;
 
   instructions.addEventListener('click', () => {

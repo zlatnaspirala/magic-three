@@ -61,14 +61,14 @@ export class Broadcaster {
               // this.root.netPlayers['net_' + e.data.netObjId].quaternion.z = e.data.netQuaternion.z;
               // this.root.netPlayers['net_' + e.data.netObjId].quaternion.w = e.data.netQuaternion.w;
 
-              quaternion.fromArray ([
-                e.data.netQuaternion._x,
-                e.data.netQuaternion._y,
-                e.data.netQuaternion._z,
-                e.data.netQuaternion._w]);
+              // quaternion.fromArray ([
+              //   e.data.netQuaternion._x,
+              //   e.data.netQuaternion._y,
+              //   e.data.netQuaternion._z,
+              //   e.data.netQuaternion._w]);
+              //   this.root.netPlayers['net_' + e.data.netObjId].rotation.setFromQuaternion(quaternion)
 
-                this.root.netPlayers['net_' + e.data.netObjId].rotation.setFromQuaternion(quaternion)
-              // this.root.netPlayers['net_' + e.data.netObjId].rotation.y = e.data.netRot.y;
+              this.root.netPlayers['net_' + e.data.netObjId].rotation.y = e.data.netRot.y;
             }
           }
         }
