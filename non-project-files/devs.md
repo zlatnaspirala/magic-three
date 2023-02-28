@@ -10,15 +10,10 @@ Next features:
  i will use update samestaff\
 
 
-   we no need all object to be emited !!!
-   
+var object = scene.getObjectByName( "objectName" );
+or to recursively search the scene graph
 
-        if(net && net.connection && typeof em === 'undefined') net.connection.send({
-          netPos: {x: this.x, y: this.y, z: this.z},
-          netObjId: this.nameUniq,
-        });
-
-
+var object = scene.getObjectByName( "objectName", true );
 
  // Load custom elements
 

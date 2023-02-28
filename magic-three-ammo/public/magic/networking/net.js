@@ -1,6 +1,7 @@
 import * as THREE from "three";
+import {MathUtils} from "three";
 import {MagicLoader} from "../loaders.js";
-import {byId, createAppEvent, htmlHeader} from "../utility.js";
+import {byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
 import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
@@ -33,43 +34,41 @@ export class Broadcaster {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
-        console.log("rtcEvent add new, net object -> ", rtcEvent.userid);
-        this.root.loader.fbx('./assets/objects/player/walk-forward.fbx', 'netPlayer').then((r) => {
+        console.log("rtcEvent add new net object -> ", rtcEvent.userid);
+        this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'netPlayer').then((r) => {
           console.info('Setup player animation character obj =>', r);
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
-          // r.position.set(10, 0, 10);
         })
       },
       update(e) {
         if(e.data.netPos) {
-          if (e.data.netType == 'netPlayer') {
-             
-            if (typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
+          if(e.data.netType == 'netPlayer') {
+            if(typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
               this.root.netPlayers['net_' + e.data.netObjId].position.set(
                 e.data.netPos.x,
                 e.data.netPos.y - 1, // correction
                 e.data.netPos.z,
               );
-              // For now only Y, x or y for arms in future...
-              // not good rotation
-
-              const quaternion = new THREE.Quaternion();
-
-              // console.log('INFO FOR ROTATE ???? e.data.netObjId =>', this.root.netPlayers['net_' + e.data.netObjId]);
-              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.x = e.data.netQuaternion.x;
-              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.y = e.data.netQuaternion.y;
-              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.z = e.data.netQuaternion.z;
-              // this.root.netPlayers['net_' + e.data.netObjId].quaternion.w = e.data.netQuaternion.w;
-
-              // quaternion.fromArray ([
-              //   e.data.netQuaternion._x,
-              //   e.data.netQuaternion._y,
-              //   e.data.netQuaternion._z,
-              //   e.data.netQuaternion._w]);
-              //   this.root.netPlayers['net_' + e.data.netObjId].rotation.setFromQuaternion(quaternion)
-
               this.root.netPlayers['net_' + e.data.netObjId].rotation.y = e.data.netRot.y;
             }
+          }
+
+          if (e.data.netType == 'netEnvObj') {
+            // name must be uniq for now
+            console.log('.name =', e.data.netObjId, " netType ", e.data.netPos);
+            var object = scene.getObjectByName(e.data.netObjId);
+            object.position.set(
+              e.data.netPos.x,
+              e.data.netPos.y,
+              e.data.netPos.z,
+            );
+            const quaternion = new THREE.Quaternion();
+            quaternion.fromArray([
+              e.data.netQuaternion._x,
+              e.data.netQuaternion._y,
+              e.data.netQuaternion._z,
+              e.data.netQuaternion._w]);
+              object.quaternion.copy(quaternion);
           }
         }
       },
@@ -81,6 +80,7 @@ export class Broadcaster {
        */
       leaveGamePlay(rtcEvent) {
         console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
+        delete this.root.netPlayers['net_' + rtcEvent.userid];
       }
     };
 

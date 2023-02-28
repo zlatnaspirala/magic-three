@@ -6,6 +6,7 @@
  * Dont import unused modules.
  */
 import * as THREE from "three";
+import {MathUtils} from "three";
 // import Stats from "three/addons/libs/stats.module.js";
 // import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {createRandomColor, getDom} from "./public/libs/utils.js";
@@ -82,7 +83,7 @@ class Application extends MagicPhysics {
     this.activateNet();
 
     // Player data - locals only - this is not secured if you wanna some validation data...
-    if (load('playerData') !== false) {
+    if(load('playerData') !== false) {
       this.playerData = load('playerData');
     } else {
       this.playerData = {
@@ -92,7 +93,7 @@ class Application extends MagicPhysics {
     }
 
     byId('player.kills').innerHTML = this.playerData.kills;
-    console.info('playerData' , this.playerData);
+    console.info('playerData', this.playerData);
 
     // Loaders
     this.loader = new MagicLoader(this.scene);
@@ -162,6 +163,9 @@ class Application extends MagicPhysics {
   initGraphics() {
     console.info('config.map.background => ', this.config.map.background)
     this.scene.background = new THREE.Color(this.config.map.background);
+
+    // fox for local rotation vars !
+    this.camera.rotation.order = this.config.camera.order;
 
     this.camera.position.set(
       this.config.playerController.cameraInitPosition.x,
@@ -369,18 +373,31 @@ class Application extends MagicPhysics {
     this.netflag++;
     if(this.netflag > 2) {
       this.networkEmisionObjs.forEach((i, index) => {
-        if(this.net.connection) this.net.connection.send({
-          netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
-          netRot: {
-            x: this.camera.rotation.x,
-            y: this.camera.rotation.y,
-            z: this.camera.rotation.z,
-           // w: this.camera.quaternion.w
-          }, 
-          netQuaternion: this.camera.quaternion,
-          netObjId: this.net.connection.userid || i.name,
-          netType: 'netPlayer' // can be shared or enemy comp
-        });
+        if(i.name == 'player') {
+          // indicate local Player object !
+          if(this.net.connection) this.net.connection.send({
+            netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+            netRot: {
+              x: this.camera.rotation.x,
+              y: this.camera.rotation.y,
+              z: this.camera.rotation.z
+            },
+            // netQuaternion: this.camera.quaternion,
+            netObjId: this.net.connection.userid,
+            netType: 'netPlayer' // can be shared or enemy comp
+          })
+        } else if (i.netType == 'envObj') {
+          //  console.log('.name =', i.name, " netType ", i.netType);
+          if(this.net.connection) this.net.connection.send({
+            netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+            netQuaternion: i.quaternion,
+            // name must be uniq
+            netObjId: i.name,
+            netType: 'netEnvObj'
+          })
+        }
+
+
       });
       this.netflag = 0;
     }

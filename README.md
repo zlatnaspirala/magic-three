@@ -140,8 +140,10 @@ Only on startup for now:
 
 ### Networking
 
-  1) Every player send own `net.connection.userid`.
-  
+  - Every player send own `net.connection.userid`.
+
+  - boxs map loader hace support for net
+
 
 ## Credits && Licence
  - https://threejs.org/

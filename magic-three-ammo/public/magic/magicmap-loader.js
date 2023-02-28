@@ -1,5 +1,6 @@
 
 import * as THREE from "three";
+import {MathUtils} from "three";
 import map from "../assets/maps/free-for-all.js";
 
 // This is binded funcs
@@ -24,6 +25,7 @@ export function loadMap() {
 
   map.boxs.forEach((b, index) => {
     console.info(`load dynamic boxs index => ${index} item => `, b);
+
     const m = b.mass;
     const e = new THREE.Vector3(b.scale.x, b.scale.y, b.scale.z);
     this.pos.set(b.pos.x, b.pos.y, b.pos.z);
@@ -33,7 +35,10 @@ export function loadMap() {
       e,
       this.pos,
       this.quat,
-      App.materials.assets.Yellow_glass
+      App.materials.assets.Yellow_glass,
+      b.name || 'random-' + MathUtils.randInt(0,99999),
+      b.net || false,
+      b.matFlag || false
     );
   });
 

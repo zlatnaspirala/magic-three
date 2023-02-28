@@ -1,3 +1,4 @@
+import * as THREE from "three";
 
 export function isiOS() {
   return [
@@ -117,3 +118,19 @@ export function load(name) {
 //   }
 //   return result;
 // }
+
+
+// TEST THSI
+export function getAxisAndAngelFromQuaternion(q) {
+  const angle = 2 * Math.acos(q.w);
+  var s;
+  if (1 - q.w * q.w < 0.000001) {
+    // test to avoid divide by zero, s is always positive due to sqrt
+    // if s close to zero then direction of axis not important
+    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/
+    s = 1;
+  } else { 
+    s = Math.sqrt(1 - q.w * q.w);
+  }
+  return { axis: new THREE.Vector3(q.x/s, q.y/s, q.z/s), angle };
+}

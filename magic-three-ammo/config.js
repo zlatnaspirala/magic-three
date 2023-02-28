@@ -10,7 +10,8 @@ const config = {
   camera: {
     fov: 60,
     near: 0.1,
-    far: 2000
+    far: 2000,
+    order: 'YXZ'
   },
   map: {
     background: 0xbfd1e5,

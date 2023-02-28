@@ -4,6 +4,7 @@ import {updatePhysics} from "./updater.js";
 import ClientConfig from "../../config.js";
 import {Broadcaster} from "./networking/net.js";
 import {MagicNetworking} from "./networking/magic-netwoking.js";
+import {MathUtils} from "three";
 
 export class MagicPhysics extends MagicNetworking {
 
@@ -229,17 +230,32 @@ export class MagicPhysics extends MagicNetworking {
     this.physicsWorld.removeRigidBody(object.userData.physicsBody);
   }
 
-  createSimpleBox(mass, halfExtents, pos, quat, material) {
+  createSimpleBox(mass, halfExtents, pos, quat, material, name, netType, matFlag) {
+  let mat;
+
+    if (matFlag == false) {
+      mat = material;
+    } else {
+      mat = this.materials[matFlag];
+    }
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
         halfExtents.x * 2,
         halfExtents.y * 2,
         halfExtents.z * 2
       ),
-      material
+      mat
     );
     object.position.copy(pos);
     object.quaternion.copy(quat);
+
+    if (netType == true) {
+      console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
+      this.networkEmisionObjs.push(object);
+      object.netType = 'envObj';
+    }
+
+    object.name = name || "rnd-" + MathUtils.randInt(0, 99999);
 
     var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
       startTransform = new Ammo.btTransform();
