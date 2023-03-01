@@ -387,9 +387,15 @@ class Application extends MagicPhysics {
             netType: 'netPlayer' // can be shared or enemy comp
           })
         } else if (i.netType == 'envObj') {
-          //  console.log('.name =', i.name, " netType ", i.netType);
+          // console.log('.i.userData.physicsBody.getLinearVelocity().x() =', i.userData.physicsBody.getLinearVelocity().x());
+          // 
           if(this.net.connection) this.net.connection.send({
-            netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+            // object.userData.physicsBody.getLinearVelocity().x()
+            // netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+            netPos: {
+              x: i.userData.physicsBody.getLinearVelocity().x(),
+              y: i.userData.physicsBody.getLinearVelocity().y(),
+              z: i.userData.physicsBody.getLinearVelocity().z()},
             netQuaternion: i.quaternion,
             // name must be uniq
             netObjId: i.name,

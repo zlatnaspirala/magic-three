@@ -1,8 +1,6 @@
 import * as THREE from "three";
 import {ConvexObjectBreaker} from "../jsm/misc/ConvexObjectBreaker.js";
 import {updatePhysics} from "./updater.js";
-import ClientConfig from "../../config.js";
-import {Broadcaster} from "./networking/net.js";
 import {MagicNetworking} from "./networking/magic-netwoking.js";
 import {MathUtils} from "three";
 
@@ -42,11 +40,6 @@ export class MagicPhysics extends MagicNetworking {
 
   tmpPos = new THREE.Vector3();
   tmpQuat = new THREE.Quaternion();
-
-  activateNet = () => {
-    this.net = new Broadcaster(ClientConfig, this.scene);
-    console.info('Networking is active =>', this.net);
-  };
 
   constructor(options) {
     super();
@@ -249,12 +242,6 @@ export class MagicPhysics extends MagicNetworking {
     object.position.copy(pos);
     object.quaternion.copy(quat);
 
-    if (netType == true) {
-      console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
-      this.networkEmisionObjs.push(object);
-      object.netType = 'envObj';
-    }
-
     object.name = name || "rnd-" + MathUtils.randInt(0, 99999);
 
     var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
@@ -276,7 +263,14 @@ export class MagicPhysics extends MagicNetworking {
       body = new Ammo.btRigidBody(rbInfo);
 
     object.userData.physicsBody = body;
-    // object.userData.collided = false;
+    object.userData.collided = true;
+
+    if (netType == true) {
+      console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
+      this.networkEmisionObjs.push(object);
+      object.netType = 'envObj';
+    }
+
     this.rigidBodies.push(object);
     this.scene.add(object);
 

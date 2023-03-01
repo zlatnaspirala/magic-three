@@ -55,20 +55,26 @@ export class Broadcaster {
 
           if (e.data.netType == 'netEnvObj') {
             // name must be uniq for now
-            console.log('.name =', e.data.netObjId, " netType ", e.data.netPos);
-            var object = scene.getObjectByName(e.data.netObjId);
-            object.position.set(
-              e.data.netPos.x,
-              e.data.netPos.y,
-              e.data.netPos.z,
-            );
-            const quaternion = new THREE.Quaternion();
-            quaternion.fromArray([
-              e.data.netQuaternion._x,
-              e.data.netQuaternion._y,
-              e.data.netQuaternion._z,
-              e.data.netQuaternion._w]);
-              object.quaternion.copy(quaternion);
+            var object = this.root.scene.getObjectByName(e.data.netObjId);
+            console.log(e.data.netObjId, " e.data.netPos => " ,e.data.netPos);
+            object.userData.physicsBody.setLinearVelocity(
+              new Ammo.btVector3(
+                e.data.netPos.x,
+                e.data.netPos.y,
+                e.data.netPos.z));
+
+            // object.position.set(
+            //   e.data.netPos.x,
+            //   e.data.netPos.y,
+            //   e.data.netPos.z,
+            // );
+            // const quaternion = new THREE.Quaternion();
+            // quaternion.fromArray([
+            //   e.data.netQuaternion._x,
+            //   e.data.netQuaternion._y,
+            //   e.data.netQuaternion._z,
+            //   e.data.netQuaternion._w]);
+            //   object.quaternion.copy(quaternion);
           }
         }
       },
@@ -84,6 +90,7 @@ export class Broadcaster {
       }
     };
 
+    console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
     // (window).io = io;
     this.engineConfig = config.networking;
     if(this.engineConfig.broadcasterInit == true) {

@@ -156,10 +156,10 @@ let localPingPong = true;
 export function updateControls() {
   const time = performance.now();
   if(this.controls.isLocked === true) {
-    this.raycaster.ray.origin.copy(this.controls.getObject().position);
-    this.raycaster.ray.origin.y -= 5;
-    const intersections = this.raycaster.intersectObjects(this.scene.children, false);
-    const onObject = intersections.length > 0;
+    // this.raycaster.ray.origin.copy(this.controls.getObject().position);
+    // this.raycaster.ray.origin.y -= 5;
+    // const intersections = this.raycaster.intersectObjects(this.scene.children, false);
+    // const onObject = intersections.length > 0;
     const delta = (time - this.prevTime) / 1000;
     this.velocity.x -= this.velocity.x * 10.0 * delta;
     this.velocity.z -= this.velocity.z * 10.0 * delta;
