@@ -19,7 +19,8 @@ export function loadMap() {
       e,
       this.pos,
       this.quat,
-      App.materials.assets.Yellow_glass
+      App.materials.assets.Yellow_glass,
+      b.name
     );
   });
 
@@ -50,7 +51,8 @@ export function loadMap() {
       [b.scale[0], b.scale[1], b.scale[2], b.scale[3]],
       this.pos,
       this.quat,
-      App.materials.assets.Yellow_glass
+      App.materials.assets.Yellow_glass,
+      b.name
     );
   });
 
@@ -62,7 +64,8 @@ export function loadMap() {
       [b.scale[0], b.scale[1], b.scale[2], b.scale[3]],
       this.pos,
       this.quat,
-      App.materials.assets.Bronze
+      App.materials.assets.Bronze,
+      b.name
     );
   })
 

@@ -242,15 +242,15 @@ export class MagicPhysics extends MagicNetworking {
     object.position.copy(pos);
     object.quaternion.copy(quat);
 
-    object.name = name || "rnd-" + MathUtils.randInt(0, 99999);
+    object.name = name || "simple-box-" + MathUtils.randInt(0, 99999);
 
     var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
       startTransform = new Ammo.btTransform();
 
     startTransform.setIdentity();
 
-    var mass = 10,
-      isDynamic = (mass !== 0),
+    // var mass = 10,
+    var isDynamic = (mass !== 0),
       localInertia = new Ammo.btVector3(0, 0, 0);
 
     if(isDynamic)
@@ -263,12 +263,15 @@ export class MagicPhysics extends MagicNetworking {
       body = new Ammo.btRigidBody(rbInfo);
 
     object.userData.physicsBody = body;
-    object.userData.collided = true;
+    // object.userData.collided = true;
+    object.userData.collided = false;
 
     if (netType == true) {
       console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
       this.networkEmisionObjs.push(object);
       object.netType = 'envObj';
+
+      object.userData.physicsBody.setActivationState(4);
     }
 
     this.rigidBodies.push(object);
@@ -277,13 +280,15 @@ export class MagicPhysics extends MagicNetworking {
     this.physicsWorld.addRigidBody(body);
   }
 
-  createCilinder(mass, geo, pos, quat, material) {
+  createCilinder(mass, geo, pos, quat, material, name) {
     const object = new THREE.Mesh(
       new THREE.CylinderGeometry(geo[0], geo[1], geo[2], geo[3]),
       material
     );
     object.position.copy(pos);
     object.quaternion.copy(quat);
+
+    object.name = name || "simple-cilinder-" + MathUtils.randInt(0, 99999);
 
     var colShape = this.createConvexHullPhysicsShape(object.geometry.attributes.position.array)
     colShape.setMargin(this.margin);
@@ -311,13 +316,14 @@ export class MagicPhysics extends MagicNetworking {
     this.physicsWorld.addRigidBody(body);
   }
 
-  createTorus(mass, geo, pos, quat, material) {
+  createTorus(mass, geo, pos, quat, material, name) {
     const object = new THREE.Mesh(
       new THREE.TorusGeometry(geo[0], geo[1], geo[2], geo[3]),
       material
     );
     object.position.copy(pos);
     object.quaternion.copy(quat);
+    object.name = name || "simple-tube-" + MathUtils.randInt(0, 99999);
 
     var colShape = this.createConvexHullPhysicsShape(object.geometry.attributes.position.array)
     colShape.setMargin(this.margin);
@@ -343,6 +349,28 @@ export class MagicPhysics extends MagicNetworking {
     this.scene.add(object);
 
     this.physicsWorld.addRigidBody(body);
+  }
+
+  createBreakableBox(mass, halfExtents, pos, quat, material, name) {
+    const object = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        halfExtents.x * 2,
+        halfExtents.y * 2,
+        halfExtents.z * 2
+      ),
+      material
+    );
+    object.position.copy(pos);
+    object.quaternion.copy(quat);
+    object.name = name || "simple-breakable-" + MathUtils.randInt(0, 99999);
+    this.convexBreaker.prepareBreakableObject(
+      object,
+      mass,
+      new THREE.Vector3(),
+      new THREE.Vector3(),
+      true
+    );
+    this.createDebrisFromBreakableObject(object);
   }
 
   destroySceneObject(o) {

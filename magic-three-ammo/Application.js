@@ -214,27 +214,6 @@ class Application extends MagicPhysics {
     window.addEventListener("resize", this.onWindowResize);
   }
 
-  createBreakableBox(mass, halfExtents, pos, quat, material) {
-    const object = new THREE.Mesh(
-      new THREE.BoxGeometry(
-        halfExtents.x * 2,
-        halfExtents.y * 2,
-        halfExtents.z * 2
-      ),
-      material
-    );
-    object.position.copy(pos);
-    object.quaternion.copy(quat);
-    this.convexBreaker.prepareBreakableObject(
-      object,
-      mass,
-      new THREE.Vector3(),
-      new THREE.Vector3(),
-      true
-    );
-    this.createDebrisFromBreakableObject(object);
-  }
-
   createPlayer() {
     const material = new THREE.LineBasicMaterial({color: 0x0000ff});
     const ballMass = 10;

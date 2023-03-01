@@ -2,6 +2,7 @@
 let map = {
   breakable: [
     {
+      name: "myBreakAbleBox1",
       mass: 100,
       scale: {x:2, y:5, z:2},
       pos: {x:3 , y:1, z:1},
@@ -30,12 +31,14 @@ let map = {
   ],
   tubes: [
     {
+      name: "myTube1",
       mass: 1000,
       scale: [5, 5, 20, 32],
       pos: {x:-20 , y:1, z:1},
       quat: [0,0,0,1]
     },
     {
+      name: "myTube2",
       mass: 1000,
       scale: [5, 5, 20, 32],
       pos: {x:20 , y:1, z:1},
@@ -44,6 +47,7 @@ let map = {
   ],
   torus: [
     {
+      name: "myTorus1",
       mass: 1000,
       scale: [10, 3, 16, 100],
       pos: {x:30 , y:1, z:1},
