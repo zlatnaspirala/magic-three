@@ -6,7 +6,7 @@
  * Dont import unused modules.
  */
 import * as THREE from "three";
-import {MathUtils} from "three";
+// import {MathUtils} from "three";
 // import Stats from "three/addons/libs/stats.module.js";
 // import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {createRandomColor, getDom} from "./public/libs/utils.js";
@@ -19,6 +19,7 @@ import {MagicLoader} from "./public/magic/loaders.js";
 import {byId, createAppEvent, load, runCache, save} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
+import {MagicSounds} from "./public/magic/audios/sounds.js";
 import t from "./public/magic/multi-lang.js";
 
 class Application extends MagicPhysics {
@@ -65,6 +66,8 @@ class Application extends MagicPhysics {
 
   networkEmisionObjs = [];
 
+  audios = new MagicSounds();
+
   constructor(config) {
 
     super({config: config});
@@ -101,6 +104,8 @@ class Application extends MagicPhysics {
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
+
+    console.info("MagicThree: Audio config status:", this.audios);
 
     console.info("MagicThree: Worker [dynamic-cache] test cache config status:", this.config.cache);
     runCache(this.config.cache);

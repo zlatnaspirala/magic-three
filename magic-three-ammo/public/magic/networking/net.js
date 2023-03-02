@@ -35,8 +35,8 @@ export class Broadcaster {
       myBigDataFlag: [],
       init(rtcEvent) {
         console.log("rtcEvent add new net object -> ", rtcEvent.userid);
-        this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'netPlayer').then((r) => {
-          console.info('Setup player animation character obj =>', r);
+        this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
+          console.info('Setup player animation character obj =>', r.name);
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
         })
       },
@@ -56,7 +56,7 @@ export class Broadcaster {
           if (e.data.netType == 'netEnvObj') {
             // name must be uniq for now
             var object = this.root.scene.getObjectByName(e.data.netObjId);
-            console.log(e.data.netObjId, " e.data.netPos => " ,e.data.netPos);
+            // console.log(e.data.netObjId, " e.data.netPos => " ,e.data.netPos);
             object.userData.physicsBody.setLinearVelocity(
               new Ammo.btVector3(
                 e.data.netPos.x,
@@ -85,8 +85,11 @@ export class Broadcaster {
        * - clear object from netObject_x
        */
       leaveGamePlay(rtcEvent) {
+        let o = this.root.netPlayers['net_' + rtcEvent.userid];
         console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
+        console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
         delete this.root.netPlayers['net_' + rtcEvent.userid];
+        console.info("rtcEvent LEAVE GAME is undefined: ",  this.root.netPlayers['net_' + rtcEvent.userid]);
       }
     };
 

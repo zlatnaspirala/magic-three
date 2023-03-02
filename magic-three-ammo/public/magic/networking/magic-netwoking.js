@@ -8,6 +8,6 @@ export class MagicNetworking {
   activateNet = () => {
     this.net = new Broadcaster(ClientConfig, this.scene);
     console.info('Networking is active =>', this.net);
-  };
+  }
 
 }
