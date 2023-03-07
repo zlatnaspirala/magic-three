@@ -47,7 +47,6 @@ export function createFPSController() {
         break;
       case 'Space':
         // if(this.canJump === true) this.velocity.y += 350;
-       
         if (this.controls.JUMP == false) {
           console.log('ssssssssJUMP ssssssssssssssssss')
           this.controls.JUMP = true;
@@ -56,27 +55,10 @@ export function createFPSController() {
             console.log('ssssssssJUMP ssRESETssss')
           }, 3000);
         }
-
         break;
     }
 
     switch(event.keyCode) {
-      // case 87: //W: FORWARD
-      //   this.moveDirection.forward = 1
-      //   break;
-
-      // case 83: //S: BACK
-      //   this.moveDirection.back = 1
-      //   break;
-
-      // case 65: //A: LEFT
-      //   this.moveDirection.left = 1
-      //   break;
-
-      // case 68: //D: RIGHT
-      //   this.moveDirection.right = 1
-      //   break;
-
       case 38: //↑: FORWARD
         this.kMoveDirection.forward = 1
         break;
@@ -92,9 +74,7 @@ export function createFPSController() {
       case 39: //→: RIGHT
         this.kMoveDirection.right = 1
         break;
-
     }
-
   };
 
   const onKeyUp = (event) => {

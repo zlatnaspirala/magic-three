@@ -11,7 +11,7 @@ export class Broadcaster {
   constructor(config, scene) {
 
     this.scene = scene;
-    this.loader = new MagicLoader(scene);
+    this.loader = new MagicLoader(config, scene);
     this.injector;
     this.openOrJoinBtn;
     this.connection;
@@ -35,10 +35,14 @@ export class Broadcaster {
       myBigDataFlag: [],
       init(rtcEvent) {
         console.log("rtcEvent add new net object -> ", rtcEvent.userid);
-        this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
-          console.info('Setup player animation character obj =>', r.name);
-          this.root.netPlayers['net_' + rtcEvent.userid] = r;
-        })
+        // this.root.loader.fbx('./assets/objects/player/walk-forward.fbx', 'net_' + rtcEvent.userid).then((r) => {
+        //   console.info('[fbx] Setup player animation character obj =>', r.name);
+        //   this.root.netPlayers['net_' + rtcEvent.userid] = r;
+        // })
+        this.root.loader.collada('./assets/objects/player/walk.dae', 'net_' + rtcEvent.userid).then((r) => {
+            console.info('[colada] Setup player animation character obj =>', r.name);
+            this.root.netPlayers['net_' + rtcEvent.userid] = r;
+          })
       },
       update(e) {
         if(e.data.netPos) {
@@ -93,14 +97,11 @@ export class Broadcaster {
       }
     };
 
-    console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
-    // (window).io = io;
+    // console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
     this.engineConfig = config.networking;
     if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
     }
-
-    // console.info('Broadcaster client part constructed with success.');
   }
 
   closeAllPeers() {

@@ -43,10 +43,9 @@ export class MagicPhysics extends MagicNetworking {
 
   constructor(options) {
     super();
-    console.log("MagicPhysics =>", options);
+    // console.log("MagicPhysics =>", options);
     this.updatePhysics = updatePhysics.bind(this);
     this.config = options.config;
-
     this.gravityConstant = this.config.map.gravityConstant;
   }
 
@@ -267,10 +266,9 @@ export class MagicPhysics extends MagicNetworking {
     object.userData.collided = false;
 
     if (netType == true) {
-      console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
+      // console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
       this.networkEmisionObjs.push(object);
       object.netType = 'envObj';
-
       object.userData.physicsBody.setActivationState(4);
     }
 

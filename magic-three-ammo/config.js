@@ -17,7 +17,19 @@ const config = {
     background: 0xbfd1e5,
     floorWidth: 200,
     floorHeight: 200,
-    gravityConstant: 17.5
+    gravityConstant: 17.5,
+    directionLight: {
+      color: 0xffffff,
+      intensity: 6
+    },
+    ambientLight: {
+      color:  "rgb(0.5,0.5,0.5)"
+    },
+    meshShadows: {
+      castShadow: false,
+      receiveShadow: false,
+      computeVertexNormals: false
+    }
   },
   playerController: {
     type: 'FPS', // FPS | orbit

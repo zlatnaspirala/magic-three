@@ -169,7 +169,7 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
             }
         }
 
-        console.info('socket.io url is: ', connection.socketURL);
+        // console.info('socket.io url is: ', connection.socketURL);
 
         try {
             connection.socket = io(connection.socketURL + parameters, {

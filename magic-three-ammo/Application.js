@@ -6,7 +6,6 @@
  * Dont import unused modules.
  */
 import * as THREE from "three";
-// import {MathUtils} from "three";
 // import Stats from "three/addons/libs/stats.module.js";
 // import {OrbitControls} from "three/addons/controls/OrbitControls.js";
 import {createRandomColor, getDom} from "./public/libs/utils.js";
@@ -66,7 +65,7 @@ class Application extends MagicPhysics {
 
   networkEmisionObjs = [];
 
-  audios = new MagicSounds();
+  fx = new MagicSounds();
 
   constructor(config) {
 
@@ -74,8 +73,6 @@ class Application extends MagicPhysics {
     this.config = config;
 
     addEventListener('multi-lang-ready', () => {
-      // console.info('if you have some situation use this')
-      // setup strings label 0 use here t('')
       document.title = t('title');
       byId('header.title').innerHTML = t('title');
       byId('player.munition.label').innerHTML = t('munition');
@@ -96,41 +93,38 @@ class Application extends MagicPhysics {
     }
 
     byId('player.kills').innerHTML = this.playerData.kills;
-    console.info('playerData', this.playerData);
+    // console.info('playerData', this.playerData);
 
-    // Loaders
-    this.loader = new MagicLoader(this.scene);
+    this.loader = new MagicLoader(this.config, this.scene);
 
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
 
-    console.info("MagicThree: Audio config status:", this.audios);
+    // console.info("MagicThree: Audio config status:", this.fx);
+    this.fx.createAudio('shot', "./assets/audios/single-gunshot.mp3", 5)
 
-    console.info("MagicThree: Worker [dynamic-cache] test cache config status:", this.config.cache);
+    // console.info("MagicThree: Worker [dynamic-cache] test cache config status:", this.config.cache);
     runCache(this.config.cache);
 
     // Big data loading procedure
     // myBigDataFlag got undefined array fill because 
-    // i pass then call (func void) - work ok.
+    // i pass then call (func void) - work ok (Promisee.All).
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
-      console.info('Setup enemy obj =>', r);
-      r.position.set(-10, 0, -10)
-    }));
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
+    //   console.info('Setup enemy obj =>', r);
+    //   r.position.set(-10, 0, -10)
+    // }));
 
-    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walk-forward.fbx', 'netPlayer').then((r) => {
+    // this.myBigDataFlag.push(this.loader.collada('./assets/objects/collada/Walking.dae', 'test').then((r) => {
     //   console.info('Setup player animation character obj =>', r);
     //   // r.position.set(10, 0, 10);
     // }));
 
-    // myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-running2.fbx').then((r) => {
-    //   console.info('Setup this obj =>', r);
-    //   r.position.set(10, 0, 10)
-    // }));
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walking-to-dying.fbx', 'blabla'));
 
     Promise.all(this.myBigDataFlag).then((values) => {
-      console.log('Big data promise all => ', values);
+      console.info('Big data promise all => ', values);
       const domLoader = document.getElementById('instructions');
       // MultiLang is async call
       domLoader.innerHTML = startUpScreen();
@@ -148,7 +142,7 @@ class Application extends MagicPhysics {
 
       this.init();
       this.animate();
-      console.info('Ammo is ready.');
+      // console.info('Ammo is ready.');
     });
   }
 
@@ -166,7 +160,6 @@ class Application extends MagicPhysics {
   }
 
   initGraphics() {
-    console.info('config.map.background => ', this.config.map.background)
     this.scene.background = new THREE.Color(this.config.map.background);
 
     // fox for local rotation vars !
@@ -190,12 +183,13 @@ class Application extends MagicPhysics {
       this.controls.update();
     }
 
+    // Lights
     this.textureLoader = new THREE.TextureLoader();
 
-    this.ambientLight = new THREE.AmbientLight(0x707070);
+    this.ambientLight = new THREE.AmbientLight(this.config.map.ambientLight.color);
     this.scene.add(this.ambientLight);
 
-    this.light = new THREE.DirectionalLight(0xffffff, 1);
+    this.light = new THREE.DirectionalLight(this.config.map.directionLight.color, this.config.map.directionLight.intensity);
     this.light.position.set(-10, 18, 5);
     this.light.castShadow = true;
     const d = 14;
@@ -248,12 +242,11 @@ class Application extends MagicPhysics {
 
     // local player
     this.playerBody.name = 'player';
-    console.log("PlayerBody created and pushed to netView. ", this.playerBody);
+    // console.log("PlayerBody created and pushed to netView. ", this.playerBody);
 
     this.networkEmisionObjs.push(this.playerBody);
-    //playerB.setCollisionFlags(0);
+    // playerB.setCollisionFlags(0);
 
-    // storage session
     byId('player.munition').innerHTML = this.playerItems.munition;
   }
 
@@ -290,9 +283,7 @@ class Application extends MagicPhysics {
 
   attachFire() {
     window.addEventListener("pointerdown", (event) => {
-      //console.log('TEST ........................', byId('player.munition'))
-      // playerItems
-      // this.playerItems
+
       this.mouseCoords.set(
         (event.clientX / window.innerWidth) * 2 - 1,
         -(event.clientY / window.innerHeight) * 2 + 1
@@ -326,6 +317,8 @@ class Application extends MagicPhysics {
       this.pos.multiplyScalar(this.config.playerController.bullet.power);
       ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
 
+      this.fx.play('shot');
+
       setTimeout(() => {
         this.destroySceneObject(bulletMesh);
       }, this.config.playerController.bullet.bulletLiveTime);
@@ -350,9 +343,6 @@ class Application extends MagicPhysics {
 
   render() {
     const deltaTime = this.clock.getDelta();
-    // NETWORK
-    //  We cant send whot complex object with methods !!! via network
-    // only varable
 
     this.netflag++;
     if(this.netflag > 2) {
@@ -370,29 +360,25 @@ class Application extends MagicPhysics {
             netObjId: this.net.connection.userid,
             netType: 'netPlayer' // can be shared or enemy comp
           })
-        } else if (i.netType == 'envObj') {
+        } else if(i.netType == 'envObj') {
           // console.log('.i.userData.physicsBody.getLinearVelocity().x() =', i.userData.physicsBody.getLinearVelocity().x());
-          // 
           if(this.net.connection) this.net.connection.send({
             // object.userData.physicsBody.getLinearVelocity().x()
             // netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
             netPos: {
               x: i.userData.physicsBody.getLinearVelocity().x(),
               y: i.userData.physicsBody.getLinearVelocity().y(),
-              z: i.userData.physicsBody.getLinearVelocity().z()},
+              z: i.userData.physicsBody.getLinearVelocity().z()
+            },
             netQuaternion: i.quaternion,
             // name must be uniq
             netObjId: i.name,
             netType: 'netEnvObj'
           })
         }
-
-
       });
       this.netflag = 0;
     }
-
-
 
     this.updatePhysics(deltaTime);
     this.updateControls();

@@ -19,15 +19,6 @@ let map = {
       quat: [0,0,0,1],
       matFlag: 'Bronze'
     },
-    // {
-    //   name: "myMidBox2",
-    //   net: true,
-    //   mass: 10,
-    //   scale: {x:10, y:10, z:10},
-    //   pos: {x:200 , y:1, z:200},
-    //   quat: [0,0,0,1],
-    //   matFlag: 'Bronze'
-    // }
   ],
   tubes: [
     {
@@ -52,6 +43,24 @@ let map = {
       scale: [10, 3, 16, 100],
       pos: {x:30 , y:1, z:1},
       quat: [0,0,0,1]
+    }
+  ],
+  pointLights: [
+    {
+      name: 'l1',
+      color: 0xff0040,
+      radius: 2,
+      intensity: 50,
+      pos: {x:30 , y:2, z:10},
+      helper: true
+    },
+    {
+      name: 'l2',
+      color: 0xeeee40,
+      radius: 2,
+      intensity: 150,
+      pos: {x:-30 , y:2, z:10},
+      helper: true
     }
   ]
 };
