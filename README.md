@@ -99,6 +99,10 @@ npm run magic
 I force default browser port 443! To make all works fine.
 For `localhost` cert doesnt matter. For public server you need classic ssl setup.
 
+Navigate (most simple way to fix localhost cert problem is to click ad)
+https://localhost/public/module.html
+
+
 After all goto https://localhost/public/module.html
 You can easy manage paths. Default is `https` protocol and also recommended in multiplayer mode.
 
@@ -112,6 +116,66 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - [wip]⏳ Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
  - [wip]⏳ Adding optimal sky throw the config flags.
  - [wip]⏳ Add test naming fbx animation segments, adding complete FPS basic actions.
+ - [wip]⏳ Adding map pack principle.
+
+
+# Map [wip]⏳
+
+Working example:
+```js
+let map = {
+  breakable: [
+    {
+      name: "myBreakAbleBox1",
+      mass: 100,
+      scale: {x:2, y:5, z:2},
+      pos: {x:3 , y:1, z:1},
+      quat: [0,0,0,1]
+    }
+  ],
+  boxs: [
+    {
+      name: "myMidBox1",
+      net: true,
+      mass: 10,
+      scale: {x:5, y:5, z:5},
+      pos: {x:0 , y:1, z:20},
+      quat: [0,0,0,1],
+      matFlag: 'Bronze'
+    },
+  ],
+  tubes: [
+    {
+      name: "myTube1",
+      mass: 1000,
+      scale: [5, 5, 20, 32],
+      pos: {x:-20 , y:1, z:1},
+      quat: [0,0,0,1]
+    }
+  ],
+  torus: [
+    {
+      name: "myTorus1",
+      mass: 1000,
+      scale: [10, 3, 16, 100],
+      pos: {x:30 , y:1, z:1},
+      quat: [0,0,0,1]
+    }
+  ],
+  pointLights: [
+    {
+      name: 'l1',
+      color: 0xff0040,
+      radius: 2,
+      intensity: 50,
+      pos: {x:30 , y:2, z:10},
+      helper: true
+    }
+  ]
+};
+export default map;
+```
+
 
 ## More info about PWA ⏳
 I have performance stable at ~90% value. I load extra fbx animation 22Mb to test little more better.
@@ -123,6 +187,7 @@ Lighthouse screenshot:
 
 No need for PWA at dev/localhost work.
 In final time you can use .prod.js compressed files to make full optimised app with better preformance.
+
 
 ### MultiLang [strings]
 
