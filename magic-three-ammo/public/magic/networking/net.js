@@ -35,14 +35,14 @@ export class Broadcaster {
       myBigDataFlag: [],
       init(rtcEvent) {
         console.log("rtcEvent add new net object -> ", rtcEvent.userid);
-        // this.root.loader.fbx('./assets/objects/player/walk-forward.fbx', 'net_' + rtcEvent.userid).then((r) => {
-        //   console.info('[fbx] Setup player animation character obj =>', r.name);
-        //   this.root.netPlayers['net_' + rtcEvent.userid] = r;
-        // })
-        this.root.loader.collada('./assets/objects/player/walk.dae', 'net_' + rtcEvent.userid).then((r) => {
-            console.info('[colada] Setup player animation character obj =>', r.name);
-            this.root.netPlayers['net_' + rtcEvent.userid] = r;
-          })
+        this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
+          console.info('[fbx] Setup player animation character obj =>', r.name);
+          this.root.netPlayers['net_' + rtcEvent.userid] = r;
+        })
+        // this.root.loader.collada('./assets/objects/player/walk.dae', 'net_' + rtcEvent.userid).then((r) => {
+        //     console.info('[colada] Setup player animation character obj =>', r.name);
+        //     this.root.netPlayers['net_' + rtcEvent.userid] = r;
+        //   })
       },
       update(e) {
         if(e.data.netPos) {

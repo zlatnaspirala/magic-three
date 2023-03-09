@@ -19,6 +19,7 @@ export class MagicLoader {
       const loader = new FBXLoader();
       loader.load(p, (object) => {
         this.mixers.push(new THREE.AnimationMixer(object));
+        console.log(" test animations: " , object.animations);
         this.action = this.mixers[this.mixers.length - 1].clipAction(object.animations[0]);
         this.action.play();
         object.traverse((child) => {
@@ -55,6 +56,9 @@ export class MagicLoader {
         const animations = object.animations;
         object.traverse(function(node) {
           if(node.isSkinnedMesh) {
+            console.log(" test isMesh " , node.isMesh);
+            console.log(" test castShadow " , node.castShadow);
+            console.log(" test receiveShadow " , node.receiveShadow);
             node.frustumCulled = false;
           }
         });

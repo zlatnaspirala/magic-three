@@ -74,9 +74,9 @@ class Application extends MagicPhysics {
 
     addEventListener('multi-lang-ready', () => {
       document.title = t('title');
+      if (byId('loading.label')) byId('loading.label').innerHTML = t('loading');
       byId('header.title').innerHTML = t('title');
       byId('player.munition.label').innerHTML = t('munition');
-      byId('loading.label').innerHTM = t('loading');
       byId('player.kills.label').innerHTML = t('kills.label');
     });
 
@@ -121,13 +121,14 @@ class Application extends MagicPhysics {
     //   // r.position.set(10, 0, 10);
     // }));
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walking-to-dying.fbx', 'blabla'));
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walking-to-dying.fbx', 'blabla'));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info('Big data promise all => ', values);
       const domLoader = document.getElementById('instructions');
       // MultiLang is async call
-      domLoader.innerHTML = startUpScreen();
+      // if no big data no trigger
+      // domLoader.innerHTML = startUpScreen();
     });
 
     // Attach funcs
@@ -139,6 +140,9 @@ class Application extends MagicPhysics {
       this.ammoTmpPos = new Ammo.btVector3();
       this.ammoTmpQuat = new Ammo.btQuaternion();
       this.tmpTrans = new Ammo.btTransform();
+
+      const domLoader = document.getElementById('instructions');
+      domLoader.innerHTML = startUpScreen();
 
       this.init();
       this.animate();
@@ -186,6 +190,7 @@ class Application extends MagicPhysics {
     // Lights
     this.textureLoader = new THREE.TextureLoader();
 
+    // this.ambientLight = new THREE.AmbientLight(new THREE.Color(this.config.map.ambientLight.color));
     this.ambientLight = new THREE.AmbientLight(this.config.map.ambientLight.color);
     this.scene.add(this.ambientLight);
 
@@ -276,10 +281,10 @@ class Application extends MagicPhysics {
 
   }
 
-  createMaterial(color) {
-    color = color || createRandomColor();
-    return new THREE.MeshPhongMaterial({color: color});
-  }
+  // createMaterial(color) {
+  //   color = color || createRandomColor();
+  //   return new THREE.MeshPhongMaterial({color: color});
+  // }
 
   attachFire() {
     window.addEventListener("pointerdown", (event) => {

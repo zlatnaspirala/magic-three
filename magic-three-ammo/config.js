@@ -23,7 +23,7 @@ const config = {
       intensity: 6
     },
     ambientLight: {
-      color:  "rgb(0.5,0.5,0.5)"
+      color:  "rgb(150,150,50)"
     },
     meshShadows: {
       castShadow: false,
