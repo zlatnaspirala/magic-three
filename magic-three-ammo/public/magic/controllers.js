@@ -47,14 +47,11 @@ export function createFPSController() {
         this.moveRight = true;
         break;
       case 'Space':
-        // if(this.canJump === true) this.velocity.y += 350;
-        if (this.controls.PREVENT_INPUT_JUMP == false) {
-          console.log('ssssssssJUMP ssssssssssssssssss this.controls.JUMP', this.controls.JUMP)
+        if(this.controls.PREVENT_INPUT_JUMP == false) {
           this.controls.JUMP = true;
           this.controls.PREVENT_INPUT_JUMP = true;
           setTimeout(() => {
             this.controls.PREVENT_INPUT_JUMP = false;
-            console.log('ssssssssJUMP ssRESETssss', this.config.playerController.movementSpeed.jumpLimitInterval)
           }, this.config.playerController.movementSpeed.jumpLimitInterval);
         }
         break;
@@ -62,19 +59,19 @@ export function createFPSController() {
 
     switch(event.keyCode) {
       case 38: //↑: FORWARD
-        this.kMoveDirection.forward = 1
+        this.kMoveDirection.forward = 1;
         break;
 
       case 40: //↓: BACK
-        this.kMoveDirection.back = 1
+        this.kMoveDirection.back = 1;
         break;
 
       case 37: //←: LEFT
-        this.kMoveDirection.left = 1
+        this.kMoveDirection.left = 1;
         break;
 
       case 39: //→: RIGHT
-        this.kMoveDirection.right = 1
+        this.kMoveDirection.right = 1;
         break;
     }
   };
@@ -100,34 +97,15 @@ export function createFPSController() {
     }
 
     switch(event.keyCode) {
-      // case 87: //FORWARD
-      //   this.moveDirection.forward = 0
-      //   break;
-
-      // case 83: //BACK
-      //   this.moveDirection.back = 0
-      //   break;
-
-      // case 65: //LEFT
-      //   this.moveDirection.left = 0
-      //   break;
-
-      // case 68: //RIGHT
-      //   this.moveDirection.right = 0
-      //   break;
-
       case 38: //↑: FORWARD
         this.kMoveDirection.forward = 0
         break;
-
       case 40: //↓: BACK
         this.kMoveDirection.back = 0
         break;
-
       case 37: //←: LEFT
         this.kMoveDirection.left = 0
         break;
-
       case 39: //→: RIGHT
         this.kMoveDirection.right = 0
         break;

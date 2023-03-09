@@ -103,20 +103,17 @@ After all goto https://localhost/public/module.html
 You can easy manage paths. Default is `https` protocol and also recommended in multiplayer mode.
 
 ## Features
- - Dynamic Cache/Worker, add to home screen. [pwa]
- - Graphics/Physics ready.
- - Prod/Dev Mode switch [wip]
- - Add 3d object loaders [fbx]
+ - Dynamic Cache/Worker, add to home screen. [pwa]✅
+ - Graphics/Physics scene ready.✅
+ - Add 3d object loaders [fbx, collada]✅
+ - [wip]Prod/Dev Mode switch
+ - Basic FPS controller✅
+ - [wip]⏳ Add player items handler
+ - [wip]⏳ Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
+ - [wip]⏳ Adding optimal sky throw the config flags.
+ - [wip]⏳ Add test naming fbx animation segments, adding complete FPS basic actions.
 
-## Next feature
- - Fix Jump
- - Add shooting `fire`
- - Add player items handler
- - Integrate networking and self hosting based on node.js
- - Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
-
-
-## More info about PWA
+## More info about PWA ⏳
 I have performance stable at ~90% value. I load extra fbx animation 22Mb to test little more better.
 Image formats like WebP and AVIF often provide better compression than PNG or JPEG, 
 which means faster downloads and less data consumption. I use freeware GIMP he had a webp format support for exports.
@@ -138,11 +135,10 @@ Only on startup for now:
     });
 ```
 
-### Networking
+### Networking [WEBRTC] 💫
 
   - Every player send own `net.connection.userid`.
-
-  - boxs map loader hace support for net
+  - boxs map loader have support for net emit.
 
 
 ## Credits && Licence
@@ -155,7 +151,7 @@ Only on startup for now:
 
 ### At separated branch you can find [old-arhive]:
 - old [threejs version 75 , 68 etc...]
-   Lot of crazzy staff but you need to make it running... [deplaced methodology]
+   Lot of crazzy staff but you need to make it running... [deplaced methodology] ☣
 
 ### Magic-three-cannonjs old but still good! [threejs version 75]
  - Very simple top level code! [Still developing at this base]
