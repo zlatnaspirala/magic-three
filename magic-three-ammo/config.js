@@ -38,7 +38,7 @@ const config = {
     movementSpeed : {
       forward: 8, backward: 6,
       left: 8, right: 8,
-      jump : 10
+      jump : 11, jumpLimitInterval: 2000
     },
     bullet: {
       mass: 30,

@@ -9,6 +9,7 @@ export function createFPSController() {
   this.controls.maxPolarAngle = Math.PI / 2; // radians
 
   this.controls.JUMP = false;
+  this.controls.PREVENT_INPUT_JUMP = false;
 
   instructions.addEventListener('click', () => {
     console.log("LOCK CLICK")
@@ -47,13 +48,14 @@ export function createFPSController() {
         break;
       case 'Space':
         // if(this.canJump === true) this.velocity.y += 350;
-        if (this.controls.JUMP == false) {
-          console.log('ssssssssJUMP ssssssssssssssssss')
+        if (this.controls.PREVENT_INPUT_JUMP == false) {
+          console.log('ssssssssJUMP ssssssssssssssssss this.controls.JUMP', this.controls.JUMP)
           this.controls.JUMP = true;
+          this.controls.PREVENT_INPUT_JUMP = true;
           setTimeout(() => {
-            this.controls.JUMP = false;
-            console.log('ssssssssJUMP ssRESETssss')
-          }, 3000);
+            this.controls.PREVENT_INPUT_JUMP = false;
+            console.log('ssssssssJUMP ssRESETssss', this.config.playerController.movementSpeed.jumpLimitInterval)
+          }, this.config.playerController.movementSpeed.jumpLimitInterval);
         }
         break;
     }

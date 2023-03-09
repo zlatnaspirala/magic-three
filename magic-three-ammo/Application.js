@@ -125,10 +125,6 @@ class Application extends MagicPhysics {
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info('Big data promise all => ', values);
-      const domLoader = document.getElementById('instructions');
-      // MultiLang is async call
-      // if no big data no trigger
-      // domLoader.innerHTML = startUpScreen();
     });
 
     // Attach funcs
@@ -146,7 +142,6 @@ class Application extends MagicPhysics {
 
       this.init();
       this.animate();
-      // console.info('Ammo is ready.');
     });
   }
 
