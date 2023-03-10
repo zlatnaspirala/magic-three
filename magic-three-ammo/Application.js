@@ -283,7 +283,7 @@ class Application extends MagicPhysics {
       this.config.map.floorWidth, 1,
       this.config.map.floorHeight, 0,
       this.pos, this.quat,
-      this.materials.assets.Yellow_glass
+      this.materials.assets.defaultGlass
     );
     ground.receiveShadow = true;
     this.textureLoader.load("./assets/textures/cube/wall-black.webp", function(texture) {

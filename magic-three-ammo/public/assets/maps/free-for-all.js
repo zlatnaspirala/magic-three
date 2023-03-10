@@ -17,7 +17,7 @@ let map = {
       scale: {x:5, y:5, z:5},
       pos: {x:0 , y:1, z:20},
       quat: [0,0,0,1],
-      matFlag: 'Yellow_glass'
+      matFlag: 'Bronze'
     },
     {
       name: "myMidBox2",
@@ -26,7 +26,7 @@ let map = {
       scale: {x:15, y:15, z:15},
       pos: {x:11 , y:11, z:20},
       quat: [0,0,0,1],
-      matFlag: 'Yellow_glass'
+      matFlag: 'glass'
     },
   ],
   tubes: [
