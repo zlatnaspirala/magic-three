@@ -117,6 +117,7 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - [wip]⏳ Adding optimal sky throw the config flags.
  - [wip]⏳ Add test naming fbx animation segments, adding complete FPS basic actions.
  - [wip]⏳ Adding map pack principle.
+ - [wip]⏳ Improve fire.
 
 
 # Map [wip]⏳

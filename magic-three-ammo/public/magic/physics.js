@@ -228,7 +228,8 @@ export class MagicPhysics extends MagicNetworking {
     if (matFlag == false) {
       mat = material;
     } else {
-      mat = this.materials[matFlag];
+      mat = this.materials.assets[matFlag];
+      console.log('MAT IS' , mat)
     }
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
@@ -240,6 +241,8 @@ export class MagicPhysics extends MagicNetworking {
     );
     object.position.copy(pos);
     object.quaternion.copy(quat);
+
+    object.castShadow = true;
 
     object.name = name || "simple-box-" + MathUtils.randInt(0, 99999);
 
@@ -287,6 +290,7 @@ export class MagicPhysics extends MagicNetworking {
     object.quaternion.copy(quat);
 
     object.name = name || "simple-cilinder-" + MathUtils.randInt(0, 99999);
+    object.castShadow = true;
 
     var colShape = this.createConvexHullPhysicsShape(object.geometry.attributes.position.array)
     colShape.setMargin(this.margin);
@@ -322,6 +326,7 @@ export class MagicPhysics extends MagicNetworking {
     object.position.copy(pos);
     object.quaternion.copy(quat);
     object.name = name || "simple-tube-" + MathUtils.randInt(0, 99999);
+    object.castShadow = true;
 
     var colShape = this.createConvexHullPhysicsShape(object.geometry.attributes.position.array)
     colShape.setMargin(this.margin);
@@ -361,6 +366,7 @@ export class MagicPhysics extends MagicNetworking {
     object.position.copy(pos);
     object.quaternion.copy(quat);
     object.name = name || "simple-breakable-" + MathUtils.randInt(0, 99999);
+    object.castShadow = true;
     this.convexBreaker.prepareBreakableObject(
       object,
       mass,

@@ -41,6 +41,9 @@ export class MagicMaterials {
   }
 
   createMyMat = function(path) {
+
+    this.assets.default = new THREE.MeshStandardMaterial( { color: 0xff0000 } );
+
     this.assets.Yellow_glass = new THREE.MeshPhongMaterial({
       color: 0xffffaa,
       opacity: 0.95,

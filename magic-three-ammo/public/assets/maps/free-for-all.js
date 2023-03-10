@@ -17,7 +17,16 @@ let map = {
       scale: {x:5, y:5, z:5},
       pos: {x:0 , y:1, z:20},
       quat: [0,0,0,1],
-      matFlag: 'Bronze'
+      matFlag: 'Yellow_glass'
+    },
+    {
+      name: "myMidBox2",
+      net: true,
+      mass: 10,
+      scale: {x:15, y:15, z:15},
+      pos: {x:11 , y:11, z:20},
+      quat: [0,0,0,1],
+      matFlag: 'Yellow_glass'
     },
   ],
   tubes: [
@@ -50,16 +59,16 @@ let map = {
       name: 'l1',
       color: 0xff0040,
       radius: 2,
-      intensity: 50,
-      pos: {x:30 , y:2, z:10},
+      intensity: 150,
+      pos: {x:30 , y:12, z:10},
       helper: true
     },
     {
       name: 'l2',
       color: 0xeeee40,
       radius: 2,
-      intensity: 150,
-      pos: {x:-30 , y:2, z:10},
+      intensity: 510,
+      pos: {x:-30 , y:12, z:10},
       helper: true
     }
   ]

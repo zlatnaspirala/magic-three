@@ -18,6 +18,7 @@ import {MagicLoader} from "./public/magic/loaders.js";
 import {byId, createAppEvent, load, runCache, save} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
+import {Sky} from 'three/addons/objects/Sky.js';
 import {MagicSounds} from "./public/magic/audios/sounds.js";
 import t from "./public/magic/multi-lang.js";
 
@@ -38,6 +39,8 @@ class Application extends MagicPhysics {
   mouseCoords = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
   bulletMaterial = new THREE.MeshPhongMaterial({color: 0x202020});
+
+  sky = {};
 
   // FPShooter Controller
   moveForward = false;
@@ -72,9 +75,10 @@ class Application extends MagicPhysics {
     super({config: config});
     this.config = config;
 
+    console.log('Sky ', Sky)
     addEventListener('multi-lang-ready', () => {
       document.title = t('title');
-      if (byId('loading.label')) byId('loading.label').innerHTML = t('loading');
+      if(byId('loading.label')) byId('loading.label').innerHTML = t('loading');
       byId('header.title').innerHTML = t('title');
       byId('player.munition.label').innerHTML = t('munition');
       byId('player.kills.label').innerHTML = t('kills.label');
@@ -169,9 +173,17 @@ class Application extends MagicPhysics {
       this.config.playerController.cameraInitPosition.y,
       this.config.playerController.cameraInitPosition.z);
 
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    this.renderer.shadowMap.enabled = true;
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setSize(window.innerWidth, window.innerHeight);
+      this.renderer.shadowMap.enabled = true;
+
+    // if 
+    if(this.config.map.sky.enabled == true) {
+      this.renderer.outputEncoding = THREE.sRGBEncoding;
+      this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      this.renderer.toneMappingExposure = 0.5;
+    }
+    //
     this.container.appendChild(this.renderer.domElement);
 
     if(this.config.playerController.type === 'FPS') {
@@ -185,7 +197,6 @@ class Application extends MagicPhysics {
     // Lights
     this.textureLoader = new THREE.TextureLoader();
 
-    // this.ambientLight = new THREE.AmbientLight(new THREE.Color(this.config.map.ambientLight.color));
     this.ambientLight = new THREE.AmbientLight(this.config.map.ambientLight.color);
     this.scene.add(this.ambientLight);
 
@@ -203,6 +214,21 @@ class Application extends MagicPhysics {
     this.light.shadow.mapSize.y = 1024;
     this.scene.add(this.light);
 
+    // Add Sky
+    if(this.config.map.sky.enabled == true) {
+      this.sky = new Sky();
+      this.sky.scale.setScalar(450000);
+      this.scene.add(this.sky);
+      this.sun = new THREE.Vector3(1000,1000,0);
+      var uniforms = this.sky.material.uniforms;
+      uniforms[ "turbidity" ].value = 1
+      uniforms[ "rayleigh" ].value = 1
+      uniforms[ "mieCoefficient" ].value = .005
+      uniforms[ "mieDirectionalG" ].value = .8
+      uniforms.sunPosition.value.copy(this.sun)
+      // uniforms[ "luminance" ].value = 1
+    }
+
     if(this.config.stats == true) {
       this.stats = new Stats();
       this.stats.domElement.style.position = "absolute";
@@ -216,7 +242,7 @@ class Application extends MagicPhysics {
   createPlayer() {
     const material = new THREE.LineBasicMaterial({color: 0x0000ff});
     const ballMass = 10;
-    const ballRadius = 1;
+    const ballRadius = 2;
     const ball = new THREE.Line(
       new THREE.SphereGeometry(ballRadius, 14, 10),
       material);
@@ -258,7 +284,7 @@ class Application extends MagicPhysics {
       this.config.map.floorWidth, 1,
       this.config.map.floorHeight, 0,
       this.pos, this.quat,
-      this.materials.assets.Orange_glass
+      this.materials.assets.Yellow_glass
     );
     ground.receiveShadow = true;
     this.textureLoader.load("./assets/textures/cube/wall-black.webp", function(texture) {

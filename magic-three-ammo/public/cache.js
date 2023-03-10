@@ -1,20 +1,26 @@
-
+/**
+ * @description Cache
+ * - Dynamic cache
+ - * Automatic update
+ * @author Nikola Lukic
+ */
 var version = 1;
 
-var cacheName = 'magic-three' + version;
+const cacheFlag = 'magic-three';
+var cacheName = cacheFlag + version;
 const offlineUrl = 'offline.html';
 
-var old =  'magic-three' + (version -1);
+var old = cacheFlag + (version - 1);
 caches.delete(old);
 
-for (var j = 1;j < version;j++) {
+for(var j = 1;j < version;j++) {
   try {
-    var veryOld =  'magic-three' + j;
+    var veryOld = cacheFlag + j;
     caches.delete(veryOld);
   } catch(e) {}
 }
 
-self.addEventListener('install', function (event) {
+self.addEventListener('install', function(event) {
   self.skipWaiting();
 });
 
@@ -25,11 +31,11 @@ self.addEventListener('fetch', (event) => {
         resp ||
         fetch(event.request).then((response) => {
           return caches.open(cacheName).then((cache) => {
-            if (response.status == 206) {
+            if(response.status == 206) {
               // Partial Content
               return response;
             } else {
-              if (event.request.method == "POST") {
+              if(event.request.method == "POST") {
                 return response;
               }
               cache.put(event.request, response.clone());

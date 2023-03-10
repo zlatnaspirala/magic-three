@@ -14,6 +14,9 @@ const config = {
     order: 'YXZ'
   },
   map: {
+    sky: {
+      enabled: false
+    },
     background: 0xbfd1e5,
     floorWidth: 200,
     floorHeight: 200,
@@ -39,6 +42,10 @@ const config = {
       forward: 8, backward: 6,
       left: 8, right: 8,
       jump : 11, jumpLimitInterval: 2000
+    },
+    physicsBody : {
+      visible: true,
+      
     },
     bullet: {
       mass: 30,

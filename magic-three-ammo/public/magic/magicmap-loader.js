@@ -33,7 +33,7 @@ export function loadMap() {
       e,
       this.pos,
       this.quat,
-      this.materials.assets.Yellow_glass,
+      this.materials.assets.default,
       b.name || 'random-' + MathUtils.randInt(0, 99999),
       b.net || false,
       b.matFlag || false

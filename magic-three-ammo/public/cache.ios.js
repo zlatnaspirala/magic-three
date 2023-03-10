@@ -3,16 +3,16 @@
  * @description iOS platform worker cache fixer.
  */
 var version = 1;
-
-var cacheName = 'magic-three' + version;
+const cacheFlag = 'magic-three';
+var cacheName = cacheFlag + version;
 const offlineUrl = 'offline.html';
 
-var old =  'magic-three' + (version -1);
+var old = cacheFlag + (version -1);
 caches.delete(old);
 
 for (var j = 1;j < version;j++) {
   try {
-    var veryOld =  'magic-three' + j;
+    var veryOld =  cacheFlag + j;
     caches.delete(veryOld);
   } catch(e) {}
 }
@@ -22,7 +22,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(iOSversion).then(function(cache) {
       return cache.addAll([
-        './assets/objects/zombies-walk.fbx',
+        // './assets/objects/zombies-walk.fbx',
       ]);
     })
   );
