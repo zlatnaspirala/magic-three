@@ -15,7 +15,7 @@ const config = {
   },
   map: {
     sky: {
-      enabled: false
+      enabled: true
     },
     background: 0xbfd1e5,
     floorWidth: 200,
@@ -44,8 +44,9 @@ const config = {
       jump : 11, jumpLimitInterval: 2000
     },
     physicsBody : {
-      visible: true,
-      
+      visible: false,
+      radius: 2,
+      mass: 10
     },
     bullet: {
       mass: 30,

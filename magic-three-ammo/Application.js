@@ -47,7 +47,6 @@ class Application extends MagicPhysics {
   moveBackward = false;
   moveLeft = false;
   moveRight = false;
-  // canJump = false;
 
   prevTime = performance.now();
   velocity = new THREE.Vector3();
@@ -75,7 +74,6 @@ class Application extends MagicPhysics {
     super({config: config});
     this.config = config;
 
-    console.log('Sky ', Sky)
     addEventListener('multi-lang-ready', () => {
       document.title = t('title');
       if(byId('loading.label')) byId('loading.label').innerHTML = t('loading');
@@ -177,13 +175,12 @@ class Application extends MagicPhysics {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       this.renderer.shadowMap.enabled = true;
 
-    // if 
     if(this.config.map.sky.enabled == true) {
       this.renderer.outputEncoding = THREE.sRGBEncoding;
       this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
       this.renderer.toneMappingExposure = 0.5;
     }
-    //
+
     this.container.appendChild(this.renderer.domElement);
 
     if(this.config.playerController.type === 'FPS') {
@@ -221,11 +218,12 @@ class Application extends MagicPhysics {
       this.scene.add(this.sky);
       this.sun = new THREE.Vector3(1000,1000,0);
       var uniforms = this.sky.material.uniforms;
-      uniforms[ "turbidity" ].value = 1
-      uniforms[ "rayleigh" ].value = 1
-      uniforms[ "mieCoefficient" ].value = .005
-      uniforms[ "mieDirectionalG" ].value = .8
-      uniforms.sunPosition.value.copy(this.sun)
+      uniforms.turbidity.value = 1;
+      uniforms.rayleigh.value = 1;
+      uniforms.mieCoefficient.value = .005;
+      uniforms.mieDirectionalG.value = .8;
+      uniforms.sunPosition.value.copy(this.sun);
+      console.log("SKy params", uniforms)
       // uniforms[ "luminance" ].value = 1
     }
 
@@ -241,13 +239,14 @@ class Application extends MagicPhysics {
 
   createPlayer() {
     const material = new THREE.LineBasicMaterial({color: 0x0000ff});
-    const ballMass = 10;
-    const ballRadius = 2;
+    const ballMass = this.config.playerController.physicsBody.mass;
+    const ballRadius = this.config.playerController.physicsBody.radius;
     const ball = new THREE.Line(
       new THREE.SphereGeometry(ballRadius, 14, 10),
       material);
     ball.castShadow = false;
     ball.receiveShadow = false;
+    ball.visible = this.config.playerController.physicsBody.visible;
     const ballShape = new Ammo.btSphereShape(ballRadius);
     ballShape.setMargin(this.margin);
     this.pos.copy(this.raycaster.ray.direction);
