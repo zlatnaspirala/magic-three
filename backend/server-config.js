@@ -22,7 +22,7 @@ class ServerConfig {
     this.ownHttpHostPort = 443;
     this.networkDeepLogs = false;
     this.rtcServerPort = 11034;
-    this.rtc3ServerPort = 9010;
+    this.rtc3ServerPort = 9001; // samo like Visual-ts server
     this.connectorPort = 9111;
 
     /**

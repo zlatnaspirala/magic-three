@@ -165,7 +165,8 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
 
         if (connection.enableLogs) {
             if (connection.socketURL == '/') {
-                connection.socketURL = "http://localhost:9010/";
+                // connection.socketURL = "http://localhost:9010/";
+                connection.socketURL = "http://localhost:9001/";
             }
         }
 

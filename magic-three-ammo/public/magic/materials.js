@@ -65,7 +65,6 @@ export class MagicMaterials {
 
     this.assets.glass = new THREE.MeshBasicMaterial({
         color: 0x223344,
-        envMap: this.assets.texCube,
         opacity: 0.25,
         transparent: true,
         combine: THREE.MixOperation,

@@ -77,10 +77,10 @@ export function getProtocolFromAddressBar() {
 }
 
 export function getDomain() {
-  if(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-    return window.location.hostname;
-  }
-  return this.domain;
+  // if(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+  //   return window.location.hostname;
+  // }
+  return window.location.hostname;
 }
 
 export function urlFlag(name) {
