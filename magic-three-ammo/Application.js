@@ -301,11 +301,6 @@ class Application extends MagicPhysics {
 
   }
 
-  // createMaterial(color) {
-  //   color = color || createRandomColor();
-  //   return new THREE.MeshPhongMaterial({color: color});
-  // }
-
   attachFire() {
     window.addEventListener("pointerdown", (event) => {
 
