@@ -1,5 +1,5 @@
 {
-  "socketURL": "https://localhost:9010/",
+  "socketURL": "https://localhost:9001/",
   "dirPath": "/",
   "homePage": "https://localhost",
   "socketMessageEvent": "RTCMultiConnection-Message",
