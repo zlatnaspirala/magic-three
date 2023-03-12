@@ -221,6 +221,15 @@ export function updateControls() {
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
      }
 
+     // little test - nice
+    //  console.log('CAMERA POS : ', this.camera.position)
+    //  console.log('PLAYERBODY POS : ', this.playerBody.position)
+    //  console.log('RAYA POS : ', this.raycaster)
+    if (this.playerBody.position.y < -50) {
+      console.log('DIE this.playerBody ' , this.playerBody);
+      
+    }
+
   }
   this.prevTime = time;
 }

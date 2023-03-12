@@ -89,7 +89,8 @@ class Application extends MagicPhysics {
       this.playerData = load('playerData');
     } else {
       this.playerData = {
-        kills: 0
+        kills: 0,
+        dies: 0
       };
       save('playerData', this.playerData);
     }
@@ -113,7 +114,13 @@ class Application extends MagicPhysics {
     // myBigDataFlag got undefined array fill because 
     // i pass then call (func void) - work ok (Promisee.All).
 
-    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
+    // wip
+    this.loader.obj(
+      'assets/objects/env/wall1.obj',
+      'myWall_1',
+      'assets/textures/cube/metal-r1-blue.webp');
+
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'zombie1').then((r) => {
     //   console.info('Setup enemy obj =>', r);
     //   r.position.set(-10, 0, -10)
     // }));
@@ -165,11 +172,6 @@ class Application extends MagicPhysics {
 
     // fox for local rotation vars !
     this.camera.rotation.order = this.config.camera.order;
-
-    this.camera.position.set(
-      this.config.playerController.cameraInitPosition.x,
-      this.config.playerController.cameraInitPosition.y,
-      this.config.playerController.cameraInitPosition.z);
 
       this.renderer.setPixelRatio(window.devicePixelRatio);
       this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -238,6 +240,13 @@ class Application extends MagicPhysics {
   }
 
   createPlayer() {
+    // not sure - works
+    this.camera.position.set(
+      this.config.playerController.cameraInitPosition.x,
+      this.config.playerController.cameraInitPosition.y,
+      this.config.playerController.cameraInitPosition.z);
+    this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+
     const material = new THREE.LineBasicMaterial({color: 0x0000ff});
     const ballMass = this.config.playerController.physicsBody.mass;
     const ballRadius = this.config.playerController.physicsBody.radius;
@@ -249,8 +258,14 @@ class Application extends MagicPhysics {
     ball.visible = this.config.playerController.physicsBody.visible;
     const ballShape = new Ammo.btSphereShape(ballRadius);
     ballShape.setMargin(this.margin);
-    this.pos.copy(this.raycaster.ray.direction);
-    this.pos.add(this.raycaster.ray.origin);
+
+    this.pos.copy(new THREE.Vector3(
+      this.config.playerController.cameraInitPosition.x,
+      this.config.playerController.cameraInitPosition.y,
+      this.config.playerController.cameraInitPosition.z));
+    // this.pos.copy(this.raycaster.ray.direction);
+    // this.pos.add(this.raycaster.ray.origin);
+
     this.quat.set(0, 0, 0, 1);
     this.playerBody = ball;
 

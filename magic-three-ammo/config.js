@@ -23,10 +23,10 @@ const config = {
     gravityConstant: 17.5,
     directionLight: {
       color: 0xffffff,
-      intensity: 6
+      intensity: 5
     },
     ambientLight: {
-      color:  "rgb(150,150,50)"
+      color:  "rgb(250,250,250)"
     },
     meshShadows: {
       castShadow: false,
@@ -37,7 +37,7 @@ const config = {
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
-    cameraInitPosition: {x: 10, y: 5, z: 10},
+    cameraInitPosition: {x: 0, y: 15, z: -98},
     movementSpeed : {
       forward: 8, backward: 6,
       left: 8, right: 8,
@@ -49,9 +49,9 @@ const config = {
       mass: 10
     },
     bullet: {
-      mass: 30,
-      radius: 0.2,
-      power: 100,
+      mass: 1,
+      radius: 0.1,
+      power: 200,
       bulletLiveTime: 1000
     }
   },

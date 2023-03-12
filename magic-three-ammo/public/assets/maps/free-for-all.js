@@ -34,14 +34,14 @@ let map = {
       name: "myTube1",
       mass: 1000,
       scale: [5, 5, 20, 32],
-      pos: {x:-20 , y:1, z:1},
+      pos: {x:-20 , y:1, z:-80},
       quat: [0,0,0,1]
     },
     {
       name: "myTube2",
       mass: 1000,
       scale: [5, 5, 20, 32],
-      pos: {x:20 , y:1, z:1},
+      pos: {x:20 , y:1, z:-80},
       quat: [0,0,0,1]
     }
   ],
