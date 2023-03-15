@@ -89,24 +89,49 @@ export function loadMap() {
     this.loader.objMtl(
       obj.path,
       obj.name).then((o) => {
-        
+
         obj.instances.forEach((oo, index) => {
           let object = o.clone();
-          if (index > 0) {
-            object.position.set(oo.pos.x,oo.pos.y,oo.pos.z);
+          if(index > 0) {
+            object.position.set(oo.pos.x, oo.pos.y, oo.pos.z);
             console.warn('ARRAY OF INSTANCES =>', oo);
-            if (typeof oo.rot != 'undefined') {
+            if(typeof oo.rot != 'undefined') {
               object.rotateX(MathUtils.degToRad(oo.rot.x));
               object.rotateY(MathUtils.degToRad(oo.rot.y));
               object.rotateZ(MathUtils.degToRad(oo.rot.z));
             }
             this.scene.add(object);
           } else {
-            console.warn('ARRAY OF INSTANCES 1 =>', oo);
-            o.position.set(oo.pos.x,oo.pos.y,oo.pos.z);
-            if (typeof oo.rot != 'undefined') {
-              o.quaternion.set( MathUtils.degToRad(oo.rot.x), MathUtils.degToRad(oo.rot.y), MathUtils.degToRad(oo.rot.z));
+
+            o.position.set(oo.pos.x, oo.pos.y, oo.pos.z);
+            if(typeof oo.rot != 'undefined') {
+              o.quaternion.set(MathUtils.degToRad(oo.rot.x), MathUtils.degToRad(oo.rot.y), MathUtils.degToRad(oo.rot.z));
             }
+
+            var bbox = new THREE.Box3().setFromObject(o);
+            var box3 = new THREE.Box3();
+            var size = new THREE.Vector3();
+            var boxHelper = new THREE.BoxHelper(o);
+            box3.setFromObject(boxHelper);
+            box3.getSize(size);
+            console.log(size);
+            this.scene.add(boxHelper);
+            console.warn(`load dynamic boxs index => ${boxHelper.position.x} this test => `);
+            const m = 0;
+            const e = new THREE.Vector3(size.x/2, size.y/2, size.z/2);
+            this.pos.set(o.position.x, o.position.y, o.position.z);
+            this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
+             this.createSimpleBox(
+              m,
+              e,
+              this.pos,
+              this.quat,
+              this.materials.assets.default,
+              o.name || 'random-' + MathUtils.randInt(0, 99999),
+              false,
+              false
+            );
+
           }
         });
       });
