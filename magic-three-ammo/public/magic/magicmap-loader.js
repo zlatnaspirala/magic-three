@@ -73,10 +73,36 @@ export function loadMap() {
     light.position.set(l.pos.x, l.pos.y, l.pos.y);
     const sphere = new THREE.SphereGeometry(0.5, 8, 4);
     if(typeof l.helper !== 'undefined' && l.helper == true) light.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: l.color})));
-
     this.scene.add(light);
+  });
 
-  })
+  map.objMtls.forEach((obj, index) => {
+    this.loader.objMtl(
+      obj.path,
+      obj.name).then((o) => {
+        console.info('Set position after load.', o);
+        o.position.set(obj.pos.x, obj.pos.y, obj.pos.z);
+      });
+  });
 
+  map.objMtlsArray.forEach((obj, index) => {
+    this.loader.objMtl(
+      obj.path,
+      obj.name).then((o) => {
+        console.info('ARRAY OF INSTANCES =>', obj.instances);
+        // o.position.set(obj.pos.x, obj.pos.y, obj.pos.z);
+        obj.instances.forEach((oo, index) => {
+          let object = o.clone();
+
+          if (index > 0) {
+            //
+            object.position.set(oo.pos.x,oo.pos.y,oo.pos.z);
+            this.scene.add(object);
+          } else {
+            o.position.set(oo.pos.x,oo.pos.y,oo.pos.z);
+          }
+        });
+      });
+  });
 
 };

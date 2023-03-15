@@ -71,6 +71,23 @@ let map = {
       pos: {x:-30 , y:12, z:10},
       helper: true
     }
+  ],
+  objMtls: [
+    // {
+    //   path: 'assets/objects/env/wall1.obj',
+    //   name: 'myWall_1',
+    //   pos: {x:-100, y:-0.5, z:-42}
+    // }
+  ],
+  objMtlsArray: [
+    {
+      path: 'assets/objects/env/wall1.obj',
+      name: 'myWall',
+      instances: [
+        { pos: {x:-100, y:-0.5, z:-62}},
+        { pos: {x:-100, y:-0.5, z:43.5}},
+      ]
+    }
   ]
 };
 

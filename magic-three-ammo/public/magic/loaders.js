@@ -87,9 +87,10 @@ export class MagicLoader {
         object.traverse(function(child) {
           if(child.isMesh) child.material.map = texture;
         });
+        object.name = refName;
         // object.position.y = 2;
         this.scene.add(object);
-        resolve('Obj added.');
+        resolve('[Obj loader] added ', object);
       });
       const textureLoader = new THREE.TextureLoader(manager);
       const texture = textureLoader.load(tex);
@@ -110,7 +111,17 @@ export class MagicLoader {
     });
   }
 
-  async objMtl() {
+  async objMtl(p, refName, tex) {
+    return new Promise((resolve, reject) => {
+    let localP = p.split('/');
+    let name = localP[localP.length-1];
+    localP.pop();
+    let path = localP.join('/');
+    path += '/';
+    console.log('what is path ', path)
+    let mtlName = name.replace('.obj','.mtl');
+    console.log('what is name ', mtlName)
+
     const onProgress = function(xhr) {
       if(xhr.lengthComputable) {
         const percentComplete = xhr.loaded / xhr.total * 100;
@@ -119,21 +130,18 @@ export class MagicLoader {
     };
 
     new MTLLoader()
-      .setPath('models/obj/male02/')
-      .load('male02.mtl', function(materials) {
-
+      .setPath(path)
+      .load(mtlName, (materials) => {
         materials.preload();
-
         new OBJLoader()
           .setMaterials(materials)
-          .setPath('models/obj/male02/')
-          .load('male02.obj', function(object) {
-
-            object.position.y = - 95;
-            scene.add(object);
-
+          .setPath(path)
+          .load(name, (object) => {
+            object.position.y = 5;
+            this.scene.add(object);
+            resolve(object);
           }, onProgress);
-
       });
+    })
   }
 }

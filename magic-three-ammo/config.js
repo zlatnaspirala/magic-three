@@ -37,7 +37,7 @@ const config = {
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
-    cameraInitPosition: {x: 0, y: 15, z: -98},
+    cameraInitPosition: {x: 0, y: 15, z: -80},
     movementSpeed : {
       forward: 8, backward: 6,
       left: 8, right: 8,

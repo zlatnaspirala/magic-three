@@ -115,10 +115,12 @@ class Application extends MagicPhysics {
     // i pass then call (func void) - work ok (Promisee.All).
 
     // wip
-    this.loader.obj(
-      'assets/objects/env/wall1.obj',
-      'myWall_1',
-      'assets/textures/cube/metal-r1-blue.webp');
+    // this.loader.objMtl(
+    //   'assets/objects/env/wall1.obj',
+    //   'myWall_1').then((o) => {
+    //     console.info('Set position after load.', o);
+    //     o.position.set(-100, -0.5, -50);
+    //   });
 
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'zombie1').then((r) => {
     //   console.info('Setup enemy obj =>', r);
@@ -225,7 +227,7 @@ class Application extends MagicPhysics {
       uniforms.mieCoefficient.value = .005;
       uniforms.mieDirectionalG.value = .8;
       uniforms.sunPosition.value.copy(this.sun);
-      console.log("SKy params", uniforms)
+      console.log("Sky params", uniforms)
       // uniforms[ "luminance" ].value = 1
     }
 
