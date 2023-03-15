@@ -1,6 +1,6 @@
 
 import * as THREE from "three";
-import {MathUtils} from "three";
+import {MathUtils, Quaternion} from "three";
 import map from "../assets/maps/free-for-all.js";
 
 // This is binded funcs - this refered to the mani app class.
@@ -89,17 +89,24 @@ export function loadMap() {
     this.loader.objMtl(
       obj.path,
       obj.name).then((o) => {
-        console.info('ARRAY OF INSTANCES =>', obj.instances);
-        // o.position.set(obj.pos.x, obj.pos.y, obj.pos.z);
+        
         obj.instances.forEach((oo, index) => {
           let object = o.clone();
-
           if (index > 0) {
-            //
             object.position.set(oo.pos.x,oo.pos.y,oo.pos.z);
+            console.warn('ARRAY OF INSTANCES =>', oo);
+            if (typeof oo.rot != 'undefined') {
+              object.rotateX(MathUtils.degToRad(oo.rot.x));
+              object.rotateY(MathUtils.degToRad(oo.rot.y));
+              object.rotateZ(MathUtils.degToRad(oo.rot.z));
+            }
             this.scene.add(object);
           } else {
+            console.warn('ARRAY OF INSTANCES 1 =>', oo);
             o.position.set(oo.pos.x,oo.pos.y,oo.pos.z);
+            if (typeof oo.rot != 'undefined') {
+              o.quaternion.set( MathUtils.degToRad(oo.rot.x), MathUtils.degToRad(oo.rot.y), MathUtils.degToRad(oo.rot.z));
+            }
           }
         });
       });

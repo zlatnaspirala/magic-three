@@ -24,7 +24,7 @@ export class MagicLoader {
         this.mixers.push(new THREE.AnimationMixer(object));
         console.log(" test animations: ", object.animations);
         // remeber - 1 walk
-        this.action = this.mixers[this.mixers.length - 1].clipAction(object.animations[1]);
+        this.action = this.mixers[this.mixers.length - 1].clipAction(object.animations[0]);
         this.action.play();
         object.traverse((child) => {
           if(child.isMesh) {
