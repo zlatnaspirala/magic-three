@@ -4,9 +4,9 @@ let map = {
     {
       name: "myBreakAbleBox1",
       mass: 100,
-      scale: {x:2, y:5, z:2},
-      pos: {x:3 , y:1, z:1},
-      quat: [0,0,0,1]
+      scale: {x: 2, y: 5, z: 2},
+      pos: {x: 3, y: 1, z: 1},
+      quat: [0, 0, 0, 1]
     }
   ],
   boxs: [
@@ -14,18 +14,18 @@ let map = {
       name: "myMidBox1",
       net: true,
       mass: 10,
-      scale: {x:5, y:5, z:5},
-      pos: {x:0 , y:1, z:20},
-      quat: [0,0,0,1],
+      scale: {x: 5, y: 5, z: 5},
+      pos: {x: 0, y: 1, z: 20},
+      quat: [0, 0, 0, 1],
       matFlag: 'Bronze'
     },
     {
       name: "myMidBox2",
       net: true,
       mass: 10,
-      scale: {x:15, y:15, z:15},
-      pos: {x:11 , y:11, z:20},
-      quat: [0,0,0,1],
+      scale: {x: 15, y: 15, z: 15},
+      pos: {x: 11, y: 11, z: 20},
+      quat: [0, 0, 0, 1],
       matFlag: 'glass'
     },
   ],
@@ -34,15 +34,15 @@ let map = {
       name: "myTube1",
       mass: 1000,
       scale: [5, 5, 20, 32],
-      pos: {x:-20 , y:1, z:-80},
-      quat: [0,0,0,1]
+      pos: {x: -20, y: 1, z: -80},
+      quat: [0, 0, 0, 1]
     },
     {
       name: "myTube2",
       mass: 1000,
       scale: [5, 5, 20, 32],
-      pos: {x:20 , y:1, z:-80},
-      quat: [0,0,0,1]
+      pos: {x: 20, y: 1, z: -80},
+      quat: [0, 0, 0, 1]
     }
   ],
   torus: [
@@ -50,8 +50,8 @@ let map = {
       name: "myTorus1",
       mass: 1000,
       scale: [10, 3, 16, 100],
-      pos: {x:30 , y:1, z:1},
-      quat: [0,0,0,1]
+      pos: {x: 30, y: 1, z: 1},
+      quat: [0, 0, 0, 1]
     }
   ],
   pointLights: [
@@ -60,7 +60,7 @@ let map = {
       color: 0xff0040,
       radius: 2,
       intensity: 150,
-      pos: {x:30 , y:12, z:10},
+      pos: {x: 30, y: 12, z: 10},
       helper: true
     },
     {
@@ -68,7 +68,7 @@ let map = {
       color: 0xeeee40,
       radius: 2,
       intensity: 510,
-      pos: {x:-30 , y:12, z:10},
+      pos: {x: -30, y: 12, z: 10},
       helper: true
     }
   ],
@@ -84,25 +84,25 @@ let map = {
       path: 'assets/objects/env/wall1.obj',
       name: 'myWall',
       instances: [
-        { pos: {x:-100, y:-0.5, z:-62}},
-        { pos: {x:-100, y:-0.5, z:43.5}},
-        { pos: {x:100, y:-0.5, z:-62}},
-        { pos: {x:100, y:-0.5, z:43.5}},
+        {pos: {x: -100, y: -0.5, z: -62}},
+        {pos: {x: -100, y: -0.5, z: 43.5}},
+        {pos: {x: 100, y: -0.5, z: -62}},
+        {pos: {x: 100, y: -0.5, z: 43.5}},
         {
-          pos: {x:52.8, y:-0.5, z: 86.5},
-          rot: {x:0, y:90, z: 0}
+          pos: {x: 52.8, y: -0.5, z: 86.5},
+          rot: {x: 0, y: 90, z: 0}
         },
         {
-          pos: {x:-52.8, y:-0.5, z: 86.5},
-          rot: {x:0, y:90, z: 0}
+          pos: {x: -52.8, y: -0.5, z: 86.5},
+          rot: {x: 0, y: 90, z: 0}
         },
         {
-          pos: {x:52.8, y:-0.5, z: -89.5},
-          rot: {x:0, y:90, z: 0}
+          pos: {x: 52.8, y: -0.5, z: -89.5},
+          rot: {x: 0, y: 90, z: 0}
         },
         {
-          pos: {x:-52.8, y:-0.5, z: -89.5},
-          rot: {x:0, y:90, z: 0}
+          pos: {x: -52.8, y: -0.5, z: -89.5},
+          rot: {x: 0, y: 90, z: 0}
         },
       ]
     }
