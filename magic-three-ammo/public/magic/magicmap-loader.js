@@ -100,15 +100,40 @@ export function loadMap() {
               object.rotateY(MathUtils.degToRad(oo.rot.y));
               object.rotateZ(MathUtils.degToRad(oo.rot.z));
             }
+
+            var box3 = new THREE.Box3();
+            var size = new THREE.Vector3();
+            var boxHelper = new THREE.BoxHelper(object);
+            box3.setFromObject(boxHelper);
+            box3.getSize(size);
+            console.log(size);
+            this.scene.add(boxHelper);
+            console.warn(`load blocking volumes index => ${boxHelper.position.x} => `);
+            const m = 0;
+            const e = new THREE.Vector3(size.x/2, size.y/2, size.z/2);
+            this.pos.set(object.position.x, object.position.y, object.position.z);
+            this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
+             this.createBlockingBox(
+              e,
+              this.pos,
+              this.quat,
+              this.materials.assets.basic,
+              o.name || 'random-' + MathUtils.randInt(0, 99999),
+              false
+            );
+
+
             this.scene.add(object);
           } else {
 
             o.position.set(oo.pos.x, oo.pos.y, oo.pos.z);
             if(typeof oo.rot != 'undefined') {
-              o.quaternion.set(MathUtils.degToRad(oo.rot.x), MathUtils.degToRad(oo.rot.y), MathUtils.degToRad(oo.rot.z));
+              // o.quaternion.set(MathUtils.degToRad(oo.rot.x), MathUtils.degToRad(oo.rot.y), MathUtils.degToRad(oo.rot.z));
+              object.rotateX(MathUtils.degToRad(oo.rot.x));
+              object.rotateY(MathUtils.degToRad(oo.rot.y));
+              object.rotateZ(MathUtils.degToRad(oo.rot.z));
             }
 
-            var bbox = new THREE.Box3().setFromObject(o);
             var box3 = new THREE.Box3();
             var size = new THREE.Vector3();
             var boxHelper = new THREE.BoxHelper(o);
@@ -116,19 +141,17 @@ export function loadMap() {
             box3.getSize(size);
             console.log(size);
             this.scene.add(boxHelper);
-            console.warn(`load dynamic boxs index => ${boxHelper.position.x} this test => `);
+            console.warn(`load blocking volumes index => ${boxHelper.position.x} => `);
             const m = 0;
             const e = new THREE.Vector3(size.x/2, size.y/2, size.z/2);
             this.pos.set(o.position.x, o.position.y, o.position.z);
             this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
-             this.createSimpleBox(
-              m,
+             this.createBlockingBox(
               e,
               this.pos,
               this.quat,
-              this.materials.assets.default,
+              this.materials.assets.basic,
               o.name || 'random-' + MathUtils.randInt(0, 99999),
-              false,
               false
             );
 

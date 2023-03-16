@@ -45,8 +45,8 @@ export class MagicMaterials {
   createDefault = function(path) {
 
     this.assets.default = new THREE.MeshStandardMaterial({color: 0x333333});
-
     this.assets.red = new THREE.MeshStandardMaterial({color: 0xff0000});
+    this.assets.basic = new THREE.MeshBasicMaterial({ color: 0x223344 });
 
     this.assets.defaultGlass = new THREE.MeshPhongMaterial({
       color: 0xffffaa,
