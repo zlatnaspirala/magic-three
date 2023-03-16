@@ -88,7 +88,7 @@ const config = {
 ```
 
 Blocking Volumes implemented for map - onjMtlArrays :
-<img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/pwa.png" width="800" height="500">
+<img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/screen1.png" width="800" height="500">
 
 ## Backend part based on multiRTC3.
 If you wanna start host server and broadcaster[webRtc] then:
