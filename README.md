@@ -87,8 +87,9 @@ const config = {
 }
 ```
 
-Blocking Volumes implemented for map - onjMtlArrays :
+Blocking Volumes implemented for map -  `map.objMtlsArray` :
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/screen1.png" width="800" height="500">
+Nice for walls and env staff. Forced simple cube physics body with mass = 0.
 
 ## Backend part based on multiRTC3.
 If you wanna start host server and broadcaster[webRtc] then:
