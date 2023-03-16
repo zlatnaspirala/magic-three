@@ -32,6 +32,9 @@ const config = {
       castShadow: false,
       receiveShadow: false,
       computeVertexNormals: false
+    },
+    blockingVolumes: {
+      visible: true
     }
   },
   playerController: {

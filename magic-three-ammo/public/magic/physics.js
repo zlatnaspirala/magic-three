@@ -396,6 +396,7 @@ export class MagicPhysics extends MagicNetworking {
       object.position.copy(pos);
       object.quaternion.copy(quat);
       object.castShadow = false;
+      object.visible = this.config.map.blockingVolumes.visible;
       object.name = name || "blocking-box-" + MathUtils.randInt(0, 99999);
       var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
         startTransform = new Ammo.btTransform();
@@ -416,7 +417,6 @@ export class MagicPhysics extends MagicNetworking {
       object.userData.collided = false;
       this.rigidBodies.push(object);
       this.scene.add(object);
-  
       this.physicsWorld.addRigidBody(body);
     }
 
