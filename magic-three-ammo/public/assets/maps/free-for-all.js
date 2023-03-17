@@ -6,7 +6,8 @@ let map = {
       mass: 100,
       scale: {x: 2, y: 5, z: 2},
       pos: {x: 3, y: 1, z: 1},
-      quat: [0, 0, 0, 1]
+      quat: [0, 0, 0, 1],
+      matFlag: 'glass' // new
     }
   ],
   boxs: [

@@ -17,7 +17,7 @@ export function loadMap() {
       e,
       this.pos,
       this.quat,
-      this.materials.assets.defaultGlass,
+      (typeof b.matFlag != 'undefined' ? this.materials.assets[b.matFlag] : this.materials.assets.defaultGlass),
       b.name
     );
   });

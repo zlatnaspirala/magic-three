@@ -175,9 +175,9 @@ class Application extends MagicPhysics {
     // fox for local rotation vars !
     this.camera.rotation.order = this.config.camera.order;
 
-      this.renderer.setPixelRatio(window.devicePixelRatio);
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-      this.renderer.shadowMap.enabled = true;
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.shadowMap.enabled = true;
 
     if(this.config.map.sky.enabled == true) {
       this.renderer.outputEncoding = THREE.sRGBEncoding;
@@ -220,7 +220,7 @@ class Application extends MagicPhysics {
       this.sky = new Sky();
       this.sky.scale.setScalar(450000);
       this.scene.add(this.sky);
-      this.sun = new THREE.Vector3(1000,1000,0);
+      this.sun = new THREE.Vector3(1000, 1000, 0);
       var uniforms = this.sky.material.uniforms;
       uniforms.turbidity.value = 1;
       uniforms.rayleigh.value = 1;
@@ -290,6 +290,13 @@ class Application extends MagicPhysics {
     // playerB.setCollisionFlags(0);
 
     byId('player.munition').innerHTML = this.playerItems.munition;
+
+    // Here !!!
+    addEventListener('onFire', (e) => {
+      console.info('onFIre Event !', e)
+      this.playerItems.munition--;
+      byId('player.munition').innerHTML = this.playerItems.munition;
+    });
   }
 
   createObjects() {
@@ -321,45 +328,51 @@ class Application extends MagicPhysics {
   attachFire() {
     window.addEventListener("pointerdown", (event) => {
 
-      this.mouseCoords.set(
-        (event.clientX / window.innerWidth) * 2 - 1,
-        -(event.clientY / window.innerHeight) * 2 + 1
-      );
+      if(this.playerItems.munition > 0) {
+        this.mouseCoords.set(
+          (event.clientX / window.innerWidth) * 2 - 1,
+          -(event.clientY / window.innerHeight) * 2 + 1
+        );
 
-      this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+        this.raycaster.setFromCamera(this.mouseCoords, this.camera);
 
-      // Creates a ball and throws it
-      const ballMass = this.config.playerController.bullet.mass;
-      const ballRadius = this.config.playerController.bullet.radius;
-      const bulletMesh = new THREE.Mesh(
-        new THREE.SphereGeometry(ballRadius, 14, 10),
-        this.bulletMaterial
-      );
-      bulletMesh.castShadow = true;
-      bulletMesh.receiveShadow = true;
-      const ballShape = new Ammo.btSphereShape(ballRadius);
-      ballShape.setMargin(this.margin);
-      this.pos.copy(this.raycaster.ray.direction);
-      this.pos.add(this.raycaster.ray.origin);
-      this.quat.set(0, 0, 0, 1);
-      const ballBody = this.createRigidBody(
-        bulletMesh,
-        ballShape,
-        ballMass,
-        this.pos,
-        this.quat
-      );
+        // Creates a ball and throws it
+        const ballMass = this.config.playerController.bullet.mass;
+        const ballRadius = this.config.playerController.bullet.radius;
+        const bulletMesh = new THREE.Mesh(
+          new THREE.SphereGeometry(ballRadius, 14, 10),
+          this.bulletMaterial
+        );
+        bulletMesh.castShadow = true;
+        bulletMesh.receiveShadow = true;
+        const ballShape = new Ammo.btSphereShape(ballRadius);
+        ballShape.setMargin(this.margin);
+        this.pos.copy(this.raycaster.ray.direction);
+        this.pos.add(this.raycaster.ray.origin);
+        this.quat.set(0, 0, 0, 1);
+        const ballBody = this.createRigidBody(
+          bulletMesh,
+          ballShape,
+          ballMass,
+          this.pos,
+          this.quat
+        );
 
-      this.pos.copy(this.raycaster.ray.direction);
-      this.pos.multiplyScalar(this.config.playerController.bullet.power);
-      ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
+        this.pos.copy(this.raycaster.ray.direction);
+        this.pos.multiplyScalar(this.config.playerController.bullet.power);
+        ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
 
-      this.fx.play('shot');
+        // Best way customEvents!!
+        let onPplayerFire = new CustomEvent('onFire', {detail: {event: 'onFire'}})
+        dispatchEvent(onPplayerFire);
 
-      setTimeout(() => {
-        this.destroySceneObject(bulletMesh);
-      }, this.config.playerController.bullet.bulletLiveTime);
+        this.fx.play('shot');
 
+        setTimeout(() => {
+          this.destroySceneObject(bulletMesh);
+        }, this.config.playerController.bullet.bulletLiveTime);
+
+      }
     });
   }
 

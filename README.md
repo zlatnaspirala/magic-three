@@ -31,26 +31,50 @@ const config = {
   camera: {
     fov: 60,
     near: 0.1,
-    far: 2000
+    far: 2000,
+    order: 'YXZ'
   },
   map: {
+    sky: {
+      enabled: true
+    },
     background: 0xbfd1e5,
     floorWidth: 200,
     floorHeight: 200,
-    gravityConstant: 17.5
+    gravityConstant: 17.5,
+    directionLight: {
+      color: 0xffffff,
+      intensity: 5
+    },
+    ambientLight: {
+      color:  "rgb(250,250,250)"
+    },
+    meshShadows: {
+      castShadow: false,
+      receiveShadow: false,
+      computeVertexNormals: false
+    },
+    blockingVolumes: {
+      visible: false
+    }
   },
   playerController: {
-    type: 'FPS',                 // FPS | orbit
-    movementType: 'velocity',    // velocity | kinematic
-    cameraInitPosition: {x: 10, y: 5, z: 10},
+    type: 'FPS', // FPS | orbit
+    movementType: 'velocity', // velocity | kinematic
+    cameraInitPosition: {x: 0, y: 0, z: -80},
     movementSpeed : {
       forward: 8, backward: 6,
       left: 8, right: 8,
-      jump : 10
+      jump : 11, jumpLimitInterval: 2000
+    },
+    physicsBody : {
+      visible: false,
+      radius: 2,
+      mass: 10
     },
     bullet: {
-      mass: 30,
-      radius: 0.2,
+      mass: 2,
+      radius: 0.1,
       power: 100,
       bulletLiveTime: 1000
     }
@@ -67,7 +91,7 @@ const config = {
      */
     masterServerKey: "magic.three.main.channel",
     runBroadcasterOnInt: true,
-    broadcasterPort: 9010,
+    broadcasterPort: 9001, // 9010,
     broadcastAutoConnect: true,
     broadcasterSessionDefaults: {
       sessionAudio: true,
@@ -116,7 +140,7 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Add 3d object loaders [fbx, collada]✅
  - [wip]Prod/Dev Mode switch
  - Basic FPS controller✅
- - [wip]⏳ Add player items handler
+ - [wip]⏳ Add player items handler [fire munition]
  - [wip]⏳ Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
  - [wip]⏳ Adding optimal sky throw the config flags.
  - [wip]⏳ Add test naming fbx animation segments, adding complete FPS basic actions.

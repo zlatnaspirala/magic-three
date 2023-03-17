@@ -34,7 +34,7 @@ const config = {
       computeVertexNormals: false
     },
     blockingVolumes: {
-      visible: true
+      visible: false
     }
   },
   playerController: {
@@ -52,7 +52,7 @@ const config = {
       mass: 10
     },
     bullet: {
-      mass: 1,
+      mass: 20,
       radius: 0.1,
       power: 200,
       bulletLiveTime: 1000
