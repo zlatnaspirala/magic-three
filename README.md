@@ -140,7 +140,6 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Add 3d object loaders [fbx, collada]✅
  - [wip]Prod/Dev Mode switch
  - Basic FPS controller✅
- - [wip]⏳ Add player items handler [fire munition]
  - [wip]⏳ Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
  - [wip]⏳ Adding optimal sky throw the config flags.
  - [wip]⏳ Add test naming fbx animation segments, adding complete FPS basic actions.

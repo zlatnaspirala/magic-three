@@ -1,14 +1,15 @@
-
 /**
  * @description
- * Main instance
- * Important note
- * Dont import unused modules.
+ * Main instance, everything must be from maps or config regim.
+ * class Application is not ready for final export "myApp extends Application"
+ * but that is a idea for the end.
+ * @note Important note Dont import unused modules. 
+ * @author Nikola Lukic zlatnaspirala
+ * @personalSite https://maximumroulette.com
  */
+
 import * as THREE from "three";
-// import Stats from "three/addons/libs/stats.module.js";
-// import {OrbitControls} from "three/addons/controls/OrbitControls.js";
-import {createRandomColor, getDom} from "./public/libs/utils.js";
+import {getDom} from "./public/libs/utils.js";
 import {createFPSController} from "./public/magic/controllers.js";
 import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
@@ -28,7 +29,10 @@ class Application extends MagicPhysics {
   container = getDom("container");
   stats = null;
 
-  camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.2, 2000);
+  camera = new THREE.PerspectiveCamera(
+    this.config.camera.fov,
+    window.innerWidth / window.innerHeight,
+    this.config.camera.near, this.config.camera.far);
   scene = new THREE.Scene();
   renderer = new THREE.WebGLRenderer();
 
@@ -42,25 +46,23 @@ class Application extends MagicPhysics {
 
   sky = {};
 
-  // FPShooter Controller
+  // Player Controller
+  prevTime = performance.now();
   moveForward = false;
   moveBackward = false;
   moveLeft = false;
   moveRight = false;
-
-  prevTime = performance.now();
   velocity = new THREE.Vector3();
   direction = new THREE.Vector3();
   vertex = new THREE.Vector3();
   color = new THREE.Color();
 
-  myBigDataFlag = [];
-
-  playerBody;
   config;
 
+  myBigDataFlag = [];
+  playerBody;
   playerItems = {
-    munition: 10
+    munition: 100
   };
 
   playerData = {};
@@ -89,17 +91,18 @@ class Application extends MagicPhysics {
       this.playerData = load('playerData');
     } else {
       this.playerData = {
+        energy: this.config.playerController.playerData.energy,
         kills: 0,
         dies: 0
       };
       save('playerData', this.playerData);
     }
 
+    this.playerItems.munition = this.config.playerController.playerItems.munition;
+
     byId('player.kills').innerHTML = this.playerData.kills;
-    // console.info('playerData', this.playerData);
 
     this.loader = new MagicLoader(this.config, this.scene);
-
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
@@ -110,17 +113,11 @@ class Application extends MagicPhysics {
     // console.info("MagicThree: Worker [dynamic-cache] test cache config status:", this.config.cache);
     runCache(this.config.cache);
 
-    // Big data loading procedure
-    // myBigDataFlag got undefined array fill because 
-    // i pass then call (func void) - work ok (Promisee.All).
-
-    // wip
-    // this.loader.objMtl(
-    //   'assets/objects/env/wall1.obj',
-    //   'myWall_1').then((o) => {
-    //     console.info('Set position after load.', o);
-    //     o.position.set(-100, -0.5, -50);
-    //   });
+    this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'BASE_CHARACTER_MESH').then((r) => {
+      console.info('[fbx] Setup player animation character obj =>', r.name);
+      // this.root.netPlayers['BASE'] = r;
+      // this.root.netPlayers['net_' + rtcEvent.userid] = r;
+    })
 
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'zombie1').then((r) => {
     //   console.info('Setup enemy obj =>', r);
@@ -131,8 +128,6 @@ class Application extends MagicPhysics {
     //   console.info('Setup player animation character obj =>', r);
     //   // r.position.set(10, 0, 10);
     // }));
-
-    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walking-to-dying.fbx', 'blabla'));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info('Big data promise all => ', values);

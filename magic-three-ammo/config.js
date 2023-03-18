@@ -9,7 +9,7 @@ const config = {
   stats: false,
   camera: {
     fov: 60,
-    near: 0.1,
+    near: 0.2,
     far: 2000,
     order: 'YXZ'
   },
@@ -56,6 +56,12 @@ const config = {
       radius: 0.1,
       power: 200,
       bulletLiveTime: 1000
+    },
+    playerData: {
+      energy: 1000
+    },
+    playerItems: {
+      munition: 200
     }
   },
   networking: {
