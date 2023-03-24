@@ -17,10 +17,10 @@ const config = {
     sky: {
       enabled: true,
       uniforms: {
-        turbidity: 0.1,
+        turbidity: 0.5,
         rayleigh: 3,
         mieCoefficient: .05,
-        mieDirectionalG: .1,
+        mieDirectionalG: .01,
       }
     },
     background: 0xbfd1e5,

@@ -11,6 +11,7 @@
   "loading": "loading...",
   "kills.label": "KILLS: ",
   "energy": "ENERGY:",
-  "you_are_host": "You are Host.",
-  "you_are_guest": "You are Guest."
+  "you.are.host": "You are Host.",
+  "you.are.guest": "You are Guest.",
+  "you.die": "You die!"
 }

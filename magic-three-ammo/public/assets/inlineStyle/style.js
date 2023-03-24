@@ -14,5 +14,10 @@ export let startUpScreen = () => `
   <br>
   <small>Project source code : <a href='https://github.com/zlatnaspirala/magic-three'>github</a></small>
   <small>Based on <a href='https://threejs.org/'>Three.js</a> and <a href="https://github.com/kripken/ammo.js/">Ammo.js</a></small>
-  `;
+`;
 
+export let dieScreen = () => `
+  <p style="font-size:36px">
+    ${t('you.die')}
+  </p>
+`;

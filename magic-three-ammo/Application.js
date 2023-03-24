@@ -91,9 +91,9 @@ class Application extends MagicPhysics {
     addEventListener('stream-loaded', (e) => {
       // console.info('Interest point [stream-loaded] ', e);
       if (this.net.connection.isInitiator === true) {
-        document.title = t('you_are_host');
+        document.title = t('you.are.host');
       } else {
-        document.title = t('you_are_guest');
+        document.title = t('you.are.guest');
       }
     })
 
@@ -235,10 +235,10 @@ class Application extends MagicPhysics {
       this.scene.add(this.sky);
       this.sun = new THREE.Vector3(1000, 1000, 0);
       var uniforms = this.sky.material.uniforms;
-      uniforms.turbidity.value = 1;
-      uniforms.rayleigh.value = 4;
-      uniforms.mieCoefficient.value = .92;
-      uniforms.mieDirectionalG.value = .8;
+      uniforms.turbidity.value = this.config.map.sky.uniforms.turbidity;
+      uniforms.rayleigh.value = this.config.map.sky.uniforms.rayleigh;
+      uniforms.mieCoefficient.value = this.config.map.sky.uniforms.mieCoefficient;
+      uniforms.mieDirectionalG.value = this.config.map.sky.uniforms.mieDirectionalG;
       uniforms.sunPosition.value.copy(this.sun);
       console.log("Sky params", uniforms)
       // uniforms[ "luminance" ].value = 1

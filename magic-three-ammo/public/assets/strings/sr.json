@@ -11,6 +11,7 @@
   "loading": "ucitavanje...",
   "kills.label": "POGOCI: ",
   "energy": "ENERGIJA:",
-  "you_are_host": "Ti si domacin.",
-  "you_are_guest": "Ti si gost."
+  "you.are.host": "Ti si domacin.",
+  "you.are.guest": "Ti si gost.",
+  "you.die": "Gotov si"
 }
