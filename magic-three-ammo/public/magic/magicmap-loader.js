@@ -94,7 +94,6 @@ export function loadMap() {
     this.loader.objMtl(
       obj.path,
       obj.name).then((o) => {
-
         obj.instances.forEach((oo, index) => {
           let object = o.clone();
           if(index > 0) {
@@ -105,7 +104,6 @@ export function loadMap() {
               object.rotateY(MathUtils.degToRad(oo.rot.y));
               object.rotateZ(MathUtils.degToRad(oo.rot.z));
             }
-
             var box3 = new THREE.Box3();
             var size = new THREE.Vector3();
             var boxHelper = new THREE.BoxHelper(object);
@@ -113,7 +111,7 @@ export function loadMap() {
             box3.getSize(size);
             console.log(size);
             this.scene.add(boxHelper);
-            console.warn(`load blocking volumes index => ${boxHelper.position.x} => `);
+            console.warn(`Load blocking volumes => ${boxHelper.position.x} => `);
             const m = 0;
             const e = new THREE.Vector3(size.x/2, size.y/2, size.z/2);
             boxHelper.visible = this.config.map.blockingVolumes.visible;
@@ -127,10 +125,8 @@ export function loadMap() {
               o.name || 'random-' + MathUtils.randInt(0, 99999),
               false
             );
-
             this.scene.add(object);
           } else {
-            
             o.position.set(oo.pos.x, oo.pos.y, oo.pos.z);
             if(typeof oo.rot != 'undefined') {
               object.rotateX(MathUtils.degToRad(oo.rot.x));
@@ -145,7 +141,7 @@ export function loadMap() {
             console.log(size);
             boxHelper.visible = this.config.map.blockingVolumes.visible;
             this.scene.add(boxHelper);
-            console.warn(`load blocking volumes index => ${boxHelper.position.x} => `);
+            console.warn(`Load blocking volumes index => ${boxHelper.position.x} => `);
             const m = 0;
             const e = new THREE.Vector3(size.x/2, size.y/2, size.z/2);
             this.pos.set(o.position.x, o.position.y, o.position.z);

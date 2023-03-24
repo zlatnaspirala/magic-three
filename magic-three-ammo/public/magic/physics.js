@@ -15,6 +15,7 @@ export class MagicPhysics extends MagicNetworking {
   physicsWorld;
   margin = 0.05;
   convexBreaker = new ConvexObjectBreaker();
+  cbContactResult;
 
   // Rigid bodies include all movable objects
   rigidBodies = [];
@@ -223,13 +224,13 @@ export class MagicPhysics extends MagicNetworking {
   }
 
   createSimpleBox(mass, halfExtents, pos, quat, material, name, netType, matFlag) {
-  let mat;
+    let mat;
 
-    if (matFlag == false) {
+    if(matFlag == false) {
       mat = material;
     } else {
       mat = this.materials.assets[matFlag];
-      console.log('MAT IS' , mat)
+      console.log('MAT IS', mat)
     }
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
@@ -268,7 +269,7 @@ export class MagicPhysics extends MagicNetworking {
     // object.userData.collided = true;
     object.userData.collided = false;
 
-    if (netType == true) {
+    if(netType == true) {
       // console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
       this.networkEmisionObjs.push(object);
       object.netType = 'envObj';
@@ -379,50 +380,121 @@ export class MagicPhysics extends MagicNetworking {
 
   createBlockingBox(halfExtents, pos, quat, material, name, matFlag) {
     let mat;
-      if (matFlag == false) {
-        mat = material;
-      } else {
-        mat = this.materials.assets[matFlag];
-        console.log('MAT IS' , mat)
-      }
-      const object = new THREE.Line(
-        new THREE.BoxGeometry(
-          halfExtents.x * 2,
-          halfExtents.y * 2,
-          halfExtents.z * 2
-        ),
-        mat
-      );
-      object.position.copy(pos);
-      object.quaternion.copy(quat);
-      object.castShadow = false;
-      object.visible = this.config.map.blockingVolumes.visible;
-      object.name = name || "blocking-box-" + MathUtils.randInt(0, 99999);
-      var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
-        startTransform = new Ammo.btTransform();
-
-      startTransform.setIdentity();
-      var mass = 0;
-      // var isDynamic = (mass !== 0);
-      var localInertia = new Ammo.btVector3(0, 0, 0);
-
-      startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
-  
-      var myMotionState = new Ammo.btDefaultMotionState(startTransform),
-        rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
-        body = new Ammo.btRigidBody(rbInfo);
-  
-      object.userData.physicsBody = body;
-      // object.userData.collided = true;
-      object.userData.collided = false;
-      this.rigidBodies.push(object);
-      this.scene.add(object);
-      this.physicsWorld.addRigidBody(body);
+    if(matFlag == false) {
+      mat = material;
+    } else {
+      mat = this.materials.assets[matFlag];
+      console.log('MAT IS', mat)
     }
+    const object = new THREE.Line(
+      new THREE.BoxGeometry(
+        halfExtents.x * 2,
+        halfExtents.y * 2,
+        halfExtents.z * 2
+      ),
+      mat
+    );
+    object.position.copy(pos);
+    object.quaternion.copy(quat);
+    object.castShadow = false;
+    object.visible = this.config.map.blockingVolumes.visible;
+    object.name = name || "blocking-box-" + MathUtils.randInt(0, 99999);
+    var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
+      startTransform = new Ammo.btTransform();
+
+    startTransform.setIdentity();
+    var mass = 0;
+    // var isDynamic = (mass !== 0);
+    var localInertia = new Ammo.btVector3(0, 0, 0);
+
+    startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
+
+    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
+      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
+      body = new Ammo.btRigidBody(rbInfo);
+
+    // test  ????????
+    body.threeObject = object;
+
+    object.userData.physicsBody = body;
+    object.userData.tag = `blocking_block`;
+    // object.userData.collided = true;
+    object.userData.collided = false;
+    this.rigidBodies.push(object);
+    this.scene.add(object);
+    this.physicsWorld.addRigidBody(body);
+  }
 
   destroySceneObject(o) {
     this.scene.remove(o);
     this.physicsWorld.removeRigidBody(o.userData.physicsBody);
+  }
+
+  detectCollision() {
+    let dispatcher = this.physicsWorld.getDispatcher();
+    let numManifolds = this.dispatcher.getNumManifolds();
+    for(let i = 0;i < numManifolds;i++) {
+      let contactManifold = dispatcher.getManifoldByIndexInternal(i);
+      let numContacts = contactManifold.getNumContacts();
+      console.log('numContacts', numContacts)
+      for(let j = 0;j < numContacts;j++) {
+        let contactPoint = contactManifold.getContactPoint(j);
+        let distance = contactPoint.getDistance();
+        console.log({manifoldIndex: i, contactIndex: j, distance: distance});
+      }
+    }
+  }
+
+
+  setupContactResultCallback() {
+
+    this.cbContactResult = new Ammo.ConcreteContactResultCallback();
+    this.cbContactResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1) {
+      let contactPoint = Ammo.wrapPointer(cp, Ammo.btManifoldPoint);
+      const distance = contactPoint.getDistance();
+      if(distance > 0) return;
+      let colWrapper0 = Ammo.wrapPointer(colObj0Wrap, Ammo.btCollisionObjectWrapper);
+      let rb0 = Ammo.castObject(colWrapper0.getCollisionObject(), Ammo.btRigidBody);
+      let colWrapper1 = Ammo.wrapPointer(colObj1Wrap, Ammo.btCollisionObjectWrapper);
+      let rb1 = Ammo.castObject(colWrapper1.getCollisionObject(), Ammo.btRigidBody);
+      let threeObject0 = rb0.threeObject;
+      let threeObject1 = rb1.threeObject;
+      let tag, localPos, worldPos;
+
+
+      if(typeof threeObject0 == 'undefined') {
+        console.log('[RETURN] .undefined0. ', threeObject0.userData.tag);
+        return;
+      }
+
+      if(typeof threeObject1 == 'undefined') {
+        console.log('Prevent: ', threeObject0.userData.tag)
+        return;
+      }
+
+      if(threeObject1.userData.tag != "local_bullet") {
+        console.log('Bullet contact : ', threeObject1.userData.tag)
+        tag = threeObject1.userData.tag;
+        localPos = contactPoint.get_m_localPointB();
+        worldPos = contactPoint.get_m_positionWorldOnB();
+      } else if(threeObject0.userData.tag != "local_bullet") {
+        console.log('[local_bullet] threeObject0.userData.tag: ', threeObject0.userData.tag)
+        tag = threeObject0.userData.tag;
+        localPos = contactPoint.get_m_localPointA();
+        worldPos = contactPoint.get_m_positionWorldOnA();
+      } else if(threeObject0.userData.tag == "local_bullet") {
+        console.log('[  ] threeObject0.userData.tag: ', threeObject0.userData.tag)
+        tag = threeObject0.userData.tag;
+        localPos = contactPoint.get_m_localPointA();
+        worldPos = contactPoint.get_m_positionWorldOnA();
+      } else {
+      }
+      let localPosDisplay = {x: localPos.x(), y: localPos.y(), z: localPos.z()};
+      let worldPosDisplay = {x: worldPos.x(), y: worldPos.y(), z: worldPos.z()};
+      console.log({tag, localPosDisplay, worldPosDisplay});
+    }
+
+    if(this.bulletB) this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
   }
 
 }

@@ -59,15 +59,18 @@ class Application extends MagicPhysics {
 
   config;
 
+  BASE_CHARACTER_MESH;
+
   myBigDataFlag = [];
   playerBody;
   playerItems = {
     munition: 100
   };
-
   playerData = {};
-
   networkEmisionObjs = [];
+  bulletMesh;
+
+  netflag = 0;
 
   fx = new MagicSounds();
 
@@ -81,8 +84,18 @@ class Application extends MagicPhysics {
       if(byId('loading.label')) byId('loading.label').innerHTML = t('loading');
       byId('header.title').innerHTML = t('title');
       byId('player.munition.label').innerHTML = t('munition');
+      byId('player.energy.label').innerHTML = t('energy');
       byId('player.kills.label').innerHTML = t('kills.label');
     });
+
+    addEventListener('stream-loaded', (e) => {
+      // console.info('Interest point [stream-loaded] ', e);
+      if (this.net.connection.isInitiator === true) {
+        document.title = t('you_are_host');
+      } else {
+        document.title = t('you_are_guest');
+      }
+    })
 
     this.activateNet();
 
@@ -101,33 +114,34 @@ class Application extends MagicPhysics {
     this.playerItems.munition = this.config.playerController.playerItems.munition;
 
     byId('player.kills').innerHTML = this.playerData.kills;
+    byId('player.energy').innerHTML = this.playerData.energy;
 
     this.loader = new MagicLoader(this.config, this.scene);
     for(let i = 0;i < 500;i++) {
       this.objectsToRemove[i] = null;
     }
 
-    // console.info("MagicThree: Audio config status:", this.fx);
     this.fx.createAudio('shot', "./assets/audios/single-gunshot.mp3", 5)
-
-    // console.info("MagicThree: Worker [dynamic-cache] test cache config status:", this.config.cache);
     runCache(this.config.cache);
 
-    this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'BASE_CHARACTER_MESH').then((r) => {
-      console.info('[fbx] Setup player animation character obj =>', r.name);
-      // this.root.netPlayers['BASE'] = r;
-      // this.root.netPlayers['net_' + rtcEvent.userid] = r;
-    })
+    // BASE_CHARACTER_MESH Special flag
+    // this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'BASE_CHARACTER_MESH').then((r) => {
+    //   console.info('[fbx] Setup player animation character obj =>', r.name);
+    //   this.net.BASE_CHARACTER_MESH = r;
+    //   // this.root.netPlayers['BASE'] = r;
+    //   // this.root.netPlayers['net_' + rtcEvent.userid] = r;
+    // })
 
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'zombie1').then((r) => {
     //   console.info('Setup enemy obj =>', r);
     //   r.position.set(-10, 0, -10)
     // }));
 
-    // this.myBigDataFlag.push(this.loader.collada('./assets/objects/collada/Walking.dae', 'test').then((r) => {
-    //   console.info('Setup player animation character obj =>', r);
-    //   // r.position.set(10, 0, 10);
-    // }));
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie0walk.fbx', 'test').then((r) => {
+      console.info('Setup player animation character obj =>', r);
+      App.TESTOBJ = r;
+      // r.position.set(10, 0, 10);
+    }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info('Big data promise all => ', values);
@@ -146,7 +160,11 @@ class Application extends MagicPhysics {
       const domLoader = document.getElementById('instructions');
       domLoader.innerHTML = startUpScreen();
 
+      
       this.init();
+
+      this.setupContactResultCallback();
+
       this.animate();
     });
   }
@@ -218,8 +236,8 @@ class Application extends MagicPhysics {
       this.sun = new THREE.Vector3(1000, 1000, 0);
       var uniforms = this.sky.material.uniforms;
       uniforms.turbidity.value = 1;
-      uniforms.rayleigh.value = 1;
-      uniforms.mieCoefficient.value = .005;
+      uniforms.rayleigh.value = 4;
+      uniforms.mieCoefficient.value = .92;
       uniforms.mieDirectionalG.value = .8;
       uniforms.sunPosition.value.copy(this.sun);
       console.log("Sky params", uniforms)
@@ -324,10 +342,12 @@ class Application extends MagicPhysics {
     window.addEventListener("pointerdown", (event) => {
 
       if(this.playerItems.munition > 0) {
-        this.mouseCoords.set(
-          (event.clientX / window.innerWidth) * 2 - 1,
-          -(event.clientY / window.innerHeight) * 2 + 1
-        );
+        // if you wanna use custom 
+        // this.mouseCoords.set(
+        //   (event.clientX / window.innerWidth) * 2 - 1,
+        //   -(event.clientY / window.innerHeight) * 2 + 1
+        // );
+        this.mouseCoords.set(0, 0);
 
         this.raycaster.setFromCamera(this.mouseCoords, this.camera);
 
@@ -340,6 +360,9 @@ class Application extends MagicPhysics {
         );
         bulletMesh.castShadow = true;
         bulletMesh.receiveShadow = true;
+        bulletMesh.userData.tag = 'local_bullet';
+        bulletMesh.name = 'bullet';
+        // this.bulletMesh = bulletMesh; // TEST 
         const ballShape = new Ammo.btSphereShape(ballRadius);
         ballShape.setMargin(this.margin);
         this.pos.copy(this.raycaster.ray.direction);
@@ -357,9 +380,17 @@ class Application extends MagicPhysics {
         this.pos.multiplyScalar(this.config.playerController.bullet.power);
         ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
 
+        ballBody.threeObject = bulletMesh;
+
+        this.bulletB = ballBody; // TEST 
         // Best way customEvents!!
-        let onPplayerFire = new CustomEvent('onFire', {detail: {event: 'onFire'}})
-        dispatchEvent(onPplayerFire);
+        let onPlayerFire = new CustomEvent('onFire', {detail: {event: 'onFire'}})
+        dispatchEvent(onPlayerFire);
+
+        setTimeout(() => {
+          if (this.bulletB) this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
+        }, this.config.playerController.bullet.bulletLiveTime/2);
+        
 
         this.fx.play('shot');
 
@@ -383,8 +414,6 @@ class Application extends MagicPhysics {
     this.render();
     if(this.stats) this.stats.update();
   }
-
-  netflag = 0;
 
   render() {
     const deltaTime = this.clock.getDelta();
@@ -442,6 +471,15 @@ class Application extends MagicPhysics {
     this.net.loader.mixers.forEach((i) => {
       i.update(deltaTime);
     });
+
+
+    if (this.config.map.collision.detectCollision == false) {
+      // this.detectCollision()
+      if (this.bulletMesh) {
+       // console.log('???')this.physicsWorld.contactTest(this.bulletMesh, this.cbContactResult);
+        
+      }
+    }
 
     // update the picking ray with the camera and pointer position
     this.raycaster.setFromCamera(this.mouseCoords, this.camera);

@@ -48,9 +48,14 @@ export class MagicLoader {
         if(refName == 'player') {
           object.position.copy(this.config.playerController.cameraInitPosition)
         }
+        
+        // if (object.name == "BASE_CHARACTER_MESH") {
+        //   console.info(" object.name BASE CHARACTER  ", object.name)
+        // } else {
+          this.scene.add(object);
+          this.loadedMeshs.push(object);
+        // }
 
-        this.scene.add(object);
-        this.loadedMeshs.push(object);
         resolve(object);
       });
     })

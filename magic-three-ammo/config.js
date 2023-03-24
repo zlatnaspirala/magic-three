@@ -15,18 +15,24 @@ const config = {
   },
   map: {
     sky: {
-      enabled: true
+      enabled: true,
+      uniforms: {
+        turbidity: 0.1,
+        rayleigh: 3,
+        mieCoefficient: .05,
+        mieDirectionalG: .1,
+      }
     },
     background: 0xbfd1e5,
     floorWidth: 200,
     floorHeight: 200,
     gravityConstant: 17.5,
     directionLight: {
-      color: 0xffffff,
+      color: 0xff6666,
       intensity: 5
     },
     ambientLight: {
-      color:  "rgb(250,250,250)"
+      color:  "rgb(250,150,150)"
     },
     meshShadows: {
       castShadow: false,
@@ -35,6 +41,9 @@ const config = {
     },
     blockingVolumes: {
       visible: false
+    },
+    collision: {
+      detectCollision: false
     }
   },
   playerController: {
@@ -92,7 +101,7 @@ const config = {
     getBroadcastSockRoute() {
       return getProtocolFromAddressBar() + getDomain() + ":" + this.broadcasterPort + "/";
     }
-  }
+  },
 }
 
 export default config;

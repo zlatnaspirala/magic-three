@@ -38,7 +38,15 @@ export class Broadcaster {
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           console.info('[fbx] Setup player animation character obj =>', r.name);
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
+          // this.root.scene.add(o);
+          // this.root.loadedMeshs.push(o);
         })
+        // let o = this.root.BASE_CHARACTER_MESH.clone();
+        // o.name = 'net_' + rtcEvent.userid;
+        // this.root.netPlayers['net_' + rtcEvent.userid] = o;
+        // this.root.scene.add(o);
+        // // this.scene.add(object);
+        // this.root.loadedMeshs.push(o);
       },
       update(e) {
         if(e.data.netPos) {

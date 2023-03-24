@@ -9,5 +9,8 @@
   "space": "SPACE",
   "mouse": "MOUSE",
   "loading": "loading...",
-  "kills.label": "KILLS: "
+  "kills.label": "KILLS: ",
+  "energy": "ENERGY:",
+  "you_are_host": "You are Host.",
+  "you_are_guest": "You are Guest."
 }

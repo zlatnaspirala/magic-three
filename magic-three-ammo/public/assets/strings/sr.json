@@ -9,5 +9,8 @@
   "space": "SPACE",
   "mouse": "MISH",
   "loading": "ucitavanje...",
-  "kills.label": "POGOCI: "
+  "kills.label": "POGOCI: ",
+  "energy": "ENERGIJA:",
+  "you_are_host": "Ti si domacin.",
+  "you_are_guest": "Ti si gost."
 }
