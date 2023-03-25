@@ -1,10 +1,17 @@
 
 import * as THREE from "three";
 import {MathUtils, Quaternion} from "three";
-import map from "../assets/maps/free-for-all.js";
+import defaultMap from "../assets/maps/free-for-all.js";
 
 // This is binded funcs - this refered to the mani app class.
-export function loadMap() {
+export function loadMap(map) {
+
+  if (typeof map == 'undefined') {
+    map = defaultMap;
+    console.info("Magic-Three: Default Map loaded.");
+  } else {
+    console.info("Magic-Three: Map loaded.");
+  }
 
   map.breakable.forEach((b, index) => {
     console.info(`load dynamic boxs index => ${this} this 2test => `, b);

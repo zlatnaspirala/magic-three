@@ -1,9 +1,8 @@
 /**
  * @description
- * Main instance, everything must be from maps or config regim.
- * class Application is not ready for final export "myApp extends Application"
- * but that is a idea for the end.
- * @note Important note Dont import unused modules. 
+ * Main instance [default setup],
+ * Magic Map Loader
+ * @note Important note `don't import unused modules`. 
  * @author Nikola Lukic zlatnaspirala
  * @personalSite https://maximumroulette.com
  */
@@ -13,7 +12,6 @@ import {getDom} from "./public/libs/utils.js";
 import {createFPSController} from "./public/magic/controllers.js";
 import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
-import config from './config.js';
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
 import {byId, createAppEvent, load, runCache, save} from "./public/magic/utility.js";
@@ -23,7 +21,7 @@ import {Sky} from 'three/addons/objects/Sky.js';
 import {MagicSounds} from "./public/magic/audios/sounds.js";
 import t from "./public/magic/multi-lang.js";
 
-class Application extends MagicPhysics {
+export default class Application extends MagicPhysics {
 
   // Graphics variables
   container = getDom("container");
@@ -74,10 +72,11 @@ class Application extends MagicPhysics {
 
   fx = new MagicSounds();
 
-  constructor(config) {
+  constructor(config, currentMap) {
 
     super({config: config});
     this.config = config;
+    this.currentMap = currentMap;
 
     addEventListener('multi-lang-ready', () => {
       document.title = t('title');
@@ -89,7 +88,7 @@ class Application extends MagicPhysics {
     });
 
     addEventListener('stream-loaded', (e) => {
-      // console.info('Interest point [stream-loaded] ', e);
+      console.info('net event: [stream-loaded]', e);
       if (this.net.connection.isInitiator === true) {
         document.title = t('you.are.host');
       } else {
@@ -137,11 +136,11 @@ class Application extends MagicPhysics {
     //   r.position.set(-10, 0, -10)
     // }));
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
-      console.info('Setup player animation character obj =>', r);
-      App.TESTOBJ = r;
-      // r.position.set(10, 0, 10);
-    }));
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
+    //   console.info('Setup player animation character obj =>', r);
+    //   App.TESTOBJ = r;
+    //   // r.position.set(10, 0, 10);
+    // }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info('Big data promise all => ', values);
@@ -160,7 +159,6 @@ class Application extends MagicPhysics {
       const domLoader = document.getElementById('instructions');
       domLoader.innerHTML = startUpScreen();
 
-      
       this.init();
 
       this.setupContactResultCallback();
@@ -185,7 +183,7 @@ class Application extends MagicPhysics {
   initGraphics() {
     this.scene.background = new THREE.Color(this.config.map.background);
 
-    // fox for local rotation vars !
+    // for for local rotation vars !! Dont remove this. Helps for net rot.
     this.camera.rotation.order = this.config.camera.order;
 
     this.renderer.setPixelRatio(window.devicePixelRatio);
@@ -217,15 +215,15 @@ class Application extends MagicPhysics {
     this.light = new THREE.DirectionalLight(this.config.map.directionLight.color, this.config.map.directionLight.intensity);
     this.light.position.set(-10, 18, 5);
     this.light.castShadow = true;
-    const d = 14;
+    const d = this.config.map.directionLight.LRTB;
     this.light.shadow.camera.left = -d;
     this.light.shadow.camera.right = d;
     this.light.shadow.camera.top = d;
     this.light.shadow.camera.bottom = -d;
-    this.light.shadow.camera.near = 2;
-    this.light.shadow.camera.far = 50;
-    this.light.shadow.mapSize.x = 1024;
-    this.light.shadow.mapSize.y = 1024;
+    this.light.shadow.camera.near = this.config.map.directionLight.shadow.camera.near;
+    this.light.shadow.camera.far = this.config.map.directionLight.shadow.camera.far;
+    this.light.shadow.mapSize.x = this.config.map.directionLight.shadow.mapSize.x;
+    this.light.shadow.mapSize.y = this.config.map.directionLight.shadow.mapSize.x;
     this.scene.add(this.light);
 
     // Add Sky
@@ -333,7 +331,7 @@ class Application extends MagicPhysics {
     ground.name = 'ground';
 
     // Load map items
-    this.loadMap();
+    this.loadMap(this.currentMap);
     // Load custom elements ...
 
   }
@@ -493,8 +491,3 @@ class Application extends MagicPhysics {
   }
 
 }
-
-let App = new Application(config);
-// Remove this after all
-// this is only for easy access from console
-window.App = App;

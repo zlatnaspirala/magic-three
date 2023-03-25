@@ -10,16 +10,28 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
 ## Description
   Magic-Three is First Person Oriented but can be used for any other case of app flow.
   - No build needed, just copy/paste for both dev and prod mode.
+  - Custom magic Map loader.
   - No package.json [if this repo become npm package then will be back]
     In folder ./backend we have package.json to import deps (npm i) for server part.
   - Must be fully PWA [cache, server compression, image format webp etc...]
   - MultiLang support
   - Networking based on webRtc multiRTC3 library. Signaling server,
     video chat or stream to texture.
+  - FPS Player controller [bullet , collision]
 
 
 ### `Frontend -> Three.js, Ammo.js`
 ### `Backend  -> Node.js, MultiRTC3`
+
+
+## Main gameplay template FPShoter: Hang3d Reborn
+```js
+import Application from './Application.js';
+import config from './config.js';
+import myGamePlayMagicMap from './public/assets/maps/free-for-all.js';
+
+let App = new Application(config, myGamePlayMagicMap);
+```
 
 
 ### Client Config
@@ -141,19 +153,24 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Script compression bash script✅
  - Basic FPS controller✅
  - Adding map pack principle.✅
+ - Real Day time - sky sync +.⏳
+ - Add account options REST API [rocketCraftingServer]
+   singin , leaderboard.⏳
 
 # Map [wip]⏳
 
 Working example:
 ```js
+
 let map = {
   breakable: [
     {
       name: "myBreakAbleBox1",
       mass: 100,
-      scale: {x:2, y:5, z:2},
-      pos: {x:3 , y:1, z:1},
-      quat: [0,0,0,1]
+      scale: {x: 2, y: 5, z: 2},
+      pos: {x: 3, y: 1, z: 1},
+      quat: [0, 0, 0, 1],
+      matFlag: 'Black' // new
     }
   ],
   boxs: [
@@ -161,19 +178,26 @@ let map = {
       name: "myMidBox1",
       net: true,
       mass: 10,
-      scale: {x:5, y:5, z:5},
-      pos: {x:0 , y:1, z:20},
-      quat: [0,0,0,1],
+      scale: {x: 5, y: 5, z: 5},
+      pos: {x: 0, y: 1, z: 20},
+      quat: [0, 0, 0, 1],
       matFlag: 'Bronze'
-    },
+    }
   ],
   tubes: [
     {
       name: "myTube1",
       mass: 1000,
       scale: [5, 5, 20, 32],
-      pos: {x:-20 , y:1, z:1},
-      quat: [0,0,0,1]
+      pos: {x: -20, y: 1, z: -80},
+      quat: [0, 0, 0, 1]
+    },
+    {
+      name: "myTube2",
+      mass: 1000,
+      scale: [5, 5, 20, 32],
+      pos: {x: 20, y: 1, z: -80},
+      quat: [0, 0, 0, 1]
     }
   ],
   torus: [
@@ -181,8 +205,8 @@ let map = {
       name: "myTorus1",
       mass: 1000,
       scale: [10, 3, 16, 100],
-      pos: {x:30 , y:1, z:1},
-      quat: [0,0,0,1]
+      pos: {x: 30, y: 1, z: 1},
+      quat: [0, 0, 0, 1]
     }
   ],
   pointLights: [
@@ -190,13 +214,43 @@ let map = {
       name: 'l1',
       color: 0xff0040,
       radius: 2,
-      intensity: 50,
-      pos: {x:30 , y:2, z:10},
+      intensity: 150,
+      pos: {x: 30, y: 12, z: 10},
       helper: true
+    },
+    {
+      name: 'l2',
+      color: 0xeeee40,
+      radius: 2,
+      intensity: 510,
+      pos: {x: -30, y: 12, z: 10},
+      helper: true
+    }
+  ],
+  objMtls: [
+    {
+      path: 'assets/objects/env/wall1.obj',
+      name: 'myWall_1',
+      pos: {x:-100, y:-0.5, z:-42}
+    }
+  ],
+  objMtlsArray: [
+    {
+      path: 'assets/objects/env/wall1.obj',
+      name: 'myWall',
+      instances: [
+        {pos: {x: -100, y: -0.5, z: -62}},
+        {
+          pos: {x: 52.8, y: -0.5, z: 86.5},
+          rot: {x: 0, y: 90, z: 0}
+        }
+      ]
     }
   ]
 };
+
 export default map;
+
 ```
 
 
@@ -226,7 +280,7 @@ Only on startup for now:
 ### Networking [WEBRTC] 💫
 
   - Every player send own `net.connection.userid`.
-  - boxs map loader have support for net emit.
+  - Type of gameObject `boxs` map loader have support for net emit. ⏳
 
 
 ## Credits && Licence

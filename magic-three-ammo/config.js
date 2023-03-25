@@ -15,7 +15,7 @@ const config = {
   },
   map: {
     sky: {
-      enabled: true,
+      enabled: false,
       uniforms: {
         turbidity: 0.5,
         rayleigh: 3,
@@ -23,16 +23,27 @@ const config = {
         mieDirectionalG: .01,
       }
     },
-    background: 0xbfd1e5,
+    background: 0x220000,
     floorWidth: 200,
     floorHeight: 200,
     gravityConstant: 17.5,
     directionLight: {
-      color: 0xff6666,
-      intensity: 5
+      color: 0xff2222,
+      intensity: 5,
+      LRTB: 14,
+      shadow: {
+        camera: {
+          near: 2,
+          far: 50
+        },
+        mapSize: {
+          x: 1024,
+          y: 1024
+        }
+      }
     },
     ambientLight: {
-      color:  "rgb(250,150,150)"
+      color: "rgb(100,100,100)"
     },
     meshShadows: {
       castShadow: false,
@@ -49,13 +60,13 @@ const config = {
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
-    cameraInitPosition: {x: 0, y: 0, z: -80},
-    movementSpeed : {
+    cameraInitPosition: {x: 0, y: 0, z: 70},
+    movementSpeed: {
       forward: 8, backward: 6,
       left: 8, right: 8,
-      jump : 11, jumpLimitInterval: 2000
+      jump: 11, jumpLimitInterval: 2000
     },
-    physicsBody : {
+    physicsBody: {
       visible: false,
       radius: 2,
       mass: 10

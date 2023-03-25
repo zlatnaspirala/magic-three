@@ -463,20 +463,22 @@ export class MagicPhysics extends MagicNetworking {
 
 
       if(typeof threeObject0 == 'undefined') {
-        console.log('[RETURN] .undefined0. ', threeObject0.userData.tag);
+        console.log('[Prevent] .1. ', threeObject0.userData.tag);
         return;
       }
 
       if(typeof threeObject1 == 'undefined') {
-        console.log('Prevent: ', threeObject0.userData.tag)
+        console.log('Prevent: 2 ', threeObject0.userData.tag)
         return;
       }
 
       if(threeObject1.userData.tag != "local_bullet") {
-        console.log('Bullet contact : ', threeObject1.userData.tag)
         tag = threeObject1.userData.tag;
         localPos = contactPoint.get_m_localPointB();
         worldPos = contactPoint.get_m_positionWorldOnB();
+        console.log('Bullet contact : ', threeObject1.userData.tag, " worldPos ", worldPos.x)
+        App.TESTOBJ.position.set(worldPos.x(), worldPos.y(), worldPos.z());
+
       } else if(threeObject0.userData.tag != "local_bullet") {
         console.log('[local_bullet] threeObject0.userData.tag: ', threeObject0.userData.tag)
         tag = threeObject0.userData.tag;

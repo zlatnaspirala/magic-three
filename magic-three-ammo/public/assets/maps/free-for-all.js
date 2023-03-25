@@ -2,58 +2,58 @@
 let map = {
   breakable: [
     {
-      name: "myBreakAbleBox1",
+      name: "doors",
       mass: 100,
-      scale: {x: 2, y: 5, z: 2},
-      pos: {x: 3, y: 1, z: 1},
+      scale: {x: 20, y: 17, z: 0.5},
+      pos: {x: 0, y: 1, z: 47},
       quat: [0, 0, 0, 1],
-      matFlag: 'Black' // new
+      matFlag: 'matHang3dIcon' // new
     }
   ],
   boxs: [
     {
       name: "myMidBox1",
-      net: true,
-      mass: 10,
-      scale: {x: 5, y: 5, z: 5},
+      net: false,
+      mass: 0,
+      scale: {x: 15, y: 1, z: 5},
       pos: {x: 0, y: 1, z: 20},
       quat: [0, 0, 0, 1],
       matFlag: 'Bronze'
     },
-    {
-      name: "myMidBox2",
-      net: true,
-      mass: 10,
-      scale: {x: 15, y: 15, z: 15},
-      pos: {x: 11, y: 11, z: 20},
-      quat: [0, 0, 0, 1],
-      matFlag: 'glass'
-    },
+    // {
+    //   name: "myMidBox2",
+    //   net: true,
+    //   mass: 10,
+    //   scale: {x: 15, y: 15, z: 15},
+    //   pos: {x: 11, y: 11, z: 20},
+    //   quat: [0, 0, 0, 1],
+    //   matFlag: 'glass'
+    // },
   ],
   tubes: [
     {
       name: "myTube1",
       mass: 1000,
       scale: [5, 5, 20, 32],
-      pos: {x: -20, y: 1, z: -80},
+      pos: {x: -20, y: 1, z: 50},
       quat: [0, 0, 0, 1]
     },
     {
       name: "myTube2",
       mass: 1000,
       scale: [5, 5, 20, 32],
-      pos: {x: 20, y: 1, z: -80},
+      pos: {x: 20, y: 1, z: 50},
       quat: [0, 0, 0, 1]
     }
   ],
   torus: [
-    {
-      name: "myTorus1",
-      mass: 1000,
-      scale: [10, 3, 16, 100],
-      pos: {x: 30, y: 1, z: 1},
-      quat: [0, 0, 0, 1]
-    }
+    // {
+    //   name: "myTorus1",
+    //   mass: 1000,
+    //   scale: [10, 3, 16, 100],
+    //   pos: {x: 30, y: 1, z: 1},
+    //   quat: [0, 0, 0, 1]
+    // }
   ],
   pointLights: [
     {

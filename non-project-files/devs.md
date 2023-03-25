@@ -146,3 +146,65 @@ var object = scene.getObjectByName( "objectName", true );
     // );
     // createDebrisFromBreakableObject(mountain);
     
+
+
+
+--------------------------------------------------------------------------
+        static createPhysicsMeshFromGeometry(geometry) {
+
+    const triangleMesh = new Ammo.btTriangleMesh();
+
+    const vectA = new Ammo.btVector3(0, 0, 0);
+    const vectB = new Ammo.btVector3(0, 0, 0);
+    const vectC = new Ammo.btVector3(0, 0, 0);
+
+    const verticesPos = geometry.getAttribute('position').array;
+    const triangles = [];
+    for (let i = 0; i < verticesPos.length; i += 3) {
+        triangles.push({
+                x: verticesPos[i],
+                y: verticesPos[i + 1],
+                z: verticesPos[i + 2]
+        })
+    }
+
+    for (let i = 0; i < triangles.length - 3; i += 3) {
+        vectA.setX(triangles[i].x);
+        vectA.setY(triangles[i].y);
+        vectA.setZ(triangles[i].z);
+
+        vectB.setX(triangles[i + 1].x);
+        vectB.setY(triangles[i + 1].y);
+        vectB.setZ(triangles[i + 1].z);
+
+        vectC.setX(triangles[i + 2].x);
+        vectC.setY(triangles[i + 2].y);
+        vectC.setZ(triangles[i + 2].z);
+
+        triangleMesh.addTriangle(vectA, vectB, vectC, true);
+    }
+
+    let shape = new Ammo.btBvhTriangleMeshShape(triangleMesh, true);
+    geometry.verticesNeedUpdate = true
+    shape.setMargin(0.05);
+
+    return shape;
+}
+
+
+{
+
+        this.objLoader = new OBJLoader();
+        this.objLoader.load(mapModel, (root) => {
+
+        let model = root.children[0]
+        this.geometry = model.geometry
+
+        let physicsBody = PhysicsManager.createPhysicsBodyFromGeometry(this.geometry)
+
+
+        PhysicsManager.physicsWorld.addRigidBody(
+            physicsBody
+        )
+    };
+    --------------------------------------------------------------------------

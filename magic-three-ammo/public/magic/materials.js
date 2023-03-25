@@ -10,6 +10,8 @@ export class MagicMaterials {
     // this.createCubeRefraction('./assets/textures/cube/');
     this.createDefault('./assets/textures/cube/metal-r1-blue.webp');
     this.createBlackWall();
+
+    this.createHang3dIcon('./assets/textures/cube/hang3d.png');
   }
 
   createCubeRefraction = function(path) {
@@ -259,5 +261,22 @@ export class MagicMaterials {
       //    }
   }
 
+  createHang3dIcon = function(path) {
+    this.assets.texHang3dIcon = new THREE.TextureLoader().load(path, (texture) => {
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(1, 1);
+      this.assets.defaultGlass.map = texture;
+      this.assets.defaultGlass.needsUpdate = true;
+    });
+
+    this.assets.matHang3dIcon = new THREE.MeshLambertMaterial({
+      color: 0x999999,
+      map: this.assets.texHang3dIcon,
+      combine: THREE.MixOperation,
+      reflectivity: 0.25
+    });
+
+  }
 
 }
