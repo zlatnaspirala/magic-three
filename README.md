@@ -138,14 +138,9 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Dynamic Cache/Worker, add to home screen. [pwa]✅
  - Graphics/Physics scene ready.✅
  - Add 3d object loaders [fbx, collada]✅
- - [wip]Prod/Dev Mode switch
+ - Script compression bash script✅
  - Basic FPS controller✅
- - [wip]⏳ Create bash or any script to make minify all module javascript. [To make little more performance better - lighthouse chrome]
- - [wip]⏳ Adding optimal sky throw the config flags.
- - [wip]⏳ Add test naming fbx animation segments, adding complete FPS basic actions.
- - [wip]⏳ Adding map pack principle.
- - [wip]⏳ Improve fire.
-
+ - Adding map pack principle.✅
 
 # Map [wip]⏳
 

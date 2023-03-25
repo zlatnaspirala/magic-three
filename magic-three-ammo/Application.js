@@ -137,7 +137,7 @@ class Application extends MagicPhysics {
     //   r.position.set(-10, 0, -10)
     // }));
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie0walk.fbx', 'test').then((r) => {
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
       console.info('Setup player animation character obj =>', r);
       App.TESTOBJ = r;
       // r.position.set(10, 0, 10);
