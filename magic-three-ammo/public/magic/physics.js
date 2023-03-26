@@ -426,6 +426,52 @@ export class MagicPhysics extends MagicNetworking {
     this.physicsWorld.addRigidBody(body);
   }
 
+  createNetPlayerCollisionBox(halfExtents, pos, quat, material, name, matFlag) {
+    let mat;
+    if(matFlag == false) {
+      mat = material;
+    } else {
+      mat = this.materials.assets[matFlag];
+    }
+    const object = new THREE.Line(
+      new THREE.BoxGeometry(
+        halfExtents.x * 2,
+        halfExtents.y * 2,
+        halfExtents.z * 2
+      ),
+      mat
+    );
+    object.position.copy(pos);
+    object.quaternion.copy(quat);
+    object.castShadow = false;
+    // this ref to the broadcaster when works for net
+    if (this.config) object.visible = this.config.map.blockingVolumes.visible;
+    object.name = name || "netplayer-collision-box-" + MathUtils.randInt(0, 99999);
+    var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
+      startTransform = new Ammo.btTransform();
+
+    startTransform.setIdentity();
+    var mass = 0;
+    // var isDynamic = (mass !== 0);
+    var localInertia = new Ammo.btVector3(0, 0, 0);
+
+    startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
+
+    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
+      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
+      body = new Ammo.btRigidBody(rbInfo);
+
+    // test  ????????
+    body.threeObject = object;
+    object.userData.physicsBody = body;
+    object.userData.tag = `netplayer-collision-box`;
+    // object.userData.collided = true;
+    object.userData.collided = true;
+    this.rigidBodies.push(object);
+    this.scene.add(object);
+    this.physicsWorld.addRigidBody(body);
+  }
+
   destroySceneObject(o) {
     this.scene.remove(o);
     this.physicsWorld.removeRigidBody(o.userData.physicsBody);
@@ -445,7 +491,6 @@ export class MagicPhysics extends MagicNetworking {
       }
     }
   }
-
 
   setupContactResultCallback() {
 

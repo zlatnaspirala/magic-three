@@ -14,6 +14,40 @@ export function updatePhysics(deltaTime) {
     const objPhys = objThree.userData.physicsBody;
     const ms = objPhys.getMotionState();
 
+    if (objThree.name.indexOf('net-collision-box') != -1) {
+      // console.log('test objThree.name', objThree.name , "  = ", objPhys)
+
+      let NPLAYER;
+      for (let key in this.net.netPlayers) {
+        // console.log('test this.net.netPlayers ', this.net.netPlayers[key] , "  = ", key)
+        NPLAYER = this.net.netPlayers[key];
+      }
+
+      let scalingFactor = 0.3;
+      // let moveX = this.kMoveDirection.right - this.kMoveDirection.left;
+      // let moveZ = this.kMoveDirection.back - this.kMoveDirection.forward;
+      let moveY = 0;
+
+      let translateFactor = this.tmpPos.set(0.0001, 0, 0);
+      translateFactor.multiplyScalar(scalingFactor);
+      objThree.translateX(translateFactor.x);
+      objThree.translateY(translateFactor.y);
+      objThree.translateZ(translateFactor.z);
+      objThree.getWorldPosition(this.tmpPos);
+      objThree.getWorldQuaternion(this.tmpQuat);
+      let physicsBody = objThree.userData.physicsBody;
+      let ms = physicsBody.getMotionState();
+      if(ms) {
+        this.ammoTmpPos.setValue(this.tmpPos.x, this.tmpPos.y, this.tmpPos.z);
+        this.ammoTmpQuat.setValue(this.tmpQuat.x, this.tmpQuat.y, this.tmpQuat.z, this.tmpQuat.w);
+        this.tmpTrans.setIdentity();
+        this.tmpTrans.setOrigin(this.ammoTmpPos);
+        this.tmpTrans.setRotation(this.ammoTmpQuat);
+        ms.setWorldTransform(this.tmpTrans);
+      }
+    }
+
+
     if(ms) {
       ms.getWorldTransform(this.transformAux1);
       const p = this.transformAux1.getOrigin();

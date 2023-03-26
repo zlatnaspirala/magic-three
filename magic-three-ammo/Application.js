@@ -96,8 +96,6 @@ export default class Application extends MagicPhysics {
       }
     })
 
-    //>>>this.activateNet();
-
     // Player data - locals only - this is not secured if you wanna some validation data...
     if(load('playerData') !== false) {
       this.playerData = load('playerData');

@@ -4,7 +4,7 @@ let map = {
     {
       name: "doors",
       mass: 100,
-      scale: {x: 20, y: 17, z: 0.5},
+      scale: {x: 20, y: 17, z: 1.5},
       pos: {x: 0, y: 1, z: 47},
       quat: [0, 0, 0, 1],
       matFlag: 'matHang3dIcon' // new
@@ -61,15 +61,7 @@ let map = {
       color: 0xff0040,
       radius: 2,
       intensity: 150,
-      pos: {x: 30, y: 12, z: 10},
-      helper: true
-    },
-    {
-      name: 'l2',
-      color: 0xeeee40,
-      radius: 2,
-      intensity: 510,
-      pos: {x: -30, y: 12, z: 10},
+      pos: {x: 30, y: 122, z: 10},
       helper: true
     }
   ],

@@ -10,7 +10,7 @@ export class MagicNetworking {
     this.net = new Broadcaster(ClientConfig, this.scene);
     console.info('Networking is active  createBlockingBox =>', this.createBlockingBox);
     // Inject
-    this.net.createBlockingBox = this.createBlockingBox;
+    this.net.createNetPlayerCollisionBox = this.createNetPlayerCollisionBox;
     this.net.physicsWorld = this.physicsWorld;
     this.net.rigidBodies = this.rigidBodies;
   }
