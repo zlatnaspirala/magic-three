@@ -38,6 +38,17 @@ export class Broadcaster {
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           console.info('[fbx] Setup player animation character obj =>', r.name);
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
+
+          // test
+          this.root.createBlockingBox(
+            new THREE.Vector3(11,11,1),
+            r.position,
+            r.quaternion,
+            App.materials.assets.basic,
+            'net-collision-box' + rtcEvent.userid,
+            false
+          );
+
           // this.root.scene.add(o);
           // this.root.loadedMeshs.push(o);
         })

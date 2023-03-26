@@ -397,7 +397,8 @@ export class MagicPhysics extends MagicNetworking {
     object.position.copy(pos);
     object.quaternion.copy(quat);
     object.castShadow = false;
-    object.visible = this.config.map.blockingVolumes.visible;
+    // this ref to the broadcaster when works for net
+    if (this.config) object.visible = this.config.map.blockingVolumes.visible;
     object.name = name || "blocking-box-" + MathUtils.randInt(0, 99999);
     var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
       startTransform = new Ammo.btTransform();
@@ -477,7 +478,7 @@ export class MagicPhysics extends MagicNetworking {
         localPos = contactPoint.get_m_localPointB();
         worldPos = contactPoint.get_m_positionWorldOnB();
         console.log('Bullet contact : ', threeObject1.userData.tag, " worldPos ", worldPos.x)
-        App.TESTOBJ.position.set(worldPos.x(), worldPos.y(), worldPos.z());
+        //  App.TESTOBJ.position.set(worldPos.x(), worldPos.y(), worldPos.z());
 
       } else if(threeObject0.userData.tag != "local_bullet") {
         console.log('[local_bullet] threeObject0.userData.tag: ', threeObject0.userData.tag)

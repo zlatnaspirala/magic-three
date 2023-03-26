@@ -96,7 +96,7 @@ export default class Application extends MagicPhysics {
       }
     })
 
-    this.activateNet();
+    //>>>this.activateNet();
 
     // Player data - locals only - this is not secured if you wanna some validation data...
     if(load('playerData') !== false) {
@@ -171,6 +171,7 @@ export default class Application extends MagicPhysics {
     this.createFPSController = createFPSController.bind(this);
     this.initGraphics();
     this.initPhysics();
+    this.activateNet();
     this.createObjects();
     this.attachFire();
     this.createPlayer();

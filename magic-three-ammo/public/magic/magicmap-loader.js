@@ -6,7 +6,7 @@ import defaultMap from "../assets/maps/free-for-all.js";
 // This is binded funcs - this refered to the mani app class.
 export function loadMap(map) {
 
-  if (typeof map == 'undefined') {
+  if(typeof map == 'undefined') {
     map = defaultMap;
     console.info("Magic-Three: Default Map loaded.");
   } else {
@@ -118,18 +118,17 @@ export function loadMap(map) {
             box3.getSize(size);
             console.log(size);
             this.scene.add(boxHelper);
-            console.warn(`Load blocking volumes => ${boxHelper.position.x} => `);
             const m = 0;
-            const e = new THREE.Vector3(size.x/2, size.y/2, size.z/2);
+            const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
             boxHelper.visible = this.config.map.blockingVolumes.visible;
             this.pos.set(object.position.x, object.position.y, object.position.z);
             this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
-             this.createBlockingBox(
+            this.createBlockingBox(
               e,
               this.pos,
               this.quat,
               this.materials.assets.basic,
-              o.name || 'random-' + MathUtils.randInt(0, 99999),
+              o.name || 'objMtlArrayMap-' + MathUtils.randInt(0, 99999),
               false
             );
             this.scene.add(object);
@@ -150,15 +149,15 @@ export function loadMap(map) {
             this.scene.add(boxHelper);
             console.warn(`Load blocking volumes index => ${boxHelper.position.x} => `);
             const m = 0;
-            const e = new THREE.Vector3(size.x/2, size.y/2, size.z/2);
+            const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
             this.pos.set(o.position.x, o.position.y, o.position.z);
             this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
-             this.createBlockingBox(
+            this.createBlockingBox(
               e,
               this.pos,
               this.quat,
               this.materials.assets.basic,
-              o.name || 'random-' + MathUtils.randInt(0, 99999),
+              o.name || 'objMtlArrayMap-' + MathUtils.randInt(0, 99999),
               false
             );
           }

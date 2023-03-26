@@ -51,7 +51,7 @@ const config = {
       computeVertexNormals: false
     },
     blockingVolumes: {
-      visible: false
+      visible: true
     },
     collision: {
       detectCollision: false

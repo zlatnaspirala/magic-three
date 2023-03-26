@@ -208,3 +208,9 @@ var object = scene.getObjectByName( "objectName", true );
         )
     };
     --------------------------------------------------------------------------
+
+
+
+    https://stackoverflow.com/questions/39441459/rigid-body-shape-in-bullet-ammo-js-from-a-mesh-in-three-js
+
+    
