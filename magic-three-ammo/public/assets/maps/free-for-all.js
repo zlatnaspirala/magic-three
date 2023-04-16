@@ -2,23 +2,69 @@
 let map = {
   breakable: [
     {
-      name: "doors",
-      mass: 100,
-      scale: {x: 20, y: 17, z: 1.5},
-      pos: {x: 0, y: 1, z: 47},
+      name: "hang3dLogo",
+      mass: 10,
+      scale: {x: 4, y: 4, z: 1},
+      pos: {x: 0, y: 21, z: 50.4},
       quat: [0, 0, 0, 1],
       matFlag: 'matHang3dIcon' // new
     }
   ],
   boxs: [
     {
-      name: "myMidBox1",
+      name: "ver-platform-left",
       net: false,
       mass: 0,
-      scale: {x: 15, y: 1, z: 5},
-      pos: {x: 0, y: 1, z: 20},
+      scale: {x: 0.5, y: 15, z: 30},
+      pos: {x: -25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'Bronze'
+      matFlag: 'default',
+      collide: false,
+      state: 4
+    },
+    {
+      name: "hor-platform-left",
+      net: false,
+      mass: 0,
+      scale: {x: 10, y: 0.5, z: 30},
+      pos: {x: -20, y: 12, z: 10},
+      quat: [0, 0, 0, 1],
+      matFlag: 'default',
+      collide: false,
+      state: 4
+    },
+    {
+      name: "ver-platform-right",
+      net: false,
+      mass: 0,
+      scale: {x: 0.5, y: 15, z: 30},
+      pos: {x: 25, y: 12, z: 10},
+      quat: [0, 0, 0, 1],
+      matFlag: 'default',
+      collide: false,
+      state: 4
+    },
+    {
+      name: "hor-platform-right",
+      net: false,
+      mass: 0,
+      scale: {x: 10, y: 0.5, z: 30},
+      pos: {x: 20, y: 12, z: 10},
+      quat: [0, 0, 0, 1],
+      matFlag: 'default',
+      collide: false,
+      state: 4
+    },
+    {
+      name: "pilarTop",
+      net: false,
+      mass: 0,
+      scale: {x: 20, y: 2, z: 2},
+      pos: {x: 0, y: 15, z: 50},
+      quat: [0, 0, 0, 1],
+      matFlag: 'Bronze',
+      collide: true,
+      state: 4
     },
     // {
     //   name: "myMidBox2",
@@ -33,16 +79,16 @@ let map = {
   tubes: [
     {
       name: "myTube1",
-      mass: 1000,
+      mass: 0,
       scale: [5, 5, 20, 32],
-      pos: {x: -20, y: 1, z: 50},
+      pos: {x: -20, y: 9, z: 50},
       quat: [0, 0, 0, 1]
     },
     {
       name: "myTube2",
-      mass: 1000,
+      mass: 0,
       scale: [5, 5, 20, 32],
-      pos: {x: 20, y: 1, z: 50},
+      pos: {x: 20, y: 9, z: 50},
       quat: [0, 0, 0, 1]
     }
   ],
@@ -66,11 +112,12 @@ let map = {
     }
   ],
   objMtls: [
-    // {
-    //   path: 'assets/objects/env/wall1.obj',
-    //   name: 'myWall_1',
-    //   pos: {x:-100, y:-0.5, z:-42}
-    // }
+    {
+      path: 'assets/objects/env/center.obj',
+      name: 'center',
+      pos: {x:0, y:-2, z:-52},
+      rot: {x: 0, y: 90, z:0}
+    }
   ],
   objMtlsArray: [
     {
@@ -98,6 +145,20 @@ let map = {
           rot: {x: 0, y: 90, z: 0}
         },
       ]
+    }
+  ],
+  stairs: [
+    {
+      name: 'evevator1',
+      pos: {x:0, y: 0, z: 15},
+      quat: [0, 0, 0, 1],
+      scale: {x: 10, y: 0.3, z: 56},
+      stairs: {
+        num: 19,
+        width: 2.7,
+        height: 0.6
+      },
+      matFlag: 'BlackBronze'
     }
   ]
 };

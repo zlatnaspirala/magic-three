@@ -1,0 +1,13 @@
+# Blender MTL File: 'wall1-new.blend'
+# Material Count: 1
+
+newmtl matWall1
+Ns 204.710035
+Ka 0.874150 0.874150 0.874150
+Kd 0.800000 0.800000 0.800000
+Ks 0.098712 0.098712 0.098712
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd wall1.png

@@ -43,7 +43,9 @@ export function loadMap(map) {
       this.materials.assets.default,
       b.name || 'random-' + MathUtils.randInt(0, 99999),
       b.net || false,
-      b.matFlag || false
+      b.matFlag || false,
+      b.collide || false,
+      b.state
     );
   });
 
@@ -84,16 +86,35 @@ export function loadMap(map) {
   });
 
   map.objMtls.forEach((obj, index) => {
-    this.loader.objMtl(
-      obj.path,
-      obj.name).then((o) => {
+    this.loader.objMtl(obj.path, obj.name).then((o) => {
         console.info('Set position after load.', o);
         o.position.set(obj.pos.x, obj.pos.y, obj.pos.z);
-        if(typeof oo.rot != 'undefined') {
+        if (typeof obj.rot != 'undefined') {
           o.rotateX(MathUtils.degToRad(obj.rot.x));
           o.rotateY(MathUtils.degToRad(obj.rot.y));
           o.rotateZ(MathUtils.degToRad(obj.rot.z));
         }
+        var box3 = new THREE.Box3();
+        var size = new THREE.Vector3();
+        var boxHelper = new THREE.BoxHelper(o);
+        box3.setFromObject(boxHelper);
+        box3.getSize(size);
+        console.log(size);
+        this.scene.add(boxHelper);
+        const m = 0;
+        const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
+        boxHelper.visible = this.config.map.blockingVolumes.visible;
+        this.pos.set(o.position.x, o.position.y, o.position.z);
+        this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
+        this.createBlockingBox(
+          e,
+          this.pos,
+          this.quat,
+          this.materials.assets.basic,
+          o.name || 'objMtlMap-' + MathUtils.randInt(0, 99999),
+          false
+        );
+
       });
   });
 
@@ -165,4 +186,19 @@ export function loadMap(map) {
       });
   });
 
+  map.stairs.forEach((o) => {
+
+    this.pos.set(o.pos.x, o.pos.y, o.pos.z);
+    const e = new THREE.Vector3(o.scale.x, o.scale.y, o.scale.z);
+    console.log('TEST #################')
+    this.createElevatorBoxs(
+      e,
+      this.pos,
+      this.quat,
+      this.materials.assets[o.matFlag],
+      o.name || 'elevator-' + MathUtils.randInt(0, 99999),
+      o.stairs
+    );
+
+  });
 };

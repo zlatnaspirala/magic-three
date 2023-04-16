@@ -266,7 +266,7 @@ export class MagicPhysics extends MagicNetworking {
       body = new Ammo.btRigidBody(rbInfo);
 
     object.userData.physicsBody = body;
-    // console.info('IS COLLIDE ', collide);
+    console.info('IS COLLIDE ', collide);
     object.userData.collided = collide;
 
     if(typeof state !== 'undefined') {
@@ -552,7 +552,8 @@ export class MagicPhysics extends MagicNetworking {
 
   createElevatorBoxs(halfExtents_, pos, quat, material, name, stairs) {
     let mat = material;
-    console.log('MAT IS READY', mat);
+    console.log('MAT IS READY', mat)
+
     const loadStairs = (pos, halfExtents) => {
       const object = new THREE.Mesh(
         new THREE.BoxGeometry(
@@ -583,13 +584,14 @@ export class MagicPhysics extends MagicNetworking {
       this.scene.add(object);
       this.physicsWorld.addRigidBody(body);
     }
-
+   
     for (var x = 0;x < stairs.num; x++) {
-      pos.set(this.pos.x, this.pos.y + stairs.height , this.pos.z);
-      halfExtents_.set(halfExtents_.x, halfExtents_.y, halfExtents_.z - stairs.width);
+      pos.set(this.pos.x, this.pos.y + x, this.pos.z);
+      halfExtents_.set(halfExtents_.x, halfExtents_.y , halfExtents_.z - 1);
       loadStairs(pos, halfExtents_);
     }
 
   }
+
 
 }

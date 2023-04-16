@@ -89,7 +89,7 @@ export default class Application extends MagicPhysics {
 
     addEventListener('stream-loaded', (e) => {
       console.info('net event: [stream-loaded]', e);
-      if (this.net.connection.isInitiator === true) {
+      if(this.net.connection.isInitiator === true) {
         document.title = t('you.are.host');
       } else {
         document.title = t('you.are.guest');
@@ -268,8 +268,24 @@ export default class Application extends MagicPhysics {
     ball.castShadow = false;
     ball.receiveShadow = false;
     ball.visible = this.config.playerController.physicsBody.visible;
-    const ballShape = new Ammo.btSphereShape(ballRadius);
-    ballShape.setMargin(this.margin);
+
+    let playerCapsuleShape;
+
+    if(this.config.playerController.physicsBody.typeOfPlayerCapsule == 'cube') {
+      playerCapsuleShape = new Ammo.btBoxShape(
+        new Ammo.btVector3(
+          this.config.playerController.physicsBody.cubeCapsuleScale[0],
+          this.config.playerController.physicsBody.cubeCapsuleScale[1],
+          this.config.playerController.physicsBody.cubeCapsuleScale[2])
+      );
+    } else if(this.config.playerController.physicsBody.typeOfPlayerCapsule == 'ball') {
+      playerCapsuleShape = new Ammo.btSphereShape(ballRadius);
+    } else {
+      // default
+      playerCapsuleShape = new Ammo.btSphereShape(ballRadius);
+    }
+
+    playerCapsuleShape.setMargin(this.margin);
 
     this.pos.copy(new THREE.Vector3(
       this.config.playerController.cameraInitPosition.x,
@@ -282,11 +298,11 @@ export default class Application extends MagicPhysics {
     this.playerBody = ball;
 
     let localInertia = new Ammo.btVector3(0, 0, 0);
-    ballShape.calculateLocalInertia(0, localInertia);
+    playerCapsuleShape.calculateLocalInertia(0, localInertia);
 
     const playerB = this.createRigidBody(
       ball,
-      ballShape,
+      playerCapsuleShape,
       ballMass,
       this.pos,
       this.quat
@@ -385,9 +401,9 @@ export default class Application extends MagicPhysics {
         dispatchEvent(onPlayerFire);
 
         setTimeout(() => {
-          if (this.bulletB) this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
-        }, this.config.playerController.bullet.bulletLiveTime/2);
-        
+          if(this.bulletB) this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
+        }, this.config.playerController.bullet.bulletLiveTime / 2);
+
 
         this.fx.play('shot');
 
@@ -470,11 +486,11 @@ export default class Application extends MagicPhysics {
     });
 
 
-    if (this.config.map.collision.detectCollision == false) {
+    if(this.config.map.collision.detectCollision == false) {
       // this.detectCollision()
-      if (this.bulletMesh) {
-       // console.log('???')this.physicsWorld.contactTest(this.bulletMesh, this.cbContactResult);
-        
+      if(this.bulletMesh) {
+        // console.log('???')this.physicsWorld.contactTest(this.bulletMesh, this.cbContactResult);
+
       }
     }
 

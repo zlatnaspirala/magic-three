@@ -8,7 +8,7 @@ export class MagicMaterials {
   constructor() {
     // console.info("MagicMaterials");
     // this.createCubeRefraction('./assets/textures/cube/');
-    this.createDefault('./assets/textures/cube/metal-r1-blue.webp');
+    this.createDefault('./assets/textures/cube/wall-black.webp');
     this.createBlackWall();
 
     this.createHang3dIcon('./assets/textures/cube/hang3d.png');
@@ -28,7 +28,7 @@ export class MagicMaterials {
   createBlackWall = function() {
 
     this.assets.BlackBronze = new THREE.MeshLambertMaterial({
-        color: 0x111111,
+        color: 0x222222,
         map: this.assets.frontTexture,
         combine: THREE.MixOperation,
         reflectivity: 0.25
@@ -38,9 +38,9 @@ export class MagicMaterials {
         color: 0x15f5f5,
         specular: 0xee6600,
         shininess: 110,
-        map: this.assets.frontTexture,
+        map: this.assets.frontTexturePil,
         combine: THREE.MixOperation,
-        reflectivity: 0.25
+        reflectivity: 0.95
       })
   }
 
@@ -56,14 +56,27 @@ export class MagicMaterials {
       transparent: true
     });
 
+    this.assets.default = new THREE.MeshPhongMaterial({
+      color: 0xffffaa,
+      opacity: 1,
+      transparent: false
+    });
+
     this.assets.frontTexture = new THREE.TextureLoader().load(path, (texture) => {
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
       texture.repeat.set(2, 2);
-      this.assets.defaultGlass.map = texture;
-      this.assets.defaultGlass.needsUpdate = true;
+      this.assets.basic.map = texture;
+      this.assets.basic.needsUpdate = true;
     });
 
+    this.assets.frontTexturePil = new THREE.TextureLoader().load(path, (texture) => {
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(8, 2);
+      this.assets.default.map = texture;
+      this.assets.default.needsUpdate = true;
+    });
 
     this.assets.glass = new THREE.MeshBasicMaterial({
         color: 0x223344,
@@ -71,6 +84,12 @@ export class MagicMaterials {
         transparent: true,
         combine: THREE.MixOperation,
         reflectivity: 0.25
+      });
+
+      this.assets.Orange_glass = new THREE.MeshLambertMaterial({
+        color: 0x995500,
+        opacity: 0.75,
+        transparent: false
       })
 
     // this.assets = {
