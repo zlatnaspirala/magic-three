@@ -12,10 +12,32 @@ let map = {
   ],
   boxs: [
     {
-      name: "ver-platform-left",
+      name: "ver-platform-left2",
       net: false,
       mass: 0,
       scale: {x: 0.5, y: 15, z: 30},
+      pos: {x: -65, y: 12, z: 10},
+      quat: [0, 0, 0, 1],
+      matFlag: 'default',
+      collide: false,
+      state: 4
+    },
+    {
+      name: "hor-platform-left2",
+      net: false,
+      mass: 0,
+      scale: {x: 16, y: 0.5, z: 36},
+      pos: {x: -65, y: 12, z: 10},
+      quat: [0, 0, 0, 1],
+      matFlag: 'default',
+      collide: false,
+      state: 4
+    },
+    {
+      name: "ver-platform-left",
+      net: false,
+      mass: 0,
+      scale: {x: 0.5, y: 15, z: 50},
       pos: {x: -25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
       matFlag: 'default',
@@ -26,8 +48,8 @@ let map = {
       name: "hor-platform-left",
       net: false,
       mass: 0,
-      scale: {x: 10, y: 0.5, z: 30},
-      pos: {x: -20, y: 12, z: 10},
+      scale: {x: 16, y: 0.5, z: 56},
+      pos: {x: -25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
       matFlag: 'default',
       collide: false,
@@ -37,7 +59,7 @@ let map = {
       name: "ver-platform-right",
       net: false,
       mass: 0,
-      scale: {x: 0.5, y: 15, z: 30},
+      scale: {x: 0.5, y: 15, z: 50},
       pos: {x: 25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
       matFlag: 'default',
@@ -48,8 +70,8 @@ let map = {
       name: "hor-platform-right",
       net: false,
       mass: 0,
-      scale: {x: 10, y: 0.5, z: 30},
-      pos: {x: 20, y: 12, z: 10},
+      scale: {x: 16, y: 0.5, z: 56},
+      pos: {x: 25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
       matFlag: 'default',
       collide: false,
@@ -104,10 +126,10 @@ let map = {
   pointLights: [
     {
       name: 'l1',
-      color: 0xff0040,
-      radius: 2,
-      intensity: 150,
-      pos: {x: 30, y: 122, z: 10},
+      color: 0xff0000,
+      radius: 1,
+      intensity: 50,
+      pos: {x: 23, y: 25, z: 38},
       helper: true
     }
   ],
@@ -116,6 +138,12 @@ let map = {
       path: 'assets/objects/env/center.obj',
       name: 'center',
       pos: {x:0, y:-2, z:-52},
+      rot: {x: 0, y: 90, z:0}
+    },
+    {
+      path: 'assets/objects/env/lamp1.obj',
+      name: 'center',
+      pos: {x:24, y:25, z:30},
       rot: {x: 0, y: 90, z:0}
     }
   ],

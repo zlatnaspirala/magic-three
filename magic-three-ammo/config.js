@@ -28,8 +28,8 @@ const config = {
     floorHeight: 200,
     gravityConstant: 17.5,
     directionLight: {
-      color: 0x997777,
-      intensity: 15,
+      color: 0x333333,
+      intensity: 5,
       LRTB: 14,
       shadow: {
         camera: {

@@ -28,30 +28,31 @@ export class MagicMaterials {
   createBlackWall = function() {
 
     this.assets.BlackBronze = new THREE.MeshLambertMaterial({
-        color: 0x222222,
+        color: 0x777777,
         map: this.assets.frontTexture,
         combine: THREE.MixOperation,
         reflectivity: 0.25
       });
 
       this.assets.Bronze = new THREE.MeshPhongMaterial({
-        color: 0x15f5f5,
-        specular: 0xee6600,
-        shininess: 110,
+        // color: 0x15f5f5,
+        color: 0x666555,
+        specular: 0xee6666,
+        shininess: 1,
         map: this.assets.frontTexturePil,
         combine: THREE.MixOperation,
-        reflectivity: 0.95
+        reflectivity: 0.1
       })
   }
 
   createDefault = function(path) {
 
-    this.assets.default = new THREE.MeshStandardMaterial({color: 0x333333});
+    this.assets.default = new THREE.MeshStandardMaterial({color: 0x999999});
     this.assets.red = new THREE.MeshStandardMaterial({color: 0xff0000});
     this.assets.basic = new THREE.MeshBasicMaterial({ color: 0x223344 });
 
     this.assets.defaultGlass = new THREE.MeshPhongMaterial({
-      color: 0xffffaa,
+      color: 0xaaaaaa,
       opacity: 0.95,
       transparent: true
     });
