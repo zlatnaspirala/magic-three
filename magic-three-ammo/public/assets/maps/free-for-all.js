@@ -97,6 +97,17 @@ let map = {
     //   quat: [0, 0, 0, 1],
     //   matFlag: 'glass'
     // },
+    {
+      name: "simpleLamp1",
+      net: false,
+      mass: 0,
+      scale: {x: 0.2, y: 1, z: 1},
+      pos: {x: 24.5, y: 25, z: 25},
+      quat: [0, 0, 0, 1],
+      matFlag: 'emissionRed',
+      collide: true,
+      state: 4
+    },
   ],
   tubes: [
     {
@@ -126,10 +137,18 @@ let map = {
   pointLights: [
     {
       name: 'l1',
-      color: 0xff0000,
-      radius: 1,
-      intensity: 50,
-      pos: {x: 23, y: 25, z: 38},
+      color: 0xff2020,
+      radius: 8,
+      intensity: 40,
+      pos: {x: 24, y: 25, z: 38},
+      helper: true
+    },
+    {
+      name: 'l2',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 40,
+      pos: {x: -23, y: 25, z: 38},
       helper: true
     }
   ],
@@ -140,12 +159,12 @@ let map = {
       pos: {x:0, y:-2, z:-52},
       rot: {x: 0, y: 90, z:0}
     },
-    {
-      path: 'assets/objects/env/lamp1.obj',
-      name: 'center',
-      pos: {x:24, y:25, z:30},
-      rot: {x: 0, y: 90, z:0}
-    }
+    // {
+    //   path: 'assets/objects/env/lamp1.obj',
+    //   name: 'lamp',
+    //   pos: {x:24, y:25, z:24},
+    //   rot: {x: 0, y: 90, z:0}
+    // }
   ],
   objMtlsArray: [
     {

@@ -62,7 +62,7 @@ const config = {
     movementType: 'velocity', // velocity | kinematic
     cameraInitPosition: {x: 0, y: 0, z: 70},
     movementSpeed: {
-      forward: 8, backward: 6,
+      forward: 18, backward: 6,
       left: 8, right: 8,
       jump: 11, jumpLimitInterval: 2000
     },

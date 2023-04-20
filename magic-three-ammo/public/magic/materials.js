@@ -43,6 +43,15 @@ export class MagicMaterials {
         combine: THREE.MixOperation,
         reflectivity: 0.1
       })
+
+      this.assets.emissionRed = new THREE.MeshStandardMaterial({
+        color: new THREE.Color(1, 0, 0),
+        map: null,
+        emissiveIntensity: 10,
+        emissive: new THREE.Color(1, 0, 0),
+        // emissiveMap: emissiveMap || null
+      });
+
   }
 
   createDefault = function(path) {

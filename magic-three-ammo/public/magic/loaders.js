@@ -123,10 +123,8 @@ export class MagicLoader {
     localP.pop();
     let path = localP.join('/');
     path += '/';
-    console.log('what is path ', path)
     let mtlName = name.replace('.obj','.mtl');
-    console.log('what is name ', mtlName)
-
+    // console.log('what is name ', mtlName)
     const onProgress = function(xhr) {
       if(xhr.lengthComputable) {
         const percentComplete = xhr.loaded / xhr.total * 100;
@@ -137,6 +135,7 @@ export class MagicLoader {
     new MTLLoader()
       .setPath(path)
       .load(mtlName, (materials) => {
+        console.info('TEST MAT MTL')
         materials.preload();
         new OBJLoader()
           .setMaterials(materials)
