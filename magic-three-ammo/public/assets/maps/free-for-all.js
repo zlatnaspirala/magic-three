@@ -12,6 +12,17 @@ let map = {
   ],
   boxs: [
     {
+      name: "bottom-platform-left2-bottom",
+      net: false,
+      mass: 0,
+      scale: {x: 15, y: 15, z: 0.5},
+      pos: {x: -55, y: 12, z: 45},
+      quat: [0, 0, 0, 1],
+      matFlag: 'default',
+      collide: false,
+      state: 4
+    },
+    {
       name: "ver-platform-left2-Right",
       net: false,
       mass: 0,

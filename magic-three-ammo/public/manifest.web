@@ -1,6 +1,7 @@
 {
   "name": "Magic three",
   "short_name": "magic-three",
+  "id": "/public/module.html",
   "start_url": "https://localhost/public/module.html",
   "orientation": "landscape",
   "theme_color": "lime",
