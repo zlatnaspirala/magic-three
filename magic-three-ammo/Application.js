@@ -129,10 +129,13 @@ export default class Application extends MagicPhysics {
     //   // this.root.netPlayers['net_' + rtcEvent.userid] = r;
     // })
 
-    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'zombie1').then((r) => {
-    //   console.info('Setup enemy obj =>', r);
-    //   r.position.set(-10, 0, -10)
-    // }));
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-running.fbx', 'zombie1').then((r) => {
+      console.info('Setup enemy zombie1 =>', r);
+      r.position.set(-15, 0, -10)
+      window.R = r
+    }));
+
+    
 
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
     //   console.info('Setup player animation character obj =>', r);
