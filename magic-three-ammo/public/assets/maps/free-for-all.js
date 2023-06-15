@@ -16,7 +16,7 @@ let map = {
       net: false,
       mass: 0,
       scale: {x: 15, y: 15, z: 0.5},
-      pos: {x: -55, y: 12, z: 45},
+      pos: {x: -65, y: 12, z: 45},
       quat: [0, 0, 0, 1],
       matFlag: 'default',
       collide: false,

@@ -37,7 +37,13 @@ button {
 }
 
 span {
-  width: 200px;
+  font-size: 20px;
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    /* [class*="response-"] { */
+    font-size: 10px;
+  /*  } */
+  }
 }
 
 .flex-menu {
