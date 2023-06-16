@@ -1,6 +1,6 @@
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import * as PointerLockControlsMobile from 'three/addons/controls/mobileController.js';
-import {byId, isMobile} from './utility';
+import {ANYLOG, byId, isMobile} from './utility';
 
 export function createFPSController() {
   if(isMobile == false) {
@@ -20,7 +20,7 @@ export function createFPSController() {
 
   var CLICK = 'click';
   if(isMobile == true) {
-    console.log('MOBILE DEVICE ☢️')
+    console.log('%c MOBILE DEVICE ☢️', ANYLOG)
     CLICK = 'touchstart';
   }
 

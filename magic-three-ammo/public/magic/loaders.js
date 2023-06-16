@@ -135,7 +135,7 @@ export class MagicLoader {
     new MTLLoader()
       .setPath(path)
       .load(mtlName, (materials) => {
-        console.info('TEST MAT MTL')
+        // console.info('TEST MAT MTL')
         materials.preload();
         new OBJLoader()
           .setMaterials(materials)

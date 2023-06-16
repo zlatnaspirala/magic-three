@@ -1,4 +1,5 @@
 import ClientConfig from "../../../config.js";
+import {ANYLOG} from "../utility.js";
 import {Broadcaster} from "./net.js";
 
 export class MagicNetworking {
@@ -7,7 +8,7 @@ export class MagicNetworking {
 
   activateNet = () => {
     this.net = new Broadcaster(ClientConfig, this.scene);
-    console.info('Networking is active.');
+    console.info('%cNetworking is active.', ANYLOG);
     // Inject
     this.net.createNetPlayerCollisionBox = this.createNetPlayerCollisionBox;
     this.net.physicsWorld = this.physicsWorld;

@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import {MathUtils} from "three";
 import {MagicLoader} from "../loaders.js";
-import {byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
+import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
 import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
@@ -540,7 +540,7 @@ export class Broadcaster {
         myInstance.inputRoomId.nodeValue = myInstance.engineConfig.masterServerKey;
 
         if(myInstance.engineConfig.broadcastAutoConnect) {
-          console.log("Try auto connect [broadcaster].");
+          console.log("%cTry auto connect [broadcaster].", NETLOG);
           myInstance.injector = myInstance.multiPlayerRef;
           myInstance.openOrJoinBtn.click();
         }

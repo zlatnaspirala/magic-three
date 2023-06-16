@@ -152,3 +152,5 @@ export var isSafari = function() {return /^((?!chrome|android).)*safari/i.test(n
 
 export var BIGLOG = "color: #55fd53;font-size:20px;text-shadow: 0px 0px 5px #f4fd63, -1px -1px 5px orange";
 export var REDLOG = "color: lime;font-size:15px;text-shadow: 0px 0px 5px red, -2px -2px 5px orangered";
+export var NETLOG = "color: orange;font-size:15px;text-shadow: 0px 0px 1px red, 0px 0px 5px orangered";
+export var ANYLOG = "color: yellow;font-size:15px;text-shadow: 1px 1px 4px red, 0px 0px 2px orangered";
