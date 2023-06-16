@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {byId, createAppEvent, load, runCache, save} from "./public/magic/utility.js";
+import {byId, createAppEvent, isMobile, load, runCache, save} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -82,6 +82,7 @@ export default class Application extends MagicPhysics {
       document.title = t('title');
       if(byId('loading.label')) byId('loading.label').innerHTML = t('loading');
       byId('header.title').innerHTML = t('title');
+      if (isMobile == true) byId('header.title').innerHTML += ' Mobile ✭';
       byId('player.munition.label').innerHTML = t('munition');
       byId('player.energy.label').innerHTML = t('energy');
       byId('player.kills.label').innerHTML = t('kills.label');
