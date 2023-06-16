@@ -3,6 +3,7 @@ import {ConvexObjectBreaker} from "../jsm/misc/ConvexObjectBreaker.js";
 import {updatePhysics} from "./updater.js";
 import {MagicNetworking} from "./networking/magic-netwoking.js";
 import {MathUtils} from "three";
+import {REDLOG} from "./utility.js";
 
 export class MagicPhysics extends MagicNetworking {
 
@@ -527,7 +528,7 @@ export class MagicPhysics extends MagicNetworking {
         tag = threeObject1.userData.tag;
         localPos = contactPoint.get_m_localPointB();
         worldPos = contactPoint.get_m_positionWorldOnB();
-        console.log('Bullet contact : ', threeObject1.userData.tag, " worldPos ", worldPos.x)
+        console.log(`%cBullet contact: ${threeObject1.userData.tag} worldPos ${worldPos}`, REDLOG)
         //  App.TESTOBJ.position.set(worldPos.x(), worldPos.y(), worldPos.z());
 
       } else if(threeObject0.userData.tag != "local_bullet") {
@@ -584,8 +585,8 @@ export class MagicPhysics extends MagicNetworking {
       this.physicsWorld.addRigidBody(body);
     }
 
-    for (var x = 0;x < stairs.num; x++) {
-      pos.set(this.pos.x, this.pos.y + stairs.height , this.pos.z);
+    for(var x = 0;x < stairs.num;x++) {
+      pos.set(this.pos.x, this.pos.y + stairs.height, this.pos.z);
       halfExtents_.set(halfExtents_.x, halfExtents_.y, halfExtents_.z - stairs.width);
       loadStairs(pos, halfExtents_);
     }
