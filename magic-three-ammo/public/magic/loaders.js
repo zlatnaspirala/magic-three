@@ -22,7 +22,7 @@ export class MagicLoader {
       const loader = new FBXLoader();
       loader.load(p, (object) => {
         this.mixers.push(new THREE.AnimationMixer(object));
-        console.log(" test animations: ", object.animations);
+        console.log("Test fbx animations => ", object.animations);
         // remeber - 1 walk
         this.action = this.mixers[this.mixers.length - 1].clipAction(object.animations[0]);
         this.action.play();

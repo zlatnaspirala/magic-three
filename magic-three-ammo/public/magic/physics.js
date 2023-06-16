@@ -230,7 +230,7 @@ export class MagicPhysics extends MagicNetworking {
       mat = material;
     } else {
       mat = this.materials.assets[matFlag];
-      console.log('MAT IS', mat)
+      // console.log('MAT IS', mat)
     }
     const object = new THREE.Mesh(
       new THREE.BoxGeometry(
@@ -270,8 +270,8 @@ export class MagicPhysics extends MagicNetworking {
     object.userData.collided = collide;
 
     if(typeof state !== 'undefined') {
-      console.info('IS state ', state);
-      object.userData.physicsBody.setActivationState(state);;
+      // console.info('IS state ', state);
+      object.userData.physicsBody.setActivationState(state);
     }
 
     if(netType == true) {
@@ -389,7 +389,7 @@ export class MagicPhysics extends MagicNetworking {
       mat = material;
     } else {
       mat = this.materials.assets[matFlag];
-      console.log('MAT IS', mat)
+      // console.log('MAT IS', mat)
     }
     const object = new THREE.Line(
       new THREE.BoxGeometry(
@@ -552,7 +552,7 @@ export class MagicPhysics extends MagicNetworking {
 
   createElevatorBoxs(halfExtents_, pos, quat, material, name, stairs) {
     let mat = material;
-    console.log('MAT IS READY', mat);
+    // console.log('MAT IS READY', mat);
     const loadStairs = (pos, halfExtents) => {
       const object = new THREE.Mesh(
         new THREE.BoxGeometry(

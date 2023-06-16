@@ -61,6 +61,10 @@ const config = {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
     cameraInitPosition: {x: 0, y: 0, z: 70},
+    alwaysRun: false,
+    mobile: {
+      hudControls: true
+    },
     movementSpeed: {
       forward: 18, backward: 6,
       left: 8, right: 8,

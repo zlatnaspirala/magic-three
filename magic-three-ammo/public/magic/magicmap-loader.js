@@ -14,7 +14,7 @@ export function loadMap(map) {
   }
 
   map.breakable.forEach((b, index) => {
-    console.info(`load dynamic boxs index => ${this} this 2test => `, b);
+    // console.info(`load dynamic boxs index => ${this} this 2test => `, b);
     const m = b.mass;
     const e = new THREE.Vector3(b.scale.x, b.scale.y, b.scale.z);
     this.pos.set(b.pos.x, b.pos.y, b.pos.z);
@@ -30,7 +30,7 @@ export function loadMap(map) {
   });
 
   map.boxs.forEach((b, index) => {
-    console.info(`load dynamic boxs index => ${index} this test => `, b);
+    // console.info(`load dynamic boxs index => ${index} this test => `, b);
     const m = b.mass;
     const e = new THREE.Vector3(b.scale.x, b.scale.y, b.scale.z);
     this.pos.set(b.pos.x, b.pos.y, b.pos.z);
@@ -99,7 +99,7 @@ export function loadMap(map) {
         var boxHelper = new THREE.BoxHelper(o);
         box3.setFromObject(boxHelper);
         box3.getSize(size);
-        console.log(size);
+        // console.log(size);
         this.scene.add(boxHelper);
         const m = 0;
         const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
@@ -137,7 +137,7 @@ export function loadMap(map) {
             var boxHelper = new THREE.BoxHelper(object);
             box3.setFromObject(boxHelper);
             box3.getSize(size);
-            console.log(size);
+            // console.log(size);
             this.scene.add(boxHelper);
             const m = 0;
             const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
@@ -165,7 +165,7 @@ export function loadMap(map) {
             var boxHelper = new THREE.BoxHelper(o);
             box3.setFromObject(boxHelper);
             box3.getSize(size);
-            console.log(size);
+            // console.log(size);
             boxHelper.visible = this.config.map.blockingVolumes.visible;
             this.scene.add(boxHelper);
             console.warn(`Load blocking volumes index => ${boxHelper.position.x} => `);
@@ -190,7 +190,7 @@ export function loadMap(map) {
 
     this.pos.set(o.pos.x, o.pos.y, o.pos.z);
     const e = new THREE.Vector3(o.scale.x, o.scale.y, o.scale.z);
-    console.log('TEST #################')
+    // console.log('TEST #################')
     this.createElevatorBoxs(
       e,
       this.pos,
