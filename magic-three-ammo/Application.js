@@ -135,8 +135,6 @@ export default class Application extends MagicPhysics {
       window.R = r
     }));
 
-    
-
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
     //   console.info('Setup player animation character obj =>', r);
     //   App.TESTOBJ = r;
@@ -165,6 +163,11 @@ export default class Application extends MagicPhysics {
       this.setupContactResultCallback();
 
       this.animate();
+
+     setTimeout(() => {
+      byId('matrix-net').style.display = 'none';
+     }, 1000)
+
     });
   }
 

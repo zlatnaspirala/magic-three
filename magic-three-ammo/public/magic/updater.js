@@ -1,5 +1,6 @@
 import {MathUtils} from "three";
 import * as THREE from "three";
+import {isMobile} from "./utility";
 
 export function updatePhysics(deltaTime) {
   // Step world
@@ -189,7 +190,9 @@ export function updatePhysics(deltaTime) {
 let localPingPong = true;
 export function updateControls() {
   const time = performance.now();
-  if(this.controls.isLocked === true) {
+
+  if(this.controls.isLocked === true || isMobile == true) {
+     console.log('TEST UPDATER')
     // this.raycaster.ray.origin.copy(this.controls.getObject().position);
     // this.raycaster.ray.origin.y -= 5;
     // const intersections = this.raycaster.intersectObjects(this.scene.children, false);

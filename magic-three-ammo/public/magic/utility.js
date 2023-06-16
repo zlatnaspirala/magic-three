@@ -98,8 +98,8 @@ export function save(name, obj) {
 
 export function load(name) {
   if(localStorage.getItem(name) == 'undefined' ||
-     localStorage.getItem(name) == null ||
-     localStorage.getItem(name) == "") {
+    localStorage.getItem(name) == null ||
+    localStorage.getItem(name) == "") {
     return false;
   }
   else {
@@ -119,18 +119,35 @@ export function load(name) {
 //   return result;
 // }
 
-
-// TEST THSI
+// TEST THIS
 export function getAxisAndAngelFromQuaternion(q) {
   const angle = 2 * Math.acos(q.w);
   var s;
-  if (1 - q.w * q.w < 0.000001) {
+  if(1 - q.w * q.w < 0.000001) {
     // test to avoid divide by zero, s is always positive due to sqrt
     // if s close to zero then direction of axis not important
     // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/
     s = 1;
-  } else { 
+  } else {
     s = Math.sqrt(1 - q.w * q.w);
   }
-  return { axis: new THREE.Vector3(q.x/s, q.y/s, q.z/s), angle };
+  return {axis: new THREE.Vector3(q.x / s, q.y / s, q.z / s), angle};
 }
+
+export var isSafari = function() {return /^((?!chrome|android).)*safari/i.test(navigator.userAgent)},
+  isMozilla = navigator.userAgent.toLowerCase().indexOf('mozilla') > -1,
+  isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') > -1,
+  isUbuntu = navigator.userAgent.toLowerCase().indexOf('ubuntu') > -1,
+  isLinux = navigator.userAgent.toLowerCase().indexOf('linux') > -1,
+  isGecko = navigator.userAgent.toLowerCase().indexOf('gecko') > -1,
+  isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1,
+  isMacintosh = navigator.userAgent.toLowerCase().indexOf('macintosh') > -1,
+  isAppleWebKit = navigator.userAgent.toLowerCase().indexOf('applewebkit') > -1,
+  isAndroid = navigator.userAgent.toLowerCase().indexOf('android') > -1,
+  isMobile = navigator.userAgent.toLowerCase().indexOf('mobile') > -1,
+  getChromeVersion = function() {
+    var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
+    return raw ? parseInt(raw[2], 10) : false;
+  };
+
+ 
