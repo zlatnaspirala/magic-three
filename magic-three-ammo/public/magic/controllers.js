@@ -31,14 +31,14 @@ export function createFPSController() {
     } else {
       instructions.style.display = 'none';
       blocker.style.display = 'none';
-      
+
       byId('mobSpace').style.display = 'grid';
       byId('domAngleAxis').style.display = 'grid';
     }
   });
 
-  this.controls.addEventListener('lock', function() {
-    alert('LOCK WORKS ON MOBILE')
+  this.controls.addEventListener('lock', ()=> {
+    // alert('LOCK WORKS ON MOBILE')
     instructions.style.display = 'none';
     blocker.style.display = 'none';
   });
