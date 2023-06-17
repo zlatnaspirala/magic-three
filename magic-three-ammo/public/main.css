@@ -10,8 +10,7 @@ body {
   background-color: #000;
   color: orangered;
   font-family: closeness, Monospace;
-  font-size: 13px;
-  line-height: 24px;
+  font-size: 14px;
   overscroll-behavior: none;
   overflow: hidden;
 }
@@ -20,6 +19,14 @@ div, p {
   background: black;
   /*linear-gradient(90deg, rgba(23, 28, 2, 0.1) 14%, rgba(31, 10, 3, 0.2) 46%, rgb(90, 71, 4) 100%);
   */
+  font-size: 20px;
+  @media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    /* [class*="response-"] { */
+    font-size: 12px;
+    font-weight: bolder;
+  /*  } */
+  }
 }
 
 a {
@@ -36,18 +43,9 @@ button {
   text-transform: uppercase;
 }
 
-span {
-  font-size: 20px;
-  @media only screen and (max-width: 768px) {
-    /* For mobile phones: */
-    /* [class*="response-"] { */
-    font-size: 12px;
-    font-weight: bolder;
-  /*  } */
-  }
-}
-
 .flex-menu {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
@@ -67,7 +65,6 @@ span {
   pointer-events: none;
   z-index: 1;
   /* TODO Solve this in HTML */
-
 }
 
 a,
@@ -79,7 +76,6 @@ select {
 
 .lil-gui {
   z-index: 2 !important;
-  /* TODO Solve this in HTML */
 }
 
 @media all and (max-width: 640px) {
@@ -157,4 +153,23 @@ select {
   width: 40vh;
   font-family: stormfaze;
   background-color: crimson;
+}
+
+.hudItem {
+  width: 50%;
+}
+
+.response {
+  width: 100%;
+  display: flex;
+  margin-left: 10px;
+  color:darkorange;
+}
+
+.leftTitle {
+  width: 15%;
+}
+
+#playerEnergy, #playerMunition, #playerKills {
+  color: #dfdfdf;
 }

@@ -178,3 +178,23 @@ opacity: 0;
   transform: scale3d(1, 1, 1);
 }
 }
+
+
+/* for HUD TOP BAR */
+.hud-bar-bg {
+  background: linear-gradient(87deg,#ff6f00,#b5830f,#df494b,#000000,#000000,#e90b0f);
+  background-size: 360% 360%;
+  animation: gradient-animation 36s ease infinite;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

@@ -18,16 +18,16 @@
 </head>
 
 <body oncontextmenu="return false;">
-  <div id="info">
-    <div class="flex-menu"><span id="header.title"></span></div>
-    <div class="flex-menu response">
-      <span id="player.energy.label"></span><span id="player.energy"></span>
-      <span id="player.munition.label"></span><span id="player.munition"></span>
-      <span id="player.kills.label"></span><span id="player.kills"></span>
+  <div id="info" class="hud-bar-bg">
+    <div class="leftTitle"><div class="hudItem" id="header.title"></div></div>
+    <div class=" response">
+      <div class="hudItem" id="playerEnergy.label"></div><div class="hudItem" id="playerEnergy"></div>
+      <div class="hudItem" id="playerMunition.label"></div><div class="hudItem" id="playerMunition"></div>
+      <div class="hudItem" id="playerKills.label"></div><div class="hudItem" id="playerKills"></div>
     </div>
   </div>
   <div id="matrix-net"></div>
-  <div id="blocker">
+  <div id="blocker" class="bounceIn">
     <div id="instructions" class="hud">
       <p id="loading.label" style="font-size:36px"></p>
     </div>

@@ -5,11 +5,9 @@ import {ColladaLoader} from 'three/addons/loaders/ColladaLoader.js';
 import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
 import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
 
-
 export class MagicLoader {
 
   mixers = [];
-
   loadedMeshs = [];
 
   constructor(config, scene) {

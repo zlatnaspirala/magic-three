@@ -31,7 +31,9 @@ export function createFPSController() {
     } else {
       instructions.style.display = 'none';
       blocker.style.display = 'none';
+      
       byId('mobSpace').style.display = 'grid';
+      byId('domAngleAxis').style.display = 'grid';
     }
   });
 
@@ -154,29 +156,32 @@ export function createFPSController() {
         }, this.config.playerController.movementSpeed.jumpLimitInterval);
       }
     }
+
     var _;
     canvasDOM.addEventListener('touchstart', (e) => {
       var firstTouch = e.changedTouches[0];
-      var now = new Date().getTime();
-      var delta = now - _;
-      if((delta < 500) && (delta > 0)) {
-        // double click - space
-        actionSpace()
-        return;
-      } else {}
-      _ = new Date().getTime();
-
-      if(firstTouch.clientY > window.innerHeight / 100 * 70) {
-        if(firstTouch.clientX < window.innerWidth / 100 * 30) {
-          this.moveLeft = true;
-        } else if(firstTouch.clientX > window.innerWidth / 100 * 70) {
-          this.moveRight = true;
-        } else {
-          this.moveBackward = true;
+      if(this.config.playerController.mobile.hudControls == false &&
+        this.config.playerController.mobile.invisibleControls == true) {
+        var now = new Date().getTime();
+        var delta = now - _;
+        if((delta < 500) && (delta > 0)) {
+          // double click - space
+          actionSpace()
+          return;
+        } else {}
+        _ = new Date().getTime();
+        if(firstTouch.clientY > window.innerHeight / 100 * 70) {
+          if(firstTouch.clientX < window.innerWidth / 100 * 30) {
+            this.moveLeft = true;
+          } else if(firstTouch.clientX > window.innerWidth / 100 * 70) {
+            this.moveRight = true;
+          } else {
+            this.moveBackward = true;
+          }
         }
-      }
-      if(firstTouch.clientY < window.innerHeight / 100 * 50) {
-        this.moveForward = true;
+        if(firstTouch.clientY < window.innerHeight / 100 * 50) {
+          this.moveForward = true;
+        }
       }
     })
 
@@ -191,14 +196,38 @@ export function createFPSController() {
         top: 80%;
         width: 14%;
         height: 4%;
-        background: rgba(123,222,33,0.5);
+        background: rgba(255,255,255,0.2);
         margin: auto;
+        align-items: center;
       `)
       domSpace.innerText = `JUMP`;
       domSpace.addEventListener('touchstart', (e) => {
         actionSpace()
       })
       document.body.append(domSpace)
+
+      var domAngleAxis = document.createElement('div');
+      domAngleAxis.id = 'domAngleAxis';
+      domAngleAxis.setAttribute('style', `
+        text-align: center;
+        display: none;
+        position:absolute;
+        left: 10%;
+        top: 85%;
+        width: 24%;
+        height: 24%;
+        background: rgba(255,255,255,0.2);
+        margin: auto;
+        align-items: center;
+      `)
+      domAngleAxis.innerHTML = `
+        
+      `;
+      domAngleAxis.addEventListener('touchstart', (e) => {
+        // actionSpace()
+      })
+      document.body.append(domAngleAxis)
+
     }
 
   }
