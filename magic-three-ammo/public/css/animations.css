@@ -20,14 +20,14 @@
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes scaleToCenter {
-  0%   {background-color:rgba(21, 0, 0, 0.9); right:0px; top:0px; transform: scale(1, 1);}
-  100% {background-color:rgba(21, 0, 0, 0.9); right:88px; top:0px; transform: scale(0.01, 0.1);}
+  0%   {background-color:rgba(21, 0, 0, 0.9); left:0px; top:0px; transform: scale(1, 1);}
+  100% {background-color:rgba(21, 0, 0, 0.9); left:50%; top:0px; transform: scale(0.01, 0.01);}
 }
 
 /* Standard syntax */
 @keyframes scaleToCenter {
-  0%   {background-color:rgba(21, 0, 0, 0.9); right:0px; top:0px; transform: scale(1, 1);}
-  100% {background-color:rgba(21, 0, 0, 0.9); right:88px; top:0px; transform: scale(0.01, 0.1);}
+  0%   {background-color:rgba(21, 0, 0, 0.9); left:0px; top:0px; transform: scale(1, 1);}
+  100% {background-color:rgba(21, 0, 0, 0.9); left:0%; top:0px; transform: scale(0.01, 0.01);}
 }
 
 /* Safari 4.0 - 8.0 */
@@ -93,6 +93,19 @@
   100%  {background-color:rgba(13, 46, 65, 0.9); top:0px;}
 }
 
+.hideMe {
+  -webkit-animation-name: scaleToCenter;
+  animation-name: scaleToCenter;
+  -webkit-animation-duration: 2.75s;
+  animation-duration: 2.75s;
+  -webkit-animation-duration: 2.5s;
+  animation-duration: 2.5s;
+  animation-iteration-count: 1;
+  -webkit-animation-fill-mode: none;
+  animation-fill-mode: none;
+  animation-play-state: running;
+}
+
 /* bounceIn */
 .bounceIn {
   border: none;
@@ -109,7 +122,7 @@
 }
 
 div.bounceIn:hover {
-  border: solid red 1px;
+  border: solid rgb(44, 44, 44) 1px;
 }
 
 @-webkit-keyframes bounceIn {

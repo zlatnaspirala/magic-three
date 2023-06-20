@@ -84,9 +84,9 @@ export default class Application extends MagicPhysics {
       document.title = t('title');
       if(byId('loading.label')) byId('loading.label').innerHTML = t('loading');
       byId('header.title').innerHTML = t('title');
-      byId('player.munition.label').innerHTML = t('munition');
-      byId('player.energy.label').innerHTML = t('energy');
-      byId('player.kills.label').innerHTML = t('kills.label');
+      byId('playerMunition.label').innerHTML = t('munition');
+      byId('playerEnergy.label').innerHTML = t('energy');
+      byId('playerKills.label').innerHTML = t('kills.label');
     });
 
     addEventListener('stream-loaded', (e) => {
@@ -112,8 +112,8 @@ export default class Application extends MagicPhysics {
 
     this.playerItems.munition = this.config.playerController.playerItems.munition;
 
-    byId('player.kills').innerHTML = this.playerData.kills;
-    byId('player.energy').innerHTML = this.playerData.energy;
+    byId('playerKills').innerHTML = this.playerData.kills;
+    byId('playerEnergy').innerHTML = this.playerData.energy;
 
     this.loader = new MagicLoader(this.config, this.scene);
     for(let i = 0;i < 500;i++) {
@@ -317,13 +317,13 @@ export default class Application extends MagicPhysics {
     this.networkEmisionObjs.push(this.playerBody);
     // playerB.setCollisionFlags(0);
 
-    byId('player.munition').innerHTML = this.playerItems.munition;
+    byId('playerMunition').innerHTML = this.playerItems.munition;
 
     // Here !!!
     addEventListener('onFire', (e) => {
       console.info('onFIre Event !', e)
       this.playerItems.munition--;
-      byId('player.munition').innerHTML = this.playerItems.munition;
+      byId('playerMunition').innerHTML = this.playerItems.munition;
     });
   }
 

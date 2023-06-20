@@ -12,6 +12,14 @@ export function createFPSController() {
   const blocker = document.getElementById('blocker');
   const instructions = document.getElementById('instructions');
 
+  addEventListener('hide-blocker', () => {
+    setTimeout(() => {
+      instructions.style.display = 'none';
+      blocker.style.display = 'none';
+      blocker.classList.add('bounceIn')
+      blocker.classList.remove('hideMe')
+    }, 500)
+  })
   this.controls.minPolarAngle = 0;
   this.controls.maxPolarAngle = Math.PI / 2;
 
@@ -25,12 +33,15 @@ export function createFPSController() {
   }
 
   instructions.addEventListener(CLICK, () => {
-    // console.log("LOCK ACTION")
+    console.log("UNLOCK")
     if(isMobile == false) {
       this.controls.lock();
     } else {
-      instructions.style.display = 'none';
-      blocker.style.display = 'none';
+
+      blocker.classList.remove('bounceIn')
+      blocker.classList.add('hideMe')
+ 
+      dispatchEvent(new CustomEvent('hide-blocker'))
 
       byId('mobSpace').style.display = 'grid';
       byId('domAngleAxis').style.display = 'grid';
@@ -38,9 +49,12 @@ export function createFPSController() {
   });
 
   this.controls.addEventListener('lock', ()=> {
-    // alert('LOCK WORKS ON MOBILE')
-    instructions.style.display = 'none';
-    blocker.style.display = 'none';
+    console.log('LOCK')
+    blocker.classList.remove('bounceIn')
+    blocker.classList.add('hideMe')
+
+    dispatchEvent(new CustomEvent('hide-blocker'))
+    
   });
 
   this.controls.addEventListener('unlock', function() {
