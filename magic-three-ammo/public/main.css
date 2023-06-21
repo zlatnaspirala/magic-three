@@ -65,6 +65,9 @@ button {
   pointer-events: none;
   z-index: 1;
   /* TODO Solve this in HTML */
+  @media only screen and (max-width: 600px) {
+    padding: 4px;
+  }
 }
 
 a,

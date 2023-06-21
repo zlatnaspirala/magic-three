@@ -63,7 +63,6 @@ const config = {
     cameraInitPosition: {x: 0, y: 0, z: 70},
     alwaysRun: false,
     mobile: {
-      inVisibleControls: false,
       hudControls: true
     },
     movementSpeed: {

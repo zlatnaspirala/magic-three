@@ -3,6 +3,149 @@ import * as PointerLockControlsMobile from 'three/addons/controls/mobileControll
 import {ANYLOG, byId, isMobile} from './utility';
 
 export function createFPSController() {
+
+  if(this.config.playerController.mobile.hudControls == true) {
+    var domSpace = document.createElement('div');
+    domSpace.id = 'mobSpace';
+    domSpace.setAttribute('style', `
+      text-align: center;
+      display: none;
+      position:absolute;
+      left: 80%;
+      top: 80%;
+      width: 14%;
+      height: 4%;
+      background: rgba(255,255,255,0.2);
+      margin: auto;
+      align-items: center;
+    `)
+    domSpace.innerText = `JUMP`;
+    domSpace.addEventListener('touchstart', (e) => {
+      actionSpace()
+    })
+    document.body.append(domSpace)
+
+    var domRight = document.createElement('div');
+    domRight.id = 'mobRight';
+    domRight.setAttribute('style', `
+      text-align: center;
+      display: none;
+      position:absolute;
+      left: 85%;
+      top: 90%;
+      width: 14%;
+      height: 4%;
+      background: rgba(255,255,255,0.2);
+      margin: auto;
+      align-items: center;
+    `)
+    domRight.innerText = `RIGHT`;
+    domRight.addEventListener('touchstart', (e) => {
+      console.log('TEST RIGHT')
+      this.moveRight = true;
+    })
+    domRight.addEventListener('touchend', (e) => {
+      this.moveRight = false;
+    })
+    document.body.append(domRight)
+
+    var domLeft = document.createElement('div');
+    domLeft.id = 'mobLeft';
+    domLeft.setAttribute('style', `
+      text-align: center;
+      display: none;
+      position:absolute;
+      left: 70%;
+      top: 90%;
+      width: 14%;
+      height: 4%;
+      background: rgba(255,255,255,0.2);
+      margin: auto;
+      align-items: center;
+    `)
+    domLeft.innerText = `LEFT`;
+    domLeft.addEventListener('touchstart', (e) => {
+      // actionSpace()
+      console.log('TEST domLeft')
+      this.moveLeft = true;
+    })
+    domLeft.addEventListener('touchend', (e) => {
+      this.moveLeft = false;
+    })
+    document.body.append(domLeft)
+
+    var domUp = document.createElement('div');
+    domUp.id = 'mobUp';
+    domUp.setAttribute('style', `
+      text-align: center;
+      display: none;
+      position:absolute;
+      left: 78%;
+      top: 86%;
+      width: 14%;
+      height: 4%;
+      background: rgba(255,255,255,0.2);
+      margin: auto;
+      align-items: center;
+    `)
+    domUp.innerText = `UP`;
+    domUp.addEventListener('touchstart', (e) => {
+      // actionSpace()
+      console.log('TEST domUp')
+      this.moveForward = true;
+    })
+    domUp.addEventListener('touchend', (e) => {
+      this.moveForward = false;
+    })
+    document.body.append(domUp)
+
+    var domDown = document.createElement('div');
+    domDown.id = 'mobDown';
+    domDown.setAttribute('style', `
+      text-align: center;
+      display: none;
+      position:absolute;
+      left: 78%;
+      top: 94%;
+      width: 14%;
+      height: 4%;
+      background: rgba(255,255,255,0.1);
+      margin: auto;
+      align-items: center;
+    `)
+    domDown.innerText = `DOWN`;
+    domDown.addEventListener('touchstart', (e) => {
+      this.moveBackward = true;
+    })
+    domDown.addEventListener('touchend', (e) => {
+      this.moveBackward = false;
+    })
+    document.body.append(domDown)
+
+    var domAngleAxis = document.createElement('div');
+    domAngleAxis.id = 'domAngleAxis';
+    domAngleAxis.setAttribute('style', `
+      text-align: center;
+      display: none;
+      position:absolute;
+      left: 9%;
+      top: 82%;
+      width: 28%;
+      height: 28%;
+      background: rgba(255,255,255,0.1);
+      margin: auto;
+      align-items: center;
+    `)
+    domAngleAxis.innerHTML = `
+    
+    `;
+    domAngleAxis.addEventListener('touchstart', (e) => {
+      // actionSpace()
+    })
+    document.body.append(domAngleAxis)
+  }
+
+  
   if(isMobile == false) {
     this.controls = new PointerLockControls(this.camera, document.body);
   } else {
@@ -44,6 +187,10 @@ export function createFPSController() {
       dispatchEvent(new CustomEvent('hide-blocker'))
 
       byId('mobSpace').style.display = 'grid';
+      byId('mobRight').style.display = 'grid';
+      byId('mobLeft').style.display = 'grid';
+      byId('mobUp').style.display = 'grid';
+      byId('mobDown').style.display = 'grid';
       byId('domAngleAxis').style.display = 'grid';
     }
   });
@@ -54,7 +201,7 @@ export function createFPSController() {
     blocker.classList.add('hideMe')
 
     dispatchEvent(new CustomEvent('hide-blocker'))
-    
+
   });
 
   this.controls.addEventListener('unlock', function() {
@@ -174,16 +321,15 @@ export function createFPSController() {
     var _;
     canvasDOM.addEventListener('touchstart', (e) => {
       var firstTouch = e.changedTouches[0];
-      if(this.config.playerController.mobile.hudControls == false &&
-        this.config.playerController.mobile.invisibleControls == true) {
-        var now = new Date().getTime();
+      if(this.config.playerController.mobile.hudControls == false) {
+        var now = new Date().getTime()
         var delta = now - _;
         if((delta < 500) && (delta > 0)) {
           // double click - space
           actionSpace()
           return;
         } else {}
-        _ = new Date().getTime();
+        _ = new Date().getTime()
         if(firstTouch.clientY > window.innerHeight / 100 * 70) {
           if(firstTouch.clientX < window.innerWidth / 100 * 30) {
             this.moveLeft = true;
@@ -198,51 +344,6 @@ export function createFPSController() {
         }
       }
     })
-
-    if(this.config.playerController.mobile.hudControls == true) {
-      var domSpace = document.createElement('div');
-      domSpace.id = 'mobSpace';
-      domSpace.setAttribute('style', `
-        text-align: center;
-        display: none;
-        position:absolute;
-        left: 80%;
-        top: 80%;
-        width: 14%;
-        height: 4%;
-        background: rgba(255,255,255,0.2);
-        margin: auto;
-        align-items: center;
-      `)
-      domSpace.innerText = `JUMP`;
-      domSpace.addEventListener('touchstart', (e) => {
-        actionSpace()
-      })
-      document.body.append(domSpace)
-
-      var domAngleAxis = document.createElement('div');
-      domAngleAxis.id = 'domAngleAxis';
-      domAngleAxis.setAttribute('style', `
-        text-align: center;
-        display: none;
-        position:absolute;
-        left: 10%;
-        top: 85%;
-        width: 24%;
-        height: 24%;
-        background: rgba(255,255,255,0.2);
-        margin: auto;
-        align-items: center;
-      `)
-      domAngleAxis.innerHTML = `
-        
-      `;
-      domAngleAxis.addEventListener('touchstart', (e) => {
-        // actionSpace()
-      })
-      document.body.append(domAngleAxis)
-
-    }
 
   }
 }

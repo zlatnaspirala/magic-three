@@ -2,8 +2,8 @@
  * @description
  * Main instance [default setup],
  * Magic Map Loader
- * @note Important note `don't import unused modules`. 
- * @author Nikola Lukic zlatnaspirala
+ * @note Important note `don't import unused modules`.
+ * @author Nikola Lukic zlatnaspirala_gmail.com
  * @personalSite https://maximumroulette.com
  */
 
