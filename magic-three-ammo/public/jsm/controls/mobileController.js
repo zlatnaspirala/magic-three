@@ -4,7 +4,7 @@ import {
   Vector3,
   Vector2
 } from "three";
-import {byId} from "../../magic/utility";
+import {byId} from "../../magic/utility.js";
 
 var mobile
 mobile = false;

@@ -1,6 +1,6 @@
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import * as PointerLockControlsMobile from 'three/addons/controls/mobileController.js';
-import {ANYLOG, byId, isMobile} from './utility';
+import {ANYLOG, byId, isMobile} from './utility.js';
 
 export function createFPSController() {
 

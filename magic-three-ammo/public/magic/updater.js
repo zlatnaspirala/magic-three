@@ -1,6 +1,6 @@
 import {MathUtils} from "three";
 import * as THREE from "three";
-import {isMobile} from "./utility";
+import {isMobile} from "./utility.js";
 
 export function updatePhysics(deltaTime) {
   // Step world
