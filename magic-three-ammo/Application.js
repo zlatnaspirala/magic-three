@@ -275,7 +275,6 @@ export default class Application extends MagicPhysics {
   }
 
   createPlayer() {
-    // not sure - works
     this.camera.position.set(
       this.config.playerController.cameraInitPosition.x,
       this.config.playerController.cameraInitPosition.y,
@@ -334,17 +333,43 @@ export default class Application extends MagicPhysics {
     // local player
     this.playerBody.name = 'player';
     // console.log("PlayerBody created and pushed to netView. ", this.playerBody);
-
     this.networkEmisionObjs.push(this.playerBody);
     // playerB.setCollisionFlags(0);
 
     byId('playerMunition').innerHTML = this.playerItems.munition;
 
-    // Here !!!
+    addEventListener('onDie', (e) => {
+      console.info(`%c onDie Event ${e} !`, REDLOG)
+      location.reload();
+      // this.playerItems.munition--;
+      // byId('playerMunition').innerHTML = this.playerItems.munition;
+    });
+
     addEventListener('onFire', (e) => {
       console.info(`%c onFire Event ${e} !`, REDLOG)
       this.playerItems.munition--;
       byId('playerMunition').innerHTML = this.playerItems.munition;
+    });
+
+    addEventListener('enemyDamage', (e) => {
+      console.info(`%c enemyDamage Event ${e} !`, REDLOG)
+      if(this.net.connection) this.net.connection.send({
+        netDamage: {
+          for: e.detail.myNetPromise,
+          value: e.detail.value
+        }
+      })
+    });
+
+    addEventListener('onMyDamage', (e) => {
+      console.info(`%c onMyDamage Event ${e} !`, REDLOG)
+      if (this.playerData.energy - 100 < 0 ) {
+        this.playerData.energy = 0;
+        dispatchEvent(new CustomEvent('onDie', {}))
+      } else {
+        this.playerData.energy -= 100;
+      }
+      byId('playerEnergy').innerHTML = this.playerData.energy;
     });
   }
 
@@ -432,6 +457,12 @@ export default class Application extends MagicPhysics {
           if(this.intersects[x].object.parent.name) {
             // this.intersects[x].object.parent.name
             console.log("on hit =>", this.intersects[x].object.parent.name)
+            dispatchEvent(new CustomEvent('enemyDamage', {
+              detail: {
+                myNetPromise: this.intersects[x].object.parent.name,
+                value: 100
+              }
+            }))
             this.intersects = [];
           }
         }
@@ -462,7 +493,7 @@ export default class Application extends MagicPhysics {
     const deltaTime = this.clock.getDelta();
 
     this.netflag++;
-    if(this.netflag > 2) {
+    if(this.netflag > 4) {
       this.networkEmisionObjs.forEach((i, index) => {
         if(i.name == 'player') {
           // indicate local Player object !
@@ -478,6 +509,7 @@ export default class Application extends MagicPhysics {
               y: this.camera.rotation.y,
               z: this.camera.rotation.z
             },
+            // netDamage: 0,
             netQuaternion: this.camera.quaternion,
             netObjId: this.net.connection.userid,
             netType: 'netPlayer' // can be shared or enemy comp

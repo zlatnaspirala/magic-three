@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import {MathUtils} from "three";
+// import {MathUtils} from "three";
 import {MagicLoader} from "../loaders.js";
 import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
@@ -28,14 +28,14 @@ export class Broadcaster {
     this.inputRoomId = null;
     this.openDataSession = () => {};
 
-    // This is main object for multiplayer staff
+    // This is main object for multiplayer stuff
     this.netPlayers = {};
     this.netPlayersCollisionBox = {};
     this.multiPlayerRef = {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
-        console.log("rtcEvent add new net object -> ", rtcEvent.userid);
+        console.log("c%rtcEvent add new net object -> ", BIGLOG, " -> ", rtcEvent.userid);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           r.userData.iam = 'net_' + rtcEvent.userid;
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
@@ -52,11 +52,13 @@ export class Broadcaster {
                 e.data.netPos.y - 1.2, // correction
                 e.data.netPos.z,
               )
+              var axis = new THREE.Vector3(0,1,0);
+              // this.root.netPlayers['net_' + e.data.netObjId].rotateOnAxis(axis, e.data.netRot.y)
               const quaternion = new THREE.Quaternion();
               quaternion.fromArray([
-                e.data.netQuaternion._x,
+                0, // e.data.netQuaternion._x,
                 e.data.netQuaternion._y,
-                e.data.netQuaternion._z,
+                0, // e.data.netQuaternion._z,
                 e.data.netQuaternion._w]);
                 this.root.netPlayers['net_' + e.data.netObjId].quaternion.copy(quaternion);
             }
@@ -83,6 +85,11 @@ export class Broadcaster {
             //   e.data.netQuaternion._w]);
             //   object.quaternion.copy(quaternion);
           }
+        } 
+        
+        if (e.data.netDamage) {
+          console.log('MY DAMAGE !', e.data.netDamage)
+          dispatchEvent(new CustomEvent('onMyDamage', { detail: e.data.netDamage}))
         }
       },
       /**
@@ -319,7 +326,8 @@ export class Broadcaster {
         event.data.netRot ||
         event.data.netScale ||
         event.data.spitz ||
-        event.data.texScaleFactor)) {
+        event.data.texScaleFactor ||
+        event.data.netDamage)) {
       this.injector.update(event);
       return;
     }
