@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -22,6 +22,8 @@ import {MagicSounds} from "./public/magic/audios/sounds.js";
 import t from "./public/magic/multi-lang.js";
 
 export default class Application extends MagicPhysics {
+
+  APP_VERSION = "0.1.0";
 
   // Graphics variables
   container = getDom("container");
@@ -40,6 +42,8 @@ export default class Application extends MagicPhysics {
   clock = new THREE.Clock();
   mouseCoords = new THREE.Vector2();
   raycaster = new THREE.Raycaster();
+  intersects = [];
+  onlyIntersects = [];
   bulletMaterial = new THREE.MeshPhongMaterial({color: 0x202020});
 
   sky = {};
@@ -57,7 +61,7 @@ export default class Application extends MagicPhysics {
 
   config;
 
-  BASE_CHARACTER_MESH;
+  BASE_CHARACTER_MESH; // NOT ACTIVE
 
   myBigDataFlag = [];
   playerBody;
@@ -69,7 +73,6 @@ export default class Application extends MagicPhysics {
   bulletMesh;
 
   netflag = 0;
-
   fx = new MagicSounds();
 
   constructor(config, currentMap) {
@@ -122,18 +125,18 @@ export default class Application extends MagicPhysics {
     this.fx.createAudio('shot', "./assets/audios/single-gunshot.mp3", 5)
     runCache(this.config.cache);
 
-    // BASE_CHARACTER_MESH Special flag
-    // this.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'BASE_CHARACTER_MESH').then((r) => {
-    //   console.info('[fbx] Setup player animation character obj =>', r.name);
-    //   this.net.BASE_CHARACTER_MESH = r;
-    //   // this.root.netPlayers['BASE'] = r;
-    //   // this.root.netPlayers['net_' + rtcEvent.userid] = r;
-    // })
-
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-running.fbx', 'zombie1').then((r) => {
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
       console.info('Setup enemy zombie1 =>', r);
       r.position.set(-15, 0, -10)
       window.R = r
+
+      /**
+       *   if (Math.sign(direction_follower.z) != Math.sign(direction.z)){
+              if (follower.position.z <= origin.position.z + epsilon &&
+                  follower.position.z >= origin.position.z - epsilon)
+                  direction_follower.negate();
+           }
+       */
     }));
 
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
@@ -162,15 +165,20 @@ export default class Application extends MagicPhysics {
       this.init();
 
       this.setupContactResultCallback();
+      this.setupContactPairResultCallback(); // new test ???
 
       this.animate();
 
       byId('matrix-net').style.display = 'none';
       setTimeout(() => {
         byId('matrix-net').style.display = 'none';
+        // Override from url params
+        if(QueryString.dev && QueryString.dev == "true") {
+          console.log('MAKE BLOCK VOLUMES VISIBLE DISPATCH')
+          dispatchEvent(new CustomEvent('config.map.blockingVolumes.visible', {detail: {map: {blockingVolumes: {visible: true}}}}))
+        }
       }, 1500)
-
-      console.log(`%c Magic three is ready ! `, BIGLOG)
+      console.log(`%c Magic three ver ${this.APP_VERSION} is ready.`, BIGLOG)
     });
   }
 
@@ -181,11 +189,17 @@ export default class Application extends MagicPhysics {
     this.activateNet();
     this.createObjects();
     this.attachFire();
+    this.initGamePlayEvents();
     this.createPlayer();
   }
 
   initGamePlayEvents() {
-    createAppEvent('player.shoot', {});
+    // createAppEvent('player.shoot', {})
+
+    addEventListener('addToOnlyIntersects', (e) => {
+      console.log('ADDED to ')
+      this.onlyIntersects.push(e.detail.o);
+    })
   }
 
   initGraphics() {
@@ -401,25 +415,32 @@ export default class Application extends MagicPhysics {
         this.pos.copy(this.raycaster.ray.direction);
         this.pos.multiplyScalar(this.config.playerController.bullet.power);
         ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
-
         ballBody.threeObject = bulletMesh;
-
-        this.bulletB = ballBody; // TEST 
-        // Best way customEvents!!
+        this.bulletB = ballBody;
+        // Best way customEvents!
         let onPlayerFire = new CustomEvent('onFire', {detail: {event: 'onFire'}})
         dispatchEvent(onPlayerFire);
-
-        setTimeout(() => {
-          if(this.bulletB) this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
-        }, this.config.playerController.bullet.bulletLiveTime / 2);
-
+        // setTimeout(() => {
+        //   if(this.bulletB) {
+        //     this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
+        //   }
+        // }, this.config.playerController.bullet.bulletLiveTime / 2);
+        this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+        // this.intersects = this.raycaster.intersectObjects(this.scene.children);
+        this.intersects = this.raycaster.intersectObjects(this.onlyIntersects);
+        for(var x = 0;x < this.intersects.length;x++) {
+          if(this.intersects[x].object.parent.name) {
+            // this.intersects[x].object.parent.name
+            console.log("on hit =>", this.intersects[x].object.parent.name)
+            this.intersects = [];
+          }
+        }
 
         this.fx.play('shot');
 
         setTimeout(() => {
           this.destroySceneObject(bulletMesh);
         }, this.config.playerController.bullet.bulletLiveTime);
-
       }
     });
   }
@@ -445,14 +466,19 @@ export default class Application extends MagicPhysics {
       this.networkEmisionObjs.forEach((i, index) => {
         if(i.name == 'player') {
           // indicate local Player object !
+          // 1.5 is correction
           if(this.net.connection) this.net.connection.send({
-            netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
+            netPos: {
+              x: i.position.x,
+              y: i.position.y - 1.5,
+              z: i.position.z
+            },
             netRot: {
               x: this.camera.rotation.x,
               y: this.camera.rotation.y,
               z: this.camera.rotation.z
             },
-            // netQuaternion: this.camera.quaternion,
+            netQuaternion: this.camera.quaternion,
             netObjId: this.net.connection.userid,
             netType: 'netPlayer' // can be shared or enemy comp
           })
@@ -495,8 +521,8 @@ export default class Application extends MagicPhysics {
     });
 
 
-    if(this.config.map.collision.detectCollision == false) {
-      // this.detectCollision()
+    if(this.config.map.collision.detectCollision == true) {
+      this.detectCollision()
       if(this.bulletMesh) {
         // console.log('???')this.physicsWorld.contactTest(this.bulletMesh, this.cbContactResult);
 
@@ -504,12 +530,18 @@ export default class Application extends MagicPhysics {
     }
 
     // update the picking ray with the camera and pointer position
-    this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+    /// this.raycaster.setFromCamera(this.mouseCoords, this.camera);
     // calculate objects intersecting the picking ray
-    const intersects = this.raycaster.intersectObjects(this.scene.children);
-    for(let i = 0;i < intersects.length;i++) {
-      // if (intersects[i].object.name) console.log("on hit =>", intersects[i].object.name)
-    }
+    // let intersects = this.raycaster.intersectObjects(this.scene.children);
+    // let intersects = this.raycaster.intersectObjects(this.scene.children);
+    // if(intersects[i].object.name == 'player') {
+    //     console.log("on hit =>", intersects[i].object.name)
+    // }
+    // for(let i = 0;i < intersects.length;i++) {
+    //   if (intersects[i].object.name == 'player') {
+    //     console.log("on hit =>", intersects[i].object.name)
+    //   }
+    // }
 
     this.renderer.render(this.scene, this.camera);
   }

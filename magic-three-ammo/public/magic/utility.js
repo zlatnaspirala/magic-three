@@ -83,6 +83,27 @@ export function getDomain() {
   return window.location.hostname;
 }
 
+export var QueryString = (function() {
+  var query_string = {};
+  var query = window.location.search.substring(1);
+  var vars = query.split('&');
+  for(var i = 0;i < vars.length;i++) {
+    var pair = vars[i].split('=');
+    // If first entry with this name
+    if(typeof query_string[pair[0]] === 'undefined') {
+      query_string[pair[0]] = decodeURIComponent(pair[1]);
+      // If second entry with this name
+    } else if(typeof query_string[pair[0]] === 'string') {
+      var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+      query_string[pair[0]] = arr;
+      // If third or later entry with this name
+    } else {
+      query_string[pair[0]].push(decodeURIComponent(pair[1]));
+    }
+  }
+  return query_string;
+})();
+
 export function urlFlag(name) {
   let results = new RegExp('[?&]' + name + '=([^&#]*)').exec(window.location.href);
   if(results == null) {
@@ -149,6 +170,9 @@ export var isSafari = function() {return /^((?!chrome|android).)*safari/i.test(n
     var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
     return raw ? parseInt(raw[2], 10) : false;
   };
+
+// linear interpolation function
+export function lerp(a, b, t) {return a + (b - a) * t}
 
 export var BIGLOG = "color: #55fd53;font-size:20px;text-shadow: 0px 0px 5px #f4fd63, -1px -1px 5px orange";
 export var REDLOG = "color: lime;font-size:15px;text-shadow: 0px 0px 5px red, -2px -2px 5px orangered";

@@ -1,61 +1,46 @@
 import {MathUtils} from "three";
 import * as THREE from "three";
-import {isMobile} from "./utility.js";
+import {isMobile, lerp} from "./utility.js";
 
+// example easing function (quadInOut, see link above)
+function ease(t) {return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t}
+
+var t = 0;
 export function updatePhysics(deltaTime) {
   // Step world
   this.physicsWorld.stepSimulation(deltaTime, 10);
 
-  /// nidza test
-  // this.playerBody
+  t = deltaTime * 2;
+
+  /////
+  this.cbContactPairResult.hasContact = false;
+  if(this.bulletB) {
+    for(var key in this.net.netPlayersCollisionBox) {
+      this.physicsWorld.contactPairTest(this.bulletB, this.net.netPlayersCollisionBox[key].userData.physicsBody, this.cbContactPairResult);
+    }
+  }
+  /////
+  /// BOT
+  ////////////////////////////////////////////////////////////////////////////
+  if(window.R) {
+    R.lookAt(App.camera.position);
+    var newX = lerp(window.R.position.x, App.camera.position.x, ease(t));   // interpolate between a and b where
+    var newY = lerp(window.R.position.y, App.camera.position.y, ease(t));   // t is first passed through a easing
+    var newZ = lerp(window.R.position.z, App.camera.position.z, ease(t));   // function in this example.
+    R.position.set(newX, newY, newZ);  // set new position
+  }
 
   // Update rigid bodies
   for(let i = 0, il = this.rigidBodies.length;i < il;i++) {
     const objThree = this.rigidBodies[i];
     const objPhys = objThree.userData.physicsBody;
     const ms = objPhys.getMotionState();
-
-    if (objThree.name.indexOf('net-collision-box') != -1) {
-      // console.log('test objThree.name', objThree.name , "  = ", objPhys)
-
-      let NPLAYER;
-      for (let key in this.net.netPlayers) {
-        // console.log('test this.net.netPlayers ', this.net.netPlayers[key] , "  = ", key)
-        NPLAYER = this.net.netPlayers[key];
-      }
-
-      let scalingFactor = 0.3;
-      // let moveX = this.kMoveDirection.right - this.kMoveDirection.left;
-      // let moveZ = this.kMoveDirection.back - this.kMoveDirection.forward;
-      let moveY = 0;
-
-      let translateFactor = this.tmpPos.set(0.0001, 0, 0);
-      translateFactor.multiplyScalar(scalingFactor);
-      objThree.translateX(translateFactor.x);
-      objThree.translateY(translateFactor.y);
-      objThree.translateZ(translateFactor.z);
-      objThree.getWorldPosition(this.tmpPos);
-      objThree.getWorldQuaternion(this.tmpQuat);
-      let physicsBody = objThree.userData.physicsBody;
-      let ms = physicsBody.getMotionState();
-      if(ms) {
-        this.ammoTmpPos.setValue(this.tmpPos.x, this.tmpPos.y, this.tmpPos.z);
-        this.ammoTmpQuat.setValue(this.tmpQuat.x, this.tmpQuat.y, this.tmpQuat.z, this.tmpQuat.w);
-        this.tmpTrans.setIdentity();
-        this.tmpTrans.setOrigin(this.ammoTmpPos);
-        this.tmpTrans.setRotation(this.ammoTmpQuat);
-        ms.setWorldTransform(this.tmpTrans);
-      }
-    }
-
-
     if(ms) {
       ms.getWorldTransform(this.transformAux1);
       const p = this.transformAux1.getOrigin();
       const q = this.transformAux1.getRotation();
       objThree.position.set(p.x(), p.y(), p.z());
       objThree.quaternion.set(q.x(), q.y(), q.z(), q.w());
-
       objThree.userData.collided = false;
     }
   }
@@ -206,15 +191,15 @@ export function updateControls() {
     if(this.moveLeft || this.moveRight) this.velocity.x -= this.direction.x * 400.0 * delta;
     this.velocity.y = Math.max(0, this.velocity.y);
 
-    if (this.config.playerController.movementType == "kinematic") {
+    if(this.config.playerController.movementType == "kinematic") {
       // Kinematic controls works !
       this.controls.moveRight(- this.velocity.x * delta);
       this.controls.moveForward(- this.velocity.z * delta);
       return;
-     }
+    }
 
-    if (this.controls.JUMP == true) {
-      if (localPingPong == true) {
+    if(this.controls.JUMP == true) {
+      if(localPingPong == true) {
         this.playerBody.userData.physicsBody.setLinearVelocity(
           new Ammo.btVector3(0, this.config.playerController.movementSpeed.jump, 0));
         this.camera.position.copy(this.playerBody.position);
@@ -224,45 +209,45 @@ export function updateControls() {
         this.playerBody.position.copy(this.camera.position);
         localPingPong = !localPingPong;
       }
-     } else {
+    } else {
       this.camera.position.copy(this.playerBody.position);
-     }
+    }
 
-    if (this.moveForward == true) {
+    if(this.moveForward == true) {
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(this.config.playerController.movementSpeed.forward);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, -1, this.pos.z));
-    } else if (this.moveBackward == true) {
+    } else if(this.moveBackward == true) {
       this.pos.copy(this.raycaster.ray.direction);
       this.pos.multiplyScalar(this.config.playerController.movementSpeed.backward);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(-this.pos.x, 0, -this.pos.z));
-    } else if (this.moveLeft == true) {
+    } else if(this.moveLeft == true) {
       let fixedDirection1 = this.raycaster.ray.direction.clone();
       fixedDirection1.applyAxisAngle(
-        new THREE.Vector3(0,1,0), MathUtils.degToRad(90))
+        new THREE.Vector3(0, 1, 0), MathUtils.degToRad(90))
       this.pos.copy(fixedDirection1);
       this.pos.multiplyScalar(this.config.playerController.movementSpeed.left);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
-     } else if (this.moveRight == true) {
+    } else if(this.moveRight == true) {
       let fixedDirection1 = this.raycaster.ray.direction.clone();
       fixedDirection1.applyAxisAngle(
-        new THREE.Vector3(0,1,0), MathUtils.degToRad(-90))
+        new THREE.Vector3(0, 1, 0), MathUtils.degToRad(-90))
       this.pos.copy(fixedDirection1);
       this.pos.multiplyScalar(this.config.playerController.movementSpeed.right);
       this.playerBody.userData.physicsBody.setLinearVelocity(
         new Ammo.btVector3(this.pos.x, 0, this.pos.z));
-     }
+    }
 
-     // little test - nice
+    // little test - nice
     //  console.log('CAMERA POS : ', this.camera.position)
     //  console.log('PLAYERBODY POS : ', this.playerBody.position)
     //  console.log('RAYA POS : ', this.raycaster)
-    if (this.playerBody.position.y < -50) {
-      console.log('DIE this.playerBody ' , this.playerBody);
-      
+    if(this.playerBody.position.y < -50) {
+      console.log('DIE this.playerBody ', this.playerBody);
+
     }
 
   }

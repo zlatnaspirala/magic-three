@@ -156,8 +156,11 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Real Day time - sky sync +.⏳
  - Add account options REST API [rocketCraftingServer]
    singin , leaderboard.⏳
+ - Net Players +.⏳
+ - Net Shared objects +.⏳
+ - Neutral enemy [bots] +.⏳
 
-# Map [wip]⏳
+# Map [] ⏳
 
 Working example:
 ```js
@@ -252,7 +255,6 @@ let map = {
 export default map;
 
 ```
-
 
 ## More info about PWA ⏳
 I have performance stable at ~90% value. I load extra fbx animation 22Mb to test little more better.

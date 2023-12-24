@@ -51,6 +51,26 @@ export class MagicPhysics extends MagicNetworking {
     this.gravityConstant = this.config.map.gravityConstant;
   }
 
+  cbContactPairResult = null;
+  //  NEWWWWWWWWWWWWWWWWWWWWWWWW
+  setupContactPairResultCallback() {
+
+    this.cbContactPairResult = new Ammo.ConcreteContactResultCallback();
+  
+    this.cbContactPairResult.hasContact = false;
+  
+    this.cbContactPairResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1){
+      console.log('------------------------ ')
+      let contactPoint = Ammo.wrapPointer( cp, Ammo.btManifoldPoint );
+      const distance = contactPoint.getDistance();
+      if( distance > 0 ) return;
+      console.log('YEAP !!! ', colObj1Wrap)
+      this.hasContact = true;
+  
+    }
+  
+  }
+
   initPhysics() {
     // Physics configuration
     this.collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
@@ -257,8 +277,7 @@ export class MagicPhysics extends MagicNetworking {
     var isDynamic = (mass !== 0),
       localInertia = new Ammo.btVector3(0, 0, 0);
 
-    if(isDynamic)
-      colShape.calculateLocalInertia(mass, localInertia);
+    if(isDynamic) colShape.calculateLocalInertia(mass, localInertia);
 
     startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
 
@@ -276,7 +295,7 @@ export class MagicPhysics extends MagicNetworking {
     }
 
     if(netType == true) {
-      // console.log('ADD NET OBJECTS ', this.networkEmisionObjs)
+      console.log('ADD NET OBJECTS ! create simple box. ', this.networkEmisionObjs)
       this.networkEmisionObjs.push(object);
       object.netType = 'envObj';
       object.userData.physicsBody.setActivationState(4);
@@ -430,6 +449,8 @@ export class MagicPhysics extends MagicNetworking {
     this.rigidBodies.push(object);
     this.scene.add(object);
     this.physicsWorld.addRigidBody(body);
+
+    return object;
   }
 
   createNetPlayerCollisionBox(halfExtents, pos, quat, material, name, matFlag) {
@@ -441,17 +462,19 @@ export class MagicPhysics extends MagicNetworking {
     }
     const object = new THREE.Line(
       new THREE.BoxGeometry(
-        halfExtents.x * 2,
-        halfExtents.y * 2,
-        halfExtents.z * 2
+        halfExtents.x,
+        halfExtents.y,
+        halfExtents.z 
       ),
       mat
     );
     object.position.copy(pos);
     object.quaternion.copy(quat);
     object.castShadow = false;
+
     // this ref to the broadcaster when works for net
-    if(this.config) object.visible = this.config.map.blockingVolumes.visible;
+    // if(this.config) object.visible = this.config.map.blockingVolumes.visible;
+
     object.name = name || "netplayer-collision-box-" + MathUtils.randInt(0, 99999);
     var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z)),
       startTransform = new Ammo.btTransform();
@@ -460,22 +483,25 @@ export class MagicPhysics extends MagicNetworking {
     var mass = 0;
     // var isDynamic = (mass !== 0);
     var localInertia = new Ammo.btVector3(0, 0, 0);
-
     startTransform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
 
     var myMotionState = new Ammo.btDefaultMotionState(startTransform),
       rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
       body = new Ammo.btRigidBody(rbInfo);
-
     // test  ????????
     body.threeObject = object;
     object.userData.physicsBody = body;
+    object.userData.threeObject = object;
     object.userData.tag = `netplayer-collision-box`;
-    // object.userData.collided = true;
-    object.userData.collided = true;
-    this.rigidBodies.push(object);
+    object.userData.collided = false;
+    // NEXT TEST 
+    body.setCollisionFlags(0);
+    body.setActivationState(4);
+    // this.rigidBodies.push(object);
     this.scene.add(object);
     this.physicsWorld.addRigidBody(body);
+
+    return object;
   }
 
   destroySceneObject(o) {
@@ -489,11 +515,22 @@ export class MagicPhysics extends MagicNetworking {
     for(let i = 0;i < numManifolds;i++) {
       let contactManifold = dispatcher.getManifoldByIndexInternal(i);
       let numContacts = contactManifold.getNumContacts();
-      console.log('numContacts', numContacts)
+
+      var obA = contactManifold.getBody0();
+      var obB = contactManifold.getBody1();
+      // console.log('numContacts>>>>>>>>', numContacts)
+      // console.log(">>>>>>>>>>>>>detect>>>>>>>>>>>>>>>>>" + obA);
       for(let j = 0;j < numContacts;j++) {
         let contactPoint = contactManifold.getContactPoint(j);
         let distance = contactPoint.getDistance();
-        console.log({manifoldIndex: i, contactIndex: j, distance: distance});
+
+        const rb0 = Ammo.castObject( contactManifold.getBody0(), Ammo.btRigidBody );
+        const rb1 = Ammo.castObject( contactManifold.getBody1(), Ammo.btRigidBody );
+
+        if (rb0.userData) console.log("first object:", rb0.userData);
+        if (rb1.userData) console.log("second object:", rb1.userData);
+
+        // console.log(">>>>>>>>>>>>>detect>>>>>>>>>>>>>>>>>" + {manifoldIndex: i, contactIndex: j, distance: distance});
       }
     }
   }
@@ -542,13 +579,20 @@ export class MagicPhysics extends MagicNetworking {
         localPos = contactPoint.get_m_localPointA();
         worldPos = contactPoint.get_m_positionWorldOnA();
       } else {
+        console.log('[  ] threeObject0.userData.tag: ', threeObject0.userData.tag)
+        tag = threeObject0.userData.tag;
+        localPos = contactPoint.get_m_localPointA();
+        worldPos = contactPoint.get_m_positionWorldOnA();
       }
       let localPosDisplay = {x: localPos.x(), y: localPos.y(), z: localPos.z()};
       let worldPosDisplay = {x: worldPos.x(), y: worldPos.y(), z: worldPos.z()};
       console.log({tag, localPosDisplay, worldPosDisplay});
     }
 
-    if(this.bulletB) this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
+    if(this.bulletB) {
+      console.log('ssssssssssssssssssss')
+      this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
+    }
   }
 
   createElevatorBoxs(halfExtents_, pos, quat, material, name, stairs) {

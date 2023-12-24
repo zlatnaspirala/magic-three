@@ -11,6 +11,7 @@ export class MagicNetworking {
     console.info('%cNetworking is active.', ANYLOG);
     // Inject
     this.net.createNetPlayerCollisionBox = this.createNetPlayerCollisionBox;
+    this.net.createBlockingBox = this.createBlockingBox;
     this.net.physicsWorld = this.physicsWorld;
     this.net.rigidBodies = this.rigidBodies;
   }

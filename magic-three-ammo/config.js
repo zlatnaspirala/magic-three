@@ -23,13 +23,13 @@ const config = {
         mieDirectionalG: .01,
       }
     },
-    background: 0x666f6f,
+    background: 0xffffff,
     floorWidth: 200,
     floorHeight: 200,
     gravityConstant: 17.5,
     directionLight: {
-      color: 0x333333,
-      intensity: 5,
+      color: 0x3f3f3f,
+      intensity: 50,
       LRTB: 14,
       shadow: {
         camera: {
@@ -47,38 +47,38 @@ const config = {
     },
     meshShadows: {
       castShadow: false,
-      receiveShadow: false,
-      computeVertexNormals: false
+      receiveShadow: true,
+      computeVertexNormals: true
     },
     blockingVolumes: {
       visible: false
     },
     collision: {
-      detectCollision: false
+      detectCollision: true
     }
   },
   playerController: {
     type: 'FPS', // FPS | orbit
     movementType: 'velocity', // velocity | kinematic
-    cameraInitPosition: {x: 0, y: 0, z: 70},
+    cameraInitPosition: {x: 0, y: 0, z: 72},
     alwaysRun: false,
     mobile: {
       hudControls: true
     },
     movementSpeed: {
-      forward: 18, backward: 6,
-      left: 8, right: 8,
+      forward: 20, backward: 10,
+      left: 9, right: 9,
       jump: 11, jumpLimitInterval: 2000
     },
     physicsBody: {
       typeOfPlayerCapsule: 'cube', // ball
       visible: false,
-      radius: 2, cubeCapsuleScale: [1, 1, 1],
+      radius: 2, cubeCapsuleScale: [2.5, 2.5, 2.5],
       mass: 10
     },
     bullet: {
       mass: 20,
-      radius: 0.1,
+      radius: 1,
       power: 200,
       bulletLiveTime: 1000
     },

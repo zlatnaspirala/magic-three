@@ -228,18 +228,18 @@ let map = {
     }
   ],
   stairs: [
-    {
-      name: 'evevator1',
-      pos: {x:0, y: 0, z: 15},
-      quat: [0, 0, 0, 1],
-      scale: {x: 10, y: 0.3, z: 56},
-      stairs: {
-        num: 19,
-        width: 2.7,
-        height: 0.6
-      },
-      matFlag: 'BlackBronze'
-    }
+    // {
+    //   name: 'evevator1',
+    //   pos: {x:0, y: 0, z: 15},
+    //   quat: [0, 0, 0, 1],
+    //   scale: {x: 10, y: 0.3, z: 56},
+    //   stairs: {
+    //     num: 19,
+    //     width: 2.7,
+    //     height: 0.6
+    //   },
+    //   matFlag: 'BlackBronze'
+    // }
   ]
 };
 

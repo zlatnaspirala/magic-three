@@ -30,34 +30,18 @@ export class Broadcaster {
 
     // This is main object for multiplayer staff
     this.netPlayers = {};
+    this.netPlayersCollisionBox = {};
     this.multiPlayerRef = {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
         console.log("rtcEvent add new net object -> ", rtcEvent.userid);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
-          console.info('[fbx] Setup player animation character obj =>', r.name);
+          r.userData.iam = 'net_' + rtcEvent.userid;
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
-
-          // test
-          this.root.createNetPlayerCollisionBox(
-            new THREE.Vector3(2,2,1),
-            r.position,
-            r.quaternion,
-            App.materials.assets.basic,
-            'net-collision-box' + rtcEvent.userid,
-            false
-          );
-
-          // this.root.scene.add(o);
-          // this.root.loadedMeshs.push(o);
+          dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
+          console.info('[fbx] Setup player character obj =>', r.name);
         })
-        // let o = this.root.BASE_CHARACTER_MESH.clone();
-        // o.name = 'net_' + rtcEvent.userid;
-        // this.root.netPlayers['net_' + rtcEvent.userid] = o;
-        // this.root.scene.add(o);
-        // // this.scene.add(object);
-        // this.root.loadedMeshs.push(o);
       },
       update(e) {
         if(e.data.netPos) {
@@ -65,15 +49,20 @@ export class Broadcaster {
             if(typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
               this.root.netPlayers['net_' + e.data.netObjId].position.set(
                 e.data.netPos.x,
-                e.data.netPos.y - 1, // correction
+                e.data.netPos.y - 1.2, // correction
                 e.data.netPos.z,
-              );
-              this.root.netPlayers['net_' + e.data.netObjId].rotation.y = e.data.netRot.y;
+              )
+              const quaternion = new THREE.Quaternion();
+              quaternion.fromArray([
+                e.data.netQuaternion._x,
+                e.data.netQuaternion._y,
+                e.data.netQuaternion._z,
+                e.data.netQuaternion._w]);
+                this.root.netPlayers['net_' + e.data.netObjId].quaternion.copy(quaternion);
             }
           }
-
-          if (e.data.netType == 'netEnvObj') {
-            // name must be uniq for now
+          if(e.data.netType == 'netEnvObj') {
+            // Name must be uniq for now
             var object = this.root.scene.getObjectByName(e.data.netObjId);
             // console.log(e.data.netObjId, " e.data.netPos => " ,e.data.netPos);
             object.userData.physicsBody.setLinearVelocity(
@@ -81,7 +70,6 @@ export class Broadcaster {
                 e.data.netPos.x,
                 e.data.netPos.y,
                 e.data.netPos.z));
-
             // object.position.set(
             //   e.data.netPos.x,
             //   e.data.netPos.y,
@@ -108,7 +96,7 @@ export class Broadcaster {
         console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
         console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
         delete this.root.netPlayers['net_' + rtcEvent.userid];
-        console.info("rtcEvent LEAVE GAME is undefined: ",  this.root.netPlayers['net_' + rtcEvent.userid]);
+        console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
       }
     };
 

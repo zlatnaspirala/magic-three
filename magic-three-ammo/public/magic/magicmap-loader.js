@@ -87,35 +87,43 @@ export function loadMap(map) {
 
   map.objMtls.forEach((obj, index) => {
     this.loader.objMtl(obj.path, obj.name).then((o) => {
-        console.info('Set position after load.', o);
-        o.position.set(obj.pos.x, obj.pos.y, obj.pos.z);
-        if (typeof obj.rot != 'undefined') {
-          o.rotateX(MathUtils.degToRad(obj.rot.x));
-          o.rotateY(MathUtils.degToRad(obj.rot.y));
-          o.rotateZ(MathUtils.degToRad(obj.rot.z));
-        }
-        var box3 = new THREE.Box3();
-        var size = new THREE.Vector3();
-        var boxHelper = new THREE.BoxHelper(o);
-        box3.setFromObject(boxHelper);
-        box3.getSize(size);
-        // console.log(size);
-        this.scene.add(boxHelper);
-        const m = 0;
-        const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
-        boxHelper.visible = this.config.map.blockingVolumes.visible;
-        this.pos.set(o.position.x, o.position.y, o.position.z);
-        this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
-        this.createBlockingBox(
-          e,
-          this.pos,
-          this.quat,
-          this.materials.assets.basic,
-          o.name || 'objMtlMap-' + MathUtils.randInt(0, 99999),
-          false
-        );
+      console.info('Set position after load.', o);
+      o.position.set(obj.pos.x, obj.pos.y, obj.pos.z);
+      if(typeof obj.rot != 'undefined') {
+        o.rotateX(MathUtils.degToRad(obj.rot.x));
+        o.rotateY(MathUtils.degToRad(obj.rot.y));
+        o.rotateZ(MathUtils.degToRad(obj.rot.z));
+      }
+      var box3 = new THREE.Box3();
+      var size = new THREE.Vector3();
+      var boxHelper = new THREE.BoxHelper(o);
+      box3.setFromObject(boxHelper);
+      box3.getSize(size);
+      // console.log(size);
+      this.scene.add(boxHelper);
+      const m = 0;
+      const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
+      boxHelper.visible = this.config.map.blockingVolumes.visible;
+      // New idea about dynamic event driven solution
+      // Make config runtime modify
+      console.log('ATTACH')
+      addEventListener('config.map.blockingVolumes.visible', (e) => {
+        console.log('ATTACH CALLED')
+        boxHelper.visible = e.detail.map.blockingVolumes.visible;
+      })
+      //
+      this.pos.set(o.position.x, o.position.y, o.position.z);
+      this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
+      this.createBlockingBox(
+        e,
+        this.pos,
+        this.quat,
+        this.materials.assets.basic,
+        o.name || 'objMtlMap-' + MathUtils.randInt(0, 99999),
+        false
+      );
 
-      });
+    });
   });
 
   map.objMtlsArray.forEach((obj, index) => {
@@ -142,6 +150,15 @@ export function loadMap(map) {
             const m = 0;
             const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
             boxHelper.visible = this.config.map.blockingVolumes.visible;
+            
+            // New idea about dynamic event driven solution
+            // Make config runtime modify
+            console.log('ATTACH')
+            addEventListener('config.map.blockingVolumes.visible', (e) => {
+              console.log('ATTACH CALLED')
+              boxHelper.visible = e.detail.map.blockingVolumes.visible;
+            })
+            //
             this.pos.set(object.position.x, object.position.y, object.position.z);
             this.quat.set(boxHelper.quaternion._x, boxHelper.quaternion._y, boxHelper.quaternion._z, o.quaternion._w);
             this.createBlockingBox(
@@ -167,6 +184,11 @@ export function loadMap(map) {
             box3.getSize(size);
             // console.log(size);
             boxHelper.visible = this.config.map.blockingVolumes.visible;
+            console.log('ATTACH')
+            addEventListener('config.map.blockingVolumes.visible', (e) => {
+              console.log('ATTACH CALLED')
+              boxHelper.visible = e.detail.map.blockingVolumes.visible;
+            })
             this.scene.add(boxHelper);
             console.warn(`Load blocking volumes index => ${boxHelper.position.x} => `);
             const m = 0;

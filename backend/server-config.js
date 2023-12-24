@@ -78,7 +78,7 @@ class ServerConfig {
       pCBPath: "/etc/letsencrypt/live/maximumroulette.com/fullchain.pem"
     };
 
-    this.appUseAccountsSystem = true;
+    this.appUseAccountsSystem = false;
     this.appUseBroadcaster = true;
     this.databaseName = "masterdatabase";
 
