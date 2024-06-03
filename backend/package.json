@@ -22,7 +22,7 @@
   "author": "Nikola Lukic",
   "license": "GPL-3.0-or-later",
   "overrides": {
-    "minimist": "1.2.6"
+    "minimist": "1.2.8"
   },
   "dependencies": {
     "compression": "^1.7.4",
