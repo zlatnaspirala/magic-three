@@ -76,12 +76,7 @@ export function getProtocolFromAddressBar() {
   return (location.protocol === "https:" ? "https://" : "http://");
 }
 
-export function getDomain() {
-  // if(window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-  //   return window.location.hostname;
-  // }
-  return window.location.hostname;
-}
+export function getDomain() { return window.location.hostname }
 
 export var QueryString = (function() {
   var query_string = {};

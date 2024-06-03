@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -23,7 +23,7 @@ import t from "./public/magic/multi-lang.js";
 
 export default class Application extends MagicPhysics {
 
-  APP_VERSION = "0.1.0";
+  APP_VERSION = "0.1.1";
 
   // Graphics variables
   container = getDom("container");
@@ -75,6 +75,9 @@ export default class Application extends MagicPhysics {
   netflag = 0;
   fx = new MagicSounds();
 
+  nightAndDayThread = null;
+  nightAndDayStatus = 'day';
+
   constructor(config, currentMap) {
 
     super({config: config});
@@ -125,19 +128,19 @@ export default class Application extends MagicPhysics {
     this.fx.createAudio('shot', "./assets/audios/single-gunshot.mp3", 5)
     runCache(this.config.cache);
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
-      console.info('Setup enemy zombie1 =>', r);
-      r.position.set(-15, 0, -10)
-      window.R = r
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
+    //   console.info('Setup enemy zombie1 =>', r);
+    //   r.position.set(-15, 0, -10)
+    //   window.R = r
 
-      /**
-       *   if (Math.sign(direction_follower.z) != Math.sign(direction.z)){
-              if (follower.position.z <= origin.position.z + epsilon &&
-                  follower.position.z >= origin.position.z - epsilon)
-                  direction_follower.negate();
-           }
-       */
-    }));
+    //   /**
+    //    *   if (Math.sign(direction_follower.z) != Math.sign(direction.z)){
+    //           if (follower.position.z <= origin.position.z + epsilon &&
+    //               follower.position.z >= origin.position.z - epsilon)
+    //               direction_follower.negate();
+    //        }
+    //    */
+    // }));
 
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
     //   console.info('Setup player animation character obj =>', r);
@@ -146,7 +149,7 @@ export default class Application extends MagicPhysics {
     // }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
-      console.info('Big data promise all => ', values);
+      console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
     });
 
     // Attach funcs
@@ -194,12 +197,33 @@ export default class Application extends MagicPhysics {
   }
 
   initGamePlayEvents() {
-    // createAppEvent('player.shoot', {})
 
     addEventListener('addToOnlyIntersects', (e) => {
-      console.log('ADDED to ')
+      console.log('Added to onlyIntersects , e.detail.o = ', e.detail.o)
       this.onlyIntersects.push(e.detail.o);
     })
+
+    if(this.config.map.nightAndDay.enabled == true) {
+      this.nightAndDayThread = setInterval(() => {
+
+        if(this.nightAndDayStatus == 'day') {
+          this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y - 15
+          if(this.sky.material.uniforms.sunPosition.value.y < 0) {
+            // night
+            this.sky.material.uniforms.sunPosition.value.x = -1000
+            this.nightAndDayStatus = 'night'
+          }
+        } else {
+          this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y + 15
+          if(this.sky.material.uniforms.sunPosition.value.y > 1000) {
+            // night
+            this.sky.material.uniforms.sunPosition.value.x = 1000
+            this.nightAndDayStatus = 'day'
+          }
+        }
+        // App.scene.background.setRGB()
+      }, this.config.map.nightAndDay.animSun)
+    }
   }
 
   initGraphics() {
@@ -340,7 +364,17 @@ export default class Application extends MagicPhysics {
 
     addEventListener('onDie', (e) => {
       console.info(`%c onDie Event ${e} !`, REDLOG)
-      location.reload();
+      if(this.config.playerController.onEvent.onDie == "reload") {
+        location.reload();
+      } else if (this.config.playerController.onEvent.onDie == "justHideNetPlayer") {
+        // search in scene for name netPlayerId
+        console.log('WHA TO DO fro  e.detail.netPlayerId>>>??',  e.detail.netPlayerId, " - ", e.detail.netPlayerId)
+        var object = this.root.scene.getObjectByName(e.detail.netPlayerId);
+        object.visible = false;
+      } else {
+        // default reload
+        location.reload();
+      }
       // this.playerItems.munition--;
       // byId('playerMunition').innerHTML = this.playerItems.munition;
     });
@@ -363,9 +397,11 @@ export default class Application extends MagicPhysics {
 
     addEventListener('onMyDamage', (e) => {
       console.info(`%c onMyDamage Event ${e} !`, REDLOG)
-      if (this.playerData.energy - 100 < 0 ) {
+      if(this.playerData.energy - 100 < 0) {
         this.playerData.energy = 0;
-        dispatchEvent(new CustomEvent('onDie', {}))
+        dispatchEvent(new CustomEvent('onDie', { detail : {
+          netPlayerId: e.detail.for
+        } }))
       } else {
         this.playerData.energy -= 100;
       }
@@ -557,7 +593,6 @@ export default class Application extends MagicPhysics {
       this.detectCollision()
       if(this.bulletMesh) {
         // console.log('???')this.physicsWorld.contactTest(this.bulletMesh, this.cbContactResult);
-
       }
     }
 

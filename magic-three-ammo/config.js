@@ -15,7 +15,7 @@ const config = {
   },
   map: {
     sky: {
-      enabled: false,
+      enabled: true,
       uniforms: {
         turbidity: 0.5,
         rayleigh: 3,
@@ -55,6 +55,12 @@ const config = {
     },
     collision: {
       detectCollision: true
+    },
+    nightAndDay: {
+      enabled : true,
+      animSun: 100,
+      nightFallsAt: 19,
+      dawnAt: 6
     }
   },
   playerController: {
@@ -87,7 +93,10 @@ const config = {
     },
     playerItems: {
       munition: 200
-    }
+    },
+		onEvent : {
+			onDie: "justHideNetPlayer" // "justHideNetPlayer" | "reload"
+		}
   },
   networking: {
     broadcasterPort: 9001,

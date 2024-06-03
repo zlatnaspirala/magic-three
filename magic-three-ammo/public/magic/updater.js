@@ -9,24 +9,21 @@ var t = 0;
 export function updatePhysics(deltaTime) {
   // Step world
   this.physicsWorld.stepSimulation(deltaTime, 10);
-
   t = deltaTime * 2;
-
-  /////
+  // Test - can be used for shared net objs
   this.cbContactPairResult.hasContact = false;
   if(this.bulletB) {
     for(var key in this.net.netPlayersCollisionBox) {
-      this.physicsWorld.contactPairTest(this.bulletB, this.net.netPlayersCollisionBox[key].userData.physicsBody, this.cbContactPairResult);
+      // this.physicsWorld.contactPairTest(this.bulletB, this.net.netPlayersCollisionBox[key].userData.physicsBody, this.cbContactPairResult);
     }
   }
-  /////
-  /// BOT
-  ////////////////////////////////////////////////////////////////////////////
+
+  // BOT - zombie kinematix but not fixed axis Y up and down.
   if(window.R) {
     R.lookAt(App.camera.position);
-    var newX = lerp(window.R.position.x, App.camera.position.x, ease(t));   // interpolate between a and b where
-    var newY = lerp(window.R.position.y, App.camera.position.y, ease(t));   // t is first passed through a easing
-    var newZ = lerp(window.R.position.z, App.camera.position.z, ease(t));   // function in this example.
+    var newX = lerp(window.R.position.x, App.camera.position.x, ease(t));
+    var newY = lerp(window.R.position.y, App.camera.position.y, ease(t));
+    var newZ = lerp(window.R.position.z, App.camera.position.z, ease(t));
     R.position.set(newX, newY, newZ);  // set new position
   }
 

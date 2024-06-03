@@ -2,15 +2,15 @@
 import * as THREE from "three";
 import {MathUtils, Quaternion} from "three";
 import defaultMap from "../assets/maps/free-for-all.js";
+import {ANYLOG} from "./utility.js";
 
-// This is binded funcs - this refered to the mani app class.
+// This is binded funcs - this refered to the main app class.
 export function loadMap(map) {
-
   if(typeof map == 'undefined') {
     map = defaultMap;
-    console.info("Magic-Three: Default Map loaded.");
+    console.info("%cMagic-Three: Default Map loaded.", ANYLOG);
   } else {
-    console.info("Magic-Three: Map loaded.");
+    console.info("%cMagic-Three: Map loaded.", ANYLOG);
   }
 
   map.breakable.forEach((b, index) => {
@@ -76,8 +76,7 @@ export function loadMap(map) {
   });
 
   map.pointLights.forEach((l, index) => {
-    console.info(`load map point lights index => ${index}  => `, l);
-    // this.pos.set(b.pos.x, b.pos.y, b.pos.z);
+    // console.info(`load map point lights index => ${index}  => `, l);
     let light = new THREE.PointLight(l.color, l.radius, l.intensity);
     light.position.set(l.pos.x, l.pos.y, l.pos.y);
     const sphere = new THREE.SphereGeometry(0.5, 8, 4);
@@ -106,9 +105,7 @@ export function loadMap(map) {
       boxHelper.visible = this.config.map.blockingVolumes.visible;
       // New idea about dynamic event driven solution
       // Make config runtime modify
-      console.log('ATTACH')
       addEventListener('config.map.blockingVolumes.visible', (e) => {
-        console.log('ATTACH CALLED')
         boxHelper.visible = e.detail.map.blockingVolumes.visible;
       })
       //
@@ -153,9 +150,8 @@ export function loadMap(map) {
             
             // New idea about dynamic event driven solution
             // Make config runtime modify
-            console.log('ATTACH')
             addEventListener('config.map.blockingVolumes.visible', (e) => {
-              console.log('ATTACH CALLED')
+              // console.log('ATTACH CALLED')
               boxHelper.visible = e.detail.map.blockingVolumes.visible;
             })
             //
@@ -182,15 +178,12 @@ export function loadMap(map) {
             var boxHelper = new THREE.BoxHelper(o);
             box3.setFromObject(boxHelper);
             box3.getSize(size);
-            // console.log(size);
             boxHelper.visible = this.config.map.blockingVolumes.visible;
-            console.log('ATTACH')
             addEventListener('config.map.blockingVolumes.visible', (e) => {
-              console.log('ATTACH CALLED')
               boxHelper.visible = e.detail.map.blockingVolumes.visible;
             })
             this.scene.add(boxHelper);
-            console.warn(`Load blocking volumes index => ${boxHelper.position.x} => `);
+            console.info(`%cLoad blocking volumes [objMtlArrayMap] => ${boxHelper.position.x} `, ANYLOG);
             const m = 0;
             const e = new THREE.Vector3(size.x / 2, size.y / 2, size.z / 2);
             this.pos.set(o.position.x, o.position.y, o.position.z);

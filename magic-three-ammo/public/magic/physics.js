@@ -52,13 +52,10 @@ export class MagicPhysics extends MagicNetworking {
   }
 
   cbContactPairResult = null;
-  //  NEWWWWWWWWWWWWWWWWWWWWWWWW
-  setupContactPairResultCallback() {
 
+  setupContactPairResultCallback() {
     this.cbContactPairResult = new Ammo.ConcreteContactResultCallback();
-  
     this.cbContactPairResult.hasContact = false;
-  
     this.cbContactPairResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1){
       console.log('------------------------ ')
       let contactPoint = Ammo.wrapPointer( cp, Ammo.btManifoldPoint );
@@ -66,9 +63,7 @@ export class MagicPhysics extends MagicNetworking {
       if( distance > 0 ) return;
       console.log('YEAP !!! ', colObj1Wrap)
       this.hasContact = true;
-  
     }
-  
   }
 
   initPhysics() {
@@ -578,15 +573,16 @@ export class MagicPhysics extends MagicNetworking {
         tag = threeObject0.userData.tag;
         localPos = contactPoint.get_m_localPointA();
         worldPos = contactPoint.get_m_positionWorldOnA();
-      } else {
-        console.log('[  ] threeObject0.userData.tag: ', threeObject0.userData.tag)
-        tag = threeObject0.userData.tag;
-        localPos = contactPoint.get_m_localPointA();
-        worldPos = contactPoint.get_m_positionWorldOnA();
-      }
+      } 
+      // else {
+      //   console.log('[  ] threeObject0.userData.tag: ', threeObject0.userData.tag)
+      //   tag = threeObject0.userData.tag;
+      //   localPos = contactPoint.get_m_localPointA();
+      //   worldPos = contactPoint.get_m_positionWorldOnA();
+      // }
       let localPosDisplay = {x: localPos.x(), y: localPos.y(), z: localPos.z()};
       let worldPosDisplay = {x: worldPos.x(), y: worldPos.y(), z: worldPos.z()};
-      console.log({tag, localPosDisplay, worldPosDisplay});
+      console.log("collision:" +  {tag, localPosDisplay, worldPosDisplay});
     }
 
     if(this.bulletB) {

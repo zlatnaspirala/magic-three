@@ -53,7 +53,7 @@ let label = new MultiLang(lang);
 label.loadPack(lang, function() {
   const mlready = new CustomEvent('multi-lang-ready', {});
   dispatchEvent(mlready);
-  console.info('%c MultiLang loaded.', ANYLOG);
+  console.info('%cMagic-Three: MultiLang loaded.', ANYLOG);
 });
 
 export default label.t;

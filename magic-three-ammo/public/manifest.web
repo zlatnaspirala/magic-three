@@ -4,9 +4,9 @@
   "id": "/public/module.html",
   "start_url": "https://localhost/public/module.html",
   "orientation": "landscape",
-  "theme_color": "lime",
+  "theme_color": "orange",
   "background_color": "black",
-  "description": "Based on three.js and ammo.js. Power full tool.",
+  "description": "Based on three.js/ammo.js and MultiRTC. Powerfull tool for any kind of app. Main working example is First Person Shooter eg. Hang3d Reborn version",
   "display": "standalone",
   "lang": "en-US",
   "icons": [
@@ -30,6 +30,7 @@
   "author": {
       "name": "Nikola Lukic",
       "website": "https://maximumroulette.com",
+      "email": "zlatnaspirala@gmail.com",
       "github": "https://github.com/zlatnaspirala",
       "source-repo": "https://github.com/zlatnaspirala/magic-three"
   }

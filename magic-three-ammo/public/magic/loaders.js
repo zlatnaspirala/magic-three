@@ -4,6 +4,7 @@ import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
 import {ColladaLoader} from 'three/addons/loaders/ColladaLoader.js';
 import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
 import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
+import {ANYLOG} from "./utility.js";
 
 export class MagicLoader {
 
@@ -20,7 +21,10 @@ export class MagicLoader {
       const loader = new FBXLoader();
       loader.load(p, (object) => {
         this.mixers.push(new THREE.AnimationMixer(object));
-        console.log("Test fbx animations => ", object.animations);
+        for(var x =0; x < object.animations.length;x++) {
+          console.log(`%cFbx animations: ${object.animations[x].name} for ${refName}.`, ANYLOG);
+        }
+
         // remeber - 1 walk
         this.action = this.mixers[this.mixers.length - 1].clipAction(object.animations[0]);
         this.action.play();
@@ -46,12 +50,12 @@ export class MagicLoader {
         if(refName == 'player') {
           object.position.copy(this.config.playerController.cameraInitPosition)
         }
-        
+
         // if (object.name == "BASE_CHARACTER_MESH") {
         //   console.info(" object.name BASE CHARACTER  ", object.name)
         // } else {
-          this.scene.add(object);
-          this.loadedMeshs.push(object);
+        this.scene.add(object);
+        this.loadedMeshs.push(object);
         // }
 
         resolve(object);
@@ -101,7 +105,7 @@ export class MagicLoader {
       function onProgress(xhr) {
         if(xhr.lengthComputable) {
           const percentComplete = xhr.loaded / xhr.total * 100;
-          console.log('model ' + Math.round(percentComplete, 2) + '% downloaded');
+          console.log(`%cObj file  ${Math.round(percentComplete, 2)} % downloaded`, ANYLOG);
         }
       }
       function onError() {
@@ -116,34 +120,34 @@ export class MagicLoader {
 
   async objMtl(p, refName, tex) {
     return new Promise((resolve, reject) => {
-    let localP = p.split('/');
-    let name = localP[localP.length-1];
-    localP.pop();
-    let path = localP.join('/');
-    path += '/';
-    let mtlName = name.replace('.obj','.mtl');
-    // console.log('what is name ', mtlName)
-    const onProgress = function(xhr) {
-      if(xhr.lengthComputable) {
-        const percentComplete = xhr.loaded / xhr.total * 100;
-        console.log(Math.round(percentComplete, 2) + '% downloaded');
-      }
-    };
+      let localP = p.split('/');
+      let name = localP[localP.length - 1];
+      localP.pop();
+      let path = localP.join('/');
+      path += '/';
+      let mtlName = name.replace('.obj', '.mtl');
+      // console.log('what is name ', mtlName)
+      const onProgress = function(xhr) {
+        if(xhr.lengthComputable) {
+          const percentComplete = xhr.loaded / xhr.total * 100;
+          // console.log(`c%Obj file  ${Math.round(percentComplete, 2)} % downloaded`, ANYLOG);
+        }
+      };
 
-    new MTLLoader()
-      .setPath(path)
-      .load(mtlName, (materials) => {
-        // console.info('TEST MAT MTL')
-        materials.preload();
-        new OBJLoader()
-          .setMaterials(materials)
-          .setPath(path)
-          .load(name, (object) => {
-            object.position.y = 5;
-            this.scene.add(object);
-            resolve(object);
-          }, onProgress);
-      });
+      new MTLLoader()
+        .setPath(path)
+        .load(mtlName, (materials) => {
+          // console.info('TEST MAT MTL')
+          materials.preload();
+          new OBJLoader()
+            .setMaterials(materials)
+            .setPath(path)
+            .load(name, (object) => {
+              object.position.y = 5;
+              this.scene.add(object);
+              resolve(object);
+            }, onProgress);
+        });
     })
   }
 }

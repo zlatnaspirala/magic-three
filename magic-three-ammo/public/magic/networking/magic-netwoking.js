@@ -7,7 +7,7 @@ export class MagicNetworking {
   constructor() {}
   activateNet = () => {
     this.net = new Broadcaster(ClientConfig, this.scene);
-    console.info('%cNetworking is active =>', ANYLOG);
+    console.info('%cMagic-Three: Networking is active.', ANYLOG);
     // Inject
     this.net.createNetPlayerCollisionBox = this.createNetPlayerCollisionBox;
     this.net.createBlockingBox = this.createBlockingBox;

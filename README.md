@@ -9,20 +9,20 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
 
 ## Description
   Magic-Three is First Person Oriented but can be used for any other case of app flow.
-  - No build needed, just copy/paste for both dev and prod mode.
-  - Custom magic Map loader.
+  - No build needed, just copy/paste for both dev and prod mode.It is the module type of script.
+    Nice fit with npm modules also works direct in browser.
+  - Custom magic Map loader. All 3d objects comes from map.
   - No package.json [if this repo become npm package then will be back]
     In folder ./backend we have package.json to import deps (npm i) for server part.
+    Run in folder  `./backend` cmd: `npm i` and `npm run magic` for host and broadcaster.
   - Must be fully PWA [cache, server compression, image format webp etc...]
-  - MultiLang support
+  - MultiLang support [async load JSON MultiLang file avoid loading all multiLangs]
   - Networking based on webRtc multiRTC3 library. Signaling server,
     video chat or stream to texture.
-  - FPS Player controller [bullet , collision]
-
+  - Basic example: FPS Player controller [bullet , collision]
 
 ### `Frontend -> Three.js, Ammo.js`
 ### `Backend  -> Node.js, MultiRTC3`
-
 
 ## Main gameplay template FPShoter: Hang3d Reborn
 ```js
@@ -127,7 +127,25 @@ Blocking Volumes implemented for map -  `map.objMtlsArray` :
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/screen1.png" width="800" height="500">
 Nice for walls and env staff. Forced simple cube physics body with mass = 0.
 
+
+## Frontend 
+Frontend done in script type "module" ant it's so powerfull.
+No build time lost.
+
+List of top level CustomEvents :
+ - "config.map.blockingVolumes.visible"  - if QueryString.dev == "true" (URL param ?dev=true)
+ - "onMyDamage"
+ - "onDie"
+ - "onFire"
+ - "hide-blocker"
+ - "multi-lang-ready"
+ - "addToOnlyIntersects"
+ 
+ Explanation in next update...
+
+
 ## Backend part based on multiRTC3.
+For now only signaling pricipe is implemented.
 If you wanna start host server and broadcaster[webRtc] then:
 
 ```js
@@ -137,13 +155,18 @@ npm run magic
 ```
 
 I force default browser port 443! To make all works fine.
-For `localhost` cert doesnt matter. For public server you need classic ssl setup.
+For `localhost` cert also better https. For public server you need classic ssl setup.
 
-Navigate (most simple way to fix localhost cert problem is to click ad)
+Navigate (most simple way to fix localhost cert problem is to click advanced -> Proceed to localhost (unsafe))
 https://localhost/public/module.html
+
+If still networking not work then goto:
+https://localhost:9001/
+click advanced -> Proceed to localhost (unsafe)
 
 
 After all goto https://localhost/public/module.html
+Must work now.
 You can easy manage paths. Default is `https` protocol and also recommended in multiplayer mode.
 
 ## Features
@@ -153,10 +176,10 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Script compression bash script✅
  - Basic FPS controller✅
  - Adding map pack principle.✅
+ - Net Players.✅
  - Real Day time - sky sync +.⏳
  - Add account options REST API [rocketCraftingServer]
    singin , leaderboard.⏳
- - Net Players +.⏳
  - Net Shared objects +.⏳
  - Neutral enemy [bots] +.⏳
 
@@ -279,11 +302,19 @@ Only on startup for now:
     });
 ```
 
-### Networking [WEBRTC] 💫
+### Networking [WEBRTC/IOSOCKET] 💫
 
+  - I use classic broadcester from matrix-engine-server/visual ts [multiRTC3]
   - Every player send own `net.connection.userid`.
   - Type of gameObject `boxs` map loader have support for net emit. ⏳
 
+### Explanation of FPS used concept
+ - Local Player have no any visual objs , only main three.js camera follow player position and look direction.
+ - Net Player [remote player] have visualization with FBX animation. Net rotated only for Y axis for now.
+ - Local Player have physics body ball who is moved from physics world
+   on that way we got all collision problem fixed.
+ - Net Player have no physics body also no any collision objs i use raycaster from three.js in net player case
+   On that way i got optimised and precise situation with netplayer handling.
 
 ## Credits && Licence
  - https://threejs.org/
@@ -291,7 +322,7 @@ Only on startup for now:
  - In Assets i use great https://mixamo.com/
  - Mobile controller used from 
    https://github.com/KEY4d-LAB/crypto-art-town
-
+ - Networking based on https://github.com/muaz-khan/RTCMultiConnection
 
 ## More
 
