@@ -52,7 +52,7 @@ export class Broadcaster {
                 e.data.netPos.y - 1.2, // correction
                 e.data.netPos.z,
               )
-              var axis = new THREE.Vector3(0,1,0);
+              var axis = new THREE.Vector3(0, 1, 0);
               // this.root.netPlayers['net_' + e.data.netObjId].rotateOnAxis(axis, e.data.netRot.y)
               const quaternion = new THREE.Quaternion();
               quaternion.fromArray([
@@ -60,7 +60,7 @@ export class Broadcaster {
                 e.data.netQuaternion._y,
                 0, // e.data.netQuaternion._z,
                 e.data.netQuaternion._w]);
-                this.root.netPlayers['net_' + e.data.netObjId].quaternion.copy(quaternion);
+              this.root.netPlayers['net_' + e.data.netObjId].quaternion.copy(quaternion);
             }
           }
           if(e.data.netType == 'netEnvObj') {
@@ -85,31 +85,33 @@ export class Broadcaster {
             //   e.data.netQuaternion._w]);
             //   object.quaternion.copy(quaternion);
           }
-        } 
-        
-        if (e.data.netDamage) {
-          console.log('MY DAMAGE !', e.data.netDamage)
-          dispatchEvent(new CustomEvent('onMyDamage', { detail: e.data.netDamage}))
         }
-      },
-      /**
-       * @description
-       * If someone leaves all client actions is here
-       * - remove from scene
-       * - clear object from netObject_x
-       */
-      leaveGamePlay(rtcEvent) {
-        let o = this.root.netPlayers['net_' + rtcEvent.userid];
-        console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
-        console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
-        delete this.root.netPlayers['net_' + rtcEvent.userid];
-        console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
-      }
-    };
 
-    // console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
-    this.engineConfig = config.networking;
-    if(this.engineConfig.broadcasterInit == true) {
+        if(e.data.netDamage) {
+          if(e.data.netDamage.for == App.net.connection.userid) {
+            console.log('MY DAMAGE =', e.data)
+            dispatchEvent(new CustomEvent('onMyDamage', {detail: e.data.netDamage}))
+
+          }
+        },
+        /**
+         * @description
+         * If someone leaves all client actions is here
+         * - remove from scene
+         * - clear object from netObject_x
+         */
+        leaveGamePlay(rtcEvent) {
+          let o = this.root.netPlayers['net_' + rtcEvent.userid];
+          console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
+          console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
+          delete this.root.netPlayers['net_' + rtcEvent.userid];
+          console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
+        }
+      };
+
+      // console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
+      this.engineConfig = config.networking;
+      if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
     }
   }
@@ -231,6 +233,7 @@ export class Broadcaster {
         (mediaElement).media.play();
       }, 2000);
 
+      console.info('event.streamid:', event.streamid)
       mediaElement.id = event.streamid;
       root.streamLoaded(event.userid, event.streamid);
     };
