@@ -28,7 +28,6 @@
     "compression": "^1.7.4",
     "express": "^4.19.2",
     "fs": "0.0.1-security",
-    "node-static": "^0.7.11",
     "path": "^0.12.7",
     "rtcmulticonnection-server": "^1.3.3",
     "socket.io": "^4.7.5",
