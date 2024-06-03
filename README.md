@@ -326,6 +326,13 @@ Only on startup for now:
 
 ## More
 
+
+### Problem with  > 100Mb file size upload on github use this link for fbx animations
+(prepared in blender) you can open it in any 3d editor:
+https://drive.google.com/drive/folders/194gsNMBvljJgK_2nyM4paA-veBZl8_Tf?usp=sharing
+
+
+
 ### At separated branch you can find [old-arhive]:
 - old [threejs version 75 , 68 etc...]
    Lot of crazzy staff but you need to make it running... [deplaced methodology] ☣
