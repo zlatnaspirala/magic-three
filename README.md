@@ -332,6 +332,9 @@ Only on startup for now:
 https://drive.google.com/drive/folders/194gsNMBvljJgK_2nyM4paA-veBZl8_Tf?usp=sharing
 
 
+### Update deps
+ - npm outdated
+ 
 
 ### At separated branch you can find [old-arhive]:
 - old [threejs version 75 , 68 etc...]
