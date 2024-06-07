@@ -14,9 +14,9 @@ class ServerConfig {
     // not implemented yet
     // enum : 'dev', 'prod', `mongodb.net` or `mongodb.net-dev`
     // this.serverMode = "mongodb.net";
-    this.serverMode = "dev";
+    this.serverMode = "prod";
 
-    this.ownHosting = true;
+    this.ownHosting = false;
     // For noe i force default broser ports to avoid CORS errors
     // at for https://localhost:PORT any port.
     this.ownHttpHostPort = 443;

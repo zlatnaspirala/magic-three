@@ -13,5 +13,8 @@
   "energy": "ENERGIJA:",
   "you.are.host": "Ti si domacin.",
   "you.are.guest": "Ti si gost.",
-  "you.die": "Gotov si"
+  "you.die": "Gotov si❗",
+  "you.hit.enemy":"Pogodjen ",
+  "you.are.on.fire": "Postao si meta❗",
+  "you.are.connected.with": "Novi igrac: "
 }

@@ -5,6 +5,7 @@ import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htm
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
 import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
+import t from "../multi-lang.js";
 
 export class Broadcaster {
 
@@ -88,30 +89,31 @@ export class Broadcaster {
         }
 
         if(e.data.netDamage) {
-          if(e.data.netDamage.for == App.net.connection.userid) {
+          var local = e.data.netDamage.for.replace('net_', '')
+          if(local == App.net.connection.userid) {
             console.log('MY DAMAGE =', e.data)
             dispatchEvent(new CustomEvent('onMyDamage', {detail: e.data.netDamage}))
-
           }
-        },
-        /**
-         * @description
-         * If someone leaves all client actions is here
-         * - remove from scene
-         * - clear object from netObject_x
-         */
-        leaveGamePlay(rtcEvent) {
-          let o = this.root.netPlayers['net_' + rtcEvent.userid];
-          console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
-          console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
-          delete this.root.netPlayers['net_' + rtcEvent.userid];
-          console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
         }
-      };
+      },
+      /**
+       * @description
+       * If someone leaves all client actions is here
+       * - remove from scene
+       * - clear object from netObject_x
+       */
+      leaveGamePlay(rtcEvent) {
+        let o = this.root.netPlayers['net_' + rtcEvent.userid];
+        console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
+        console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
+        delete this.root.netPlayers['net_' + rtcEvent.userid];
+        console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
+      }
+    };
 
-      // console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
-      this.engineConfig = config.networking;
-      if(this.engineConfig.broadcasterInit == true) {
+    // console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
+    this.engineConfig = config.networking;
+    if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
     }
   }
@@ -260,6 +262,9 @@ export class Broadcaster {
       console.info("You are connected with: " + root.connection.getAllParticipants().join(", "));
       (document.querySelector("#rtc3log")).innerHTML = "You are connected with: " +
         root.connection.getAllParticipants().join(", ");
+        dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: 
+          `${t('you.are.connected.with')} ${root.connection.getAllParticipants().join(", ")}`
+        }}))
     };
 
     this.connection.onclose = function(dataStreamEvent) {

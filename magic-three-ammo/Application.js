@@ -97,8 +97,12 @@ export default class Application extends MagicPhysics {
     addEventListener('stream-loaded', (e) => {
       console.info('net event: [stream-loaded]', e);
       if(this.net.connection.isInitiator === true) {
-        document.title = t('you.are.host');
+        if(document.title != t('you.are.host')) {
+          dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.host')}}))
+          document.title = t('you.are.host');
+        }
       } else {
+        dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.guest')}}))
         document.title = t('you.are.guest');
       }
     })
@@ -198,6 +202,12 @@ export default class Application extends MagicPhysics {
 
   initGamePlayEvents() {
 
+    //hud-message
+    addEventListener('onHudMsg', (e) => {
+      console.log('Update HUD title message , e.detail.o = ', e.detail.msg)
+      byId('hud-message').innerHTML = e.detail.msg;
+    })
+
     addEventListener('addToOnlyIntersects', (e) => {
       console.log('Added to onlyIntersects , e.detail.o = ', e.detail.o)
       this.onlyIntersects.push(e.detail.o);
@@ -206,16 +216,24 @@ export default class Application extends MagicPhysics {
     if(this.config.map.nightAndDay.enabled == true) {
       this.nightAndDayThread = setInterval(() => {
 
+        // console.log('TTTTTTTTTT',  this.sky.material.uniforms)
         if(this.nightAndDayStatus == 'day') {
-          this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y - 15
-          if(this.sky.material.uniforms.sunPosition.value.y < 0) {
+          this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y - 15;
+
+          // App.ambientLight.color.add({r: -0.1, g:-0.1, b:-0.1}) 
+          if(this.sky.material.uniforms.sunPosition.value.y < -500) {
             // night
+
+            // this.sky.material.uniforms.sunPosition.value.x = 
+            // this.sky.material.uniforms.turbidity.value += 0.1;
+
             this.sky.material.uniforms.sunPosition.value.x = -1000
             this.nightAndDayStatus = 'night'
           }
         } else {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y + 15
           if(this.sky.material.uniforms.sunPosition.value.y > 1000) {
+            // this.sky.material.uniforms.turbidity.value -= 0.1;
             // night
             this.sky.material.uniforms.sunPosition.value.x = 1000
             this.nightAndDayStatus = 'day'
@@ -366,10 +384,10 @@ export default class Application extends MagicPhysics {
       console.info(`%c onDie Event ${e} !`, REDLOG)
       if(this.config.playerController.onEvent.onDie == "reload") {
         location.reload();
-      } else if (this.config.playerController.onEvent.onDie == "justHideNetPlayer") {
+      } else if(this.config.playerController.onEvent.onDie == "justHideNetPlayer") {
         // search in scene for name netPlayerId
-        console.log('WHA TO DO fro  e.detail.netPlayerId>>>??',  e.detail.netPlayerId, " - ", e.detail.netPlayerId)
-        var object = this.root.scene.getObjectByName(e.detail.netPlayerId);
+        console.log('WHA TO DO fro  e.detail.netPlayerId>>>??', e.detail.netPlayerId, " - ", e.detail.netPlayerId)
+        var object = this.scene.getObjectByName(e.detail.netPlayerId);
         object.visible = false;
       } else {
         // default reload
@@ -399,13 +417,17 @@ export default class Application extends MagicPhysics {
       console.info(`%c onMyDamage Event ${e} !`, REDLOG)
       if(this.playerData.energy - 100 < 0) {
         this.playerData.energy = 0;
-        dispatchEvent(new CustomEvent('onDie', { detail : {
-          netPlayerId: e.detail.for
-        } }))
+        dispatchEvent(new CustomEvent('onDie', {
+          detail: {
+            netPlayerId: e.detail.for
+          }
+        }))
       } else {
         this.playerData.energy -= 100;
       }
       byId('playerEnergy').innerHTML = this.playerData.energy;
+      dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.on.fire')}}))
+
     });
   }
 
@@ -493,6 +515,11 @@ export default class Application extends MagicPhysics {
           if(this.intersects[x].object.parent.name) {
             // this.intersects[x].object.parent.name
             console.log("on hit =>", this.intersects[x].object.parent.name)
+            dispatchEvent(new CustomEvent('onHudMsg', {
+              detail: {
+                msg: `${t('you.hit.enemy')} ${this.intersects[x].object.parent.name}`,
+              }
+            }))
             dispatchEvent(new CustomEvent('enemyDamage', {
               detail: {
                 myNetPromise: this.intersects[x].object.parent.name,

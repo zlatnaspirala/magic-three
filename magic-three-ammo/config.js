@@ -58,7 +58,7 @@ const config = {
     },
     nightAndDay: {
       enabled : true,
-      animSun: 100,
+      animSun: 1000,
       nightFallsAt: 19,
       dawnAt: 6
     }
@@ -99,10 +99,10 @@ const config = {
 		}
   },
   networking: {
-    broadcasterPort: 9001,
+    broadcasterPort: 9001, // use dev stage 
     broadcasterInit: true,
-    // domain: "maximumroulette.com",
-    domain: "localhost",
+    domain: "maximumroulette.com",
+    // domain: "localhost",
     networkDeepLogs: true,
     /**
      * masterServerKey is channel access id used to connect
@@ -110,7 +110,6 @@ const config = {
      */
     masterServerKey: "magic.three.main.channel",
     runBroadcasterOnInt: true,
-    broadcasterPort: 9001, // 9010,
     broadcastAutoConnect: true,
     broadcasterSessionDefaults: {
       sessionAudio: true,

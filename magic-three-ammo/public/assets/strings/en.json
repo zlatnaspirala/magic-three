@@ -13,5 +13,8 @@
   "energy": "ENERGY:",
   "you.are.host": "You are Host.",
   "you.are.guest": "You are Guest.",
-  "you.die": "💀 You die! 💀"
+  "you.die": "💀 You die! 💀",
+  "you.hit.enemy": "on fire",
+  "you.are.on.fire": "You are target❗",
+  "you.are.connected.with": "You are connected with: "
 }

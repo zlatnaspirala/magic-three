@@ -70,6 +70,32 @@ button {
   }
 }
 
+#hud-message {
+  width:100%;
+}
+
+#infoMsg {
+  position: absolute;
+  display:flex;
+  font-size: 3vh;
+  top: 35px;
+  left: 33%;
+  width: 33%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  /* TODO Solve this in HTML */
+  @media only screen and (max-width: 600px) {
+    padding: 4px;
+  }
+}
+
 a,
 button,
 input,
