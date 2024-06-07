@@ -169,6 +169,12 @@ After all goto https://localhost/public/module.html
 Must work now.
 You can easy manage paths. Default is `https` protocol and also recommended in multiplayer mode.
 
+
+## Dev stage
+   Easy running also on VPS:
+ - https://maximumroulette.com/apps/magic/public/module.html
+
+
 ## Features
  - Dynamic Cache/Worker, add to home screen. [pwa]✅
  - Graphics/Physics scene ready.✅
