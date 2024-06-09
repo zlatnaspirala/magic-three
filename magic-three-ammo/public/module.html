@@ -13,13 +13,18 @@
   <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/icon96.png"/>
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/apple.png"/>
   <meta name="viewport" content="initial-scale=1, maximum-scale=5"/>
+  <link as="style" type="text/css" rel="stylesheet" href="css/vars.css"/>
   <link as="style" type="text/css" rel="stylesheet" href="main.css"/>
   <script defer src="./magic/networking/rtc-multi-connection/socket.io.js"></script>
 </head>
 
 <body oncontextmenu="return false;">
+  <img style="position: absolute;top: -10000px" src="assets/textures/cube/hang3d.png"/>
   <div id="info" class="hud-bar-bg">
-    <div class="leftTitle"><div class="hudItem" id="header.title"></div></div>
+    <div class="leftTitle">
+      <div class="hudItem" id="header.title"></div>
+      <div class="" id="header.title"></div>
+    </div>
     <div class=" response">
       <div class="hudItem" id="playerEnergy.label"></div><div class="hudItem" id="playerEnergy"></div>
       <div class="hudItem" id="playerMunition.label"></div><div class="hudItem" id="playerMunition"></div>

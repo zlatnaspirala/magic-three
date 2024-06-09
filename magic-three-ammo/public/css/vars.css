@@ -1,0 +1,16 @@
+
+
+:root {
+  --bg: #0d2d4e;
+  --text: hsl(0, 0%, 100%);
+	--text2: rgb(255, 253, 192);
+
+	--err: red;
+
+	--bgBlocker: rgba(10, 10, 10, 0.9);
+	--bgTransparent1: rgba(0, 0, 0, 0.1);
+
+	/* --LG1: linear-gradient(87deg,#ff6f00,#b5830f,#df494b,#000000,#000000,#e90b0f); */
+	--LG1: linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9);
+
+}

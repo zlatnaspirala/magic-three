@@ -173,3 +173,14 @@ export var BIGLOG = "color: #55fd53;font-size:20px;text-shadow: 0px 0px 5px #f4f
 export var REDLOG = "color: lime;font-size:15px;text-shadow: 0px 0px 5px red, -2px -2px 5px orangered";
 export var NETLOG = "color: orange;font-size:15px;text-shadow: 0px 0px 1px red, 0px 0px 5px orangered";
 export var ANYLOG = "color: yellow;font-size:15px;text-shadow: 1px 1px 4px red, 0px 0px 2px orangered";
+
+var cssVars = document.querySelector(':root');
+export function getCssVar(propsName) {
+  var rs = getComputedStyle(cssVars);
+  // alert("The value of --propsName is: " + rs.getPropertyValue('--blue'));
+  return "The value of --propsName is: " + rs.getPropertyValue(propsName)
+}
+
+export function setCssVar(name, val) {
+  r.style.setProperty(name, val);
+}

@@ -101,8 +101,8 @@ const config = {
   networking: {
     broadcasterPort: 9001, // use dev stage 
     broadcasterInit: true,
-    domain: "maximumroulette.com",
-    // domain: "localhost",
+    // domain: "maximumroulette.com",
+    domain: "localhost",
     networkDeepLogs: true,
     /**
      * masterServerKey is channel access id used to connect

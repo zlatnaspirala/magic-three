@@ -195,7 +195,7 @@ opacity: 0;
 
 /* for HUD TOP BAR */
 .hud-bar-bg {
-  background: linear-gradient(87deg,#ff6f00,#b5830f,#df494b,#000000,#000000,#e90b0f);
+  background: var(--LG1);
   background-size: 360% 360%;
   animation: gradient-animation 36s ease infinite;
 }
