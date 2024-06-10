@@ -202,3 +202,29 @@ select {
 #playerEnergy, #playerMunition, #playerKills {
   color: var(--text);
 }
+
+#bootomMenu {
+  position: absolute;
+  display:flex;
+  font-size: 3vh;
+  bottom: 0px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1;
+  /* TODO Solve this in HTML */
+  @media only screen and (max-width: 600px) {
+    padding: 4px;
+  }
+}
+
+
+.theme-color {
+  
+}

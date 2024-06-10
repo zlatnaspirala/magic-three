@@ -16,5 +16,7 @@
   "you.die": "Gotov si❗",
   "you.hit.enemy":"Pogodjen ",
   "you.are.on.fire": "Postao si meta❗",
-  "you.are.connected.with": "Novi igrac: "
+  "you.are.connected.with": "Novi igrac: ",
+  "dark": "Dark",
+  "light": "Light"
 }

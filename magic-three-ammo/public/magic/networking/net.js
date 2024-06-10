@@ -5,7 +5,8 @@ import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htm
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
 import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
-import t from "../multi-lang.js";
+import {label} from "../multi-lang.js";
+let t = label.t;
 
 export class Broadcaster {
 

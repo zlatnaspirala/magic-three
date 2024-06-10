@@ -178,9 +178,9 @@ var cssVars = document.querySelector(':root');
 export function getCssVar(propsName) {
   var rs = getComputedStyle(cssVars);
   // alert("The value of --propsName is: " + rs.getPropertyValue('--blue'));
-  return "The value of --propsName is: " + rs.getPropertyValue(propsName)
+  return rs.getPropertyValue(propsName)
 }
 
 export function setCssVar(name, val) {
-  r.style.setProperty(name, val);
+  cssVars.style.setProperty(name, val);
 }

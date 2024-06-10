@@ -19,11 +19,10 @@
 </head>
 
 <body oncontextmenu="return false;">
-  <img style="position: absolute;top: -10000px" src="assets/textures/cube/hang3d.png"/>
+  <!-- <img style="position: absolute;top: -10000px" src="assets/textures/cube/hang3d.png"/> -->
   <div id="info" class="hud-bar-bg">
     <div class="leftTitle">
       <div class="hudItem" id="header.title"></div>
-      <div class="" id="header.title"></div>
     </div>
     <div class=" response">
       <div class="hudItem" id="playerEnergy.label"></div><div class="hudItem" id="playerEnergy"></div>
@@ -45,6 +44,16 @@
     </div>
   </div>
   <div id="container"></div>
+
+  <div id="bootomMenu">
+    <div>
+    <select class="theme-color" name="theme-color" id="theme-color">
+      <option data-label="dark" value="Dark"></option>
+      <option value="Light">Light</option>
+    </select>
+    </div>
+  </div>
+
   <script defer src="./libs/ammo.wasm.js"></script>
   <!-- Import maps polyfill -->
   <!-- Remove this when import maps will be widely supported -->

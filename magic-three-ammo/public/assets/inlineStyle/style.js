@@ -1,4 +1,5 @@
-import t from "../../magic/multi-lang.js";
+import {label} from "../../magic/multi-lang.js";
+let t= label.t;
 
 export let startUpScreen = () => `
   <p style="font-size:36px">

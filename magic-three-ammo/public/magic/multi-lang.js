@@ -6,8 +6,8 @@ class MultiLang {
     if(l !== null) {this.curLang = l;} else {this.curLang = 'en';}
     this.get = {};
     this.update = function() {
-      document.querySelectorAll("[data-langname]").forEach((el) => {
-        let l = el.getAttribute('data-langname');
+      document.querySelectorAll("[data-label]").forEach((el) => {
+        let l = el.getAttribute('data-label');
         el.innerHTML = this.get[l];
       });
     }
@@ -56,4 +56,6 @@ label.loadPack(lang, function() {
   console.info('%cMagic-Three: MultiLang loaded.', ANYLOG);
 });
 
-export default label.t;
+export {
+  label
+};

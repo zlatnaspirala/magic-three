@@ -16,5 +16,7 @@
   "you.die": "💀 You die! 💀",
   "you.hit.enemy": "on fire",
   "you.are.on.fire": "You are target❗",
-  "you.are.connected.with": "You are connected with: "
+  "you.are.connected.with": "You are connected with: ",
+  "dark": "Dark",
+  "light": "Light"
 }

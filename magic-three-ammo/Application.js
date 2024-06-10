@@ -14,20 +14,23 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
 import {MagicSounds} from "./public/magic/audios/sounds.js";
-import t from "./public/magic/multi-lang.js";
+import {label} from "./public/magic/multi-lang.js";
+import {MagicTheme} from "./public/magic/theme.js";
+let t = label.t;
 
 export default class Application extends MagicPhysics {
 
-  APP_VERSION = "0.1.1";
+  APP_VERSION = "0.1.3";
 
   // Graphics variables
   container = getDom("container");
   stats = null;
+  label = label;
 
   camera = new THREE.PerspectiveCamera(
     this.config.camera.fov,
@@ -77,6 +80,8 @@ export default class Application extends MagicPhysics {
 
   nightAndDayThread = null;
   nightAndDayStatus = 'day';
+
+  LOCK = false;
 
   constructor(config, currentMap) {
 
@@ -201,6 +206,11 @@ export default class Application extends MagicPhysics {
   }
 
   initGamePlayEvents() {
+    this.theme = new MagicTheme();
+    let themeDOM = byId('theme-color').onchange = (e) => {
+      //
+      dispatchEvent(new CustomEvent('theme', {detail: e.value}))
+    };
 
     //hud-message
     addEventListener('onHudMsg', (e) => {
@@ -458,7 +468,12 @@ export default class Application extends MagicPhysics {
   }
 
   attachFire() {
+    console.log('tets >>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+    var canvasDOM = document.getElementsByTagName('canvas')[0];
+
     window.addEventListener("pointerdown", (event) => {
+
+      if (this.LOCK == false) return;
 
       if(this.playerItems.munition > 0) {
         // if you wanna use custom 

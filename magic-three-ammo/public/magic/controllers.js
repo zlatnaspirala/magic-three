@@ -177,6 +177,7 @@ export function createFPSController() {
 
   instructions.addEventListener(CLICK, () => {
     console.log("UNLOCK")
+    this.LOCK = false;
     if(isMobile == false) {
       this.controls.lock();
     } else {
@@ -197,14 +198,15 @@ export function createFPSController() {
 
   this.controls.addEventListener('lock', ()=> {
     console.log('LOCK')
+    this.LOCK = true;
     blocker.classList.remove('bounceIn')
     blocker.classList.add('hideMe')
-
     dispatchEvent(new CustomEvent('hide-blocker'))
-
   });
 
-  this.controls.addEventListener('unlock', function() {
+  this.controls.addEventListener('unlock', () => {
+    console.log('UNLOCK')
+    this.LOCK = false;
     blocker.style.display = 'block';
     instructions.style.display = '';
   });
