@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>Magic three - hang3d-reborn</title>
-  <link rel="manifest" href="manifest.web"/>
-  <meta charset="utf-8"/>
+  <link rel="manifest" href="manifest.web" />
+  <meta charset="utf-8" />
   <meta name="description" content="Based on threejs and ammo.js. Powerfull with fully PWA features. Created by Nikola Lukic maximumroulette.com @2023. First person shooter basic free open source code.Not just FPS you can create any type of client app." />
-  <meta name="theme-color" content="black"/>
-  <link rel="apple-touch-icon" href="assets/icons/icon.png"/>
-  <meta name="apple-mobile-web-app-capable" content="yes"/>
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon.png"/>
-  <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/icon96.png"/>
-  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/apple.png"/>
-  <meta name="viewport" content="initial-scale=1, maximum-scale=5"/>
-  <link as="style" type="text/css" rel="stylesheet" href="css/vars.css"/>
-  <link as="style" type="text/css" rel="stylesheet" href="main.css"/>
+  <meta name="theme-color" content="black" />
+  <link rel="apple-touch-icon" href="assets/icons/icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/icon96.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/apple.png" />
+  <meta name="viewport" content="initial-scale=1, maximum-scale=5" />
+  <link as="style" type="text/css" rel="stylesheet" href="css/vars.css" />
+  <link as="style" type="text/css" rel="stylesheet" href="main.css" />
   <script defer src="./magic/networking/rtc-multi-connection/socket.io.js"></script>
 </head>
 
@@ -25,9 +26,12 @@
       <div class="hudItem" id="header.title"></div>
     </div>
     <div class=" response">
-      <div class="hudItem" id="playerEnergy.label"></div><div class="hudItem" id="playerEnergy"></div>
-      <div class="hudItem" id="playerMunition.label"></div><div class="hudItem" id="playerMunition"></div>
-      <div class="hudItem" id="playerKills.label"></div><div class="hudItem" id="playerKills"></div>
+      <div class="hudItem" id="playerEnergy.label"></div>
+      <div class="hudItem" id="playerEnergy"></div>
+      <div class="hudItem" id="playerMunition.label"></div>
+      <div class="hudItem" id="playerMunition"></div>
+      <div class="hudItem" id="playerKills.label"></div>
+      <div class="hudItem" id="playerKills"></div>
     </div>
   </div>
   <div id="infoMsg" class="hud-bar-bg">
@@ -43,17 +47,27 @@
       <p id="loading.label" style="font-size:36px"></p>
     </div>
   </div>
-  <div id="container"></div>
 
   <div id="bootomMenu">
-    <div>
-    <select class="theme-color" name="theme-color" id="theme-color">
-      <option data-label="dark" value="Dark"></option>
-      <option value="Light">Light</option>
-    </select>
+    <div style="display: flex;width: 100%;">
+      <div style="display: flex;width: 100%;">
+        <select class="theme-color" name="theme-color" id="theme-color">
+          <option data-label="dark" value="Dark"></option>
+          <option value="Light">Light</option>
+          <option value="Green">Green</option>
+          <option value="Orange">Orange</option>
+        </select>
+      </div>
+      <button id="aboutBtn" style="z-index:100">
+        ABOUT
+      </button>
+      <div style="z-index:100" onclick="console.log('TEST')">
+        created by zlatnaspirala
+      </div>
     </div>
   </div>
 
+  <div id="container"></div>
   <script defer src="./libs/ammo.wasm.js"></script>
   <!-- Import maps polyfill -->
   <!-- Remove this when import maps will be widely supported -->
@@ -68,4 +82,5 @@
     </script>
   <script type="module" src="../hang3d-reborn.js"></script>
 </body>
+
 </html>

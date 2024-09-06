@@ -1,6 +1,6 @@
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import * as PointerLockControlsMobile from 'three/addons/controls/mobileController.js';
-import {ANYLOG, byId, isMobile} from './utility.js';
+import {ANYLOG, byId, isMobile, toUnicodeVariant} from './utility.js';
 
 export function createFPSController() {
 
@@ -175,7 +175,28 @@ export function createFPSController() {
     CLICK = 'touchstart';
   }
 
-  instructions.addEventListener(CLICK, () => {
+  const aboutBtn = document.getElementById('aboutBtn'); 
+  aboutBtn.addEventListener("click", () => {
+    console.log('your chance is: ' + toUnicodeVariant('100% free project at https://github.com/zlatnaspirala/magic-three', 'bold WARGAMES', 'bold'));
+    alert(`${toUnicodeVariant(`HANG3D REBORN ☢️ \n
+        Magic-Three is threejs vs ammojs project.
+        HANG3D REBORN is FPS example with networking. ☢️\n
+        Credits && Licence
+          - https://threejs.org/
+          - https://github.com/kripken/ammo.js/
+          - In Assets i use great https://mixamo.com/
+          - Mobile controller used from 
+            https://github.com/KEY4d-LAB/crypto-art-town
+          - Networking based on https://github.com/muaz-khan/RTCMultiConnection
+          - Font wargames used from https://www.dafont.com/wargames.font \n
+          Source code : https://github.com/zlatnaspirala/magic-three
+        Hosted on maximumroulette.com \n`, 'bold sans', 'bold')}
+      `)
+  })
+
+  const playBtn = document.getElementById('playBtn');
+
+  playBtn.addEventListener(CLICK, () => {
     console.log("UNLOCK")
     this.LOCK = false;
     if(isMobile == false) {

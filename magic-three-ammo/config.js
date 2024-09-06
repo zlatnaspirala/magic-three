@@ -98,6 +98,7 @@ const config = {
 			onDie: "justHideNetPlayer" // "justHideNetPlayer" | "reload"
 		}
   },
+  useRCSAccount: true,
   networking: {
     broadcasterPort: 9001, // use dev stage 
     broadcasterInit: true,

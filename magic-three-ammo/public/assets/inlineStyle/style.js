@@ -2,9 +2,9 @@ import {label} from "../../magic/multi-lang.js";
 let t= label.t;
 
 export let startUpScreen = () => `
-  <p style="font-size:36px">
+  <button id="playBtn">
     ${t('play')}
-  </p>
+  </button>
   <p>
   ${t('move')}: ${t('wasd')}<br/>
   ${t('jump')}: ${t('space')}<br/>

@@ -20,14 +20,14 @@
 
 /* Safari 4.0 - 8.0 */
 @-webkit-keyframes scaleToCenter {
-  0%   {background-color:rgba(21, 0, 0, 0.9); left:0px; top:0px; transform: scale(1, 1);}
-  100% {background-color:rgba(21, 0, 0, 0.9); left:50%; top:0px; transform: scale(0.01, 0.01);}
+  0%   {background-color:rgba(86, 86, 86, 0.9); left:0px; top:0px; transform: scale(1, 1);}
+  100% {background-color:rgba(36, 36, 36, 0.9); left:50%; top:0px; transform: scale(0.01, 0.01);}
 }
 
 /* Standard syntax */
 @keyframes scaleToCenter {
-  0%   {background-color:rgba(21, 0, 0, 0.9); left:0px; top:0px; transform: scale(1, 1);}
-  100% {background-color:rgba(21, 0, 0, 0.9); left:0%; top:0px; transform: scale(0.01, 0.01);}
+  0%   {background-color:rgba(30, 30, 30, 0.9); left:0px; top:0px; transform: scale(1, 1);}
+  100% {background-color:rgba(62, 62, 62, 0.9); left:0%; top:0px; transform: scale(0.01, 0.01);}
 }
 
 /* Safari 4.0 - 8.0 */

@@ -5,11 +5,29 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: stormfaze;
+  src: url('./assets/fonts/stormfaze.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: WARGAMES;
+  src: url('./assets/fonts/WARGAMES.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Accuratist;
+  src: url('./assets/fonts/Accuratist.ttf');
+  font-display: swap;
+}
+
 body {
   margin: 0;
   background-color: var(--bg);
   color: var(--text2);
-  font-family: closeness, Monospace;
+  font-family: var(--mainFont), Monospace;
   font-size: 14px;
   overscroll-behavior: none;
   overflow: hidden;
@@ -155,13 +173,13 @@ select {
 #blocker {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 93%;
   background-color: VAR(--bgBlocker);
 }
 
 .hud {
   width: 100%;
-  height: 100%;
+  height: 93%;
 
   display: flex;
   flex-direction: column;
@@ -172,6 +190,18 @@ select {
   font-size: large;
   cursor: pointer;
   background-color: var(--bgTransparent1);
+}
+
+select {
+  font-family: stormfaze;
+  color: var(--text2);
+  background-color: var(--bgTransparent1);
+}
+
+option {
+  font-family: stormfaze;
+  color: var(--text2);
+  background-color: var(--bg);
 }
 
 #matrix-net {
@@ -204,7 +234,7 @@ select {
 }
 
 #bootomMenu {
-  position: absolute;
+  position: fixed;
   display:flex;
   font-size: 3vh;
   bottom: 0px;
@@ -217,13 +247,19 @@ select {
   -ms-user-select: none;
   user-select: none;
   pointer-events: none;
-  z-index: 1;
+  z-index: 100;
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
     padding: 4px;
   }
 }
 
+#playBtn {
+  font-size:36px;
+  font-family:var(--mainFont);
+  background:var(--text);
+  padding-top: 7px;
+}
 
 .theme-color {
   

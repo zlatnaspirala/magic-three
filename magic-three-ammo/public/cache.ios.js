@@ -1,6 +1,10 @@
 
 /**
  * @description iOS platform worker cache fixer.
+ * You must increment or decrement app cache version var `version`
+ * Special ios fix for video POST request (partial)
+ * @author
+ * Nikola Lukic
  */
 var version = 1;
 const cacheFlag = 'magic-three';

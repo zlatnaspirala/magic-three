@@ -1,7 +1,8 @@
 /**
  * @description Cache
  * - Dynamic cache
- - * Automatic update
+ * - Automatic update
+ * You must increment or decrement app cache version var `version`
  * @author Nikola Lukic
  */
 var version = 1;

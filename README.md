@@ -7,6 +7,12 @@
 Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of threejs and ammo.js. Magic-three use the new version threejs 149.
 [JS type of script `module` variant with last version of three.module.js]
 
+## Extreme interest facts:
+ - No spending times on build, magic-three use type module in browser.
+ - Using themes without scss - also no build.
+ - Combination Three.js vs ammo.js is last physics solution from three.js project.
+ - Using webRTC for networking/multiplayer brings video chat/stream in same time.
+
 ## Description
   Magic-Three is First Person Oriented but can be used for any other case of app flow.
   - No build needed, just copy/paste for both dev and prod mode.It is the module type of script.
@@ -32,6 +38,7 @@ import myGamePlayMagicMap from './public/assets/maps/free-for-all.js';
 
 let App = new Application(config, myGamePlayMagicMap);
 ```
+
 
 
 ### Client Config
@@ -164,6 +171,15 @@ If still networking not work then goto:
 https://localhost:9001/
 click advanced -> Proceed to localhost (unsafe)
 
+Finally when you see html text:
+```txt
+********************************************************** 
+* MatrixNet         version: 0.2.0                       * 
+* Type of network - BROADCASTER                          * 
+* Source: https://github.com/zlatnaspirala/matrix-engine * 
+**********************************************************
+```
+Server is allowed for localhost.
 
 After all goto https://localhost/public/module.html
 Must work now.
@@ -183,9 +199,10 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Basic FPS controller✅
  - Adding map pack principle.✅
  - Net Players.✅
- - Real Day time - sky sync +.⏳
+ - Real Day time - sky(shaders) done  + wip envelop shaders adaptaion lights.⏳
  - Add account options REST API [rocketCraftingServer]
-   singin , leaderboard.⏳
+   singin , leaderboard. Only client part no need backend i already have running 
+   rcs on maximumroulette.com ⏳
  - Net Shared objects +.⏳
  - Neutral enemy [bots] +.⏳
 
@@ -329,8 +346,82 @@ Only on startup for now:
  - Mobile controller used from 
    https://github.com/KEY4d-LAB/crypto-art-town
  - Networking based on https://github.com/muaz-khan/RTCMultiConnection
+ - Font wargames used from https://www.dafont.com/wargames.font
 
 ## More
+
+### Most effect dimanic thermes with native css and control from javascript
+
+Using css vars from `vars.css`.
+
+Script:
+```
+import {setCssVar} from "./utility.js"
+
+export class MagicTheme {
+
+	Light() {
+		console.log('THEME LIGHT SET')
+		setCssVar("--bg", "#6b6b6b33")
+		setCssVar("--text", "hsl(1, 20%, 100%)")
+		setCssVar("--text2", "rgb(0, 0, 0)")
+		setCssVar("--err", "orangered")
+		setCssVar("--bgBlocker", "rgba(150, 150, 150, 0.9)")
+		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
+		setCssVar("--LG1", "linear-gradient(87deg,#ff6f00,#b5830f,#df494b,#fff,#fff,#e90b0f)")
+		setCssVar("--mainFont", "Accuratist")
+	}
+
+	Dark() {
+		setCssVar("--bg", "#0d2d4e")
+		setCssVar("--text", "hsl(0, 0%, 100%)")
+		setCssVar("--text2", "rgb(255, 253, 192)")
+		setCssVar("--err", "red")
+		setCssVar("--bgBlocker", "rgba(10, 10, 10, 0.9)")
+		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
+		setCssVar("--LG1", "linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9)")
+		setCssVar("--mainFont", "stormfaze")
+	}
+
+	Green() {
+		setCssVar("--bg", "#000")
+		setCssVar("--text", "hsl(107.39deg 82.83% 47.02%)")
+		setCssVar("--text2", "rgb(42 199 49)")
+		setCssVar("--err", "red")
+		setCssVar("--bgBlocker", "rgba(10, 10, 10, 0.9)")
+		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
+		setCssVar("--LG1", "linear-gradient(87deg,#10f30f,#fff,#10f30f,#000000,#10f30f,#000000)")
+		setCssVar("--mainFont", "WARGAMES")
+	}
+
+	constructor() {
+		addEventListener("theme", (e) => {
+			this[e.detail]();
+		})
+	}
+
+}
+```
+
+
+### Implementing account for GamePlay platform based on RocketCraaftingServer
+```js
+ fetch("http://maximumroulette.com/rocket/login", {
+                  "headers": {
+                    "accept": "application/json",
+                    "accept-language": "en-US,en;q=0.9,ru;q=0.8",
+                    "cache-control": "no-cache",
+                    "content-type": "application/json",
+                    "pragma": "no-cache"
+                  },
+                  "referrer": "http://maximumroulette.com/apps/my-admin/",
+                  "referrerPolicy": "strict-origin-when-cross-origin",
+                  "body": "{\"emailField\":\"zlatnaspirala@gmail.com\",\"passwordField\":\"123123123\"}",
+                  "method": "POST",
+                  "mode": "cors",
+                  "credentials": "omit"
+                });
+```
 
 
 ### Problem with  > 100Mb file size upload on github use this link for fbx animations
@@ -339,8 +430,8 @@ https://drive.google.com/drive/folders/194gsNMBvljJgK_2nyM4paA-veBZl8_Tf?usp=sha
 
 
 ### Update deps
- - npm outdated
- 
+ - npm outdated 2024
+
 
 ### At separated branch you can find [old-arhive]:
 - old [threejs version 75 , 68 etc...]

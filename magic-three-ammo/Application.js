@@ -21,6 +21,7 @@ import {Sky} from 'three/addons/objects/Sky.js';
 import {MagicSounds} from "./public/magic/audios/sounds.js";
 import {label} from "./public/magic/multi-lang.js";
 import {MagicTheme} from "./public/magic/theme.js";
+import {RCSAccount} from "./public/magic/networking/rocket-crafting-account.js";
 let t = label.t;
 
 export default class Application extends MagicPhysics {
@@ -161,6 +162,13 @@ export default class Application extends MagicPhysics {
       console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
     });
 
+    // Check from config is it Account used here.
+    // RCSAccount
+    if (this.config.useRCSAccount == true) {
+      console.log('test ACCOUNTS >>>>>>>>>>>>>>>>>>>>')
+      this.myAccounts = new RCSAccount()
+    }
+
     // Attach funcs
     this.loadMap = loadMap.bind(this);
     this.updateControls = updateControls.bind(this);
@@ -208,11 +216,12 @@ export default class Application extends MagicPhysics {
   initGamePlayEvents() {
     this.theme = new MagicTheme();
     let themeDOM = byId('theme-color').onchange = (e) => {
-      //
-      dispatchEvent(new CustomEvent('theme', {detail: e.value}))
+      // Change theme attach event..
+      console.log("TEST e in theme ", e.target.selectedOptions[0].value);
+      dispatchEvent(new CustomEvent('theme', {detail: e.target.selectedOptions[0].value}))
     };
 
-    //hud-message
+    // hud-message
     addEventListener('onHudMsg', (e) => {
       console.log('Update HUD title message , e.detail.o = ', e.detail.msg)
       byId('hud-message').innerHTML = e.detail.msg;
@@ -395,10 +404,13 @@ export default class Application extends MagicPhysics {
       if(this.config.playerController.onEvent.onDie == "reload") {
         location.reload();
       } else if(this.config.playerController.onEvent.onDie == "justHideNetPlayer") {
-        // search in scene for name netPlayerId
-        console.log('WHA TO DO fro  e.detail.netPlayerId>>>??', e.detail.netPlayerId, " - ", e.detail.netPlayerId)
-        var object = this.scene.getObjectByName(e.detail.netPlayerId);
-        object.visible = false;
+        // // search in scene for name netPlayerId
+        // console.log('e.detail.netPlayerId>>>??', e.detail.netPlayerId, " - ", e.detail.netPlayerId)
+        // // LocalPlayer always triggered...
+        // var object = this.scene.getObjectByName('player');
+        // object.visible = false;
+        // default reload make it for negging simpleway.
+        location.reload();
       } else {
         // default reload
         location.reload();
@@ -424,7 +436,7 @@ export default class Application extends MagicPhysics {
     });
 
     addEventListener('onMyDamage', (e) => {
-      console.info(`%c onMyDamage Event ${e} !`, REDLOG)
+      console.info(`%c onMyDamage Event ${e.detail} !`, REDLOG)
       if(this.playerData.energy - 100 < 0) {
         this.playerData.energy = 0;
         dispatchEvent(new CustomEvent('onDie', {
@@ -473,7 +485,7 @@ export default class Application extends MagicPhysics {
 
     window.addEventListener("pointerdown", (event) => {
 
-      if (this.LOCK == false) return;
+      if(this.LOCK == false) return;
 
       if(this.playerItems.munition > 0) {
         // if you wanna use custom 
