@@ -221,6 +221,12 @@ export default class Application extends MagicPhysics {
       dispatchEvent(new CustomEvent('theme', {detail: e.target.selectedOptions[0].value}))
     };
 
+    let languageDOM = byId('language').onchange = (e) => {
+      // Change theme attach event..
+      console.log("TEST e language ", e.target.selectedOptions[0].value);
+      dispatchEvent(new CustomEvent('language', {detail: e.target.selectedOptions[0].value}))
+    };
+
     // hud-message
     addEventListener('onHudMsg', (e) => {
       console.log('Update HUD title message , e.detail.o = ', e.detail.msg)

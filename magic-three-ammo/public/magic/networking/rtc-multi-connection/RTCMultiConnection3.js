@@ -3594,6 +3594,7 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
                 return;
             }
 
+            console.log('TEST GET USER MEDIA MOMENT')
             navigator.mediaDevices.getUserMedia(options.localMediaConstraints).then(function(stream) {
                 stream.streamid = stream.streamid || stream.id || getRandomString();
                 stream.idInstance = idInstance;
@@ -4241,6 +4242,8 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
                     var isOneWay = !!connection.session.oneway;
                     var isDataOnly = isData(connection.session);
 
+                    // sep 2024 
+                    console.log('TEST connection.sdpConstraints.mandatory.OfferToReceiveVideo', connection.sdpConstraints.mandatory.OfferToReceiveVideo)
                     remotePeerSdpConstraints = {
                         OfferToReceiveAudio: connection.sdpConstraints.mandatory.OfferToReceiveAudio,
                         OfferToReceiveVideo: connection.sdpConstraints.mandatory.OfferToReceiveVideo
@@ -4526,6 +4529,9 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
         }
 
         function beforeJoin(userPreferences, callback) {
+
+
+            console.log("TEST beforeJoin ", )
             if (connection.dontCaptureUserMedia || userPreferences.isDataOnly) {
                 callback();
                 return;
@@ -4573,6 +4579,7 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
                             console.error('Unable to capture screen on Edge. HTTPs and version 17+ is required.');
                         });
                     } else {
+                        console.log('ROLL BABY ROLL')
                         connection.invokeGetUserMedia({
                             audio: isAudioPlusTab(connection),
                             video: true,
@@ -4589,6 +4596,9 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
             callback = callback || function() {};
             var session = sessionForced || connection.session;
 
+            // sep 2024 
+            // test video offer 
+            console.log('isData' , isData)
             if (connection.dontCaptureUserMedia || isData(session)) {
                 callback();
                 return;
@@ -5037,6 +5047,7 @@ var RTCMultiConnection3 = function(roomid, forceOptions) {
         };
 
         connection.addStream = function(session, remoteUserId) {
+            console.log('TEST  add stream')
             if (!!session.getTracks) {
                 if (connection.attachStreams.indexOf(session) === -1) {
                     if (!session.streamid) {

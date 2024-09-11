@@ -163,7 +163,7 @@ export class Broadcaster {
 
   initWebRtc = (options) => {
     const root = this;
-
+    console.log("TEST initWebRtc  ", options);
     try {
       this.connection = new (RTCMultiConnection3)();
     } catch(err) {
@@ -176,12 +176,17 @@ export class Broadcaster {
     if(typeof options !== "undefined") {
       // by default, it is "false".
       this.connection.enableFileSharing = options.enableFileSharing;
+
+      // new logic sep 2024
+      // Only in peer connection - not initially
+      console.log("TEST VIDEO OFFER", options.session.video);
       this.connection.session = {
         audio: options.session.audio,
         video: options.session.video,
         data: options.session.data,
       };
     } else {
+      console.log("TEST VIDEO OFFER", root.engineConfig.broadcasterSessionDefaults);
       this.connection.enableFileSharing = root.engineConfig.broadcasterSessionDefaults.enableFileSharing;
       this.connection.session = {
         audio: root.engineConfig.broadcasterSessionDefaults.sessionAudio,
@@ -444,6 +449,9 @@ export class Broadcaster {
     };
 
     root.openDataSession = function() {
+      // sep 2024
+      // test video off
+      console.log("TEST FUNC openDataSession")
       root.disableInputButtons();
       root.connection.openOrJoin(
         (root.inputRoomId).value,

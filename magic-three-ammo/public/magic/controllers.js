@@ -145,7 +145,7 @@ export function createFPSController() {
     document.body.append(domAngleAxis)
   }
 
-  
+
   if(isMobile == false) {
     this.controls = new PointerLockControls(this.camera, document.body);
   } else {
@@ -175,7 +175,7 @@ export function createFPSController() {
     CLICK = 'touchstart';
   }
 
-  const aboutBtn = document.getElementById('aboutBtn'); 
+  const aboutBtn = document.getElementById('aboutBtn');
   aboutBtn.addEventListener("click", () => {
     console.log('your chance is: ' + toUnicodeVariant('100% free project at https://github.com/zlatnaspirala/magic-three', 'bold WARGAMES', 'bold'));
     alert(`${toUnicodeVariant(`HANG3D REBORN ☢️ \n
@@ -194,6 +194,27 @@ export function createFPSController() {
       `)
   })
 
+  const videoChatBtn = document.getElementById('videoChatBtn');
+  videoChatBtn.addEventListener("click", (e) => {
+    console.log('ACTIVATE CAMERA: to the other side', e.target.innerHTML);
+
+    if(App.net.connection.session.video == true) {
+      byId('matrix-net').style.display = 'none';
+      // App.net.titleStatus.click();
+      App.net.connection.session.video = false;
+      App.net.joinRoomBtn.click();
+      e.target.innerHTML = "CAMERA ⚪"
+    } else {
+      byId('matrix-net').style.display = 'block';
+      App.net.titleStatus.click();
+      App.net.connection.session.video = true
+      App.net.joinRoomBtn.click();
+      e.target.innerHTML = "CAMERA 🔴"
+    }
+
+  })
+  // videoChatBtn
+
   const playBtn = document.getElementById('playBtn');
 
   playBtn.addEventListener(CLICK, () => {
@@ -205,7 +226,7 @@ export function createFPSController() {
 
       blocker.classList.remove('bounceIn')
       blocker.classList.add('hideMe')
- 
+
       dispatchEvent(new CustomEvent('hide-blocker'))
 
       byId('mobSpace').style.display = 'grid';
@@ -217,7 +238,7 @@ export function createFPSController() {
     }
   });
 
-  this.controls.addEventListener('lock', ()=> {
+  this.controls.addEventListener('lock', () => {
     console.log('LOCK')
     this.LOCK = true;
     blocker.classList.remove('bounceIn')

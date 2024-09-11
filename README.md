@@ -150,6 +150,15 @@ List of top level CustomEvents :
  
  Explanation in next update...
 
+ - Initially video stream is deactivated. Manage this from config :
+ ```js
+     broadcasterSessionDefaults: {
+      sessionAudio: false,     // IMPORTANT
+      sessionVideo: false,     // IMPORTANT
+      sessionData: true,       // IMPORTANT
+      enableFileSharing: true,
+ ```
+
 
 ## Backend part based on multiRTC3.
 For now only signaling pricipe is implemented.
@@ -161,7 +170,16 @@ npm i
 npm run magic
 ```
 
-I force default browser port 443! To make all works fine.
+Setup in backend/magic-three.server.js your own domain: 
+If you put "*" in public server someone can use your web app cross domain.
+This will be automated in future.
+```js
+    // res.setHeader('Access-Control-Allow-Origin', '*');
+    // res.setHeader('Access-Control-Allow-Origin', 'https://localhost:9001');
+    res.setHeader('Access-Control-Allow-Origin', 'https://maximumroulette:9001');
+```
+
+I force default browser port 443! To make all works fine (CORS problems).
 For `localhost` cert also better https. For public server you need classic ssl setup.
 
 Navigate (most simple way to fix localhost cert problem is to click advanced -> Proceed to localhost (unsafe))

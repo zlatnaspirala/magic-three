@@ -15,6 +15,7 @@ export let startUpScreen = () => `
   <small>Created by @zlatnaspirala <a href='https://github.com/zlatnaspirala/'>github</a></small>
   <small>Project source code : <a href='https://github.com/zlatnaspirala/magic-three'>github</a></small>
   <small>Based on <a href='https://threejs.org/'>Three.js</a> and <a href="https://github.com/kripken/ammo.js/">Ammo.js</a></small>
+  <small>Licence GPL v3</small>
 `;
 
 export let dieScreen = () => `

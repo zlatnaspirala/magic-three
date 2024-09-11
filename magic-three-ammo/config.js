@@ -112,9 +112,14 @@ const config = {
     masterServerKey: "magic.three.main.channel",
     runBroadcasterOnInt: true,
     broadcastAutoConnect: true,
+    /**
+     * If you dont wanna initially camera call
+     * you need to set audio AND video to `false`
+     * Data works by default.
+     */
     broadcasterSessionDefaults: {
       sessionAudio: true,
-      sessionVideo: false,
+      sessionVideo: true,
       sessionData: true,
       enableFileSharing: true,
     },
