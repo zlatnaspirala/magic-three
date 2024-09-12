@@ -4,6 +4,8 @@
 ## Logo
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/magic-three-ammo/public/assets/icons/icon.png" width="200" height="200">
 
+### Template/Demo [FPS SHOOTER HANG3d reborn](https://maximumroulette.com/apps/magic/public/module.html)
+
 Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of threejs and ammo.js. Magic-three use the new version threejs 149.
 [JS type of script `module` variant with last version of three.module.js]
 
