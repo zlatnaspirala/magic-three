@@ -212,15 +212,16 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
 ## Features
  - Dynamic Cache/Worker, add to home screen. [pwa]✅
  - Graphics/Physics scene ready.✅
- - Add 3d object loaders [fbx, collada]✅
- - Script compression bash script✅
+ - Add 3d object loaders [fbx, collada].✅
+ - Script compression bash script.✅
  - Basic FPS controller✅
  - Adding map pack principle.✅
  - Net Players.✅
+ - Tested on android12 devices.✅
  - Real Day time - sky(shaders) done  + wip envelop shaders adaptaion lights.⏳
- - Add account options REST API [rocketCraftingServer]
-   singin , leaderboard. Only client part no need backend i already have running 
-   rcs on maximumroulette.com ⏳
+ - Add account options REST API [rocketCraftingServer].
+   singin , leaderboard. Only client part no need backend i already have running
+   rcs on maximumroulette.com. ⏳
  - Net Shared objects +.⏳
  - Neutral enemy [bots] +.⏳
 
@@ -365,6 +366,8 @@ Only on startup for now:
    https://github.com/KEY4d-LAB/crypto-art-town
  - Networking based on https://github.com/muaz-khan/RTCMultiConnection
  - Font wargames used from https://www.dafont.com/wargames.font
+ - Audios , Great staff at https://gamesounds.xyz/?dir=OpenBundle
+   https://gamesounds.xyz/OpenBundle/LICENSE.txt
 
 ## More
 

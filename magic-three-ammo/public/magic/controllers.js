@@ -197,26 +197,22 @@ export function createFPSController() {
   const videoChatBtn = document.getElementById('videoChatBtn');
   videoChatBtn.addEventListener("click", (e) => {
     console.log('ACTIVATE CAMERA: to the other side', e.target.innerHTML);
-
-    if(App.net.connection.session.video == true) {
-      byId('matrix-net').style.display = 'none';
-      // App.net.titleStatus.click();
-      App.net.connection.session.video = false;
-      App.net.joinRoomBtn.click();
-      e.target.innerHTML = "CAMERA ⚪"
-    } else {
+    // if(App.net.connection.session.video == true) {
       byId('matrix-net').style.display = 'block';
       App.net.titleStatus.click();
-      App.net.connection.session.video = true
-      App.net.joinRoomBtn.click();
-      e.target.innerHTML = "CAMERA 🔴"
-    }
-
+      // App.net.connection.session.video = false;
+      // App.net.joinRoomBtn.click();
+      e.target.innerHTML = "NET ⚪"
+    // } else {
+    //   byId('matrix-net').style.display = 'block';
+    //   App.net.titleStatus.click();
+    //   // App.net.connection.session.video = true
+    //   // App.net.joinRoomBtn.click();
+    //   // e.target.innerHTML = "CAMERA 🔴"
+    // }
   })
-  // videoChatBtn
 
   const playBtn = document.getElementById('playBtn');
-
   playBtn.addEventListener(CLICK, () => {
     console.log("UNLOCK")
     this.LOCK = false;

@@ -106,6 +106,15 @@ export class Broadcaster {
       leaveGamePlay(rtcEvent) {
         let o = this.root.netPlayers['net_' + rtcEvent.userid];
         console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
+        // remove from peers
+        for ( var x = 0; x < this.root.connection.videosContainer.children.length; x++) {
+          var test = this.root.connection.videosContainer.children[x].children[2].children[0].innerHTML;
+          if (test == rtcEvent.userid) {
+            this.root.connection.videosContainer.children[x].remove();
+            console.log("::::remove video dom::::::",)
+          }
+        }
+        // remove from 3d scene
         console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
         delete this.root.netPlayers['net_' + rtcEvent.userid];
         console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
@@ -553,9 +562,10 @@ export class Broadcaster {
         myInstance.inputRoomId.nodeValue = myInstance.engineConfig.masterServerKey;
 
         if(myInstance.engineConfig.broadcastAutoConnect) {
-          console.log("%cTry auto connect [broadcaster].", NETLOG);
+          console.log("%c Try auto connect [broadcaster]. for 4 secounds [fix already have offer]", NETLOG);
           myInstance.injector = myInstance.multiPlayerRef;
-          myInstance.openOrJoinBtn.click();
+          // just test
+          setTimeout(() => myInstance.openOrJoinBtn.click(), 4000)
         }
 
       });

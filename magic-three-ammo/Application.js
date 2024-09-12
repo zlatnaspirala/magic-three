@@ -3,7 +3,7 @@
  * Main instance [default setup],
  * Magic Map Loader
  * @note Important note `don't import unused modules`.
- * @author Nikola Lukic zlatnaspirala_gmail.com
+ * @author Nikola Lukic zlatnaspirala@gmail.com
  * @personalSite https://maximumroulette.com
  */
 
@@ -26,7 +26,8 @@ let t = label.t;
 
 export default class Application extends MagicPhysics {
 
-  APP_VERSION = "0.1.3";
+  // 0. BETA VERSIONS
+  APP_VERSION = "0.3.0";
 
   // Graphics variables
   container = getDom("container");
@@ -136,6 +137,7 @@ export default class Application extends MagicPhysics {
     }
 
     this.fx.createAudio('shot', "./assets/audios/single-gunshot.mp3", 5)
+    this.fx.createAudio('bg', "./assets/audios/backgrounds/chaoticfilth.mp3")
     runCache(this.config.cache);
 
     // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'zombie1').then((r) => {
@@ -165,8 +167,8 @@ export default class Application extends MagicPhysics {
     // Check from config is it Account used here.
     // RCSAccount
     if (this.config.useRCSAccount == true) {
-      console.log('test ACCOUNTS >>>>>>>>>>>>>>>>>>>>')
-      this.myAccounts = new RCSAccount()
+      this.myAccounts = new RCSAccount();
+      console.log('<ACCOUNTS> ', this.myAccounts);
     }
 
     // Attach funcs
@@ -217,19 +219,20 @@ export default class Application extends MagicPhysics {
     this.theme = new MagicTheme();
     let themeDOM = byId('theme-color').onchange = (e) => {
       // Change theme attach event..
-      console.log("TEST e in theme ", e.target.selectedOptions[0].value);
+      console.log("theme=>", e.target.selectedOptions[0].value);
       dispatchEvent(new CustomEvent('theme', {detail: e.target.selectedOptions[0].value}))
     };
 
-    let languageDOM = byId('language').onchange = (e) => {
+    let languageDOM = byId('language');
+    languageDOM.onchange = (e) => {
       // Change theme attach event..
-      console.log("TEST e language ", e.target.selectedOptions[0].value);
+      console.log("language=>", e.target.selectedOptions[0].value);
       dispatchEvent(new CustomEvent('language', {detail: e.target.selectedOptions[0].value}))
     };
 
     // hud-message
     addEventListener('onHudMsg', (e) => {
-      console.log('Update HUD title message , e.detail.o = ', e.detail.msg)
+      console.log('Update HUD title message, e.detail.msg = ', e.detail.msg)
       byId('hud-message').innerHTML = e.detail.msg;
     })
 
@@ -483,6 +486,10 @@ export default class Application extends MagicPhysics {
     this.loadMap(this.currentMap);
     // Load custom elements ...
 
+    // play bg music
+    if (this.config.map.autoplayBgMusic == true) {
+      this.fx.play('bg')
+    }
   }
 
   attachFire() {

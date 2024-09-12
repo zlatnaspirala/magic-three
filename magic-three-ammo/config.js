@@ -14,6 +14,7 @@ const config = {
     order: 'YXZ'
   },
   map: {
+    autoplayBgMusic: true,
     sky: {
       enabled: true,
       uniforms: {
