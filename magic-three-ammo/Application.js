@@ -97,7 +97,7 @@ export default class Application extends MagicPhysics {
 
     console.log(`%c -Deep -`, BIGLOG);
 
-    
+
     // console.info = () => {}
 
     addEventListener('multi-lang', () => {
@@ -420,17 +420,26 @@ export default class Application extends MagicPhysics {
     byId('playerMunition').innerHTML = this.playerItems.munition;
 
     addEventListener('onDie', (e) => {
+      // only local
       console.info(`%c onDie Event ${e} !`, REDLOG)
       if(this.config.playerController.onEvent.onDie == "reload") {
         location.reload();
       } else if(this.config.playerController.onEvent.onDie == "justHideNetPlayer") {
-        // // search in scene for name netPlayerId
-        // console.log('e.detail.netPlayerId>>>??', e.detail.netPlayerId, " - ", e.detail.netPlayerId)
+        // search in scene for name netPlayerId
         // // LocalPlayer always triggered...
-        // var object = this.scene.getObjectByName('player');
         // object.visible = false;
+        this.playerData.energy = 1000;
+        this.playerData.dies++;
+        byId('playerEnergy').innerHTML = this.playerData.energy;
+        var object = this.scene.getObjectByName(e.detail.netPlayerId)
+        console.log('onDie e.detail.netPlayerId>? ', e.detail.netPlayerId, " - ", object)
+        // Test  removing 3d obj
+        // if (object && object.remove) {
+        //   object.remove()
+        //   console.log('object.remove() is defined ')
+        // }
         // default reload make it for negging simpleway.
-        location.reload();
+        // location.reload();
       } else {
         // default reload
         location.reload();
@@ -464,6 +473,16 @@ export default class Application extends MagicPhysics {
             netPlayerId: e.detail.for
           }
         }))
+
+        this.net.connection.send({
+          killScore: {
+            "TEST": "",
+            for: e.detail.myNetPromise,
+          }
+        })
+
+        // send/emit info to destroy net player 
+        // this.net.connection.send()
       } else {
         this.playerData.energy -= 100;
       }

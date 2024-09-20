@@ -78,9 +78,12 @@ export class KureBroadcaster {
         if(e.data.netDamage) {
           var local = e.data.netDamage.for.replace('net_', '')
           if(local == App.net.connection.session.connection.connectionId) {
-            console.log('MY DAMAGE =', e.data)
             dispatchEvent(new CustomEvent('onMyDamage', {detail: e.data.netDamage}))
           }
+        }
+
+        if (e.data.killScore) {
+          console.log('!!!!KILL SCORE   =', e.data.killScore)
         }
       },
       /**
