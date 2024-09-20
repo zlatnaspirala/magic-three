@@ -219,6 +219,13 @@ List of top level CustomEvents :
  ```
 
 
+## Backend part based on OV/Kurento. *recommendation*
+
+  i use OV 2.20.0 client part.
+  I borrowed a service with an address `https://maximumroulette.com:2020`
+  Interface send(arg) function is the same like other variantof networking.
+
+
 ## Backend part based on multiRTC3.
 For now only signaling pricipe is implemented.
 If you wanna start host server and broadcaster[webRtc] then:
