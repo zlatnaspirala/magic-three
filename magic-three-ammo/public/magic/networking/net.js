@@ -1,10 +1,14 @@
 import * as THREE from "three";
-// import {MathUtils} from "three";
 import {MagicLoader} from "../loaders.js";
 import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
 import "./rtc-multi-connection/FileBufferReader.js";
 import {getHTMLMediaElement} from "./rtc-multi-connection/getHTMLMediaElement.js";
-import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
+
+// import * as RTCMultiConnection3 from "./rtc-multi-connection/RTCMultiConnection3.js";
+import * as RTCMultiConnection from "./rtc-multi-connection/RTCLAST.js";
+
+let RTCMultiConnection3 = RTCMultiConnection;
+
 import {label} from "../multi-lang.js";
 let t = label.t;
 
@@ -102,11 +106,11 @@ export class Broadcaster {
        * If someone leaves all client actions is here
        * - remove from scene
        * - clear object from netObject_x
+       * - remove video remote stream dom element
        */
       leaveGamePlay(rtcEvent) {
         let o = this.root.netPlayers['net_' + rtcEvent.userid];
         console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
-        // remove from peers
         for ( var x = 0; x < this.root.connection.videosContainer.children.length; x++) {
           var test = this.root.connection.videosContainer.children[x].children[2].children[0].innerHTML;
           if (test == rtcEvent.userid) {
@@ -117,19 +121,21 @@ export class Broadcaster {
         // remove from 3d scene
         console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
         delete this.root.netPlayers['net_' + rtcEvent.userid];
-        console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
+        // console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
       }
     };
 
-    // console.log("TEST ACCESS FOR NET CLASS BASE ", this.net);
     this.engineConfig = config.networking;
+    this.engineConfig2 = config.networking2;
     if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
+    } else if (this.engineConfig2.runKureOnInt == true) {
+      this.runKureOrange();
     }
   }
 
   closeAllPeers() {
-    this.connection.close();
+    this.connection.close()
   }
 
   openRoomBtnVisible = (visible) => {
@@ -161,6 +167,19 @@ export class Broadcaster {
     this.openRoomBtnVisible(true);
   }
 
+  initDOMKure() {
+    this.broadcasterUI = byId("matrix-net");
+    // this.titleStatus = byId("rtc3log");
+    // this.openRoomBtn = byId("open-room");
+    // this.joinRoomBtn = byId("join-room");
+    // this.openOrJoinBtn = byId("open-or-join-room");
+    // this.leaveRoomBtn = byId("btn-leave-room");
+    // this.shareFileBtn = byId("share-file");
+    // this.inputChat = byId("input-text-chat");
+    // this.inputRoomId = byId("room-id");
+    // this.openRoomBtnVisible(true);
+  }
+
   streamLoaded(userId, streamAccess) {
     const broadcasterStreamLoaded = createAppEvent("stream-loaded", {
       streamId: streamAccess,
@@ -172,7 +191,7 @@ export class Broadcaster {
 
   initWebRtc = (options) => {
     const root = this;
-    console.log("TEST initWebRtc  ", options);
+    console.log("initWebRtc=>", options);
     try {
       this.connection = new (RTCMultiConnection3)();
     } catch(err) {
@@ -188,14 +207,14 @@ export class Broadcaster {
 
       // new logic sep 2024
       // Only in peer connection - not initially
-      console.log("TEST VIDEO OFFER", options.session.video);
+      // console.log("TEST VIDEO OFFER", options.session.video);
       this.connection.session = {
         audio: options.session.audio,
         video: options.session.video,
         data: options.session.data,
       };
     } else {
-      console.log("TEST VIDEO OFFER", root.engineConfig.broadcasterSessionDefaults);
+      // console.log("TEST VIDEO OFFER", root.engineConfig.broadcasterSessionDefaults);
       this.connection.enableFileSharing = root.engineConfig.broadcasterSessionDefaults.enableFileSharing;
       this.connection.session = {
         audio: root.engineConfig.broadcasterSessionDefaults.sessionAudio,
@@ -206,21 +225,12 @@ export class Broadcaster {
 
     this.connection.sdpConstraints.mandatory = {
       OfferToReceiveAudio: true,
-      OfferToReceiveVideo: false,
+      OfferToReceiveVideo: true,
     };
 
-    this.connection.iceServers = [
-      {
-        urls: root.engineConfig.stunList,
-      },
-    ];
-
-    this.connection.videosContainer = document.getElementById(
-      "videos-container"
-    );
-
-    this.connection.videosContainer.setAttribute(
-      "style",
+    this.connection.iceServers = [{urls: root.engineConfig.stunList,},];
+    this.connection.videosContainer = document.getElementById("videos-container");
+    this.connection.videosContainer.setAttribute("style",
       "position:absolute;left:0;bottom:20%;width:320px;height:auto;"
     );
 
@@ -245,11 +255,7 @@ export class Broadcaster {
       });
 
       root.connection.videosContainer.appendChild(mediaElement);
-
-      setTimeout(function() {
-        (mediaElement).media.play();
-      }, 2000);
-
+      setTimeout(function() {(mediaElement).media.play()}, 2000);
       console.info('event.streamid:', event.streamid)
       mediaElement.id = event.streamid;
       root.streamLoaded(event.userid, event.streamid);
@@ -567,7 +573,6 @@ export class Broadcaster {
           // just test
           setTimeout(() => myInstance.openOrJoinBtn.click(), 4000)
         }
-
       });
   };
 }

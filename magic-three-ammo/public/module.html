@@ -8,8 +8,8 @@
   <meta name="description" content="Based on threejs and ammo.js. Powerfull with fully PWA features. Created by Nikola Lukic maximumroulette.com @2023. First person shooter basic free open source code.Not just FPS you can create any type of client app." />
   <meta name="theme-color" content="black" />
   <link rel="apple-touch-icon" href="assets/icons/icon.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-status-bar-style" content="black-translucent" />
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icons/icon.png" />
   <link rel="icon" type="image/png" sizes="96x96" href="assets/icons/icon96.png" />
   <link rel="icon" type="image/png" sizes="192x192" href="assets/icons/apple.png" />
@@ -23,22 +23,20 @@
   <!-- <img style="position: absolute;top: -10000px" src="assets/textures/cube/hang3d.png"/> -->
   <div id="info" class="hud-bar-bg">
     <div class="leftTitle">
-      <div class="hudItem" id="header.title"></div>
+      <div class="hudItem" id="header.title" data-label="title"></div>
     </div>
     <div class=" response">
-      <div class="hudItem" id="playerEnergy.label"></div>
+      <div class="hudItem" id="playerEnergy.label" data-label="energy"></div>
       <div class="hudItem" id="playerEnergy"></div>
-      <div class="hudItem" id="playerMunition.label"></div>
+      <div class="hudItem" id="playerMunition.label" data-label="munition"></div>
       <div class="hudItem" id="playerMunition"></div>
-      <div class="hudItem" id="playerKills.label"></div>
+      <div class="hudItem" id="playerKills.label" data-label="kills.label"></div>
       <div class="hudItem" id="playerKills"></div>
     </div>
   </div>
   <div id="infoMsg" class="hud-bar-bg">
     <div class="response">
-      <div class="" id="hud-message">
-        Welcome here my friends!
-      </div>
+      <div id="hud-message" data-label="welcome"></div>
     </div>
   </div>
   <div id="matrix-net"></div>
@@ -64,14 +62,12 @@
         </select>
 
       </div>
-      <button id="videoChatBtn" style="z-index:100">
+      <button id="videoChatBtn" style="z-index:100" data-label="camera">
         Camera ⚪
       </button>
-      <button id="aboutBtn" style="z-index:100">
-        ABOUT
-      </button>
+      <button id="aboutBtn" style="z-index:100" data-label="about"></button>
       <div style="z-index:100" onclick="console.log('TEST')">
-        created by zlatnaspirala
+        <span data-label="createdBy"></span> zlatnaspirala
       </div>
     </div>
   </div>

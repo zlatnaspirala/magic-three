@@ -6,12 +6,22 @@ class MultiLang {
     if(l !== null) {this.curLang = l;} else {this.curLang = 'en';}
     this.get = {};
     this.update = function() {
+      console.log('TEST')
       document.querySelectorAll("[data-label]").forEach((el) => {
         let l = el.getAttribute('data-label');
         el.innerHTML = this.get[l];
       });
     }
   }
+
+  // update() {
+    
+	// 	var a = document.querySelectorAll('[data-label]');
+	// 	a.forEach((i) => {
+  //     console.log('TEST2')
+	// 		i.innerHTML = App.label.get[i.getAttribute('data-label')]
+	// 	})
+	// }
 
   t = (wordId) => {
     if(typeof wordId === 'undefined') {
@@ -51,11 +61,11 @@ class MultiLang {
 var lang = urlFlag('lang');
 let label = new MultiLang(lang);
 label.loadPack(lang, function() {
-  const mlready = new CustomEvent('multi-lang-ready', {});
+  const mlready = new CustomEvent('multi-lang', {});
   dispatchEvent(mlready);
   console.info('%cMagic-Three: MultiLang loaded.', ANYLOG);
-});
+})
 
 export {
   label
-};
+}

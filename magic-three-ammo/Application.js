@@ -91,14 +91,16 @@ export default class Application extends MagicPhysics {
     this.config = config;
     this.currentMap = currentMap;
 
-    addEventListener('multi-lang-ready', () => {
-      document.title = t('title');
-      if(byId('loading.label')) byId('loading.label').innerHTML = t('loading');
-      byId('header.title').innerHTML = t('title');
+    addEventListener('multi-lang', () => {
+      setTimeout(()=> App.label.update(), 100)
+
+      const domLoader = document.getElementById('instructions');
+      domLoader.innerHTML = startUpScreen();
+
+      if (App.net && App.net.connection && App.net.connection.isInitiator == true) byId('hud-message').innerHTML = t('you.are.host');
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
-      byId('playerMunition.label').innerHTML = t('munition');
-      byId('playerEnergy.label').innerHTML = t('energy');
-      byId('playerKills.label').innerHTML = t('kills.label');
+
+      document.title = t('title');
     });
 
     addEventListener('stream-loaded', (e) => {
@@ -154,11 +156,11 @@ export default class Application extends MagicPhysics {
     //    */
     // }));
 
-    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
-    //   console.info('Setup player animation character obj =>', r);
-    //   App.TESTOBJ = r;
-    //   // r.position.set(10, 0, 10);
-    // }));
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
+      console.info('Setup BOT ENEMY animation character obj =>', r);
+      App.TESTOBJ = r;
+      // r.position.set(10, 0, 10);
+    }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
@@ -208,7 +210,7 @@ export default class Application extends MagicPhysics {
     this.createFPSController = createFPSController.bind(this);
     this.initGraphics();
     this.initPhysics();
-    this.activateNet();
+    this.activateNet('KURE');
     this.createObjects();
     this.attachFire();
     this.initGamePlayEvents();
@@ -227,7 +229,14 @@ export default class Application extends MagicPhysics {
     languageDOM.onchange = (e) => {
       // Change theme attach event..
       console.log("language=>", e.target.selectedOptions[0].value);
-      dispatchEvent(new CustomEvent('language', {detail: e.target.selectedOptions[0].value}))
+
+      let lang =  e.target.selectedOptions[0].value;
+      App.label.loadPack(lang, function() {
+        const mlready = new CustomEvent('multi-lang', {});
+        dispatchEvent(mlready);
+        console.info('%c Magic-Three: MultiLang loaded.', ANYLOG);
+      });
+      // dispatchEvent(new CustomEvent('language', {detail: e.target.selectedOptions[0].value}))
     };
 
     // hud-message
@@ -493,13 +502,10 @@ export default class Application extends MagicPhysics {
   }
 
   attachFire() {
-    console.log('tets >>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+    // console.log('<AtachFire>')
     var canvasDOM = document.getElementsByTagName('canvas')[0];
-
     window.addEventListener("pointerdown", (event) => {
-
       if(this.LOCK == false) return;
-
       if(this.playerItems.munition > 0) {
         // if you wanna use custom 
         // this.mouseCoords.set(
@@ -507,7 +513,6 @@ export default class Application extends MagicPhysics {
         //   -(event.clientY / window.innerHeight) * 2 + 1
         // );
         this.mouseCoords.set(0, 0);
-
         this.raycaster.setFromCamera(this.mouseCoords, this.camera);
 
         // Creates a ball and throws it

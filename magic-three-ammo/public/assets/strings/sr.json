@@ -1,5 +1,7 @@
 {
   "title": "HANG3D REBORN",
+  "welcome": "Dobrodosli prijatelji",
+  "about": "Opis",
   "play": "IGRAJ",
   "munition": "MUNICIJA: ",
   "move": "KONTROLE",
@@ -20,6 +22,10 @@
   "dark": "Dark",
   "light": "Light",
 
+  "createdBy": "Kreiro",
+  "Project": "Izvorni kod projekta",
+  "Based": "Bazirano na",
   "sr": "Srpski",
-  "en": "Engleski"
+  "en": "Engleski",
+  "camera": "Kamera ⚪"
 }

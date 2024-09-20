@@ -1,13 +1,19 @@
 import ClientConfig from "../../../config.js";
 import {ANYLOG} from "../utility.js";
+import {KureBroadcaster} from "./kure.js";
 import {Broadcaster} from "./net.js";
 
 export class MagicNetworking {
   net = {};
   constructor() {}
-  activateNet = () => {
-    this.net = new Broadcaster(ClientConfig, this.scene);
-    console.info('%cMagic-Three: Networking is active.', ANYLOG);
+  activateNet = (arg) => {
+    if(typeof arg !== 'undefined') {
+      this.net = new Broadcaster(ClientConfig, this.scene);
+      console.info('%cMagic-Three: Networking (rtcMulti) is active.', ANYLOG);
+    } else {
+      this.net = new KureBroadcaster(ClientConfig, this.scene);
+      console.info('%cMagic-Three: Networking (kure) is active.', ANYLOG);
+    }
     // Inject
     this.net.createNetPlayerCollisionBox = this.createNetPlayerCollisionBox;
     this.net.createBlockingBox = this.createBlockingBox;

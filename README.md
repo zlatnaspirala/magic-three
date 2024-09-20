@@ -339,7 +339,8 @@ In final time you can use .prod.js compressed files to make full optimised app w
 
 Only on startup for now:
 ```js
-    addEventListener('multi-lang-ready', () => {
+    addEventListener('multi-lang', () => {
+      // You can setup inline or you can use data-label="KEY"
       byId('header.title').innerHTML = t('title');
       byId('player.munition.label').innerHTML = t('munition');
       ...

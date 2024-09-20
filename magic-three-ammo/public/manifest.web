@@ -2,7 +2,7 @@
   "name": "Magic three",
   "short_name": "magic-three",
   "id": "/public/module.html",
-  "start_url": "https://localhost/public/module.html",
+  "start_url": "https://maximumroulette.com/apps/magic/public/",
   "orientation": "landscape",
   "theme_color": "orange",
   "background_color": "black",

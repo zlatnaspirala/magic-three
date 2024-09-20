@@ -21,6 +21,7 @@ export function createFPSController() {
     `)
     domSpace.innerText = `JUMP`;
     domSpace.addEventListener('touchstart', (e) => {
+      e.preventDefault();
       actionSpace()
     })
     document.body.append(domSpace)
@@ -41,10 +42,12 @@ export function createFPSController() {
     `)
     domRight.innerText = `RIGHT`;
     domRight.addEventListener('touchstart', (e) => {
+      e.preventDefault();
       console.log('TEST RIGHT')
       this.moveRight = true;
     })
     domRight.addEventListener('touchend', (e) => {
+      e.preventDefault();
       this.moveRight = false;
     })
     document.body.append(domRight)
@@ -65,11 +68,12 @@ export function createFPSController() {
     `)
     domLeft.innerText = `LEFT`;
     domLeft.addEventListener('touchstart', (e) => {
-      // actionSpace()
+      e.preventDefault();
       console.log('TEST domLeft')
       this.moveLeft = true;
     })
     domLeft.addEventListener('touchend', (e) => {
+      e.preventDefault();
       this.moveLeft = false;
     })
     document.body.append(domLeft)
@@ -90,11 +94,12 @@ export function createFPSController() {
     `)
     domUp.innerText = `UP`;
     domUp.addEventListener('touchstart', (e) => {
-      // actionSpace()
+      e.preventDefault();
       console.log('TEST domUp')
       this.moveForward = true;
     })
     domUp.addEventListener('touchend', (e) => {
+      e.preventDefault();
       this.moveForward = false;
     })
     document.body.append(domUp)
@@ -115,9 +120,11 @@ export function createFPSController() {
     `)
     domDown.innerText = `DOWN`;
     domDown.addEventListener('touchstart', (e) => {
+      e.preventDefault();
       this.moveBackward = true;
     })
     domDown.addEventListener('touchend', (e) => {
+      e.preventDefault();
       this.moveBackward = false;
     })
     document.body.append(domDown)
@@ -140,11 +147,11 @@ export function createFPSController() {
     
     `;
     domAngleAxis.addEventListener('touchstart', (e) => {
+      e.preventDefault();
       // actionSpace()
     })
     document.body.append(domAngleAxis)
   }
-
 
   if(isMobile == false) {
     this.controls = new PointerLockControls(this.camera, document.body);
@@ -176,7 +183,8 @@ export function createFPSController() {
   }
 
   const aboutBtn = document.getElementById('aboutBtn');
-  aboutBtn.addEventListener("click", () => {
+  aboutBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     console.log('your chance is: ' + toUnicodeVariant('100% free project at https://github.com/zlatnaspirala/magic-three', 'bold WARGAMES', 'bold'));
     alert(`${toUnicodeVariant(`HANG3D REBORN ☢️ \n
         Magic-Three is threejs vs ammojs project.
@@ -196,24 +204,19 @@ export function createFPSController() {
 
   const videoChatBtn = document.getElementById('videoChatBtn');
   videoChatBtn.addEventListener("click", (e) => {
+    e.preventDefault();
     console.log('ACTIVATE CAMERA: to the other side', e.target.innerHTML);
-    // if(App.net.connection.session.video == true) {
+    if(byId('matrix-net').style.display == 'block') {
+      byId('matrix-net').style.display = 'none';
+      e.target.innerHTML = "NET🔴"
+    } else {
       byId('matrix-net').style.display = 'block';
-      App.net.titleStatus.click();
-      // App.net.connection.session.video = false;
-      // App.net.joinRoomBtn.click();
-      e.target.innerHTML = "NET ⚪"
-    // } else {
-    //   byId('matrix-net').style.display = 'block';
-    //   App.net.titleStatus.click();
-    //   // App.net.connection.session.video = true
-    //   // App.net.joinRoomBtn.click();
-    //   // e.target.innerHTML = "CAMERA 🔴"
-    // }
+    }
   })
 
   const playBtn = document.getElementById('playBtn');
-  playBtn.addEventListener(CLICK, () => {
+  playBtn.addEventListener(CLICK, (e) => {
+    e.preventDefault();
     console.log("UNLOCK")
     this.LOCK = false;
     if(isMobile == false) {
@@ -342,6 +345,7 @@ export function createFPSController() {
     var canvasDOM = document.getElementsByTagName('canvas')[0];
 
     canvasDOM.addEventListener('touchend', (e) => {
+      e.preventDefault();
       this.moveLeft = false;
       this.moveRight = false;
       this.moveBackward = false;
@@ -360,6 +364,7 @@ export function createFPSController() {
 
     var _;
     canvasDOM.addEventListener('touchstart', (e) => {
+      e.preventDefault();
       var firstTouch = e.changedTouches[0];
       if(this.config.playerController.mobile.hudControls == false) {
         var now = new Date().getTime()

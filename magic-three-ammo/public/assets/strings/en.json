@@ -1,6 +1,8 @@
 {
   "title": "HANG3D REBORN☢️",
   "play": "PLAY",
+  "welcome": "Welcome here my friends",
+  "about": "About",
   "munition": "Munition: ",
   "move": "MOVE",
   "jump": "JUMP",
@@ -20,6 +22,10 @@
   "dark": "Dark",
   "light": "Light",
 
+  "createdBy": "Created By",
+  "Project": "Project source code",
+  "Based": "Based on",
   "sr": "Serbian",
-  "en": "English"
+  "en": "English",
+  "camera": "Camera ⚪"
 }

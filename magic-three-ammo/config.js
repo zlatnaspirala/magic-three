@@ -85,7 +85,7 @@ const config = {
     },
     bullet: {
       mass: 20,
-      radius: 1,
+      radius: 0.07,
       power: 200,
       bulletLiveTime: 1000
     },
@@ -111,8 +111,8 @@ const config = {
      * endpoint p2p. Multimedia server channel/multiRTC3 used.
      */
     masterServerKey: "magic.three.main.channel",
-    runBroadcasterOnInt: true,
-    broadcastAutoConnect: true,
+    runBroadcasterOnInt: false,
+    broadcastAutoConnect: false,
     /**
      * If you dont wanna initially camera call
      * you need to set audio AND video to `false`
@@ -125,6 +125,10 @@ const config = {
       enableFileSharing: true,
     },
     stunList: [
+      "stun:maximumroulette.com:5349?transport=udp",
+      "stun:maximumroulette.com:3478?transport=udp",
+      "maximumroulette.com:3478",
+      "maximumroulette.com:5349",
       "stun:stun.l.google.com:19302",
       "stun:stun1.l.google.com:19302",
       "stun:stun.l.google.com:19302?transport=udp",
@@ -133,6 +137,10 @@ const config = {
       return getProtocolFromAddressBar() + getDomain() + ":" + this.broadcasterPort + "/";
     }
   },
+  networking2: {
+    masterChannel: "magic",
+    runKureOnInt: true,
+  }
 }
 
 export default config;
