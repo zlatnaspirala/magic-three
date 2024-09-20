@@ -1,13 +1,13 @@
 import {byId} from "../magic/utility.js";
-
-var OV;
-var numVideos = 0;
-var sessionName;
-var token;
-
+var OV;var numVideos = 0;var sessionName;var token;
 export var session;
+export function joinSession(options) {
 
-export function joinSession() {
+	if (typeof options === 'undefined') {
+		options = {
+			resolution : '320x240'
+		};
+	}
 
 	document.getElementById("join-btn").disabled = true;
 	document.getElementById("join-btn").innerHTML = "Joining...";
@@ -113,7 +113,7 @@ export function joinSession() {
 					videoSource: undefined, // The source of video. If undefined default webcam
 					publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
 					publishVideo: true, // Whether you want to start publishing with your video enabled or not
-					resolution: '320x240', // The resolution of your video
+					resolution: options.resolution, // The resolution of your video
 					frameRate: 30, // The frame rate of your video
 					insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
 					mirror: false // Whether to mirror your local video or not

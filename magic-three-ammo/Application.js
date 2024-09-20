@@ -91,7 +91,7 @@ export default class Application extends MagicPhysics {
     this.config = config;
     this.currentMap = currentMap;
 
-    console.info = () => {}
+    // console.info = () => {}
 
     addEventListener('multi-lang', () => {
       setTimeout(() => App.label.update(), 100)
@@ -99,13 +99,10 @@ export default class Application extends MagicPhysics {
       const domLoader = document.getElementById('instructions');
       domLoader.innerHTML = startUpScreen();
 
-
       if(this.config.networking.broadcasterInit == true) {
         if(App.net && App.net.connection && App.net.connection.isInitiator == true) byId('hud-message').innerHTML = t('you.are.host');
       }
-
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
-
       document.title = t('title');
     });
 
@@ -197,16 +194,13 @@ export default class Application extends MagicPhysics {
       domLoader.innerHTML = startUpScreen();
 
       this.init();
-
       this.setupContactResultCallback();
-      this.setupContactPairResultCallback(); // new test ???
-
+      this.setupContactPairResultCallback();
       this.animate();
 
       byId('matrix-net').style.display = 'none';
       setTimeout(() => {
         byId('matrix-net').style.display = 'none';
-        // Override from url params
         if(QueryString.dev && QueryString.dev == "true") {
           console.log('MAKE BLOCK VOLUMES VISIBLE DISPATCH')
           dispatchEvent(new CustomEvent('config.map.blockingVolumes.visible', {detail: {map: {blockingVolumes: {visible: true}}}}))
@@ -239,7 +233,6 @@ export default class Application extends MagicPhysics {
     languageDOM.onchange = (e) => {
       // Change theme attach event..
       console.log("language=>", e.target.selectedOptions[0].value);
-
       let lang = e.target.selectedOptions[0].value;
       App.label.loadPack(lang, function() {
         const mlready = new CustomEvent('multi-lang', {});
@@ -262,25 +255,17 @@ export default class Application extends MagicPhysics {
 
     if(this.config.map.nightAndDay.enabled == true) {
       this.nightAndDayThread = setInterval(() => {
-
-        // console.log('TTTTTTTTTT',  this.sky.material.uniforms)
         if(this.nightAndDayStatus == 'day') {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y - 15;
 
-          // App.ambientLight.color.add({r: -0.1, g:-0.1, b:-0.1}) 
           if(this.sky.material.uniforms.sunPosition.value.y < -500) {
             // night
-
-            // this.sky.material.uniforms.sunPosition.value.x = 
-            // this.sky.material.uniforms.turbidity.value += 0.1;
-
             this.sky.material.uniforms.sunPosition.value.x = -1000
             this.nightAndDayStatus = 'night'
           }
         } else {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y + 15
           if(this.sky.material.uniforms.sunPosition.value.y > 1000) {
-            // this.sky.material.uniforms.turbidity.value -= 0.1;
             // night
             this.sky.material.uniforms.sunPosition.value.x = 1000
             this.nightAndDayStatus = 'day'
@@ -455,17 +440,12 @@ export default class Application extends MagicPhysics {
 
     addEventListener('enemyDamage', (e) => {
       console.info(`%c enemyDamage Event ${e} !`, REDLOG)
-
-      if(this.config.networking.broadcasterInit == true) {
-        if(this.net.connection) this.net.connection.send({
-          netDamage: {
-            for: e.detail.myNetPromise,
-            value: e.detail.value
-          }
-        })
-      }
-
-
+      if(this.net.connection) this.net.connection.send({
+        netDamage: {
+          for: e.detail.myNetPromise,
+          value: e.detail.value
+        }
+      })
     });
 
     addEventListener('onMyDamage', (e) => {
@@ -622,37 +602,37 @@ export default class Application extends MagicPhysics {
           // 1.5 is correction
           // if(this.config.networking.broadcasterInit == true) {
           // remove READY flag for multiRTC(old net)
-            if(this.net.connection && typeof this.net.READY !== 'undefined') this.net.connection.send({
-              netPos: {
-                x: i.position.x,
-                y: i.position.y - 1.5,
-                z: i.position.z
-              },
-              netRot: {
-                x: this.camera.rotation.x,
-                y: this.camera.rotation.y,
-                z: this.camera.rotation.z
-              },
-              // netDamage: 0,
-              netQuaternion: this.camera.quaternion,
-              netObjId: this.net.connection.session.connection.connectionId,
-              netType: 'netPlayer' // can be shared or enemy comp
-            })
+          if(this.net.connection && typeof this.net.READY !== 'undefined') this.net.connection.send({
+            netPos: {
+              x: i.position.x,
+              y: i.position.y - 1.5,
+              z: i.position.z
+            },
+            netRot: {
+              x: this.camera.rotation.x,
+              y: this.camera.rotation.y,
+              z: this.camera.rotation.z
+            },
+            // netDamage: 0,
+            netQuaternion: this.camera.quaternion,
+            netObjId: this.net.connection.session.connection.connectionId,
+            netType: 'netPlayer' // can be shared or enemy comp
+          })
           // }s
         } else if(i.netType == 'envObj') {
-          if(this.config.networking.broadcasterInit == true) {
-            if(this.net.connection) this.net.connection.send({
-              netPos: {
-                x: i.userData.physicsBody.getLinearVelocity().x(),
-                y: i.userData.physicsBody.getLinearVelocity().y(),
-                z: i.userData.physicsBody.getLinearVelocity().z()
-              },
-              netQuaternion: i.quaternion,
-              // name must be uniq
-              netObjId: i.name,
-              netType: 'netEnvObj'
-            })
-          }
+          // if(this.config.networking.broadcasterInit == true) {
+          if(this.net.connection) this.net.connection.send({
+            netPos: {
+              x: i.userData.physicsBody.getLinearVelocity().x(),
+              y: i.userData.physicsBody.getLinearVelocity().y(),
+              z: i.userData.physicsBody.getLinearVelocity().z()
+            },
+            netQuaternion: i.quaternion,
+            // name must be uniq
+            netObjId: i.name,
+            netType: 'netEnvObj'
+          })
+          // }
 
         }
       });

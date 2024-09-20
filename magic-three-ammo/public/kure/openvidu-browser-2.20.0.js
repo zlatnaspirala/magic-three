@@ -10734,7 +10734,7 @@ var OpenViduLogger = (function () {
         this.MAX_MSECONDS_BATCH_MESSAGES = 5000;
         this.MAX_LENGTH_STRING_JSON = 1000;
         this.defaultConsoleLogger = new ConsoleLogger_1.ConsoleLogger(window.console);
-        this.isProdMode = false;
+        this.isProdMode = true;
         this.isJSNLogSetup = false;
     }
     OpenViduLogger.configureJSNLog = function (openVidu, token) {

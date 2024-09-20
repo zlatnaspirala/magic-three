@@ -49,7 +49,7 @@ export class KureBroadcaster {
             if(typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
               this.root.netPlayers['net_' + e.data.netObjId].position.set(
                 e.data.netPos.x,
-                e.data.netPos.y - 1.2, // correction
+                e.data.netPos.y - 2.1, // correction
                 e.data.netPos.z,
               )
               var axis = new THREE.Vector3(0, 1, 0);
@@ -77,7 +77,7 @@ export class KureBroadcaster {
 
         if(e.data.netDamage) {
           var local = e.data.netDamage.for.replace('net_', '')
-          if(local == App.net.connection.userid) {
+          if(local == App.net.connection.session.connection.connectionId) {
             console.log('MY DAMAGE =', e.data)
             dispatchEvent(new CustomEvent('onMyDamage', {detail: e.data.netDamage}))
           }
@@ -130,7 +130,7 @@ export class KureBroadcaster {
           to: [],
           type: CHANNEL
         }).then(() => {
-          console.log('EMIT_ALL successfully');
+          // console.log('EMIT_ALL successfully');
         }).catch(error => {
           console.error("Erro signal => ", error);
         });
@@ -154,27 +154,9 @@ export class KureBroadcaster {
     })
 
     // auto start1
-    joinSession();
-    /**
-     *       if(this.net.connection) this.net.connection.send({
-              netPos: {
-                x: i.position.x,
-                y: i.position.y - 1.5,
-                z: i.position.z
-              },
-              netRot: {
-                x: this.camera.rotation.x,
-                y: this.camera.rotation.y,
-                z: this.camera.rotation.z
-              },
-              // netDamage: 0,
-              netQuaternion: this.camera.quaternion,
-              netObjId: this.net.connection.userid,
-              netType: 'netPlayer' // can be shared or enemy comp
-            })
-     */
-
-
+    joinSession({
+      resolution: '160x120'
+    });
   }
 
   appendDIV = event => {
