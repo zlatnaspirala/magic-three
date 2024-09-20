@@ -1,27 +1,16 @@
 import {ANYLOG, urlFlag} from "./utility.js";
 
 class MultiLang {
-
   constructor(l) {
     if(l !== null) {this.curLang = l;} else {this.curLang = 'en';}
     this.get = {};
     this.update = function() {
-      console.log('TEST')
       document.querySelectorAll("[data-label]").forEach((el) => {
         let l = el.getAttribute('data-label');
         el.innerHTML = this.get[l];
       });
     }
   }
-
-  // update() {
-    
-	// 	var a = document.querySelectorAll('[data-label]');
-	// 	a.forEach((i) => {
-  //     console.log('TEST2')
-	// 		i.innerHTML = App.label.get[i.getAttribute('data-label')]
-	// 	})
-	// }
 
   t = (wordId) => {
     if(typeof wordId === 'undefined') {

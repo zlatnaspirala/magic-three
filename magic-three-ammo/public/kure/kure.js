@@ -461,7 +461,7 @@ export function checkBtnsRecordings() {
 export function pushEvent(event) {
 	events += (!events ? '' : '\n') + event.type;
 	byId('textarea-events').innerText = events;
-	console.info("EVENT: ", events)
+	// console.info("EVENT: ", events)
 }
 
 export function clearHttpTextarea() {

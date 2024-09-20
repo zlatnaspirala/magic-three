@@ -112,7 +112,7 @@ export class KureBroadcaster {
     this.runKureOrange();
 
     addEventListener('setupSessionObject', (e) => {
-      console.log("ONLY ONES  setupSessionObject=>", e);
+      // console.log("ONLY ONES  setupSessionObject=>", e);
       this.connection.session = session;
       this.connection.session.on(`signal:${this.config.networking2.masterChannel}`, (event) => {
         // console.log("RECEIVED=>", JSON.parse(event.data));
@@ -122,7 +122,7 @@ export class KureBroadcaster {
 
       });
       var CHANNEL = this.config.networking2.masterChannel
-      console.log("ONLY ONES CHANNEL =>", CHANNEL);
+      // console.log("ONLY ONES CHANNEL =>", CHANNEL);
       this.connection.send = (netArg) => {
         //// to Array of Connection objects (optional. Broadcast to everyone if empty)
         this.connection.session.signal({

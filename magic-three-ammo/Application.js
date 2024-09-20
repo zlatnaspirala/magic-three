@@ -91,6 +91,13 @@ export default class Application extends MagicPhysics {
     this.config = config;
     this.currentMap = currentMap;
 
+    console.log(`%c ------------------------------------------`, BIGLOG);
+    console.log(`%c ☢️HANG3D REBORN☢️ Version ${this.APP_VERSION}`, BIGLOG);
+    console.log(`%c ------------------------------------------`, BIGLOG);
+
+    console.log(`%c -Deep -`, BIGLOG);
+
+    
     // console.info = () => {}
 
     addEventListener('multi-lang', () => {
@@ -174,10 +181,10 @@ export default class Application extends MagicPhysics {
     });
 
     // Check from config is it Account used here.
-    // RCSAccount
+    // RCSAccount WIP
     if(this.config.useRCSAccount == true) {
       this.myAccounts = new RCSAccount();
-      console.log('<ACCOUNTS> ', this.myAccounts);
+      // console.log('<ACCOUNTS>', this.myAccounts);
     }
 
     // Attach funcs
@@ -334,7 +341,7 @@ export default class Application extends MagicPhysics {
       uniforms.mieCoefficient.value = this.config.map.sky.uniforms.mieCoefficient;
       uniforms.mieDirectionalG.value = this.config.map.sky.uniforms.mieDirectionalG;
       uniforms.sunPosition.value.copy(this.sun);
-      console.log("Sky params", uniforms)
+      // console.log("Sky params", uniforms)
       // uniforms[ "luminance" ].value = 1
     }
 
