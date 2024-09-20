@@ -102,7 +102,7 @@ const config = {
   useRCSAccount: true,
   networking: {
     broadcasterPort: 9001, // use dev stage 
-    broadcasterInit: true,
+    broadcasterInit: false,
     // domain: "maximumroulette.com",
     domain: "localhost",
     networkDeepLogs: true,

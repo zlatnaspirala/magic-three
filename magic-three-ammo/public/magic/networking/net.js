@@ -129,8 +129,6 @@ export class Broadcaster {
     this.engineConfig2 = config.networking2;
     if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
-    } else if (this.engineConfig2.runKureOnInt == true) {
-      this.runKureOrange();
     }
   }
 

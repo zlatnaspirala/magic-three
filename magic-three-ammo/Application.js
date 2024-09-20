@@ -27,7 +27,7 @@ let t = label.t;
 export default class Application extends MagicPhysics {
 
   // 0. BETA VERSIONS
-  APP_VERSION = "0.3.0";
+  APP_VERSION = "0.9.0";
 
   // Graphics variables
   container = getDom("container");
@@ -91,6 +91,8 @@ export default class Application extends MagicPhysics {
     this.config = config;
     this.currentMap = currentMap;
 
+    console.info = () => {}
+
     addEventListener('multi-lang', () => {
       setTimeout(() => App.label.update(), 100)
 
@@ -120,6 +122,8 @@ export default class Application extends MagicPhysics {
           document.title = t('you.are.guest');
         }
       })
+    } else {
+
     }
 
     // Player data - locals only - this is not secured if you wanna some validation data...
@@ -162,11 +166,11 @@ export default class Application extends MagicPhysics {
     //    */
     // }));
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
-      console.info('Setup BOT ENEMY animation character obj =>', r);
-      App.TESTOBJ = r;
-      // r.position.set(10, 0, 10);
-    }));
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
+    //   console.info('Setup BOT ENEMY animation character obj =>', r);
+    //   App.TESTOBJ = r;
+    //   // r.position.set(10, 0, 10);
+    // }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
@@ -451,12 +455,17 @@ export default class Application extends MagicPhysics {
 
     addEventListener('enemyDamage', (e) => {
       console.info(`%c enemyDamage Event ${e} !`, REDLOG)
-      if(this.net.connection) this.net.connection.send({
-        netDamage: {
-          for: e.detail.myNetPromise,
-          value: e.detail.value
-        }
-      })
+
+      if(this.config.networking.broadcasterInit == true) {
+        if(this.net.connection) this.net.connection.send({
+          netDamage: {
+            for: e.detail.myNetPromise,
+            value: e.detail.value
+          }
+        })
+      }
+
+
     });
 
     addEventListener('onMyDamage', (e) => {
@@ -605,44 +614,46 @@ export default class Application extends MagicPhysics {
 
   render() {
     const deltaTime = this.clock.getDelta();
-
     this.netflag++;
-    if(this.netflag > 4) {
+    if(this.netflag > 20) {
       this.networkEmisionObjs.forEach((i, index) => {
         if(i.name == 'player') {
           // indicate local Player object !
           // 1.5 is correction
-          if(this.net.connection) this.net.connection.send({
-            netPos: {
-              x: i.position.x,
-              y: i.position.y - 1.5,
-              z: i.position.z
-            },
-            netRot: {
-              x: this.camera.rotation.x,
-              y: this.camera.rotation.y,
-              z: this.camera.rotation.z
-            },
-            // netDamage: 0,
-            netQuaternion: this.camera.quaternion,
-            netObjId: this.net.connection.userid,
-            netType: 'netPlayer' // can be shared or enemy comp
-          })
+          // if(this.config.networking.broadcasterInit == true) {
+          // remove READY flag for multiRTC(old net)
+            if(this.net.connection && typeof this.net.READY !== 'undefined') this.net.connection.send({
+              netPos: {
+                x: i.position.x,
+                y: i.position.y - 1.5,
+                z: i.position.z
+              },
+              netRot: {
+                x: this.camera.rotation.x,
+                y: this.camera.rotation.y,
+                z: this.camera.rotation.z
+              },
+              // netDamage: 0,
+              netQuaternion: this.camera.quaternion,
+              netObjId: this.net.connection.session.connection.connectionId,
+              netType: 'netPlayer' // can be shared or enemy comp
+            })
+          // }s
         } else if(i.netType == 'envObj') {
-          // console.log('.i.userData.physicsBody.getLinearVelocity().x() =', i.userData.physicsBody.getLinearVelocity().x());
-          if(this.net.connection) this.net.connection.send({
-            // object.userData.physicsBody.getLinearVelocity().x()
-            // netPos: {x: i.position.x, y: i.position.y, z: i.position.z},
-            netPos: {
-              x: i.userData.physicsBody.getLinearVelocity().x(),
-              y: i.userData.physicsBody.getLinearVelocity().y(),
-              z: i.userData.physicsBody.getLinearVelocity().z()
-            },
-            netQuaternion: i.quaternion,
-            // name must be uniq
-            netObjId: i.name,
-            netType: 'netEnvObj'
-          })
+          if(this.config.networking.broadcasterInit == true) {
+            if(this.net.connection) this.net.connection.send({
+              netPos: {
+                x: i.userData.physicsBody.getLinearVelocity().x(),
+                y: i.userData.physicsBody.getLinearVelocity().y(),
+                z: i.userData.physicsBody.getLinearVelocity().z()
+              },
+              netQuaternion: i.quaternion,
+              // name must be uniq
+              netObjId: i.name,
+              netType: 'netEnvObj'
+            })
+          }
+
         }
       });
       this.netflag = 0;

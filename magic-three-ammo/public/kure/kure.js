@@ -14,9 +14,16 @@ export function joinSession() {
 
 	getToken(function() {
 		OV = new OpenVidu();
+
+		window.OV =OV
+		
 		session = OV.initSession();
+
 		session.on('connectionCreated', event => {
-			pushEvent(event);
+			console.log('connectionCreated =>', event.connection.connectionId)
+			dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[user-conn][${event.connection.connectionId}]`}}))
+			App.net.READY = true;
+			pushEvent(event)
 		});
 
 		session.on('connectionDestroyed', event => {
@@ -28,11 +35,18 @@ export function joinSession() {
 		// On every new Stream received...
 		session.on('streamCreated', event => {
 			pushEvent(event);
-
+			if (event.stream.connection.connectionId != App.net.connection.session.connection.connectionId) {
+				console.log('REMOTE STREAM READY')
+				App.net.injector.init({
+					userid: event.stream.connection.connectionId 
+				})
+			}
+			// console.log("event.stream.streamId => ", event.stream.streamId)
+			// console.log("event.connection.connectionId => ", event.stream.connection.connectionId)
+			dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[connectionId][${event.stream.connection.connectionId}]`}}))
 			// Subscribe to the Stream to receive it
 			// HTML video will be appended to element with 'video-container' id
 			var subscriber = session.subscribe(event.stream, 'video-container');
-
 			// When the HTML video has been appended to DOM...
 			subscriber.on('videoElementCreated', event => {
 				pushEvent(event);
@@ -61,7 +75,6 @@ export function joinSession() {
 		session.on('sessionDisconnected', event => {
 			alert("Session Disconected");
 			byId("pwa-container-2").style.display = "none";
-			// byId("session").style.display = "none";
 			pushEvent(event);
 			if(event.reason !== 'disconnect') {
 				removeUser();
@@ -88,6 +101,8 @@ export function joinSession() {
 			console.warn(exception);
 		});
 
+		dispatchEvent(new CustomEvent(`setupSessionObject`, {detail: {session}}))
+
 		session.connect(token)
 			.then(() => {
 				byId('session-title').innerText = sessionName;
@@ -98,7 +113,7 @@ export function joinSession() {
 					videoSource: undefined, // The source of video. If undefined default webcam
 					publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
 					publishVideo: true, // Whether you want to start publishing with your video enabled or not
-					resolution: '640x480', // The resolution of your video
+					resolution: '320x240', // The resolution of your video
 					frameRate: 30, // The frame rate of your video
 					insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'
 					mirror: false // Whether to mirror your local video or not
@@ -127,7 +142,8 @@ export function joinSession() {
 
 				// When the publisher stream has started playing media...
 				publisher.on('streamCreated', event => {
-					console.log("STREMA CREATED streamCreated ");
+					// console.log("streamCreated[event.stream.connection.connectionId] ", event.stream.connection.connectionId);
+					console.log('LOCAL STREAM READY')
 					if(document.getElementById("pwa-container-1").style.display != 'none') {
 						document.getElementById("pwa-container-1").style.display = 'none';
 					}
@@ -158,6 +174,9 @@ export function joinSession() {
 				});
 
 				session.publish(publisher);
+
+				console.log('SESSION CREATE NOW ', session)
+
 			}).catch(error => {
 				console.warn('Error connecting to the session:', error.code, error.message);
 				enableBtn();

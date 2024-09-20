@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import {MagicLoader} from "../loaders.js";
 import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
-import {closeSession, joinSession, removeUser, session} from "../../kure/app.js";
+import {closeSession, joinSession, removeUser, session} from "../../kure/kure.js";
 import {label} from "../multi-lang.js";
 let t = label.t;
 
@@ -13,7 +13,7 @@ export class KureBroadcaster {
     this.loader = new MagicLoader(config, scene);
     this.injector;
     this.openOrJoinBtn;
-    this.connection;
+    this.connection = {};
 
     this.session = session;
 
@@ -42,6 +42,8 @@ export class KureBroadcaster {
 
       },
       update(e) {
+        // fix
+        e.data = JSON.parse(e.data);
         if(e.data.netPos) {
           if(e.data.netType == 'netPlayer') {
             if(typeof this.root.netPlayers['net_' + e.data.netObjId] !== 'undefined') {
@@ -51,7 +53,7 @@ export class KureBroadcaster {
                 e.data.netPos.z,
               )
               var axis = new THREE.Vector3(0, 1, 0);
-              // this.root.netPlayers['net_' + e.data.netObjId].rotateOnAxis(axis, e.data.netRot.y)
+
               const quaternion = new THREE.Quaternion();
               quaternion.fromArray([
                 0, // e.data.netQuaternion._x,
@@ -69,19 +71,7 @@ export class KureBroadcaster {
               new Ammo.btVector3(
                 e.data.netPos.x,
                 e.data.netPos.y,
-                e.data.netPos.z));
-            // object.position.set(
-            //   e.data.netPos.x,
-            //   e.data.netPos.y,
-            //   e.data.netPos.z,
-            // );
-            // const quaternion = new THREE.Quaternion();
-            // quaternion.fromArray([
-            //   e.data.netQuaternion._x,
-            //   e.data.netQuaternion._y,
-            //   e.data.netQuaternion._z,
-            //   e.data.netQuaternion._w]);
-            //   object.quaternion.copy(quaternion);
+                e.data.netPos.z))
           }
         }
 
@@ -117,9 +107,36 @@ export class KureBroadcaster {
       }
     };
 
-    this.engineConfig = config.networking;
+    this.config = config;
     this.engineConfig2 = config.networking2;
     this.runKureOrange();
+
+    addEventListener('setupSessionObject', (e) => {
+      console.log("ONLY ONES  setupSessionObject=>", e);
+      this.connection.session = session;
+      this.connection.session.on(`signal:${this.config.networking2.masterChannel}`, (event) => {
+        // console.log("RECEIVED=>", JSON.parse(event.data));
+        // console.log("RECEIVED=>", event.from);
+        App.net.injector.update(event);
+        // injector
+
+      });
+      var CHANNEL = this.config.networking2.masterChannel
+      console.log("ONLY ONES CHANNEL =>", CHANNEL);
+      this.connection.send = (netArg) => {
+        //// to Array of Connection objects (optional. Broadcast to everyone if empty)
+        this.connection.session.signal({
+          data: JSON.stringify(netArg),
+          to: [],
+          type: CHANNEL
+        }).then(() => {
+          console.log('EMIT_ALL successfully');
+        }).catch(error => {
+          console.error("Erro signal => ", error);
+        });
+      };
+
+    })
 
   }
 
@@ -135,6 +152,29 @@ export class KureBroadcaster {
       removeUser()
       leaveSession()
     })
+
+    // auto start1
+    joinSession();
+    /**
+     *       if(this.net.connection) this.net.connection.send({
+              netPos: {
+                x: i.position.x,
+                y: i.position.y - 1.5,
+                z: i.position.z
+              },
+              netRot: {
+                x: this.camera.rotation.x,
+                y: this.camera.rotation.y,
+                z: this.camera.rotation.z
+              },
+              // netDamage: 0,
+              netQuaternion: this.camera.quaternion,
+              netObjId: this.net.connection.userid,
+              netType: 'netPlayer' // can be shared or enemy comp
+            })
+     */
+
+
   }
 
   appendDIV = event => {

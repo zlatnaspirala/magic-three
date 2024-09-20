@@ -29,6 +29,9 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
     video chat or stream to texture.
   - Basic example: FPS Player controller [bullet , collision]
 
+  - New networking driver based on OV Kurento.
+    https://docs.openvidu.io/en/2.11.0/cheatsheet/send-messages/
+
 ### `Frontend -> Three.js, Ammo.js`
 ### `Backend  -> Node.js, MultiRTC3`
 

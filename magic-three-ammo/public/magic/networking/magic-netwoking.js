@@ -1,14 +1,14 @@
 import ClientConfig from "../../../config.js";
-import {session} from "../../kure/app.js";
+import {session} from "../../kure/kure.js";
 import {ANYLOG} from "../utility.js";
-import {KureBroadcaster} from "./kure.js";
+import {KureBroadcaster} from "./net2.js";
 import {Broadcaster} from "./net.js";
 
 export class MagicNetworking {
   net = {};
   constructor() {}
   activateNet = (arg) => {
-    if(typeof arg !== 'undefined') {
+    if(typeof arg === 'undefined') {
       this.net = new Broadcaster(ClientConfig, this.scene);
       console.info('%cMagic-Three: Networking (rtcMulti) is active.', ANYLOG);
     } else {
