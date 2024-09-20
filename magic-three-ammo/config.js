@@ -140,6 +140,8 @@ const config = {
   networking2: {
     masterChannel: "magic",
     runKureOnInt: true,
+    publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
+    publishVideo: true, // Whether you want to start publishing with your video enabled or not
   }
 }
 

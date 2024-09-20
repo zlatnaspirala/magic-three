@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import {MagicLoader} from "../loaders.js";
 import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
-import {closeSession, joinSession, removeUser} from "../../kure/app.js";
+import {closeSession, joinSession, removeUser, session} from "../../kure/app.js";
 import {label} from "../multi-lang.js";
 let t = label.t;
 
@@ -14,6 +14,8 @@ export class KureBroadcaster {
     this.injector;
     this.openOrJoinBtn;
     this.connection;
+
+    this.session = session;
 
     this.engineConfig;
     this.popupUI = null;
@@ -29,6 +31,7 @@ export class KureBroadcaster {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
+
         console.log("c%rtcEvent add new net object -> ", BIGLOG, " -> ", rtcEvent.userid);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           r.userData.iam = 'net_' + rtcEvent.userid;
@@ -36,6 +39,7 @@ export class KureBroadcaster {
           dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
           console.info('[fbx] Setup player character obj =>', r.name);
         })
+
       },
       update(e) {
         if(e.data.netPos) {
@@ -119,10 +123,8 @@ export class KureBroadcaster {
 
   }
 
-
   initDOMKure() {
     this.broadcasterUI = byId("matrix-net");
-    // this.titleStatus = byId("rtc3log");
     this.joinSessionUI = byId("join-btn");
     this.joinSessionUI.addEventListener('click', joinSession)
     this.buttonCloseSession = byId('buttonCloseSession')

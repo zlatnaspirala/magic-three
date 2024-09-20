@@ -92,29 +92,35 @@ export default class Application extends MagicPhysics {
     this.currentMap = currentMap;
 
     addEventListener('multi-lang', () => {
-      setTimeout(()=> App.label.update(), 100)
+      setTimeout(() => App.label.update(), 100)
 
       const domLoader = document.getElementById('instructions');
       domLoader.innerHTML = startUpScreen();
 
-      if (App.net && App.net.connection && App.net.connection.isInitiator == true) byId('hud-message').innerHTML = t('you.are.host');
+
+      if(this.config.networking.broadcasterInit == true) {
+        if(App.net && App.net.connection && App.net.connection.isInitiator == true) byId('hud-message').innerHTML = t('you.are.host');
+      }
+
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
 
       document.title = t('title');
     });
 
-    addEventListener('stream-loaded', (e) => {
-      console.info('net event: [stream-loaded]', e);
-      if(this.net.connection.isInitiator === true) {
-        if(document.title != t('you.are.host')) {
-          dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.host')}}))
-          document.title = t('you.are.host');
+    if(this.config.networking.broadcasterInit == true) {
+      addEventListener('stream-loaded', (e) => {
+        console.info('net event: [stream-loaded]', e);
+        if(this.net.connection.isInitiator === true) {
+          if(document.title != t('you.are.host')) {
+            dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.host')}}))
+            document.title = t('you.are.host');
+          }
+        } else {
+          dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.guest')}}))
+          document.title = t('you.are.guest');
         }
-      } else {
-        dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.guest')}}))
-        document.title = t('you.are.guest');
-      }
-    })
+      })
+    }
 
     // Player data - locals only - this is not secured if you wanna some validation data...
     if(load('playerData') !== false) {
@@ -168,7 +174,7 @@ export default class Application extends MagicPhysics {
 
     // Check from config is it Account used here.
     // RCSAccount
-    if (this.config.useRCSAccount == true) {
+    if(this.config.useRCSAccount == true) {
       this.myAccounts = new RCSAccount();
       console.log('<ACCOUNTS> ', this.myAccounts);
     }
@@ -230,7 +236,7 @@ export default class Application extends MagicPhysics {
       // Change theme attach event..
       console.log("language=>", e.target.selectedOptions[0].value);
 
-      let lang =  e.target.selectedOptions[0].value;
+      let lang = e.target.selectedOptions[0].value;
       App.label.loadPack(lang, function() {
         const mlready = new CustomEvent('multi-lang', {});
         dispatchEvent(mlready);
@@ -496,7 +502,7 @@ export default class Application extends MagicPhysics {
     // Load custom elements ...
 
     // play bg music
-    if (this.config.map.autoplayBgMusic == true) {
+    if(this.config.map.autoplayBgMusic == true) {
       this.fx.play('bg')
     }
   }

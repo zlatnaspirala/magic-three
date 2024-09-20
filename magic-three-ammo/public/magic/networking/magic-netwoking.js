@@ -1,4 +1,5 @@
 import ClientConfig from "../../../config.js";
+import {session} from "../../kure/app.js";
 import {ANYLOG} from "../utility.js";
 import {KureBroadcaster} from "./kure.js";
 import {Broadcaster} from "./net.js";

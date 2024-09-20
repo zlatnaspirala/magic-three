@@ -167,19 +167,6 @@ export class Broadcaster {
     this.openRoomBtnVisible(true);
   }
 
-  initDOMKure() {
-    this.broadcasterUI = byId("matrix-net");
-    // this.titleStatus = byId("rtc3log");
-    // this.openRoomBtn = byId("open-room");
-    // this.joinRoomBtn = byId("join-room");
-    // this.openOrJoinBtn = byId("open-or-join-room");
-    // this.leaveRoomBtn = byId("btn-leave-room");
-    // this.shareFileBtn = byId("share-file");
-    // this.inputChat = byId("input-text-chat");
-    // this.inputRoomId = byId("room-id");
-    // this.openRoomBtnVisible(true);
-  }
-
   streamLoaded(userId, streamAccess) {
     const broadcasterStreamLoaded = createAppEvent("stream-loaded", {
       streamId: streamAccess,

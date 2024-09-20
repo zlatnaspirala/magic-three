@@ -1,31 +1,20 @@
 import {byId} from "../magic/utility.js";
 
 var OV;
-var session;
-
+var numVideos = 0;
 var sessionName;
 var token;
-var numVideos = 0;
-/* OPENVIDU METHODS */
+
+export var session;
 
 export function joinSession() {
-	// --- 0) Change the button ---
 
 	document.getElementById("join-btn").disabled = true;
 	document.getElementById("join-btn").innerHTML = "Joining...";
 
 	getToken(function() {
-
-		// --- 1) Get an OpenVidu object ---
-
 		OV = new OpenVidu();
-
-		// --- 2) Init a session ---
-
 		session = OV.initSession();
-
-		// --- 3) Specify the actions when events take place in the session ---
-
 		session.on('connectionCreated', event => {
 			pushEvent(event);
 		});
@@ -391,14 +380,9 @@ export function listRecordings() {
 }
 
 /* APPLICATION REST METHODS */
-
-
-
 /* APPLICATION BROWSER METHODS */
-
 export var events = '';
-
-window.onbeforeunload = function() { // Gracefully leave session
+window.onbeforeunload = function() {
 	if(session) {
 		removeUser();
 		leaveSession();
@@ -407,12 +391,12 @@ window.onbeforeunload = function() { // Gracefully leave session
 
 export function updateNumVideos(i) {
 	numVideos += i;
-	var coll = document.getElementsByTagName('video') 
-	 for (var x = 0; x < coll.length; x++) {
+	var coll = document.getElementsByTagName('video')
+	for(var x = 0;x < coll.length;x++) {
 		coll.classList = '';
-	 }
+	}
 
-	 for (var x = 0; x < coll.length; x++) {
+	for(var x = 0;x < coll.length;x++) {
 		coll.classList = '';
 
 		switch(numVideos) {
@@ -429,8 +413,8 @@ export function updateNumVideos(i) {
 				coll[x].classList.add('four');
 				break;
 		}
-	 }
-	
+	}
+
 }
 
 export function checkBtnsForce() {
@@ -458,6 +442,7 @@ export function checkBtnsRecordings() {
 export function pushEvent(event) {
 	events += (!events ? '' : '\n') + event.type;
 	byId('textarea-events').innerText = events;
+	console.info("EVENT: ", events)
 }
 
 export function clearHttpTextarea() {
