@@ -31,7 +31,6 @@ export class KureBroadcaster {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
-
         console.log("c%rtcEvent add new net object -> ", BIGLOG, " -> ", rtcEvent.userid);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           r.userData.iam = 'net_' + rtcEvent.userid;
@@ -39,10 +38,8 @@ export class KureBroadcaster {
           dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
           console.info('[fbx] Setup player character obj =>', r.name);
         })
-
       },
       update(e) {
-        // fix
         e.data = JSON.parse(e.data);
         if(e.data.netPos) {
           if(e.data.netType == 'netPlayer') {
@@ -74,16 +71,15 @@ export class KureBroadcaster {
                 e.data.netPos.z))
           }
         }
-
         if(e.data.netDamage) {
           var local = e.data.netDamage.for.replace('net_', '')
           if(local == App.net.connection.session.connection.connectionId) {
             dispatchEvent(new CustomEvent('onMyDamage', {detail: e.data.netDamage}))
           }
         }
-
         if (e.data.killScore) {
-          console.log('!!!!KILL SCORE   =', e.data.killScore)
+          dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[score+1][${e.data.killScore.killer}]`}}))
+          byId('playerKills').innerHTML = parseFloat(byId('playerKills').innerHTML) + 1;
         }
       },
       /**
@@ -188,22 +184,9 @@ export class KureBroadcaster {
         myInstance.popupUI = byId("matrix-net");
         myInstance.popupUI.style = 'table';
         myInstance.popupUI.innerHTML = html;
-        // var cssId = 'myCss';  // you could encode the css path itself to generate id..
-        // if (!document.getElementById(cssId))
-        // {
-        //     var head  = document.getElementsByTagName('head')[0];
-        //     var link  = document.createElement('link');
-        //     link.id   = cssId;
-        //     link.rel  = 'stylesheet';
-        //     link.type = 'text/css';
-        //     link.href = 'http://website.example/css/stylesheet.css';
-        //     link.media = 'all';
-        //     head.appendChild(link);
-        // }
         var testLoadJS = document.createElement('script')
         testLoadJS.src = "./kure/openvidu-browser-2.20.0.js"
         testLoadJS.onload = () => {
-          console.log('SCRIPT LOADED OV NOW INIT DOM EVENTS')
           myInstance.initDOMKure();
         }
         document.body.appendChild(testLoadJS)

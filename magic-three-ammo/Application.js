@@ -458,7 +458,8 @@ export default class Application extends MagicPhysics {
       console.info(`%c enemyDamage Event ${e} !`, REDLOG)
       if(this.net.connection) this.net.connection.send({
         netDamage: {
-          for: e.detail.myNetPromise,
+          for: e.detail.target,
+          shooter: e.detail.shooter,
           value: e.detail.value
         }
       })
@@ -470,14 +471,15 @@ export default class Application extends MagicPhysics {
         this.playerData.energy = 0;
         dispatchEvent(new CustomEvent('onDie', {
           detail: {
-            netPlayerId: e.detail.for
+            netPlayerId: e.detail.for,
+            killer: e.detail.shooter
           }
         }))
 
         this.net.connection.send({
           killScore: {
-            "TEST": "",
-            for: e.detail.myNetPromise,
+            netPlayerId: e.detail.for,
+            killer: e.detail.shooter
           }
         })
 
@@ -487,9 +489,14 @@ export default class Application extends MagicPhysics {
         this.playerData.energy -= 100;
       }
       byId('playerEnergy').innerHTML = this.playerData.energy;
-      dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.on.fire')}}))
+      dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.on.fire') + ` from ` + e.detail.shooter}}))
 
     });
+
+    addEventListener('onSetTitle', (e) => {
+      console.log("onSetTitle" , e.detail)
+      document.title = e.detail;
+    })
   }
 
   createObjects() {
@@ -588,7 +595,8 @@ export default class Application extends MagicPhysics {
             }))
             dispatchEvent(new CustomEvent('enemyDamage', {
               detail: {
-                myNetPromise: this.intersects[x].object.parent.name,
+                shooter: this.net.connection.session.connection.connectionId,
+                target: this.intersects[x].object.parent.name,
                 value: 100
               }
             }))

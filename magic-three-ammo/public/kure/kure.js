@@ -1,11 +1,11 @@
 import {byId} from "../magic/utility.js";
-var OV;var numVideos = 0;var sessionName;var token;
+var OV; var numVideos = 0; var sessionName; var token;
 export var session;
 export function joinSession(options) {
 
-	if (typeof options === 'undefined') {
+	if(typeof options === 'undefined') {
 		options = {
-			resolution : '320x240'
+			resolution: '320x240'
 		};
 	}
 
@@ -15,12 +15,16 @@ export function joinSession(options) {
 	getToken(function() {
 		OV = new OpenVidu();
 
-		window.OV =OV
-		
+		window.OV = OV
+
 		session = OV.initSession();
 
 		session.on('connectionCreated', event => {
-			console.log('connectionCreated =>', event.connection.connectionId)
+			if (App.net.connection.session.connection.connectionId != event.connection.connectionId) {
+				console.log('connectionCreated =>', event.connection.connectionId)
+			} else {
+				dispatchEvent(new CustomEvent('onSetTitle', {detail: event.connection.connectionId}))
+			}
 			dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[user-conn][${event.connection.connectionId}]`}}))
 			App.net.READY = true;
 			pushEvent(event)
@@ -28,6 +32,8 @@ export function joinSession(options) {
 
 		session.on('connectionDestroyed', event => {
 			alert("Connection destroyed");
+			console.log('Connection destroyed ', event)
+			// NEXT VIDEO HANDLING DeSTROY 3D OBJ
 			byId("pwa-container-2").style.display = "none";
 			pushEvent(event);
 		});
@@ -35,10 +41,10 @@ export function joinSession(options) {
 		// On every new Stream received...
 		session.on('streamCreated', event => {
 			pushEvent(event);
-			if (event.stream.connection.connectionId != App.net.connection.session.connection.connectionId) {
+			if(event.stream.connection.connectionId != App.net.connection.session.connection.connectionId) {
 				console.log('REMOTE STREAM READY')
 				App.net.injector.init({
-					userid: event.stream.connection.connectionId 
+					userid: event.stream.connection.connectionId
 				})
 			}
 			// console.log("event.stream.streamId => ", event.stream.streamId)
