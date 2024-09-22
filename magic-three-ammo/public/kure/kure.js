@@ -30,12 +30,14 @@ export function joinSession(options) {
 			pushEvent(event)
 		});
 
-		session.on('connectionDestroyed', event => {
+		session.on('connectionDestroyed', e => {
 			alert("Connection destroyed");
-			console.log('Connection destroyed ', event)
+			console.log('Connection destroyed ', e.connection.connectionId)
+			dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[disconnected][${e.connection.connectionId}]`}}))
 			// NEXT VIDEO HANDLING DeSTROY 3D OBJ
+			dispatchEvent(new CustomEvent('destroyObject', {detail: e.connection.connectionId}))
 			byId("pwa-container-2").style.display = "none";
-			pushEvent(event);
+			pushEvent(e);
 		});
 
 		// On every new Stream received...

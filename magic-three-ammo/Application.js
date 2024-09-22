@@ -82,11 +82,9 @@ export default class Application extends MagicPhysics {
 
   nightAndDayThread = null;
   nightAndDayStatus = 'day';
-
   LOCK = false;
 
   constructor(config, currentMap) {
-
     super({config: config});
     this.config = config;
     this.currentMap = currentMap;
@@ -94,18 +92,12 @@ export default class Application extends MagicPhysics {
     console.log(`%c ------------------------------------------`, BIGLOG);
     console.log(`%c ☢️HANG3D REBORN☢️ Version ${this.APP_VERSION}`, BIGLOG);
     console.log(`%c ------------------------------------------`, BIGLOG);
-
-    console.log(`%c -Deep -`, BIGLOG);
-
-
-    // console.info = () => {}
-
+    console.log(`%c -Deep in space -`, BIGLOG);
+    // console.info = () => {} // destroy logs
     addEventListener('multi-lang', () => {
       setTimeout(() => App.label.update(), 100)
-
       const domLoader = document.getElementById('instructions');
       domLoader.innerHTML = startUpScreen();
-
       if(this.config.networking.broadcasterInit == true) {
         if(App.net && App.net.connection && App.net.connection.isInitiator == true) byId('hud-message').innerHTML = t('you.are.host');
       }
@@ -115,7 +107,7 @@ export default class Application extends MagicPhysics {
 
     if(this.config.networking.broadcasterInit == true) {
       addEventListener('stream-loaded', (e) => {
-        console.info('net event: [stream-loaded]', e);
+        console.info('[stream-loaded]', e);
         if(this.net.connection.isInitiator === true) {
           if(document.title != t('you.are.host')) {
             dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.host')}}))
@@ -419,6 +411,12 @@ export default class Application extends MagicPhysics {
 
     byId('playerMunition').innerHTML = this.playerItems.munition;
 
+    addEventListener('destroyObject', (e) => {
+      var t = this.scene.getObjectByName(`net_${e.detail}`)
+      console.log("destroyObject 3d obj [  dies  t ->", t)
+      this.destroySceneObject(t)
+    })
+  
     addEventListener('onDie', (e) => {
       // only local
       console.info(`%c onDie Event ${e} !`, REDLOG)
@@ -554,7 +552,6 @@ export default class Application extends MagicPhysics {
         bulletMesh.receiveShadow = true;
         bulletMesh.userData.tag = 'local_bullet';
         bulletMesh.name = 'bullet';
-        // this.bulletMesh = bulletMesh; // TEST 
         const ballShape = new Ammo.btSphereShape(ballRadius);
         ballShape.setMargin(this.margin);
         this.pos.copy(this.raycaster.ray.direction);

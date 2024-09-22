@@ -8,7 +8,6 @@ let t = label.t;
 export class KureBroadcaster {
 
   constructor(config, scene) {
-
     this.scene = scene;
     this.loader = new MagicLoader(config, scene);
     this.injector;
@@ -31,7 +30,7 @@ export class KureBroadcaster {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
-        console.log("c%rtcEvent add new net object -> ", BIGLOG, " -> ", rtcEvent.userid);
+        console.log("c%Add new net object -> ", BIGLOG, "->", rtcEvent.userid);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           r.userData.iam = 'net_' + rtcEvent.userid;
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
@@ -77,32 +76,15 @@ export class KureBroadcaster {
             dispatchEvent(new CustomEvent('onMyDamage', {detail: e.data.netDamage}))
           }
         }
-        if (e.data.killScore) {
+        if(e.data.killScore) {
           dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[score+1][${e.data.killScore.killer}]`}}))
+          // killer
+          console.log("KILL SCORE [  dies ->", e.data.killScore.netPlayerId)
+          var t = this.scene.getObjectByName(e.data.killScore.netPlayerId)
+          this.destroySceneObject(t)
+
           byId('playerKills').innerHTML = parseFloat(byId('playerKills').innerHTML) + 1;
         }
-      },
-      /**
-       * @description
-       * If someone leaves all client actions is here
-       * - remove from scene
-       * - clear object from netObject_x
-       * - remove video remote stream dom element
-       */
-      leaveGamePlay(rtcEvent) {
-        let o = this.root.netPlayers['net_' + rtcEvent.userid];
-        console.info("rtcEvent LEAVE GAME: ", rtcEvent.userid);
-        for(var x = 0;x < this.root.connection.videosContainer.children.length;x++) {
-          var test = this.root.connection.videosContainer.children[x].children[2].children[0].innerHTML;
-          if(test == rtcEvent.userid) {
-            this.root.connection.videosContainer.children[x].remove();
-            console.log("::::remove video dom::::::",)
-          }
-        }
-        // remove from 3d scene
-        console.info("rtcEvent LEAVE GAME: ", this.root.scene.remove(o));
-        delete this.root.netPlayers['net_' + rtcEvent.userid];
-        // console.info("rtcEvent LEAVE GAME is undefined: ", this.root.netPlayers['net_' + rtcEvent.userid]);
       }
     };
 
@@ -111,32 +93,26 @@ export class KureBroadcaster {
     this.runKureOrange();
 
     addEventListener('setupSessionObject', (e) => {
-      // console.log("ONLY ONES  setupSessionObject=>", e);
       this.connection.session = session;
       this.connection.session.on(`signal:${this.config.networking2.masterChannel}`, (event) => {
         // console.log("RECEIVED=>", JSON.parse(event.data));
-        // console.log("RECEIVED=>", event.from);
         App.net.injector.update(event);
-        // injector
-
       });
       var CHANNEL = this.config.networking2.masterChannel
       // console.log("ONLY ONES CHANNEL =>", CHANNEL);
       this.connection.send = (netArg) => {
-        //// to Array of Connection objects (optional. Broadcast to everyone if empty)
+        // to Array of Connection objects (optional. Broadcast to everyone if empty)
         this.connection.session.signal({
           data: JSON.stringify(netArg),
           to: [],
           type: CHANNEL
         }).then(() => {
-          // console.log('EMIT_ALL successfully');
+          // console.log('emit all successfully');
         }).catch(error => {
           console.error("Erro signal => ", error);
         });
-      };
-
+      }
     })
-
   }
 
   initDOMKure() {

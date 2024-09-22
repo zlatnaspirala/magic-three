@@ -56,11 +56,11 @@ export class MagicPhysics extends MagicNetworking {
   setupContactPairResultCallback() {
     this.cbContactPairResult = new Ammo.ConcreteContactResultCallback();
     this.cbContactPairResult.hasContact = false;
-    this.cbContactPairResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1){
+    this.cbContactPairResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1) {
       console.log('------------------------ ')
-      let contactPoint = Ammo.wrapPointer( cp, Ammo.btManifoldPoint );
+      let contactPoint = Ammo.wrapPointer(cp, Ammo.btManifoldPoint);
       const distance = contactPoint.getDistance();
-      if( distance > 0 ) return;
+      if(distance > 0) return;
       console.log('YEAP !!! ', colObj1Wrap)
       this.hasContact = true;
     }
@@ -459,7 +459,7 @@ export class MagicPhysics extends MagicNetworking {
       new THREE.BoxGeometry(
         halfExtents.x,
         halfExtents.y,
-        halfExtents.z 
+        halfExtents.z
       ),
       mat
     );
@@ -500,8 +500,12 @@ export class MagicPhysics extends MagicNetworking {
   }
 
   destroySceneObject(o) {
-    this.scene.remove(o);
-    this.physicsWorld.removeRigidBody(o.userData.physicsBody);
+    try {
+      this.scene.remove(o);
+      this.physicsWorld.removeRigidBody(o.userData.physicsBody);
+    } catch(e) {
+      console.log(e)
+    }
   }
 
   detectCollision() {
@@ -519,11 +523,11 @@ export class MagicPhysics extends MagicNetworking {
         let contactPoint = contactManifold.getContactPoint(j);
         let distance = contactPoint.getDistance();
 
-        const rb0 = Ammo.castObject( contactManifold.getBody0(), Ammo.btRigidBody );
-        const rb1 = Ammo.castObject( contactManifold.getBody1(), Ammo.btRigidBody );
+        const rb0 = Ammo.castObject(contactManifold.getBody0(), Ammo.btRigidBody);
+        const rb1 = Ammo.castObject(contactManifold.getBody1(), Ammo.btRigidBody);
 
-        if (rb0.userData) console.log("first object:", rb0.userData);
-        if (rb1.userData) console.log("second object:", rb1.userData);
+        if(rb0.userData) console.log("first object:", rb0.userData);
+        if(rb1.userData) console.log("second object:", rb1.userData);
 
         // console.log(">>>>>>>>>>>>>detect>>>>>>>>>>>>>>>>>" + {manifoldIndex: i, contactIndex: j, distance: distance});
       }
@@ -573,7 +577,7 @@ export class MagicPhysics extends MagicNetworking {
         tag = threeObject0.userData.tag;
         localPos = contactPoint.get_m_localPointA();
         worldPos = contactPoint.get_m_positionWorldOnA();
-      } 
+      }
       // else {
       //   console.log('[  ] threeObject0.userData.tag: ', threeObject0.userData.tag)
       //   tag = threeObject0.userData.tag;
@@ -582,7 +586,7 @@ export class MagicPhysics extends MagicNetworking {
       // }
       let localPosDisplay = {x: localPos.x(), y: localPos.y(), z: localPos.z()};
       let worldPosDisplay = {x: worldPos.x(), y: worldPos.y(), z: worldPos.z()};
-      console.log("collision:" +  {tag, localPosDisplay, worldPosDisplay});
+      console.log("collision:" + {tag, localPosDisplay, worldPosDisplay});
     }
 
     if(this.bulletB) {
