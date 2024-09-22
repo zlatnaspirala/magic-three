@@ -32,7 +32,7 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
   - recommended*** -> New networking driver based on OV/Kurento.
     https://docs.openvidu.io/en/2.11.0/cheatsheet/send-messages/
 
-<img src="https://github.com/zlatnaspirala/magic-three/blob/main/magic-three-ammo/public/assets/icons/icon.png" width="200" height="200">
+<img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/kure.png" width="700">
 
 ### `Frontend -> Three.js, Ammo.js`
 ### `Backend  -> Node.js, MultiRTC3`
