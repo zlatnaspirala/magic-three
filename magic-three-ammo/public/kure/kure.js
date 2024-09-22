@@ -1,4 +1,6 @@
 import {byId} from "../magic/utility.js";
+import * as THREE from "three";
+
 var OV; var numVideos = 0; var sessionName; var token;
 export var session;
 export function joinSession(options) {
@@ -20,8 +22,8 @@ export function joinSession(options) {
 		session = OV.initSession();
 
 		session.on('connectionCreated', event => {
-			if (App.net.connection.session.connection.connectionId != event.connection.connectionId) {
-				console.log(`connectionCreated ${ event.connection.connectionId}`)
+			if(App.net.connection.session.connection.connectionId != event.connection.connectionId) {
+				console.log(`connectionCreated ${event.connection.connectionId}`)
 			} else {
 				dispatchEvent(new CustomEvent('onSetTitle', {detail: event.connection.connectionId}))
 			}
@@ -42,10 +44,25 @@ export function joinSession(options) {
 		session.on('streamCreated', event => {
 			pushEvent(event);
 			if(event.stream.connection.connectionId != App.net.connection.session.connection.connectionId) {
-				console.log('REMOTE STREAM READY')
-				App.net.injector.init({
-					userid: event.stream.connection.connectionId
-				})
+				console.log('REMOTE STREAM READY', event.stream.streamId)
+				console.log('REMOTE STREAM READY [] ', event.stream.streamId)
+
+				setTimeout(() => {
+					console.log('REMOTE STREAM READY [] ', byId("remote-video-" + event.stream.streamId))
+
+					// test
+					var video01 = byId("remote-video-" + event.stream.streamId)
+					video01.play();
+					const videoTexture01 = new THREE.VideoTexture(video01);
+
+					App.net.injector.init({
+						userid: event.stream.connection.connectionId,
+						videoTex: videoTexture01
+					})
+				}, 4000)
+
+			} else {
+
 			}
 			// console.log("event.stream.streamId => ", event.stream.streamId)
 			// console.log("event.connection.connectionId => ", event.stream.connection.connectionId)

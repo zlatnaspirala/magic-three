@@ -29,11 +29,23 @@ export class KureBroadcaster {
     this.multiPlayerRef = {
       root: this,
       myBigDataFlag: [],
-      init(rtcEvent) {
+      init(rtcEvent, videoTex) {
         console.log(`c% Add new net object ${rtcEvent.userid}`, BIGLOG);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           r.userData.iam = 'net_' + rtcEvent.userid;
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
+
+          if(typeof rtcEvent.videoTex !== 'undefined') {
+            // test
+            var geo = new THREE.PlaneBufferGeometry(100, 100, 4, 4);
+            var mat = new THREE.MeshBasicMaterial({map: rtcEvent.videoTex, side: THREE.DoubleSide});
+            var plane = new THREE.Mesh(geo, mat);
+            plane.position.y = 225;
+            console.log(`c% TEST ??????Add new net object ${rtcEvent.userid}`, BIGLOG);
+            this.root.netPlayers['net_' + rtcEvent.userid].add(plane)
+          }
+
+
           dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
           console.info('[fbx] Setup player character obj =>', r.name);
         })
@@ -134,28 +146,10 @@ export class KureBroadcaster {
     });
   }
 
-  appendDIV = event => {
-    if(event.data &&
-      (event.data.netPos ||
-        event.data.netRot ||
-        event.data.netScale ||
-        event.data.spitz ||
-        event.data.texScaleFactor ||
-        event.data.netDamage)) {
-      this.injector.update(event);
-      return;
-    }
-  };
-
   runKureOrange = () => {
     const myInstance = this;
 
-    fetch("./kure/index.html", {
-      headers: htmlHeader,
-    })
-      .then(function(res) {
-        return res.text();
-      })
+    fetch("./kure/index.html", {headers: htmlHeader, }).then(function(res) {return res.text()})
       .then(function(html) {
         myInstance.popupUI = byId("matrix-net");
         myInstance.popupUI.style = 'table';
