@@ -238,7 +238,7 @@ export function createFPSController() {
   });
 
   this.controls.addEventListener('lock', () => {
-    console.log('LOCK')
+    console.log('c%LOCK', BIGLOG)
     this.LOCK = true;
     blocker.classList.remove('bounceIn')
     blocker.classList.add('hideMe')
@@ -260,20 +260,25 @@ export function createFPSController() {
         case 'ArrowUp':
         case 'KeyW':
           this.moveForward = true;
+          dispatchEvent(new CustomEvent('fixDesktopControls', {}))
           break;
         case 'ArrowLeft':
         case 'KeyA':
+          dispatchEvent(new CustomEvent('fixDesktopControls', {}))
           this.moveLeft = true;
           break;
         case 'ArrowDown':
         case 'KeyS':
+          dispatchEvent(new CustomEvent('fixDesktopControls', {}))
           this.moveBackward = true;
           break;
         case 'ArrowRight':
         case 'KeyD':
+          dispatchEvent(new CustomEvent('fixDesktopControls', {}))
           this.moveRight = true;
           break;
         case 'Space':
+          dispatchEvent(new CustomEvent('fixDesktopControls', {}))
           if(this.controls.PREVENT_INPUT_JUMP == false) {
             this.controls.JUMP = true;
             this.controls.PREVENT_INPUT_JUMP = true;

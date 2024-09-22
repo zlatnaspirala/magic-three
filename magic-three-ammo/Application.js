@@ -525,8 +525,16 @@ export default class Application extends MagicPhysics {
     }
   }
 
+  fixDesktopControls() {
+    this.mouseCoords.set(0, 0);
+    this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+  }
+
   attachFire() {
     // console.log('<AtachFire>')
+    window.addEventListener("fixDesktopControls", (event) => {
+      this.fixDesktopControls()
+    })
     var canvasDOM = document.getElementsByTagName('canvas')[0];
     window.addEventListener("pointerdown", (event) => {
       if(this.LOCK == false) return;
