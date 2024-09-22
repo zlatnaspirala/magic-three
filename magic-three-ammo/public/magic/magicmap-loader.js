@@ -86,7 +86,7 @@ export function loadMap(map) {
 
   map.objMtls.forEach((obj, index) => {
     this.loader.objMtl(obj.path, obj.name).then((o) => {
-      console.info('Set position after load.', o);
+      // console.info('Set position after load.', o);
       o.position.set(obj.pos.x, obj.pos.y, obj.pos.z);
       if(typeof obj.rot != 'undefined') {
         o.rotateX(MathUtils.degToRad(obj.rot.x));

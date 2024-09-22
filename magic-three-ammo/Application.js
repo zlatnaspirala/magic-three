@@ -490,7 +490,7 @@ export default class Application extends MagicPhysics {
     });
 
     addEventListener('onSetTitle', (e) => {
-      console.log("onSetTitle" , e.detail)
+      // console.log("onSetTitle" , e.detail)
       document.title = e.detail;
     })
   }

@@ -172,17 +172,14 @@ export function joinSession(options) {
 
 				// When the publisher stream has started playing media...
 				publisher.on('streamPlaying', event => {
-					console.log(" publisher.on streamPlaying ");
+					console.log("publisher.on streamPlaying");
 					if(document.getElementById("pwa-container-1").style.display != 'none') {
 						document.getElementById("pwa-container-1").style.display = 'none';
 					}
 					pushEvent(event);
 				});
-
 				session.publish(publisher);
-
-				console.log('SESSION CREATE NOW ', session)
-
+				// console.log('SESSION CREATE NOW ', session)
 			}).catch(error => {
 				console.warn('Error connecting to the session:', error.code, error.message);
 				enableBtn();
