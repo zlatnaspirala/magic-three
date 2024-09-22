@@ -1,6 +1,6 @@
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import * as PointerLockControlsMobile from 'three/addons/controls/mobileController.js';
-import {ANYLOG, byId, isMobile, toUnicodeVariant} from './utility.js';
+import {ANYLOG, BIGLOG, byId, isMobile, toUnicodeVariant} from './utility.js';
 
 export function createFPSController() {
 
@@ -217,7 +217,7 @@ export function createFPSController() {
   const playBtn = document.getElementById('playBtn');
   playBtn.addEventListener(CLICK, (e) => {
     e.preventDefault();
-    console.log("UNLOCK")
+    console.log("c% UNLOCK", BIGLOG)
     this.LOCK = false;
     if(isMobile == false) {
       this.controls.lock();
@@ -246,7 +246,7 @@ export function createFPSController() {
   });
 
   this.controls.addEventListener('unlock', () => {
-    console.log('UNLOCK')
+    console.log('c%UNLOCK', BIGLOG)
     this.LOCK = false;
     blocker.style.display = 'block';
     instructions.style.display = '';

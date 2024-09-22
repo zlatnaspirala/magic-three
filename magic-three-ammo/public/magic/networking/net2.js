@@ -30,7 +30,7 @@ export class KureBroadcaster {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent) {
-        console.log("c%Add new net object -> ", BIGLOG, "->", rtcEvent.userid);
+        console.log(`c% Add new net object ${rtcEvent.userid}`, BIGLOG);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           r.userData.iam = 'net_' + rtcEvent.userid;
           this.root.netPlayers['net_' + rtcEvent.userid] = r;

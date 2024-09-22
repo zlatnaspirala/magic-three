@@ -238,17 +238,16 @@ export default class Application extends MagicPhysics {
         dispatchEvent(mlready);
         console.info('%c Magic-Three: MultiLang loaded.', ANYLOG);
       });
-      // dispatchEvent(new CustomEvent('language', {detail: e.target.selectedOptions[0].value}))
     };
 
     // hud-message
     addEventListener('onHudMsg', (e) => {
-      console.log('Update HUD title message, e.detail.msg = ', e.detail.msg)
+      // console.log('Update HUD title message, e.detail.msg = ', e.detail.msg)
       byId('hud-message').innerHTML = e.detail.msg;
     })
 
     addEventListener('addToOnlyIntersects', (e) => {
-      console.log('Added to onlyIntersects , e.detail.o = ', e.detail.o)
+      // console.log('Added to onlyIntersects , e.detail.o = ', e.detail.o)
       this.onlyIntersects.push(e.detail.o);
     })
 
@@ -412,9 +411,12 @@ export default class Application extends MagicPhysics {
     byId('playerMunition').innerHTML = this.playerItems.munition;
 
     addEventListener('destroyObject', (e) => {
+      try{
       var t = this.scene.getObjectByName(`net_${e.detail}`)
-      console.log("destroyObject 3d obj [  dies  t ->", t)
       this.destroySceneObject(t)
+      } catch(err) {
+        console.warn('Err in destroy object.')
+      }
     })
   
     addEventListener('onDie', (e) => {
@@ -424,14 +426,14 @@ export default class Application extends MagicPhysics {
         location.reload();
       } else if(this.config.playerController.onEvent.onDie == "justHideNetPlayer") {
         // search in scene for name netPlayerId
-        // // LocalPlayer always triggered...
+        // LocalPlayer always triggered...
         // object.visible = false;
         this.playerData.energy = 1000;
         this.playerData.dies++;
         byId('playerEnergy').innerHTML = this.playerData.energy;
         var object = this.scene.getObjectByName(e.detail.netPlayerId)
         console.log('onDie e.detail.netPlayerId>? ', e.detail.netPlayerId, " - ", object)
-        // Test  removing 3d obj
+        // Test removing 3d obj
         // if (object && object.remove) {
         //   object.remove()
         //   console.log('object.remove() is defined ')
@@ -480,15 +482,11 @@ export default class Application extends MagicPhysics {
             killer: e.detail.shooter
           }
         })
-
-        // send/emit info to destroy net player 
-        // this.net.connection.send()
       } else {
         this.playerData.energy -= 100;
       }
       byId('playerEnergy').innerHTML = this.playerData.energy;
       dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.on.fire') + ` from ` + e.detail.shooter}}))
-
     });
 
     addEventListener('onSetTitle', (e) => {
