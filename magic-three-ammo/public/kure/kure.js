@@ -42,9 +42,9 @@ export function joinSession(options) {
 		session.on('streamCreated', event => {
 			pushEvent(event);
 			if(event.stream.connection.connectionId != App.net.connection.session.connection.connectionId) {
-				console.log(`c% REMOTE STREAM READY ${event.stream.streamId}`)
+				console.log(`%c REMOTE STREAM READY ${event.stream.streamId}`)
 				setTimeout(() => {
-					console.log(`c% REMOTE STREAM READY [] ${byId("remote-video-" + event.stream.streamId)}`, BIGLOG)
+					console.log(`%c REMOTE STREAM READY [] ${byId("remote-video-" + event.stream.streamId)}`, BIGLOG)
 					var v = byId("remote-video-" + event.stream.streamId)
 					v.play();
 					const videoTexture01 = new THREE.VideoTexture(v);
@@ -157,7 +157,7 @@ export function joinSession(options) {
 
 				// When the publisher stream has started playing media...
 				publisher.on('streamCreated', event => {
-					console.log(`c% LOCAL STREAM READY ${event.stream.connection.connectionId}`, BIGLOG)
+					console.log(`%c LOCAL STREAM READY ${event.stream.connection.connectionId}`, BIGLOG)
 					if(document.getElementById("pwa-container-1").style.display != 'none') {
 						document.getElementById("pwa-container-1").style.display = 'none';
 					}

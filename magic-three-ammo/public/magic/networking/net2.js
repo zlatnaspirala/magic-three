@@ -30,7 +30,7 @@ export class KureBroadcaster {
       root: this,
       myBigDataFlag: [],
       init(rtcEvent, videoTex) {
-        console.log(`c% Add new net object ${rtcEvent.userid}`, BIGLOG);
+        console.log(`%c Add new net object ${rtcEvent.userid}`, BIGLOG);
         this.root.loader.fbx('./assets/objects/player/walk-forward-r.fbx', 'net_' + rtcEvent.userid).then((r) => {
           r.userData.iam = 'net_' + rtcEvent.userid;
           this.root.netPlayers['net_' + rtcEvent.userid] = r;
@@ -41,7 +41,7 @@ export class KureBroadcaster {
             var mat = new THREE.MeshBasicMaterial({map: rtcEvent.videoTex, side: THREE.DoubleSide});
             var plane = new THREE.Mesh(geo, mat);
             plane.position.y = 225;
-            console.log(`c% TEST ??????Add new net object ${rtcEvent.userid}`, BIGLOG);
+            console.log(`%c TEST ??????Add new net object ${rtcEvent.userid}`, BIGLOG);
             this.root.netPlayers['net_' + rtcEvent.userid].add(plane)
           }
 
@@ -90,10 +90,17 @@ export class KureBroadcaster {
         }
         if(e.data.killScore) {
           dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[score+1][${e.data.killScore.killer}]`}}))
-          // killer
-          console.log(`%c KILL SCORE , [${e.data.killScore.netPlayerId}] dies.`, REDLOG)
+          // killer - MUST BE FIXED PREVENT LOCAL 
+          console.log(`%c 🏴‍☠️ KILL SCORE 🏴‍☠️ [${e.data.killScore.netPlayerId}] dies.`, REDLOG)
           var t = this.root.scene.getObjectByName(e.data.killScore.netPlayerId)
-          dispatchEvent( new CustomEvent(`destroy3dObject`, { detail: t}))
+
+          if(t) {
+            t.position.set(this.root.config.map.playersSpawnPoints.x, this.root.config.map.playersSpawnPoints.y, this.root.config.map.playersSpawnPoints.z)
+          } else {
+            console.log('NOT EXIST - probably same connectionID')
+          }
+
+          // dispatchEvent( new CustomEvent(`destroy3dObject`, { detail: t}))
           byId('playerKills').innerHTML = parseFloat(byId('playerKills').innerHTML) + 1;
         }
       }

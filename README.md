@@ -200,7 +200,7 @@ Nice for walls and env staff. Forced simple cube physics body with mass = 0.
 Frontend done in script type "module" ant it's so powerfull.
 No build time lost.
 
-List of top level CustomEvents :
+### List of top level CustomEvents:
  - "config.map.blockingVolumes.visible"  - if QueryString.dev == "true" (URL param ?dev=true)
  - "onMyDamage"
  - "onDie"
@@ -208,71 +208,20 @@ List of top level CustomEvents :
  - "hide-blocker"
  - "multi-lang-ready"
  - "addToOnlyIntersects"
- 
- Explanation in next update...
+ - "destroyObject"
+ `dispatchEvent(new CustomEvent('destroyObject', {detail: e.connection.connectionId}))`
 
- - Initially video stream is deactivated. Manage this from config :
- ```js
-     broadcasterSessionDefaults: {
-      sessionAudio: false,     // IMPORTANT
-      sessionVideo: false,     // IMPORTANT
-      sessionData: true,       // IMPORTANT
-      enableFileSharing: true,
- ```
-
+### List of networking events:
+ - 
 
 ## Backend part based on OV/Kurento. *recommendation*
 
   i use OV 2.20.0 client part.
   I borrowed a service with an address `https://maximumroulette.com:2020`
-  Interface send(arg) function is the same like other variantof networking.
+  Interface send(arg) function is the same like other variant of networking.
 
 
-## Backend part based on multiRTC3.
-For now only signaling pricipe is implemented.
-If you wanna start host server and broadcaster[webRtc] then:
-
-```js
-cd backend
-npm i
-npm run magic
-```
-
-Setup in backend/magic-three.server.js your own domain: 
-If you put "*" in public server someone can use your web app cross domain.
-This will be automated in future.
-```js
-    // res.setHeader('Access-Control-Allow-Origin', '*');
-    // res.setHeader('Access-Control-Allow-Origin', 'https://localhost:9001');
-    res.setHeader('Access-Control-Allow-Origin', 'https://maximumroulette:9001');
-```
-
-I force default browser port 443! To make all works fine (CORS problems).
-For `localhost` cert also better https. For public server you need classic ssl setup.
-
-Navigate (most simple way to fix localhost cert problem is to click advanced -> Proceed to localhost (unsafe))
-https://localhost/public/module.html
-
-If still networking not work then goto:
-https://localhost:9001/
-click advanced -> Proceed to localhost (unsafe)
-
-Finally when you see html text:
-```txt
-********************************************************** 
-* MatrixNet         version: 0.2.0                       * 
-* Type of network - BROADCASTER                          * 
-* Source: https://github.com/zlatnaspirala/matrix-engine * 
-**********************************************************
-```
-Server is allowed for localhost.
-
-After all goto https://localhost/public/module.html
-Must work now.
-You can easy manage paths. Default is `https` protocol and also recommended in multiplayer mode.
-
-
-## Dev stage
+## Dev stage 🌐
    Easy running also on VPS:
  - https://maximumroulette.com/apps/magic/public/module.html
 
@@ -285,7 +234,7 @@ You can easy manage paths. Default is `https` protocol and also recommended in m
  - Basic FPS controller✅
  - Adding map pack principle.✅
  - Net Players.✅
- - Tested on android12 devices.✅
+ - Tested on android12 devices.📱✅
  - Real Day time - sky(shaders) done  + wip envelop shaders adaptaion lights.⏳
  - Add account options REST API [rocketCraftingServer].
    singin , leaderboard. Only client part no need backend i already have running

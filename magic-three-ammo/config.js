@@ -62,7 +62,10 @@ const config = {
       animSun: 1000,
       nightFallsAt: 19,
       dawnAt: 6
-    }
+    },
+    playersSpawnPoints: [
+      {x: 0, y: 200 , z: 20}
+    ]
   },
   playerController: {
     type: 'FPS', // FPS | orbit

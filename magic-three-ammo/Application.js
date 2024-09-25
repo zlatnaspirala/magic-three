@@ -438,23 +438,20 @@ export default class Application extends MagicPhysics {
         this.playerData.energy = 1000;
         this.playerData.dies++;
         byId('playerEnergy').innerHTML = this.playerData.energy;
-        var object = this.scene.getObjectByName(e.detail.netPlayerId)
+        var object = this.scene.getObjectByName('player');
         // reset position.
+        // spawn
         object.position.set(new THREE.Vector3(0, 200, 0))
-        console.log('onDie e.detail.netPlayerId>? ', e.detail.netPlayerId, " - ", object)
+        console.log('onDie ', e.detail.netPlayerId, " - ", object)
         // Test removing 3d obj
         // if (object && object.remove) {
         //   object.remove()
         //   console.log('object.remove() is defined ')
         // }
-        // default reload make it for negging simpleway.
-        // location.reload();
       } else {
         // default reload
         location.reload();
       }
-      // this.playerItems.munition--;
-      // byId('playerMunition').innerHTML = this.playerItems.munition;
     });
 
     addEventListener('onFire', (e) => {
@@ -500,7 +497,7 @@ export default class Application extends MagicPhysics {
 
     addEventListener('onSetTitle', (e) => {
       // console.log("onSetTitle" , e.detail)
-      document.title = e.detail;
+      document.title = '✮' + e.detail + '✮';
     })
   }
 
