@@ -21,16 +21,20 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
     Nice fit with npm modules also works direct in browser.
   - Custom magic Map loader. All 3d objects comes from map.
   - No package.json [if this repo become npm package then will be back]
-    In folder ./backend we have package.json to import deps (npm i) for server part.
-    Run in folder  `./backend` cmd: `npm i` and `npm run magic` for host and broadcaster.
   - Must be fully PWA [cache, server compression, image format webp etc...]
   - MultiLang support [async load JSON MultiLang file avoid loading all multiLangs]
-  - Networking based on webRtc multiRTC3 library. Signaling server,
-    video chat or stream to texture.
   - Basic example: FPS Player controller [bullet , collision]
-
   - recommended*** -> New networking driver based on OV/Kurento.
     https://docs.openvidu.io/en/2.11.0/cheatsheet/send-messages/
+
+
+   ⚠️(only if you wanna use RTCMulti)
+    In folder ./backend we have package.json to import deps (npm i) for server part.
+    Run in folder  `./backend` cmd: `npm i` and `npm run magic` for host and broadcaster.
+    
+  - [⚠️ Old ]Networking based on webRtc multiRTC3 library. Signaling server,
+    video chat or stream to texture.
+
 
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/kure.png" width="700">
 

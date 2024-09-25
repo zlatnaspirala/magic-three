@@ -26,8 +26,9 @@ let t = label.t;
 
 export default class Application extends MagicPhysics {
 
-  // 0. BETA VERSIONS
-  APP_VERSION = "0.9.0";
+  // BETA VERSION
+  APP_VERSION = "1.0.0 [beta]";
+  PROMOTION = 'Hire me/Contact zlatnaspirala@gmail.com';
 
   // Graphics variables
   container = getDom("container");
