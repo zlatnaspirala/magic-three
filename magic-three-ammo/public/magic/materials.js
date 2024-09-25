@@ -305,7 +305,6 @@ export class MagicMaterials {
       combine: THREE.MixOperation,
       reflectivity: 0.25
     });
-
   }
 
 }

@@ -95,7 +95,6 @@ export default class Application extends MagicPhysics {
     console.log(`%c -Deep in space -`, BIGLOG);
     // console.info = () => {} // destroy logs
     addEventListener('multi-lang', () => {
-      setTimeout(() => App.label.update(), 100)
       const domLoader = document.getElementById('instructions');
       domLoader.innerHTML = startUpScreen();
       if(this.config.networking.broadcasterInit == true) {
@@ -103,6 +102,7 @@ export default class Application extends MagicPhysics {
       }
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
       document.title = t('title');
+      setTimeout(() => App.label.update(), 300)
     });
 
     if(this.config.networking.broadcasterInit == true) {
@@ -411,27 +411,36 @@ export default class Application extends MagicPhysics {
     byId('playerMunition').innerHTML = this.playerItems.munition;
 
     addEventListener('destroyObject', (e) => {
-      try{
-      var t = this.scene.getObjectByName(`net_${e.detail}`)
-      this.destroySceneObject(t)
+      try {
+        var t = this.scene.getObjectByName(`net_${e.detail}`)
+        this.destroySceneObject(t)
       } catch(err) {
         console.warn('Err in destroy object.')
       }
     })
-  
+
+    addEventListener('destroy3dObject', (e) => {
+      try {
+        this.destroySceneObject(e.detail)
+      } catch(err) {
+        console.warn('Err in destroy3dObject object.')
+      }
+    })
+
     addEventListener('onDie', (e) => {
       // only local
       console.info(`%c onDie Event ${e} !`, REDLOG)
       if(this.config.playerController.onEvent.onDie == "reload") {
         location.reload();
       } else if(this.config.playerController.onEvent.onDie == "justHideNetPlayer") {
-        // search in scene for name netPlayerId
         // LocalPlayer always triggered...
         // object.visible = false;
         this.playerData.energy = 1000;
         this.playerData.dies++;
         byId('playerEnergy').innerHTML = this.playerData.energy;
         var object = this.scene.getObjectByName(e.detail.netPlayerId)
+        // reset position.
+        object.position.set(new THREE.Vector3(0, 200, 0))
         console.log('onDie e.detail.netPlayerId>? ', e.detail.netPlayerId, " - ", object)
         // Test removing 3d obj
         // if (object && object.remove) {

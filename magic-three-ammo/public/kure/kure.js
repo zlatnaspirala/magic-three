@@ -1,4 +1,4 @@
-import {byId} from "../magic/utility.js";
+import {BIGLOG, byId} from "../magic/utility.js";
 import * as THREE from "three";
 
 var OV; var numVideos = 0; var sessionName; var token;
@@ -16,9 +16,7 @@ export function joinSession(options) {
 
 	getToken(function() {
 		OV = new OpenVidu();
-
 		window.OV = OV
-
 		session = OV.initSession();
 
 		session.on('connectionCreated', event => {
@@ -44,23 +42,17 @@ export function joinSession(options) {
 		session.on('streamCreated', event => {
 			pushEvent(event);
 			if(event.stream.connection.connectionId != App.net.connection.session.connection.connectionId) {
-				console.log('REMOTE STREAM READY', event.stream.streamId)
-				console.log('REMOTE STREAM READY [] ', event.stream.streamId)
-
+				console.log(`c% REMOTE STREAM READY ${event.stream.streamId}`)
 				setTimeout(() => {
-					console.log('REMOTE STREAM READY [] ', byId("remote-video-" + event.stream.streamId))
-
-					// test
-					var video01 = byId("remote-video-" + event.stream.streamId)
-					video01.play();
-					const videoTexture01 = new THREE.VideoTexture(video01);
-
+					console.log(`c% REMOTE STREAM READY [] ${byId("remote-video-" + event.stream.streamId)}`, BIGLOG)
+					var v = byId("remote-video-" + event.stream.streamId)
+					v.play();
+					const videoTexture01 = new THREE.VideoTexture(v);
 					App.net.injector.init({
 						userid: event.stream.connection.connectionId,
 						videoTex: videoTexture01
 					})
 				}, 4000)
-
 			} else {
 
 			}
@@ -165,8 +157,7 @@ export function joinSession(options) {
 
 				// When the publisher stream has started playing media...
 				publisher.on('streamCreated', event => {
-					// console.log("streamCreated[event.stream.connection.connectionId] ", event.stream.connection.connectionId);
-					console.log('LOCAL STREAM READY')
+					console.log(`c% LOCAL STREAM READY ${event.stream.connection.connectionId}`, BIGLOG)
 					if(document.getElementById("pwa-container-1").style.display != 'none') {
 						document.getElementById("pwa-container-1").style.display = 'none';
 					}
@@ -178,6 +169,7 @@ export function joinSession(options) {
 					pushEvent(event);
 					updateNumVideos(1);
 					console.log('NOT FIXED MUTE event.element, ', event.element)
+					event.element.mute = true;
 					// $(event.element).prop('muted', true); // Mute local video
 				});
 
@@ -189,7 +181,7 @@ export function joinSession(options) {
 
 				// When the publisher stream has started playing media...
 				publisher.on('streamPlaying', event => {
-					console.log("publisher.on streamPlaying");
+					// console.log("publisher.on streamPlaying");
 					if(document.getElementById("pwa-container-1").style.display != 'none') {
 						document.getElementById("pwa-container-1").style.display = 'none';
 					}
@@ -437,7 +429,6 @@ export function updateNumVideos(i) {
 
 	for(var x = 0;x < coll.length;x++) {
 		coll.classList = '';
-
 		switch(numVideos) {
 			case 1:
 				coll[x].classList.add('two');
@@ -453,7 +444,6 @@ export function updateNumVideos(i) {
 				break;
 		}
 	}
-
 }
 
 export function checkBtnsForce() {

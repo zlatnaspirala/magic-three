@@ -7,14 +7,22 @@ let map = {
       scale: {x: 4, y: 4, z: 1},
       pos: {x: 0, y: 21, z: 50.4},
       quat: [0, 0, 0, 1],
-      matFlag: 'matHang3dIcon' // new
+      matFlag: 'matHang3dIcon'
+    },
+    {
+      name: "glassWindow1",
+      mass: 1,
+      scale: {x: 6, y: 5, z: 0.1},
+      pos: {x: 0, y: 10, z: 20.4},
+      quat: [0, 0, 0, 1],
+      matFlag: 'glass'
     }
   ],
   boxs: [
     {
       name: "bottom-platform-left2-bottom",
       net: false,
-      mass: 0,
+      mascrosss: 0,
       scale: {x: 15, y: 15, z: 0.5},
       pos: {x: -65, y: 12, z: 45},
       quat: [0, 0, 0, 1],

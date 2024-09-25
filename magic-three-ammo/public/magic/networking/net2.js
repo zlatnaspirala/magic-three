@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import {MagicLoader} from "../loaders.js";
-import {BIGLOG, NETLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
+import {BIGLOG, NETLOG, REDLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
 import {closeSession, joinSession, removeUser, session} from "../../kure/kure.js";
 import {label} from "../multi-lang.js";
 let t = label.t;
@@ -91,10 +91,9 @@ export class KureBroadcaster {
         if(e.data.killScore) {
           dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: `[score+1][${e.data.killScore.killer}]`}}))
           // killer
-          console.log("KILL SCORE [  dies ->", e.data.killScore.netPlayerId)
-          var t = this.scene.getObjectByName(e.data.killScore.netPlayerId)
-          this.destroySceneObject(t)
-
+          console.log(`%c KILL SCORE , [${e.data.killScore.netPlayerId}] dies.`, REDLOG)
+          var t = this.root.scene.getObjectByName(e.data.killScore.netPlayerId)
+          dispatchEvent( new CustomEvent(`destroy3dObject`, { detail: t}))
           byId('playerKills').innerHTML = parseFloat(byId('playerKills').innerHTML) + 1;
         }
       }
