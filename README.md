@@ -39,9 +39,9 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/kure.png" width="700">
 
 ### `Frontend -> Three.js, Ammo.js`
-### `Backend  -> Node.js, MultiRTC3`
+### `Backend  -> OV/Kurento OR MultiRTC3`
 
-## Main gameplay template FPShoter: Hang3d Reborn
+## Main gameplay template FPShoter: ☣Hang3d Reborn☣
 ```js
 import Application from './Application.js';
 import config from './config.js';
