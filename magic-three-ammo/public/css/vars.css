@@ -14,4 +14,8 @@
 	--LG1: linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9);
 
 	--mainFont: "stormfaze";
+	--fontBig20: "20px";
+	--fontBig: "36px";
+	--fontMid: "14px";
+	--fontSmall: "12px";
 }

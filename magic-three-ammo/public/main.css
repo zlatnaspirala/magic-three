@@ -28,7 +28,7 @@ body {
   background-color: var(--bg);
   color: var(--text2);
   font-family: var(--mainFont), Monospace;
-  font-size: 14px;
+  font-size: var(--fontMid);
   overscroll-behavior: none;
   overflow: hidden;
 }
@@ -37,11 +37,11 @@ div, p {
   background: var(--bg);
   /*linear-gradient(90deg, rgba(23, 28, 2, 0.1) 14%, rgba(31, 10, 3, 0.2) 46%, rgb(90, 71, 4) 100%);
   */
-  font-size: 20px;
+  font-size: var(--fontBig20);
   @media only screen and (max-width: 768px) {
     /* For mobile phones: */
     /* [class*="response-"] { */
-    font-size: 12px;
+    font-size: var(--fontSmall);
     font-weight: bolder;
   /*  } */
   }
@@ -84,7 +84,7 @@ button {
   z-index: 1;
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
-    padding: 4px;
+    padding: 2px;
   }
 }
 
@@ -110,7 +110,7 @@ button {
   z-index: 1;
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
-    padding: 4px;
+    padding: 2px;
   }
 }
 
@@ -256,7 +256,7 @@ option {
 }
 
 #playBtn {
-  font-size:36px;
+  font-size:var(--fontBig);
   font-family:var(--mainFont);
   background:var(--text);
   padding-top: 7px;

@@ -131,9 +131,8 @@ var PointerLockControls = function(camera, domElement) {
   }
 
   this.connect = function() {
-
-    console.log('TEST !!!! app.config', App.config.playerController.mobile.hudControls)
-    console.log('TEST !!!! app.config', byId('domAngleAxis'))
+    // console.log('TEST !!!! app.config', App.config.playerController.mobile.hudControls)
+    // console.log('TEST !!!! app.config', byId('domAngleAxis'))
     if(App.config.playerController.mobile.hudControls == true) {
       byId('domAngleAxis').addEventListener('mousemove', onMouseMove, false);
       byId('domAngleAxis').addEventListener('touchmove', onTouchMove, false);
@@ -145,9 +144,6 @@ var PointerLockControls = function(camera, domElement) {
       document.addEventListener('touchmove', arrayTouches, false);
       document.addEventListener('touchend', onTouchEnd, false);
     }
-
-
-
     document.addEventListener('pointerlockchange', onPointerlockChange, false);
     document.addEventListener('pointerlockerror', onPointerlockError, false);
   };

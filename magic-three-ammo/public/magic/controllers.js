@@ -78,6 +78,34 @@ export function createFPSController() {
     })
     document.body.append(domLeft)
 
+    // test fire
+    var domFire = document.createElement('div');
+    domFire.id = 'domFire';
+    domFire.setAttribute('style', `
+      text-align: center;
+      display: none;
+      position:absolute;
+      left: 60%;
+      top: 80%;
+      width: 13%;
+      height: 6%;
+      background: rgba(255,155,155,0.2);
+      margin: auto;
+      align-items: center;
+    `)
+    domFire.innerText = `FIRE`;
+    domFire.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      console.log('TEST FIRE MOB')
+      dispatchEvent(new CustomEvent(`onFireProcedure`, {}))
+      // this.moveLeft = true;
+    })
+    domFire.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      // this.moveLeft = false;
+    })
+    document.body.append(domFire)
+
     var domUp = document.createElement('div');
     domUp.id = 'mobUp';
     domUp.setAttribute('style', `
@@ -234,6 +262,7 @@ export function createFPSController() {
       byId('mobUp').style.display = 'grid';
       byId('mobDown').style.display = 'grid';
       byId('domAngleAxis').style.display = 'grid';
+      byId('domFire').style.display = 'grid';
     }
   });
 

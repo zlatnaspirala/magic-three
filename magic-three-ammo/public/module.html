@@ -3,9 +3,12 @@
 
 <head>
   <title>Hang3D-Reborn</title>
+  <meta name="author" content="Nikola Lukic zlatnaspirala">
+  <meta name="title" content="Hang3D-Reborn">
   <link rel="manifest" href="manifest.web" />
+  <meta name="robots" content="all" />
   <meta charset="utf-8" />
-  <meta name="description" content="Based on threejs and ammo.js. Powerfull with fully PWA features. Created by Nikola Lukic maximumroulette.com @2023. First person shooter basic free open source code.Not just FPS you can create any type of client app." />
+  <meta name="description" content="Hand3d Reborn is web FPS based on threejs and ammo.js. Powerfull with fully PWA features. Created by Nikola Lukic maximumroulette.com @2023. First person shooter basic free open source code.Not just FPS you can create any type of client app." />
   <meta name="theme-color" content="black" />
   <link rel="apple-touch-icon" href="assets/icons/icon.png" />
   <meta name="mobile-web-app-capable" content="yes" />
@@ -16,11 +19,23 @@
   <meta name="viewport" content="initial-scale=1, maximum-scale=5" />
   <link as="style" type="text/css" rel="stylesheet" href="css/vars.css" />
   <link as="style" type="text/css" rel="stylesheet" href="main.css" />
-  <script defer src="./magic/networking/rtc-multi-connection/socket.io.js"></script>
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://maximumroulette.com">
+  <meta property="og:title" content="Hang3D-Reborn is web multiplayer FPS - hosted on maximumroulette.com">
+  <meta property="og:description" content="Hang3D-Reborn is web multiplayer FPS template based on threejs, ammojs, kurento and openvide project. Welcome here">
+  <meta property="og:image" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.png">
+  <!-- Twitter -->
+  <meta property="twitter:card" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.png">
+  <meta property="twitter:url" content="https://maximumroulette.com">
+  <meta property="twitter:title" content="Hang3D-Reborn is web multiplayer FPS - hosted on maximumroulette.com">
+  <meta property="twitter:description" content="Hang3D-Reborn is web multiplayer FPS template based on threejs, ammojs, kurento and openvide project. Welcome here">
+  <meta property="twitter:image" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.png">
+
+  <!-- <script defer src="./magic/networking/rtc-multi-connection/socket.io.js"></script> -->
 </head>
 
 <body oncontextmenu="return false;">
-  <!-- <img style="position: absolute;top: -10000px" src="assets/textures/cube/hang3d.png"/> -->
   <div id="info" class="hud-bar-bg">
     <div class="leftTitle">
       <div class="hudItem" id="header.title" data-label="title"></div>

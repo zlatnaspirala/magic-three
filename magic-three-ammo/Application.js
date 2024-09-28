@@ -145,7 +145,7 @@ export default class Application extends MagicPhysics {
       this.objectsToRemove[i] = null;
     }
 
-    this.fx.createAudio('shot', "./assets/audios/single-gunshot.mp3", 5)
+    this.fx.createAudio('shot', "./assets/audios/single-gunshot.mp3", 10)
     this.fx.createAudio('bg', "./assets/audios/backgrounds/chaoticfilth.mp3")
     runCache(this.config.cache);
 
@@ -537,90 +537,100 @@ export default class Application extends MagicPhysics {
     this.raycaster.setFromCamera(this.mouseCoords, this.camera);
   }
 
+  fireProcedure = (event) => {
+    // tets
+    if(this.LOCK == false) return;
+    console.log('...............', this)
+    if(this.playerItems.munition > 0) {
+      // if you wanna use custom 
+      // this.mouseCoords.set(
+      //   (event.clientX / window.innerWidth) * 2 - 1,
+      //   -(event.clientY / window.innerHeight) * 2 + 1
+      // );
+      this.mouseCoords.set(0, 0);
+      this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+
+      // Creates a ball and throws it
+      const ballMass = this.config.playerController.bullet.mass;
+      const ballRadius = this.config.playerController.bullet.radius;
+      const bulletMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(ballRadius, 14, 10),
+        this.bulletMaterial
+      );
+      bulletMesh.castShadow = true;
+      bulletMesh.receiveShadow = true;
+      bulletMesh.userData.tag = 'local_bullet';
+      bulletMesh.name = 'bullet';
+      const ballShape = new Ammo.btSphereShape(ballRadius);
+      ballShape.setMargin(this.margin);
+      this.pos.copy(this.raycaster.ray.direction);
+      this.pos.add(this.raycaster.ray.origin);
+      this.quat.set(0, 0, 0, 1);
+      const ballBody = this.createRigidBody(
+        bulletMesh,
+        ballShape,
+        ballMass,
+        this.pos,
+        this.quat
+      );
+
+      this.pos.copy(this.raycaster.ray.direction);
+      this.pos.multiplyScalar(this.config.playerController.bullet.power);
+      ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
+      ballBody.threeObject = bulletMesh;
+      this.bulletB = ballBody;
+      // Best way customEvents!
+      let onPlayerFire = new CustomEvent('onFire', {detail: {event: 'onFire'}})
+      dispatchEvent(onPlayerFire);
+      // setTimeout(() => {
+      //   if(this.bulletB) {
+      //     this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
+      //   }
+      // }, this.config.playerController.bullet.bulletLiveTime / 2);
+      this.raycaster.setFromCamera(this.mouseCoords, this.camera);
+      // this.intersects = this.raycaster.intersectObjects(this.scene.children);
+      this.intersects = this.raycaster.intersectObjects(this.onlyIntersects);
+      for(var x = 0;x < this.intersects.length;x++) {
+        if(this.intersects[x].object.parent.name) {
+          // this.intersects[x].object.parent.name
+          console.log("on hit =>", this.intersects[x].object.parent.name)
+          dispatchEvent(new CustomEvent('onHudMsg', {
+            detail: {
+              msg: `${t('you.hit.enemy')} ${this.intersects[x].object.parent.name}`,
+            }
+          }))
+          dispatchEvent(new CustomEvent('enemyDamage', {
+            detail: {
+              shooter: this.net.connection.session.connection.connectionId,
+              target: this.intersects[x].object.parent.name,
+              value: 100
+            }
+          }))
+          this.intersects = [];
+        }
+      }
+
+      this.fx.play('shot');
+
+      setTimeout(() => {
+        this.destroySceneObject(bulletMesh);
+      }, this.config.playerController.bullet.bulletLiveTime);
+    }
+  }
+
   attachFire() {
     // console.log('<AtachFire>')
+    window.addEventListener("onFireProcedure", (event) => {
+      console.log('FIRE PROCEDURE CALL [mobile only]')
+      this.LOCK = true;
+      this.fireProcedure()
+    })
+
     window.addEventListener("fixDesktopControls", (event) => {
       this.fixDesktopControls()
     })
     var canvasDOM = document.getElementsByTagName('canvas')[0];
-    window.addEventListener("pointerdown", (event) => {
-      if(this.LOCK == false) return;
-      if(this.playerItems.munition > 0) {
-        // if you wanna use custom 
-        // this.mouseCoords.set(
-        //   (event.clientX / window.innerWidth) * 2 - 1,
-        //   -(event.clientY / window.innerHeight) * 2 + 1
-        // );
-        this.mouseCoords.set(0, 0);
-        this.raycaster.setFromCamera(this.mouseCoords, this.camera);
-
-        // Creates a ball and throws it
-        const ballMass = this.config.playerController.bullet.mass;
-        const ballRadius = this.config.playerController.bullet.radius;
-        const bulletMesh = new THREE.Mesh(
-          new THREE.SphereGeometry(ballRadius, 14, 10),
-          this.bulletMaterial
-        );
-        bulletMesh.castShadow = true;
-        bulletMesh.receiveShadow = true;
-        bulletMesh.userData.tag = 'local_bullet';
-        bulletMesh.name = 'bullet';
-        const ballShape = new Ammo.btSphereShape(ballRadius);
-        ballShape.setMargin(this.margin);
-        this.pos.copy(this.raycaster.ray.direction);
-        this.pos.add(this.raycaster.ray.origin);
-        this.quat.set(0, 0, 0, 1);
-        const ballBody = this.createRigidBody(
-          bulletMesh,
-          ballShape,
-          ballMass,
-          this.pos,
-          this.quat
-        );
-
-        this.pos.copy(this.raycaster.ray.direction);
-        this.pos.multiplyScalar(this.config.playerController.bullet.power);
-        ballBody.setLinearVelocity(new Ammo.btVector3(this.pos.x, this.pos.y, this.pos.z));
-        ballBody.threeObject = bulletMesh;
-        this.bulletB = ballBody;
-        // Best way customEvents!
-        let onPlayerFire = new CustomEvent('onFire', {detail: {event: 'onFire'}})
-        dispatchEvent(onPlayerFire);
-        // setTimeout(() => {
-        //   if(this.bulletB) {
-        //     this.physicsWorld.contactTest(this.bulletB, this.cbContactResult);
-        //   }
-        // }, this.config.playerController.bullet.bulletLiveTime / 2);
-        this.raycaster.setFromCamera(this.mouseCoords, this.camera);
-        // this.intersects = this.raycaster.intersectObjects(this.scene.children);
-        this.intersects = this.raycaster.intersectObjects(this.onlyIntersects);
-        for(var x = 0;x < this.intersects.length;x++) {
-          if(this.intersects[x].object.parent.name) {
-            // this.intersects[x].object.parent.name
-            console.log("on hit =>", this.intersects[x].object.parent.name)
-            dispatchEvent(new CustomEvent('onHudMsg', {
-              detail: {
-                msg: `${t('you.hit.enemy')} ${this.intersects[x].object.parent.name}`,
-              }
-            }))
-            dispatchEvent(new CustomEvent('enemyDamage', {
-              detail: {
-                shooter: this.net.connection.session.connection.connectionId,
-                target: this.intersects[x].object.parent.name,
-                value: 100
-              }
-            }))
-            this.intersects = [];
-          }
-        }
-
-        this.fx.play('shot');
-
-        setTimeout(() => {
-          this.destroySceneObject(bulletMesh);
-        }, this.config.playerController.bullet.bulletLiveTime);
-      }
-    });
+    window.addEventListener("pointerdown", this.fireProcedure);
   }
 
   onWindowResize = () => {
