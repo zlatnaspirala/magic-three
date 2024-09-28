@@ -70,7 +70,7 @@ button {
 #info {
   position: absolute;
   display:flex;
-  font-size: 3vh;
+  font-size: var(--fontSmall);
   top: 0px;
   width: 100%;
   padding: 10px;
@@ -95,7 +95,7 @@ button {
 #infoMsg {
   position: absolute;
   display:flex;
-  font-size: 3vh;
+  font-size: var(--fontSmall);
   top: 35px;
   left: 33%;
   width: 33%;
@@ -138,7 +138,7 @@ select {
 
 #overlay {
   position: absolute;
-  font-size: 16px;
+  font-size: var(--fontMid);
   z-index: 2;
   top: 0;
   left: 0;
@@ -196,12 +196,22 @@ select {
   font-family: stormfaze;
   color: var(--text2);
   background-color: var(--bgTransparent1);
+
+  @media only screen and (max-width: 600px) {
+    font-size:8px;
+  }
 }
 
 option {
   font-family: stormfaze;
   color: var(--text2);
   background-color: var(--bg);
+}
+
+#videoChatBtn {
+  @media only screen and (max-width: 600px) {
+    font-size:8px;
+  }
 }
 
 #matrix-net {
@@ -237,7 +247,7 @@ option {
 #bootomMenu {
   position: fixed;
   display:flex;
-  font-size: 3vh;
+  font-size: var(--fontSmall);
   bottom: 0px;
   width: 100%;
   padding: 10px;

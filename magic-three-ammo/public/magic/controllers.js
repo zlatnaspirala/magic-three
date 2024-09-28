@@ -236,7 +236,7 @@ export function createFPSController() {
     console.log('ACTIVATE CAMERA: to the other side', e.target.innerHTML);
     if(byId('matrix-net').style.display == 'block') {
       byId('matrix-net').style.display = 'none';
-      e.target.innerHTML = "NET🔴"
+      e.target.innerHTML = "🔴"
     } else {
       byId('matrix-net').style.display = 'block';
     }

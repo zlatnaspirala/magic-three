@@ -95,6 +95,12 @@ export default class Application extends MagicPhysics {
     console.log(`%c ------------------------------------------`, BIGLOG);
     console.log(`%c -Deep in space -`, BIGLOG);
     // console.info = () => {} // destroy logs
+
+    if (isMobile == true) {
+      console.log(`%c Mobile device detected ...`, BIGLOG);
+      byId('desktopAbout').remove();
+    }
+
     addEventListener('multi-lang', () => {
       const domLoader = document.getElementById('instructions');
       domLoader.innerHTML = startUpScreen();
@@ -103,7 +109,7 @@ export default class Application extends MagicPhysics {
       }
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
       document.title = t('title');
-      setTimeout(() => App.label.update(), 300)
+      setTimeout(() => App.label.update(), 660)
     });
 
     if(this.config.networking.broadcasterInit == true) {
