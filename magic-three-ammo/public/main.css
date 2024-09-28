@@ -59,6 +59,8 @@ a:hover {
 button {
   cursor: pointer;
   text-transform: uppercase;
+
+  background: var(--LG1);
 }
 
 .flex-menu {
@@ -68,7 +70,7 @@ button {
 }
 
 #info {
-  position: absolute;
+  position: fixed;
   display:flex;
   font-size: var(--fontSmall);
   top: 0px;
@@ -85,6 +87,7 @@ button {
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
     padding: 2px;
+    font-size: 9px;
   }
 }
 
@@ -111,6 +114,7 @@ button {
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
     padding: 2px;
+    font-size: 10px;
   }
 }
 
@@ -173,8 +177,12 @@ select {
 #blocker {
   position: absolute;
   width: 100%;
-  height: 93%;
+  height: 95%;
   background-color: VAR(--bgBlocker);
+
+  @media only screen and (max-width: 600px) {
+    height: 98%;
+  }
 }
 
 .hud {
@@ -209,6 +217,7 @@ option {
 }
 
 #videoChatBtn {
+  background: red;
   @media only screen and (max-width: 600px) {
     font-size:8px;
   }
@@ -261,7 +270,7 @@ option {
   z-index: 100;
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
-    padding: 4px;
+    padding: 0px;
   }
 }
 

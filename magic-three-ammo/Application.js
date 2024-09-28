@@ -22,6 +22,7 @@ import {MagicSounds} from "./public/magic/audios/sounds.js";
 import {label} from "./public/magic/multi-lang.js";
 import {MagicTheme} from "./public/magic/theme.js";
 import {RCSAccount} from "./public/magic/networking/rocket-crafting-account.js";
+import {mobileAdaptation} from "./public/mobile.js";
 let t = label.t;
 
 export default class Application extends MagicPhysics {
@@ -98,7 +99,7 @@ export default class Application extends MagicPhysics {
 
     if (isMobile == true) {
       console.log(`%c Mobile device detected ...`, BIGLOG);
-      byId('desktopAbout').remove();
+      mobileAdaptation.fixStyle();
     }
 
     addEventListener('multi-lang', () => {
@@ -109,9 +110,10 @@ export default class Application extends MagicPhysics {
       }
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
       document.title = t('title');
-      setTimeout(() => App.label.update(), 660)
     });
 
+    setTimeout(() => App.label.update(), 660)
+    
     if(this.config.networking.broadcasterInit == true) {
       addEventListener('stream-loaded', (e) => {
         console.info('[stream-loaded]', e);
