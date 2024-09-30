@@ -57,10 +57,13 @@ a:hover {
 }
 
 button {
+  font-family: var(--mainFont), Monospace;
   cursor: pointer;
   text-transform: uppercase;
-
-  background: var(--LG1);
+  border:none;
+  color: var(--bg);
+  background: var(--text2);
+  margin: 1px;
 }
 
 .flex-menu {
@@ -177,12 +180,8 @@ select {
 #blocker {
   position: absolute;
   width: 100%;
-  height: 95%;
+  height: 100%;
   background-color: VAR(--bgBlocker);
-
-  @media only screen and (max-width: 600px) {
-    height: 98%;
-  }
 }
 
 .hud {

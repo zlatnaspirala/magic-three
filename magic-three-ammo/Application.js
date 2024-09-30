@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -97,7 +97,7 @@ export default class Application extends MagicPhysics {
     console.log(`%c -Deep in space -`, BIGLOG);
     // console.info = () => {} // destroy logs
 
-    if (isMobile == true) {
+    if (isMobile == true || isAndroid == true) {
       console.log(`%c Mobile device detected ...`, BIGLOG);
       mobileAdaptation.fixStyle();
     }
@@ -110,10 +110,9 @@ export default class Application extends MagicPhysics {
       }
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
       document.title = t('title');
+      setTimeout(() => App.label.update(), 760)
     });
 
-    setTimeout(() => App.label.update(), 660)
-    
     if(this.config.networking.broadcasterInit == true) {
       addEventListener('stream-loaded', (e) => {
         console.info('[stream-loaded]', e);
@@ -498,6 +497,13 @@ export default class Application extends MagicPhysics {
           }
         })
       } else {
+        // test blood screen - just red bg
+        this.theme.Blood();
+
+        setTimeout(() => {
+          this.theme[byId('theme-color').selectedOptions[0].value]()
+        }, 100)
+
         this.playerData.energy -= 100;
       }
       byId('playerEnergy').innerHTML = this.playerData.energy;

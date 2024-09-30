@@ -1,6 +1,6 @@
 import {MathUtils} from "three";
 import * as THREE from "three";
-import {isMobile, lerp} from "./utility.js";
+import {isMobile, isTouchableDevice, lerp} from "./utility.js";
 
 // example easing function (quadInOut, see link above)
 function ease(t) {return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t}
@@ -172,7 +172,7 @@ export function updatePhysics(deltaTime) {
 let localPingPong = true;
 export function updateControls() {
   const time = performance.now();
-  if(this.controls.isLocked === true || isMobile == true) {
+  if(this.controls.isLocked === true || isTouchableDevice() == true) {
     // this.raycaster.ray.origin.copy(this.controls.getObject().position);
     // this.raycaster.ray.origin.y -= 5;
     // const intersections = this.raycaster.intersectObjects(this.scene.children, false);

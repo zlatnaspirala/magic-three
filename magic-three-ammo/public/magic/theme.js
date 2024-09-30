@@ -47,6 +47,17 @@ export class MagicTheme {
 		setCssVar("--mainFont", "WARGAMES")
 	}
 
+	Blood() {
+		setCssVar("--bg", "#ff3322")
+		setCssVar("--text", "black")
+		setCssVar("--text2", "rgb(255, 253, 192)")
+		setCssVar("--err", "red")
+		setCssVar("--bgBlocker", "rgba(10, 10, 10, 0.9)")
+		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
+		setCssVar("--LG1", "linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9)")
+		setCssVar("--mainFont", "stormfaze")
+	}
+
 	constructor() {
 		addEventListener("theme", (e) => {
 			this[e.detail]();

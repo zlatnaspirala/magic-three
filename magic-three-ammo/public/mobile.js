@@ -6,10 +6,10 @@ export const mobileAdaptation = {
 
  
 
-		App.label.get.about = '🛈';
+		// App.label.get.about = '🛈';
 
 		byId('desktopAbout').remove();
 
-		App.label.update()
+		// App.label.update()
 	}
 }

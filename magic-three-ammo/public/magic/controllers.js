@@ -1,6 +1,6 @@
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import * as PointerLockControlsMobile from 'three/addons/controls/mobileController.js';
-import {ANYLOG, BIGLOG, byId, isMobile, toUnicodeVariant} from './utility.js';
+import {ANYLOG, BIGLOG, byId, isAndroid, isMobile, isTouchableDevice, REDLOG, toUnicodeVariant} from './utility.js';
 
 export function createFPSController() {
 
@@ -164,10 +164,10 @@ export function createFPSController() {
       display: none;
       position:absolute;
       left: 9%;
-      top: 82%;
+      top: 68%;
       width: 28%;
       height: 28%;
-      background: rgba(255,255,255,0.1);
+      background: var(--bgRadial1);
       margin: auto;
       align-items: center;
     `)
@@ -181,7 +181,7 @@ export function createFPSController() {
     document.body.append(domAngleAxis)
   }
 
-  if(isMobile == false) {
+  if(isTouchableDevice() == false) {
     this.controls = new PointerLockControls(this.camera, document.body);
   } else {
     this.controls = new PointerLockControlsMobile.PointerLockControls(this.camera, document.body);
@@ -205,15 +205,18 @@ export function createFPSController() {
   this.controls.PREVENT_INPUT_JUMP = false;
 
   var CLICK = 'click';
-  if(isMobile == true) {
+  if(isTouchableDevice() == true) {
     console.log('%c MOBILE DEVICE ☢️', ANYLOG)
     CLICK = 'touchstart';
+    if(isAndroid) {
+      console.log('%c ANDROID DEVICE ', ANYLOG)
+    }
   }
 
   const aboutBtn = document.getElementById('aboutBtn');
   aboutBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log('your chance is: ' + toUnicodeVariant('100% free project at https://github.com/zlatnaspirala/magic-three', 'bold WARGAMES', 'bold'));
+    console.log(`Open Source Project: ${toUnicodeVariant('100% free project at https://github.com/zlatnaspirala/magic-three')}`, REDLOG);
     alert(`${toUnicodeVariant(`HANG3D REBORN ☢️ \n
         Magic-Three is threejs vs ammojs project.
         HANG3D REBORN is FPS example with networking. ☢️\n
@@ -247,7 +250,7 @@ export function createFPSController() {
     e.preventDefault();
     console.log("c% UNLOCK", BIGLOG)
     this.LOCK = false;
-    if(isMobile == false) {
+    if(isTouchableDevice() == false) {
       this.controls.lock();
     } else {
 
@@ -283,7 +286,7 @@ export function createFPSController() {
 
   this.scene.add(this.controls.getObject());
 
-  if(isMobile == false) {
+  if(isTouchableDevice() == false) {
     const onKeyDown = (event) => {
       switch(event.code) {
         case 'ArrowUp':
