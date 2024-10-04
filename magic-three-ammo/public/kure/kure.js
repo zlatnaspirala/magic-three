@@ -158,9 +158,9 @@ export function joinSession(options) {
 				// When the publisher stream has started playing media...
 				publisher.on('streamCreated', event => {
 					console.log(`%c LOCAL STREAM READY ${event.stream.connection.connectionId}`, BIGLOG)
-					if(document.getElementById("pwa-container-1").style.display != 'none') {
-						document.getElementById("pwa-container-1").style.display = 'none';
-					}
+					// if(document.getElementById("pwa-container-1").style.display != 'none') {
+					// 	document.getElementById("pwa-container-1").style.display = 'none';
+					// }
 					pushEvent(event);
 				});
 
@@ -182,9 +182,9 @@ export function joinSession(options) {
 				// When the publisher stream has started playing media...
 				publisher.on('streamPlaying', event => {
 					// console.log("publisher.on streamPlaying");
-					if(document.getElementById("pwa-container-1").style.display != 'none') {
-						document.getElementById("pwa-container-1").style.display = 'none';
-					}
+					// if(document.getElementById("pwa-container-1").style.display != 'none') {
+					// 	document.getElementById("pwa-container-1").style.display = 'none';
+					// }
 					pushEvent(event);
 				});
 				session.publish(publisher);

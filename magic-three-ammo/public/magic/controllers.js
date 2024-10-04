@@ -233,17 +233,17 @@ export function createFPSController() {
       `)
   })
 
-  const videoChatBtn = document.getElementById('videoChatBtn');
-  videoChatBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    console.log('ACTIVATE CAMERA: to the other side', e.target.innerHTML);
-    if(byId('matrix-net').style.display == 'block') {
-      byId('matrix-net').style.display = 'none';
-      e.target.innerHTML = "🔴"
-    } else {
-      byId('matrix-net').style.display = 'block';
-    }
-  })
+  // const videoChatBtn = document.getElementById('videoChatBtn');
+  // videoChatBtn.addEventListener("click", (e) => {
+  //   e.preventDefault();
+  //   console.log('ACTIVATE CAMERA: to the other side', e.target.innerHTML);
+  //   if(byId('matrix-net').style.display == 'block') {
+  //     byId('matrix-net').style.display = 'none';
+  //     e.target.innerHTML = "🔴"
+  //   } else {
+  //     byId('matrix-net').style.display = 'block';
+  //   }
+  // })
 
   const playBtn = document.getElementById('playBtn');
   playBtn.addEventListener(CLICK, (e) => {

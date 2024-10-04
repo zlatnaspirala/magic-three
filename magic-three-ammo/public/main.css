@@ -225,12 +225,17 @@ option {
 #matrix-net {
   z-index: 1;
   position: absolute;
+  overflow: hidden;
   display: none;
   right: 0;
   height: 100%;
-  width: 40vh;
+  width: 60vw;
   font-family: stormfaze;
   background-color: var(--text2);
+
+  @media only screen and (max-width: 600px) {
+    width: 100vw;
+  }
 }
 
 .hudItem {

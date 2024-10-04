@@ -150,6 +150,13 @@ export class KureBroadcaster {
     joinSession({
       resolution: '160x120'
     });
+
+    byId('netHeaderTitle').addEventListener('click', this.domManipulation.hideNetPanel)
+
+    byId('matrix-net').style.display = 'block';
+    const videoChatBtn = document.getElementById('videoChatBtn');
+    videoChatBtn.addEventListener("click", this.domManipulation.hideNetPanel)
+
   }
 
   runKureOrange = () => {
@@ -172,4 +179,19 @@ export class KureBroadcaster {
         }
       });
   };
+
+  domManipulation = {
+    hideNetPanel: () => {
+      if(byId('matrix-net').classList.contains('hide-by-vertical')) {
+        byId('matrix-net').classList.remove('hide-by-vertical')
+        byId('matrix-net').classList.add('show-by-vertical')
+        byId('netHeaderTitle').innerText = 'HIDE';
+        byId('matrix-net').style.display = 'block';
+      } else {
+        byId('matrix-net').classList.remove('show-by-vertical')
+        byId('matrix-net').classList.add('hide-by-vertical')
+        byId('netHeaderTitle').innerText = 'maximumroulette.com';
+      }
+    }
+  }
 }
