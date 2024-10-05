@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid, isTouchableDevice} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -97,7 +97,7 @@ export default class Application extends MagicPhysics {
     console.log(`%c -Deep in space -`, BIGLOG);
     // console.info = () => {} // destroy logs
 
-    if (isMobile == true || isAndroid == true) {
+    if(isMobile == true || isAndroid == true) {
       console.log(`%c Mobile device detected ...`, BIGLOG);
       mobileAdaptation.fixStyle();
     }
@@ -644,7 +644,14 @@ export default class Application extends MagicPhysics {
       this.fixDesktopControls()
     })
     var canvasDOM = document.getElementsByTagName('canvas')[0];
-    window.addEventListener("pointerdown", this.fireProcedure);
+
+    if(isTouchableDevice() == true) {
+
+    } else {
+      window.addEventListener("pointerdown", () => {
+        this.fireProcedure()
+      });
+    }
   }
 
   onWindowResize = () => {

@@ -139,6 +139,9 @@ export class KureBroadcaster {
     this.joinSessionUI.addEventListener('click', joinSession)
     this.buttonCloseSession = byId('buttonCloseSession')
     this.buttonCloseSession.addEventListener('click', closeSession)
+    // hide close
+    this.buttonCloseSession.remove();
+    
     this.buttonLeaveSession = byId('buttonLeaveSession')
     this.buttonLeaveSession.addEventListener('click', () => {
       console.log('LEAVE SESSION')

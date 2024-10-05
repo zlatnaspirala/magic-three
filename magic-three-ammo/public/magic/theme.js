@@ -16,8 +16,8 @@ export class MagicTheme {
 
 	Dark() {
 		setCssVar("--bg", "#0d2d4e")
-		setCssVar("--text", "hsl(0, 0%, 100%)")
-		setCssVar("--text2", "rgb(255, 253, 192)")
+		setCssVar("--text", "hsl(9, 82%, 42%)")
+		setCssVar("--text2", "orangered")
 		setCssVar("--err", "red")
 		setCssVar("--bgBlocker", "rgba(10, 10, 10, 0.9)")
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")

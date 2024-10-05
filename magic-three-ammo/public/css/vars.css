@@ -2,8 +2,8 @@
 
 :root {
   --bg: #0d2d4e;
-  --text: hsl(0, 0%, 100%);
-	--text2: rgb(255, 253, 192);
+  --text: hsl(9, 82%, 42%);
+	--text2: orangered;
 
 	--err: red;
 

@@ -163,13 +163,14 @@ export function createFPSController() {
       text-align: center;
       display: none;
       position:absolute;
-      left: 9%;
-      top: 68%;
-      width: 28%;
-      height: 28%;
+      left: 4%;
+      top: 74.5%;
+      width: 46%;
+      height: 23%;
       background: var(--bgRadial1);
       margin: auto;
       align-items: center;
+      opacity:0.3;
     `)
     domAngleAxis.innerHTML = `
     
