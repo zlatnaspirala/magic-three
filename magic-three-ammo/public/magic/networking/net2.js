@@ -1,13 +1,15 @@
 import * as THREE from "three";
 import {MagicLoader} from "../loaders.js";
 import {BIGLOG, NETLOG, REDLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
-import {closeSession, joinSession, removeUser, session} from "../../kure/kure.js";
+import {closeSession, MEDIASERVER, joinSession, removeUser, session} from "../../kure/kure.js";
+
 import {label} from "../multi-lang.js";
 let t = label.t;
 
 export class KureBroadcaster {
 
   constructor(config, scene) {
+    MEDIASERVER.domain = config.networking2.domain; // 'https://maximumroulette.com:2020';
     this.scene = scene;
     this.loader = new MagicLoader(config, scene);
     this.injector;
@@ -141,7 +143,7 @@ export class KureBroadcaster {
     this.buttonCloseSession.addEventListener('click', closeSession)
     // hide close
     this.buttonCloseSession.remove();
-    
+
     this.buttonLeaveSession = byId('buttonLeaveSession')
     this.buttonLeaveSession.addEventListener('click', () => {
       console.log('LEAVE SESSION')

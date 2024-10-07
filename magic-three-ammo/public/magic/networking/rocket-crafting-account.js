@@ -1,8 +1,12 @@
-
+import {byId, HeaderTypes, jsonHeaders} from "../utility.js";
 
 export class RCSAccount {
 
 	apiDomain = "https://maximumroulette.com";
+
+	constructor() {
+		this.visitor()
+	}
 
 	createDOM = () => {
 		var parent = document.createElement('div');
@@ -45,37 +49,10 @@ export class RCSAccount {
 
 	async login() {
 		let route = this.apiDomain || location.origin;
-
 		let args = {
-			emailField: (byID('arg-email') != null ? byID('arg-email').value : null),
-			passwordField: (byID('arg-pass') != null ? byID('arg-pass').value : null)
+			emailField: (byId('arg-email') != null ? byId('arg-email').value : null),
+			passwordField: (byId('arg-pass') != null ? byId('arg-pass').value : null)
 		}
-
-		// if(apiCallFlag == 'confirmation') {
-		// 	delete args.passwordField;
-		// 	args.tokenField = byID('arg-password').value
-		// }
-
-		// if(apiCallFlag == 'forgot-pass') {
-		// 	delete args.passwordField;
-		// 	console.log("TEST ARG ", args)
-		// }
-
-		// if(apiCallFlag == 'set-new-pass') {
-		// 	args = {
-		// 		emailField: byID('arg-username').value,
-		// 		newPassword: byID('arg-new-password').value,
-		// 		ftoken: byID('arg-ftoken').value
-		// 	}
-		// 	console.log("TEST SETNEWPASW ", args)
-		// }
-
-		// if(apiCallFlag == 'logout') {
-		// 	args = {
-		// 		email: LocalSessionMemory.load('my-body-email'),
-		// 		token: LocalSessionMemory.load('my-body-token')
-		// 	}
-		// }
 
 		var response = fetch(route + '/rocket/login', {
 			method: 'POST',
@@ -86,14 +63,34 @@ export class RCSAccount {
 		}).then((r) => {
 			this.exploreResponse(r);
 		}).catch((err) => {
-			alert('ERR', err)
+			console.log('ERR', err)
 			setTimeout(() => {
 				this.preventDBLOG = false;
 				this.preventDBREG = false;
-				byID('loginBtn-real').disabled = false;
-				byID('registerBtn-real').disabled = false;
+				byId('loginBtn-real').disabled = false;
+				byId('registerBtn-real').disabled = false;
 			}, 500)
 			return;
 		})
+	}
+
+	async visitor() {
+		if (localStorage.getItem("visitor") == 'welcome') return;
+		let route = this.apiDomain;
+		let args = {
+			email: (byId('arg-email') != null ? byId('arg-email').value : 'no-email'),
+			userAgent: navigator.userAgent.toString(),
+			fromUrl: location.href.toString()
+		}
+		var response = fetch(route + '/rocket/visitors', {
+			method: 'POST',
+			headers: jsonHeaders,
+			body: JSON.stringify(args)
+		}).then((d) => {
+			return d.json();
+		}).then((r) => {
+			console.log('.................' + r);
+			// localStorage.getItem("visitor")
+		}).catch((err) => {console.log('ERR', err)})
 	}
 }

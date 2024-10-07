@@ -3,6 +3,11 @@ import * as THREE from "three";
 
 var OV; var numVideos = 0; var sessionName; var token;
 export var session;
+
+export var MEDIASERVER = {
+	domain: ''
+};
+
 export function joinSession(options) {
 
 	if(typeof options === 'undefined') {
@@ -217,7 +222,7 @@ export function getToken(callback) {
 	sessionName = byId("sessionName").value;
 
 	httpRequest('POST',
-		'https://maximumroulette.com:2020/api/get-token', {
+		MEDIASERVER.domain + '/api/get-token', {
 		sessionName: sessionName
 	},
 		'Request of TOKEN gone WRONG:',
@@ -232,7 +237,7 @@ export function getToken(callback) {
 export function removeUser() {
 	httpRequest(
 		'POST',
-		'https://maximumroulette.com:2020/api/remove-user', {
+		MEDIASERVER.domain + '/api/remove-user', {
 		sessionName: sessionName,
 		token: token
 	},
@@ -246,7 +251,7 @@ export function removeUser() {
 export function closeSession() {
 	httpRequest(
 		'DELETE',
-		'https://maximumroulette.com:2020/api/close-session', {
+		MEDIASERVER.domain + '/api/close-session', {
 		sessionName: sessionName
 	},
 		'Session couldn\'t be closed',
@@ -258,7 +263,7 @@ export function closeSession() {
 
 export function fetchInfo() {
 	httpRequest('POST',
-		'https://maximumroulette.com:2020/api/fetch-info', {
+		MEDIASERVER.domain + '/api/fetch-info', {
 		sessionName: sessionName
 	},
 		'Session couldn\'t be fetched',
@@ -272,7 +277,7 @@ export function fetchInfo() {
 export function fetchAll() {
 	httpRequest(
 		'GET',
-		'https://maximumroulette.com:2020/api/fetch-all', {},
+		MEDIASERVER.domain + '/api/fetch-all', {},
 		'All session info couldn\'t be fetched',
 		res => {
 			console.warn("All session fetched");
@@ -284,7 +289,7 @@ export function fetchAll() {
 export function forceDisconnect() {
 	httpRequest(
 		'DELETE',
-		'https://maximumroulette.com:2020/api/force-disconnect', {
+		MEDIASERVER.domain + '/api/force-disconnect', {
 		sessionName: sessionName,
 		connectionId: document.getElementById('forceValue').value
 	},
@@ -298,7 +303,7 @@ export function forceDisconnect() {
 export function forceUnpublish() {
 	httpRequest(
 		'DELETE',
-		'https://maximumroulette.com:2020/api/force-unpublish', {
+		MEDIASERVER.domain + '/api/force-unpublish', {
 		sessionName: sessionName,
 		streamId: document.getElementById('forceValue').value
 	},

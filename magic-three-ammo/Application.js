@@ -184,7 +184,7 @@ export default class Application extends MagicPhysics {
     // RCSAccount WIP
     if(this.config.useRCSAccount == true) {
       this.myAccounts = new RCSAccount();
-      // console.log('<ACCOUNTS>', this.myAccounts);
+      console.log('<ACCOUNTS>', this.myAccounts);
     }
 
     // Attach funcs
@@ -646,7 +646,7 @@ export default class Application extends MagicPhysics {
     var canvasDOM = document.getElementsByTagName('canvas')[0];
 
     if(isTouchableDevice() == true) {
-
+      // mobileAdaptation.testExperimental.testBT()
     } else {
       window.addEventListener("pointerdown", () => {
         this.fireProcedure()
