@@ -3,9 +3,9 @@ import {setCssVar} from "./utility.js"
 export class MagicTheme {
 
 	Light() {
-		setCssVar("--bg", "#6b6b6b33")
+		setCssVar("--bg", "unset")
 		setCssVar("--text", "hsl(1, 20%, 100%)")
-		setCssVar("--text2", "rgb(0, 0, 0)")
+		setCssVar("--text2", "unset")
 		setCssVar("--err", "orangered")
 		setCssVar("--bgBlocker", "rgba(150, 150, 150, 0.9)")
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
