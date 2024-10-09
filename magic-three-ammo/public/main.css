@@ -1,7 +1,7 @@
 @font-face {
   font-family: closeness;
   src: url('./assets/fonts/Closeness.ttf'),
-       url('./assets/fonts/Closeness.woff2') format('woff2');
+    url('./assets/fonts/Closeness.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -33,17 +33,19 @@ body {
   overflow: hidden;
 }
 
-div, p {
+div,
+p {
   background: var(--bg);
   /*linear-gradient(90deg, rgba(23, 28, 2, 0.1) 14%, rgba(31, 10, 3, 0.2) 46%, rgb(90, 71, 4) 100%);
   */
   font-size: var(--fontBig20);
+
   @media only screen and (max-width: 768px) {
     /* For mobile phones: */
     /* [class*="response-"] { */
     font-size: var(--fontSmall);
     font-weight: bolder;
-  /*  } */
+    /*  } */
   }
 }
 
@@ -60,7 +62,7 @@ button {
   font-family: var(--mainFont), Monospace;
   cursor: pointer;
   text-transform: uppercase;
-  border:none;
+  border: none;
   color: var(--bg);
   background: var(--text2);
   margin: 1px;
@@ -74,7 +76,7 @@ button {
 
 #info {
   position: fixed;
-  display:flex;
+  display: flex;
   font-size: var(--fontSmall);
   top: 0px;
   width: 100%;
@@ -87,6 +89,7 @@ button {
   user-select: none;
   pointer-events: none;
   z-index: 1;
+
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
     padding: 2px;
@@ -95,12 +98,12 @@ button {
 }
 
 #hud-message {
-  width:100%;
+  width: 100%;
 }
 
 #infoMsg {
   position: absolute;
-  display:flex;
+  display: flex;
   font-size: var(--fontSmall);
   top: 35px;
   left: 33%;
@@ -114,6 +117,9 @@ button {
   user-select: none;
   pointer-events: none;
   z-index: 1;
+  border-bottom-right-radius: 12px;
+  border-bottom-left-radius: 12px;
+
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
     padding: 2px;
@@ -205,7 +211,7 @@ select {
   background-color: var(--bgTransparent1);
 
   @media only screen and (max-width: 600px) {
-    font-size:8px;
+    font-size: 8px;
   }
 }
 
@@ -217,7 +223,7 @@ option {
 
 #videoChatBtn {
   @media only screen and (max-width: 600px) {
-    font-size:8px;
+    font-size: 8px;
   }
 }
 
@@ -252,13 +258,15 @@ option {
   width: 15%;
 }
 
-#playerEnergy, #playerMunition, #playerKills {
+#playerEnergy,
+#playerMunition,
+#playerKills {
   color: var(--text);
 }
 
 #bootomMenu {
   position: fixed;
-  display:flex;
+  display: flex;
   font-size: var(--fontSmall);
   bottom: 0px;
   width: 100%;
@@ -271,6 +279,7 @@ option {
   user-select: none;
   pointer-events: none;
   z-index: 100;
+
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
     padding: 0px;
@@ -278,12 +287,10 @@ option {
 }
 
 #playBtn {
-  font-size:var(--fontBig);
-  font-family:var(--mainFont);
-  background:var(--text);
-  padding-top: 7px;
+  font-size: var(--fontBig);
+  font-family: var(--mainFont);
+  background: var(--text);
+  padding: 7px;
 }
 
-.theme-color {
-  
-}
+.theme-color {}

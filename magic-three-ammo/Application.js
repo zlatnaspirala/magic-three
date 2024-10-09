@@ -103,8 +103,7 @@ export default class Application extends MagicPhysics {
     }
 
     addEventListener('multi-lang', () => {
-      const domLoader = document.getElementById('instructions');
-      domLoader.innerHTML = startUpScreen();
+      // const domLoader = document.getElementById('instructions');
       if(this.config.networking.broadcasterInit == true) {
         if(App.net && App.net.connection && App.net.connection.isInitiator == true) byId('hud-message').innerHTML = t('you.are.host');
       }
@@ -184,7 +183,7 @@ export default class Application extends MagicPhysics {
     // RCSAccount WIP
     if(this.config.useRCSAccount == true) {
       this.myAccounts = new RCSAccount();
-      console.log('<ACCOUNTS>', this.myAccounts);
+      console.log(`%c<RocketCraftingServer [Account] [wip]> ${this.myAccounts}`, REDLOG);
     }
 
     // Attach funcs
@@ -238,13 +237,13 @@ export default class Application extends MagicPhysics {
 
     let languageDOM = byId('language');
     languageDOM.onchange = (e) => {
-      // Change theme attach event..
-      console.log("language=>", e.target.selectedOptions[0].value);
+      // Change theme attach event.
+      console.log(`%cLanguage: ${e.target.selectedOptions[0].value}`, ANYLOG);
       let lang = e.target.selectedOptions[0].value;
       App.label.loadPack(lang, function() {
         const mlready = new CustomEvent('multi-lang', {});
         dispatchEvent(mlready);
-        console.info('%c Magic-Three: MultiLang loaded.', ANYLOG);
+        console.info('%cMagic-Three: MultiLang loaded.', ANYLOG);
       });
     };
 
@@ -552,9 +551,8 @@ export default class Application extends MagicPhysics {
   }
 
   fireProcedure = (event) => {
-    // tets
     if(this.LOCK == false) return;
-    console.log('...............', this)
+    // console.log('...............', this)
     if(this.playerItems.munition > 0) {
       // if you wanna use custom 
       // this.mouseCoords.set(

@@ -1,3 +1,4 @@
+import {REDLOG} from "../utility.js";
 
 export class MagicSounds {
 
@@ -30,7 +31,8 @@ export class MagicSounds {
 
   play(name) {
     if(this.audios[name].paused == true) {
-      this.audios[name].play()
+      this.audios[name].play().then(() => {}).catch((e) => {console.log(`%c[sounds] ${e}`, REDLOG)})
+
     } else {
       this.tryClone(name);
     }

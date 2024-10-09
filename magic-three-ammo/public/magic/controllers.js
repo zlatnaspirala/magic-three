@@ -217,7 +217,7 @@ export function createFPSController() {
   const aboutBtn = document.getElementById('aboutBtn');
   aboutBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    console.log(`Open Source Project: ${toUnicodeVariant('100% free project at https://github.com/zlatnaspirala/magic-three')}`, REDLOG);
+    console.log(`%cOpen Source Project: ${toUnicodeVariant('100% free project at https://github.com/zlatnaspirala/magic-three')}`, REDLOG);
     alert(`${toUnicodeVariant(`HANG3D REBORN ☢️ \n
         Magic-Three is threejs vs ammojs project.
         HANG3D REBORN is FPS example with networking. ☢️\n
@@ -249,7 +249,7 @@ export function createFPSController() {
   const playBtn = document.getElementById('playBtn');
   playBtn.addEventListener(CLICK, (e) => {
     e.preventDefault();
-    console.log("c% UNLOCK", BIGLOG)
+    console.log("%c UNLOCK", ANYLOG)
     this.LOCK = false;
     if(isTouchableDevice() == false) {
       this.controls.lock();
@@ -271,7 +271,7 @@ export function createFPSController() {
   });
 
   this.controls.addEventListener('lock', () => {
-    console.log('c%LOCK', BIGLOG)
+    console.log('%cLOCK', ANYLOG)
     this.LOCK = true;
     blocker.classList.remove('bounceIn')
     blocker.classList.add('hideMe')
@@ -279,7 +279,7 @@ export function createFPSController() {
   });
 
   this.controls.addEventListener('unlock', () => {
-    console.log('c%UNLOCK', BIGLOG)
+    console.log('%cUNLOCK', ANYLOG)
     this.LOCK = false;
     blocker.style.display = 'block';
     instructions.style.display = '';

@@ -34,6 +34,9 @@ export class MagicMaterials {
         reflectivity: 0.25
       });
 
+      console.log('xxxxxxxxxxxx')
+      this.assets.BlackBronze.needsUpdate = true;
+
       this.assets.Bronze = new THREE.MeshPhongMaterial({
         // color: 0x15f5f5,
         color: 0x666555,

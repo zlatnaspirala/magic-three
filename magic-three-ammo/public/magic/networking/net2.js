@@ -178,10 +178,8 @@ export class KureBroadcaster {
           myInstance.initDOMKure();
         }
         document.body.appendChild(testLoadJS)
-        if(true) {
-          console.log("%c Try auto connect [KURE]. for 1 secounds [fix already have offer]", NETLOG);
-          myInstance.injector = myInstance.multiPlayerRef;
-        }
+        console.log(`%c Try auto connect [${MEDIASERVER.domain}]. for 1 secounds [fix already have offer]`, NETLOG);
+        myInstance.injector = myInstance.multiPlayerRef;
       });
   };
 

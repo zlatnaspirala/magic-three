@@ -1,8 +1,8 @@
 
-Next features:
- - fix animation for multi fbx    <- fixed
- - connect first emit data for multiplayer  < -
-   i have already done this in matrix -engine
+
+ SHADOWS NIGHT AND DAY TEST 
+ https://discourse.threejs.org/t/mesh-doesnt-cast-shadow-on-other-mesh/35652
+
 
 
  we dont have in threejs access like that 

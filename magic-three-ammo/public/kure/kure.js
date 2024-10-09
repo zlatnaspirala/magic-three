@@ -173,9 +173,7 @@ export function joinSession(options) {
 				publisher.on('videoElementCreated', event => {
 					pushEvent(event);
 					updateNumVideos(1);
-					console.log('NOT FIXED MUTE event.element, ', event.element)
 					event.element.mute = true;
-					// $(event.element).prop('muted', true); // Mute local video
 				});
 
 				// When the HTML video has been appended to DOM...

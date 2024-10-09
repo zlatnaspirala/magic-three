@@ -1,4 +1,5 @@
-import {byId, HeaderTypes, jsonHeaders} from "../utility.js";
+import {mobileAdaptation} from "../../mobile.js";
+import {byId, HeaderTypes, jsonHeaders, REDLOG} from "../utility.js";
 
 export class RCSAccount {
 
@@ -6,6 +7,13 @@ export class RCSAccount {
 
 	constructor() {
 		this.visitor()
+
+		addEventListener('F12', (e) => {
+			console.log(`%c[Debbuger] ${e.detail}`, REDLOG)
+			localStorage.removeItem("visitor");
+			this.visitor(e.detail)
+		})
+		mobileAdaptation.testExperimental.catchHacker();
 	}
 
 	createDOM = () => {
@@ -19,6 +27,7 @@ export class RCSAccount {
 			height: 30%;
 			padding: 10px 10px 10px 10px;
 		`;
+		parent.id = 'myAccountLoginForm';
 
 		var title = document.createElement('div');
 		title.innerHTML = `<h2>Rocket GamePlay Login Form</h2>`;
@@ -33,15 +42,25 @@ export class RCSAccount {
 		pass.id = 'arg-pass';
 
 		var loginBtn = document.createElement('button');
+		loginBtn.innerHTML = `LOGIN`;
+		loginBtn.classList.add('btn')
 		loginBtn.addEventListener('click', () => {
 			this.login();
 		})
 
+		var hideLoginMyAccount = document.createElement('button');
+		hideLoginMyAccount.innerHTML = `HIDE`;
+		hideLoginMyAccount.addEventListener('click', () => {
+			byId('myAccountLoginForm').remove();
+		})
+		
 		parent.appendChild(title)
 		parent.appendChild(emailLabel)
 		parent.appendChild(email)
 		parent.appendChild(passLabel)
 		parent.appendChild(pass)
+		parent.appendChild(loginBtn)
+		parent.appendChild(hideLoginMyAccount)
 
 		document.body.appendChild(parent)
 
@@ -53,17 +72,18 @@ export class RCSAccount {
 			emailField: (byId('arg-email') != null ? byId('arg-email').value : null),
 			passwordField: (byId('arg-pass') != null ? byId('arg-pass').value : null)
 		}
-
 		var response = fetch(route + '/rocket/login', {
 			method: 'POST',
-			headers: JSON_HEADER,
+			headers: jsonHeaders,
 			body: JSON.stringify(args)
 		}).then((d) => {
 			return d.json();
 		}).then((r) => {
-			this.exploreResponse(r);
+
+			console.log(r);
+
 		}).catch((err) => {
-			console.log('ERR', err)
+			console.log('[My Account Error]', err)
 			setTimeout(() => {
 				this.preventDBLOG = false;
 				this.preventDBREG = false;
@@ -74,23 +94,24 @@ export class RCSAccount {
 		})
 	}
 
-	async visitor() {
-		if (localStorage.getItem("visitor") == 'welcome') return;
+	async visitor(isRegular) {
+		if(typeof isRegular === 'undefined') isRegular = 'Yes';
+		if(localStorage.getItem("visitor") == 'welcome') return;
 		let route = this.apiDomain;
 		let args = {
 			email: (byId('arg-email') != null ? byId('arg-email').value : 'no-email'),
 			userAgent: navigator.userAgent.toString(),
-			fromUrl: location.href.toString()
+			fromUrl: location.href.toString(),
+			isRegular: isRegular
 		}
-		var response = fetch(route + '/rocket/visitors', {
+		fetch(route + '/rocket/visitors', {
 			method: 'POST',
 			headers: jsonHeaders,
 			body: JSON.stringify(args)
 		}).then((d) => {
 			return d.json();
-		}).then((r) => {
-			console.log('.................' + r);
-			// localStorage.getItem("visitor")
+		}).then(() => {
+			localStorage.setItem("visitor", "welcome")
 		}).catch((err) => {console.log('ERR', err)})
 	}
 }

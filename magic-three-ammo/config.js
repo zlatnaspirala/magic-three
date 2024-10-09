@@ -47,7 +47,7 @@ const config = {
       color: "rgb(250,250,250)"
     },
     meshShadows: {
-      castShadow: false,
+      castShadow: true,
       receiveShadow: true,
       computeVertexNormals: true
     },

@@ -13,7 +13,7 @@ export class MagicNetworking {
       console.info('%cMagic-Three: Networking (rtcMulti) is active.', ANYLOG);
     } else {
       this.net = new KureBroadcaster(ClientConfig, this.scene);
-      console.info('%cMagic-Three: Networking (kure) is active.', ANYLOG);
+      console.info('%cMagic-Three: Networking (kurento/OpenVidu) is active.', ANYLOG);
     }
     // Inject
     this.net.createNetPlayerCollisionBox = this.createNetPlayerCollisionBox;

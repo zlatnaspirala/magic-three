@@ -3,7 +3,6 @@ import {setCssVar} from "./utility.js"
 export class MagicTheme {
 
 	Light() {
-		console.log('THEME LIGHT SET')
 		setCssVar("--bg", "#6b6b6b33")
 		setCssVar("--text", "hsl(1, 20%, 100%)")
 		setCssVar("--text2", "rgb(0, 0, 0)")
