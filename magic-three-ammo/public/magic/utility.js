@@ -295,3 +295,15 @@ export function toUnicodeVariant(str, variant, flags) {
   }
   return result
 }
+
+export function ORBIT(cx, cy, angle, p) {
+	var s = Math.sin(angle);
+	var c = Math.cos(angle);
+	p.x -= cx;
+	p.y -= cy;
+	var xnew = p.x * c - p.y * s;
+	var ynew = p.x * s + p.y * c;
+	p.x = xnew + cx;
+	p.y = ynew + cy;
+	return p;
+}

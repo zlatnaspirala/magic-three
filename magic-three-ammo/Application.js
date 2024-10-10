@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid, isTouchableDevice} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid, isTouchableDevice, ORBIT} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -262,6 +262,12 @@ export default class Application extends MagicPhysics {
       this.nightAndDayThread = setInterval(() => {
         if(this.nightAndDayStatus == 'day') {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y - 15;
+          this.light.intensity = this.light.intensity - 0.5;
+          if (this.light.intensity < 0) this.light.intensity = 0;
+          console.log('this.light.intensity', this.light.intensity)
+          // ORBIT
+          var DIRLIGHNEWPOS = ORBIT(110.5,110.5, this.light.intensity , { x: this.light.position.x , y: this.light.position.y} )
+          this.light.position.set( DIRLIGHNEWPOS.x, DIRLIGHNEWPOS.y, this.light.position.z)
 
           if(this.sky.material.uniforms.sunPosition.value.y < -500) {
             // night
@@ -270,6 +276,14 @@ export default class Application extends MagicPhysics {
           }
         } else {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y + 15
+          this.light.intensity = this.light.intensity + 0.5;
+          console.log('this.light.intensity', this.light.intensity)
+
+          var DIRLIGHNEWPOS = ORBIT(110.5,110.5, this.light.intensity , { x: this.light.position.x , y: this.light.position.y} )
+          this.light.position.set( DIRLIGHNEWPOS.x, DIRLIGHNEWPOS.y, this.light.position.z)
+
+          
+          if (this.light.intensity < 0) this.light.intensity = 0;
           if(this.sky.material.uniforms.sunPosition.value.y > 1000) {
             // night
             this.sky.material.uniforms.sunPosition.value.x = 1000
@@ -314,7 +328,7 @@ export default class Application extends MagicPhysics {
     this.scene.add(this.ambientLight);
 
     this.light = new THREE.DirectionalLight(this.config.map.directionLight.color, this.config.map.directionLight.intensity);
-    this.light.position.set(-10, 18, 5);
+    this.light.position.set(0, 30, 0);
     this.light.castShadow = true;
     const d = this.config.map.directionLight.LRTB;
     this.light.shadow.camera.left = -d;
