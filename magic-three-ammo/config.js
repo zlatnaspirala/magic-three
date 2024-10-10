@@ -24,22 +24,22 @@ const config = {
         mieDirectionalG: .01,
       }
     },
-    background: 0xffffff,
+    background: 0x00ffff,
     floorWidth: 200,
     floorHeight: 200,
     gravityConstant: 17.5,
     directionLight: {
-      color: 0x3f3f3f,
-      intensity: 50,
+      color: 0x000000,
+      intensity: 15,
       LRTB: 14,
       shadow: {
         camera: {
-          near: 2,
+          near: 1,
           far: 50
         },
         mapSize: {
-          x: 1024,
-          y: 1024
+          x: 2048,
+          y: 2048
         }
       }
     },

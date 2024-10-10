@@ -297,13 +297,68 @@ export function toUnicodeVariant(str, variant, flags) {
 }
 
 export function ORBIT(cx, cy, angle, p) {
-	var s = Math.sin(angle);
-	var c = Math.cos(angle);
-	p.x -= cx;
-	p.y -= cy;
-	var xnew = p.x * c - p.y * s;
-	var ynew = p.x * s + p.y * c;
-	p.x = xnew + cx;
-	p.y = ynew + cy;
-	return p;
+  var s = Math.sin(angle);
+  var c = Math.cos(angle);
+  p.x -= cx;
+  p.y -= cy;
+  var xnew = p.x * c - p.y * s;
+  var ynew = p.x * s + p.y * c;
+  p.x = xnew + cx;
+  p.y = ynew + cy;
+  return p;
+}
+
+export function SWITCHER() {
+  var ROOT = this;
+  ROOT.VALUE = 1;
+  ROOT.GET = function() {
+    ROOT.VALUE = ROOT.VALUE * -1;
+    return ROOT.VALUE;
+  };
+}
+
+export function OSCILLATOR(min, max, step) {
+  if((typeof min === 'string' || typeof min === 'number') && (typeof max === 'string' || typeof max === 'number') && (typeof step === 'string' || typeof step === 'number')) {
+    var ROOT = this;
+    this.min = parseFloat(min);
+    this.max = parseFloat(max);
+    this.step = parseFloat(step);
+    this.value_ = parseFloat(min);
+    this.status = 0;
+    this.on_maximum_value = function() {};
+    this.on_minimum_value = function() {};
+    this.UPDATE = function(STATUS_) {
+      if(STATUS_ === undefined) {
+        if(this.status == 0 && this.value_ < this.max) {
+          this.value_ = this.value_ + this.step;
+          if(this.value_ >= this.max) {
+            this.value_ = this.max;
+            this.status = 1;
+            ROOT.on_maximum_value();
+          }
+          return this.value_;
+        } else if(this.status == 1 && this.value_ > this.min) {
+          this.value_ = this.value_ - this.step;
+          if(this.value_ <= this.min) {
+            this.value_ = this.min;
+            this.status = 0;
+            ROOT.on_minimum_value();
+          }
+          return this.value_;
+        }
+      } else {
+        return this.value_;
+      }
+    };
+  } else {
+    SYS.DEBUG.WARNING(
+      "SYS : warning for procedure 'SYS.MATH.OSCILLATOR' Desciption : Replace object with string or number, min >> " +
+      typeof min +
+      ' and max >>' +
+      typeof max +
+      ' and step >>' +
+      typeof step +
+      ' << must be string or number.'
+    );
+  }
 }

@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid, isTouchableDevice, ORBIT} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid, isTouchableDevice, ORBIT, OSCILLATOR} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -109,7 +109,7 @@ export default class Application extends MagicPhysics {
       }
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
       document.title = t('title');
-      setTimeout(() => App.label.update(), 760)
+      setTimeout(() => App.label.update(), 960)
     });
 
     if(this.config.networking.broadcasterInit == true) {
@@ -259,16 +259,17 @@ export default class Application extends MagicPhysics {
     })
 
     if(this.config.map.nightAndDay.enabled == true) {
+      // local
+      var osc1 = new OSCILLATOR(-20, 20, 0.5)
       this.nightAndDayThread = setInterval(() => {
         if(this.nightAndDayStatus == 'day') {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y - 15;
           this.light.intensity = this.light.intensity - 0.5;
-          if (this.light.intensity < 0) this.light.intensity = 0;
+          if(this.light.intensity < 0) this.light.intensity = 0;
           console.log('this.light.intensity', this.light.intensity)
           // ORBIT
-          var DIRLIGHNEWPOS = ORBIT(110.5,110.5, this.light.intensity , { x: this.light.position.x , y: this.light.position.y} )
-          this.light.position.set( DIRLIGHNEWPOS.x, DIRLIGHNEWPOS.y, this.light.position.z)
-
+          // var DIRLIGHNEWPOS = ORBIT(110.5, 110.5, this.light.intensity, {x: this.light.position.x, y: this.light.position.y})
+          // this.light.position.set(osc1.UPDATE(), this.light.position.y, this.light.position.z)
           if(this.sky.material.uniforms.sunPosition.value.y < -500) {
             // night
             this.sky.material.uniforms.sunPosition.value.x = -1000
@@ -278,12 +279,9 @@ export default class Application extends MagicPhysics {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y + 15
           this.light.intensity = this.light.intensity + 0.5;
           console.log('this.light.intensity', this.light.intensity)
-
-          var DIRLIGHNEWPOS = ORBIT(110.5,110.5, this.light.intensity , { x: this.light.position.x , y: this.light.position.y} )
-          this.light.position.set( DIRLIGHNEWPOS.x, DIRLIGHNEWPOS.y, this.light.position.z)
-
-          
-          if (this.light.intensity < 0) this.light.intensity = 0;
+          // var DIRLIGHNEWPOS = ORBIT(110.5, 110.5, this.light.intensity, {x: this.light.position.x, y: this.light.position.y})
+          // this.light.position.set(osc1.UPDATE(), this.light.position.y, this.light.position.z)
+          if(this.light.intensity < 0) this.light.intensity = 0;
           if(this.sky.material.uniforms.sunPosition.value.y > 1000) {
             // night
             this.sky.material.uniforms.sunPosition.value.x = 1000
@@ -304,6 +302,7 @@ export default class Application extends MagicPhysics {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.shadowMap.enabled = true;
+    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
     if(this.config.map.sky.enabled == true) {
       this.renderer.outputEncoding = THREE.sRGBEncoding;
@@ -328,7 +327,7 @@ export default class Application extends MagicPhysics {
     this.scene.add(this.ambientLight);
 
     this.light = new THREE.DirectionalLight(this.config.map.directionLight.color, this.config.map.directionLight.intensity);
-    this.light.position.set(0, 30, 0);
+    this.light.position.set(0, 100, 0);
     this.light.castShadow = true;
     const d = this.config.map.directionLight.LRTB;
     this.light.shadow.camera.left = -d;
@@ -540,13 +539,20 @@ export default class Application extends MagicPhysics {
       this.materials.assets.BlackBronze
     );
     ground.receiveShadow = true;
-    this.textureLoader.load("./assets/textures/cube/wall-black.webp", function(texture) {
-      texture.wrapS = THREE.RepeatWrapping;
-      texture.wrapT = THREE.RepeatWrapping;
-      texture.repeat.set(40, 40);
-      ground.material.map = texture;
-      ground.material.needsUpdate = true;
-    });
+    // this.textureLoader.load("./assets/textures/cube/wall-black.webp", function(texture) {
+    //   texture.wrapS = THREE.RepeatWrapping;
+    //   texture.wrapT = THREE.RepeatWrapping;
+    //   texture.repeat.set(40, 40);
+    //   ground.material.map = texture;
+    //   ground.material.needsUpdate = true;
+    // });
+
+    console.log('TEST')
+    // ground.material.map = this.materials.assets.frontTexturePil;
+    // ground.material.map.repeat.set(40,40)
+    // ground.material.needsUpdate = true;
+
+    // texture.repeat.set(8, 2);
     ground.name = 'ground';
 
     // Load map items

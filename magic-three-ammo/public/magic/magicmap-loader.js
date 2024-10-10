@@ -76,11 +76,14 @@ export function loadMap(map) {
   });
 
   map.pointLights.forEach((l, index) => {
-    // console.info(`load map point lights index => ${index}  => `, l);
+     
     let light = new THREE.PointLight(l.color, l.radius, l.intensity);
-    light.position.set(l.pos.x, l.pos.y, l.pos.y);
+    light.position.set(l.pos.x, l.pos.y, l.pos.z);
     const sphere = new THREE.SphereGeometry(0.5, 8, 4);
-    if(typeof l.helper !== 'undefined' && l.helper == true) light.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: l.color})));
+    if(typeof l.helper !== 'undefined' && l.helper == true) {
+      light.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: l.color})));
+      console.info(`load map point lights index => ${index}  => `, l);
+    }
     this.scene.add(light);
   });
 

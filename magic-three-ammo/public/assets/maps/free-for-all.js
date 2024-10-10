@@ -1,4 +1,6 @@
 
+
+let defaultMat = 'Bronze';
 let map = {
   breakable: [
     {
@@ -26,7 +28,7 @@ let map = {
       scale: {x: 15, y: 15, z: 0.5},
       pos: {x: -65, y: 12, z: 45},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -37,7 +39,7 @@ let map = {
       scale: {x: 0.5, y: 15, z: 36},
       pos: {x: -50, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -48,7 +50,7 @@ let map = {
       scale: {x: 0.5, y: 15, z: 36},
       pos: {x: -80, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -59,7 +61,7 @@ let map = {
       scale: {x: 0.5, y: 15, z: 30},
       pos: {x: -65, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -70,7 +72,7 @@ let map = {
       scale: {x: 16, y: 0.5, z: 36},
       pos: {x: -65, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -81,7 +83,7 @@ let map = {
       scale: {x: 0.5, y: 15, z: 50},
       pos: {x: -25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -92,7 +94,7 @@ let map = {
       scale: {x: 16, y: 0.5, z: 56},
       pos: {x: -25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -103,7 +105,7 @@ let map = {
       scale: {x: 0.5, y: 15, z: 50},
       pos: {x: 25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -114,7 +116,7 @@ let map = {
       scale: {x: 16, y: 0.5, z: 56},
       pos: {x: 25, y: 12, z: 10},
       quat: [0, 0, 0, 1],
-      matFlag: 'default',
+      matFlag: defaultMat,
       collide: false,
       state: 4
     },
@@ -178,18 +180,18 @@ let map = {
   pointLights: [
     {
       name: 'l1',
-      color: 0xff2020,
+      color: 0xff0000,
       radius: 8,
-      intensity: 40,
-      pos: {x: 24, y: 25, z: 38},
+      intensity: 20,
+      pos: {x: 24, y: 25, z: 48},
       helper: true
     },
     {
       name: 'l2',
       color: 0x22ff20,
       radius: 8,
-      intensity: 40,
-      pos: {x: -23, y: 25, z: 38},
+      intensity: 20,
+      pos: {x: 24, y: 25, z: 38},
       helper: true
     }
   ],

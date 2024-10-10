@@ -28,10 +28,12 @@ export class MagicMaterials {
   createBlackWall = function() {
 
     this.assets.BlackBronze = new THREE.MeshLambertMaterial({
-        color: 0x777777,
+      color: 0x666555,
+      specular: 0xee6666,
         map: this.assets.frontTexture,
         combine: THREE.MixOperation,
-        reflectivity: 0.25
+        reflectivity: 0,
+        shininess: 20,
       });
 
       console.log('xxxxxxxxxxxx')
