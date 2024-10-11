@@ -5,7 +5,7 @@ import {getProtocolFromAddressBar, getDomain} from "./public/magic/utility.js";
  * MagicThree config file.
  */
 const config = {
-  cache: false,
+  cache: true,
   stats: false,
   camera: {
     fov: 60,

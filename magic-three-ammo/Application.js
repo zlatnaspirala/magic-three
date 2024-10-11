@@ -169,11 +169,11 @@ export default class Application extends MagicPhysics {
     //    */
     // }));
 
-    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/zombie-walk.fbx', 'test').then((r) => {
-    //   console.info('Setup BOT ENEMY animation character obj =>', r);
-    //   App.TESTOBJ = r;
-    //   // r.position.set(10, 0, 10);
-    // }));
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/test-b.fbx', 'test').then((r) => {
+      console.info('Setup BOT ENEMY animation character obj =>', r);
+      App.ZOMBY = r;
+      r.position.set(14, 0, 10);
+    }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
@@ -266,7 +266,7 @@ export default class Application extends MagicPhysics {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y - 15;
           this.light.intensity = this.light.intensity - 0.5;
           if(this.light.intensity < 0) this.light.intensity = 0;
-          console.log('this.light.intensity', this.light.intensity)
+          // console.log('this.light.intensity', this.light.intensity)
           // ORBIT
           // var DIRLIGHNEWPOS = ORBIT(110.5, 110.5, this.light.intensity, {x: this.light.position.x, y: this.light.position.y})
           // this.light.position.set(osc1.UPDATE(), this.light.position.y, this.light.position.z)
@@ -278,7 +278,7 @@ export default class Application extends MagicPhysics {
         } else {
           this.sky.material.uniforms.sunPosition.value.y = this.sky.material.uniforms.sunPosition.value.y + 15
           this.light.intensity = this.light.intensity + 0.5;
-          console.log('this.light.intensity', this.light.intensity)
+          // console.log('this.light.intensity', this.light.intensity)
           // var DIRLIGHNEWPOS = ORBIT(110.5, 110.5, this.light.intensity, {x: this.light.position.x, y: this.light.position.y})
           // this.light.position.set(osc1.UPDATE(), this.light.position.y, this.light.position.z)
           if(this.light.intensity < 0) this.light.intensity = 0;

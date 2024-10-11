@@ -11,14 +11,14 @@ let map = {
       quat: [0, 0, 0, 1],
       matFlag: 'matHang3dIcon'
     },
-    {
-      name: "glassWindow1",
-      mass: 1,
-      scale: {x: 6, y: 5, z: 0.1},
-      pos: {x: 0, y: 10, z: 20.4},
-      quat: [0, 0, 0, 1],
-      matFlag: 'glass'
-    }
+    // {
+    //   name: "glassWindow1",
+    //   mass: 1,
+    //   scale: {x: 6, y: 5, z: 0.1},
+    //   pos: {x: 0, y: 10, z: 20.4},
+    //   quat: [0, 0, 0, 1],
+    //   matFlag: 'glass'
+    // }
   ],
   boxs: [
     {
@@ -140,17 +140,6 @@ let map = {
     //   quat: [0, 0, 0, 1],
     //   matFlag: 'glass'
     // },
-    {
-      name: "simpleLamp1",
-      net: false,
-      mass: 0,
-      scale: {x: 0.2, y: 1, z: 1},
-      pos: {x: 24.5, y: 25, z: 25},
-      quat: [0, 0, 0, 1],
-      matFlag: 'emissionRed',
-      collide: true,
-      state: 4
-    },
   ],
   tubes: [
     {
@@ -183,7 +172,7 @@ let map = {
       color: 0xff0000,
       radius: 8,
       intensity: 20,
-      pos: {x: 24, y: 25, z: 48},
+      pos: {x: 24, y: 25, z: 28},
       helper: true
     },
     {
@@ -193,7 +182,123 @@ let map = {
       intensity: 20,
       pos: {x: 24, y: 25, z: 38},
       helper: true
-    }
+    },
+    {
+      name: 'l3',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: 24, y: 25, z: -10},
+      helper: true
+    },
+    {
+      name: 'l4',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: 24, y: 25, z: -20},
+      helper: true
+    },
+    {
+      name: 'r1',
+      color: 0xff0000,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 25, z: 28},
+      helper: true
+    },
+    {
+      name: 'r2',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 25, z: 38},
+      helper: true
+    },
+    {
+      name: 'r3',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 25, z: -10},
+      helper: true
+    },
+    {
+      name: 'r4',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 25, z: -20},
+      helper: true
+    },
+
+    // down center
+    {
+      name: 'ldown1',
+      color: 0xff0000,
+      radius: 8,
+      intensity: 20,
+      pos: {x: 24, y: 10, z: 28},
+      helper: true
+    },
+    {
+      name: 'ldown2',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: 24, y: 10, z: 38},
+      helper: true
+    },
+    {
+      name: 'ldown3',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: 24, y: 10, z: -10},
+      helper: true
+    },
+    {
+      name: 'ldown4',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: 24, y: 10, z: -20},
+      helper: true
+    },
+
+    {
+      name: 'rdown1',
+      color: 0xff0000,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 10, z: 28},
+      helper: true
+    },
+    {
+      name: 'rdown2',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 10, z: 38},
+      helper: true
+    },
+    {
+      name: 'rdown3',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 10, z: -10},
+      helper: true
+    },
+    {
+      name: 'rdown4',
+      color: 0x22ff20,
+      radius: 8,
+      intensity: 20,
+      pos: {x: -24, y: 10, z: -20},
+      helper: true
+    },
+
   ],
   objMtls: [
     {
@@ -238,18 +343,18 @@ let map = {
     }
   ],
   stairs: [
-    // {
-    //   name: 'evevator1',
-    //   pos: {x:0, y: 0, z: 15},
-    //   quat: [0, 0, 0, 1],
-    //   scale: {x: 10, y: 0.3, z: 56},
-    //   stairs: {
-    //     num: 19,
-    //     width: 2.7,
-    //     height: 0.6
-    //   },
-    //   matFlag: 'BlackBronze'
-    // }
+    {
+      name: 'stairs1',
+      pos: {x:0, y: 0, z: 15},
+      quat: [0, 0, 0, 1],
+      scale: {x: 10, y: 0.3, z: 56},
+      stairs: {
+        num: 19,
+        width: 2.7,
+        height: 0.6
+      },
+      matFlag: 'BlackBronze'
+    }
   ]
 };
 
