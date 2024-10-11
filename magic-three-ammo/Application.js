@@ -172,7 +172,7 @@ export default class Application extends MagicPhysics {
     this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/test-b.fbx', 'test').then((r) => {
       console.info('Setup BOT ENEMY animation character obj =>', r);
       App.ZOMBY = r;
-      r.position.set(14, 0, 10);
+      r.position.set(14, 0, 40);
     }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
