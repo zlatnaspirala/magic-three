@@ -502,7 +502,7 @@ export class MagicPhysics extends MagicNetworking {
 
   // UPDATE  OCT 2024
   attachBoxCollider(object2, halfExtents, name, netType, collide, state) {
-    let mat, mass = 1;
+    let mat, mass = 0;
 
     console.log('halfExtents?', halfExtents);
     mat = this.materials.assets['Bronse'];
@@ -558,7 +558,7 @@ export class MagicPhysics extends MagicNetworking {
     //   object.userData.physicsBody.setActivationState(4);
     // }
 
-    // this.rigidBodies.push(object);
+    this.rigidBodies.push(object2);
     
     object2.add(object)
     // this.scene.add(object);

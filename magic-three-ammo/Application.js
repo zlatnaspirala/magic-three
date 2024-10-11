@@ -182,7 +182,7 @@ export default class Application extends MagicPhysics {
           'zombi-collide-1',
           false,
           true,
-          0
+          2
         );
       }, 5000)
 
