@@ -169,10 +169,23 @@ export default class Application extends MagicPhysics {
     //    */
     // }));
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/test-b.fbx', 'test').then((r) => {
-      console.info('Setup BOT ENEMY animation character obj =>', r);
+    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/test-b.fbx', 'ZOMBY123').then((r) => {
+      console.info('Setup BOT ENEMY animation character obj ADD COLLIDE BOX =>', r);
       App.ZOMBY = r;
-      r.position.set(14, 0, 40);
+      r.position.set(4, 0, 10);
+
+      dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
+
+      setTimeout(() => {
+        this.attachBoxCollider(r,
+          new THREE.Vector3(2, 2, 2),
+          'zombi-collide-1',
+          false,
+          true,
+          0
+        );
+      }, 5000)
+
     }));
 
     Promise.all(this.myBigDataFlag).then((values) => {

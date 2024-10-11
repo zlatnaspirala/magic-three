@@ -31,7 +31,13 @@ export function updatePhysics(deltaTime) {
   for(let i = 0, il = this.rigidBodies.length;i < il;i++) {
     const objThree = this.rigidBodies[i];
     const objPhys = objThree.userData.physicsBody;
-    const ms = objPhys.getMotionState();
+    var ms ;
+    try {
+     ms = objPhys.getMotionState();
+    } catch (err) {
+      console.warn("EERR FOR ", objThree)
+      return;
+    }
     if(ms) {
       ms.getWorldTransform(this.transformAux1);
       const p = this.transformAux1.getOrigin();

@@ -82,7 +82,7 @@ export function loadMap(map) {
     const sphere = new THREE.SphereGeometry(0.5, 8, 4);
     if(typeof l.helper !== 'undefined' && l.helper == true) {
       light.add(new THREE.Mesh(sphere, new THREE.MeshBasicMaterial({color: l.color})));
-      console.info(`load map point lights index => ${index}  => `, l);
+      // console.info(`load map point lights index => ${index}  => `, l);
     }
     this.scene.add(light);
   });

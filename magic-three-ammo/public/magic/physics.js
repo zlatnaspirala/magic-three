@@ -242,6 +242,7 @@ export class MagicPhysics extends MagicNetworking {
   createSimpleBox(mass, halfExtents, pos, quat, material, name, netType, matFlag, collide, state) {
     let mat;
 
+    // console.log('MAT IS ???????', mat)
     if(matFlag == false) {
       mat = material;
     } else {
@@ -497,6 +498,72 @@ export class MagicPhysics extends MagicNetworking {
     this.physicsWorld.addRigidBody(body);
 
     return object;
+  }
+
+  // UPDATE  OCT 2024
+  attachBoxCollider(object2, halfExtents, name, netType, collide, state) {
+    let mat, mass = 1;
+
+    console.log('halfExtents?', halfExtents);
+    mat = this.materials.assets['Bronse'];
+  
+
+    const object = new THREE.Mesh(
+      new THREE.BoxGeometry(
+        halfExtents.x * 22,
+        halfExtents.y * 22,
+        halfExtents.z * 22
+      ),
+      mat
+    );
+
+    object.position.y = 6;
+    // object.quaternion.copy(quat);
+
+    object.castShadow = false;
+
+    object.name = name || "attacher-box-collider";
+
+    var colShape = new Ammo.btBoxShape(new Ammo.btVector3(halfExtents.x, halfExtents.y, halfExtents.z));
+    // var colShape = new Ammo.btBoxShape(halfExtents.x, halfExtents.y, halfExtents.z);
+    var startTransform = new Ammo.btTransform();
+
+    startTransform.setIdentity();
+
+    // var mass = 10,
+    var isDynamic = (mass !== 0),
+      localInertia = new Ammo.btVector3(0, 0, 0);
+
+    if(isDynamic) colShape.calculateLocalInertia(mass, localInertia);
+
+    startTransform.setOrigin(new Ammo.btVector3(object.position.x, object.position.y, object.position.z));
+
+    var myMotionState = new Ammo.btDefaultMotionState(startTransform),
+      rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),
+      body = new Ammo.btRigidBody(rbInfo);
+
+    object2.userData.physicsBody = body;
+    console.info('!!!!!IS COLLIDE ', collide);
+    object2.userData.collided = collide;
+
+    if(typeof state !== 'undefined') {
+      // console.info('IS state ', state);
+      object2.userData.physicsBody.setActivationState(state);
+    }
+
+    // if(netType == true) {
+    //   console.log('ADD NET OBJECTS ! create simple box. ', this.networkEmisionObjs)
+    //   this.networkEmisionObjs.push(object);
+    //   object.netType = 'envObj';
+    //   object.userData.physicsBody.setActivationState(4);
+    // }
+
+    // this.rigidBodies.push(object);
+    
+    object2.add(object)
+    // this.scene.add(object);
+    console.info('IS object ', object2);
+    this.physicsWorld.addRigidBody(body);
   }
 
   destroySceneObject(o) {
