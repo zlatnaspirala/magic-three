@@ -2,14 +2,13 @@ import * as THREE from "three";
 import {MagicLoader} from "../loaders.js";
 import {BIGLOG, NETLOG, REDLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
 import {closeSession, MEDIASERVER, joinSession, removeUser, session} from "../../kure/kure.js";
-
-import {label} from "../multi-lang.js";
-let t = label.t;
+// import {label} from "../multi-lang.js";
 
 export class KureBroadcaster {
 
   constructor(config, scene) {
-    MEDIASERVER.domain = config.networking2.domain; // 'https://maximumroulette.com:2020';
+    MEDIASERVER.domain = config.networking2.domain;
+    MEDIASERVER.config = config.networking2;
     this.scene = scene;
     this.loader = new MagicLoader(config, scene);
     this.injector;

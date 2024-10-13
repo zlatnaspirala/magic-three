@@ -32,6 +32,10 @@ export class RCSAccount {
 		var title = document.createElement('div');
 		title.innerHTML = `<h2>Rocket GamePlay Login Form</h2>`;
 
+		var content = document.createElement('div');
+		content.style.display = 'flex';
+		content.style.flexDirection= 'column';
+
 		var emailLabel = document.createElement('span');
 		emailLabel.innerHTML = `Email:`;
 		var email = document.createElement('input');
@@ -55,11 +59,12 @@ export class RCSAccount {
 		})
 		
 		parent.appendChild(title)
-		parent.appendChild(emailLabel)
-		parent.appendChild(email)
-		parent.appendChild(passLabel)
-		parent.appendChild(pass)
-		parent.appendChild(loginBtn)
+		parent.appendChild(content)
+		content.appendChild(emailLabel)
+		content.appendChild(email)
+		content.appendChild(passLabel)
+		content.appendChild(pass)
+		content.appendChild(loginBtn)
 		parent.appendChild(hideLoginMyAccount)
 
 		document.body.appendChild(parent)

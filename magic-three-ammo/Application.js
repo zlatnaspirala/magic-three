@@ -112,6 +112,7 @@ export default class Application extends MagicPhysics {
       setTimeout(() => App.label.update(), 960)
     });
 
+    // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
     if(this.config.networking.broadcasterInit == true) {
       addEventListener('stream-loaded', (e) => {
         console.info('[stream-loaded]', e);
@@ -125,6 +126,7 @@ export default class Application extends MagicPhysics {
           document.title = t('you.are.guest');
         }
       })
+      // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
     } else {
 
     }
@@ -169,24 +171,24 @@ export default class Application extends MagicPhysics {
     //    */
     // }));
 
-    this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/test-b.fbx', 'ZOMBY123').then((r) => {
-      console.info('Setup BOT ENEMY animation character obj ADD COLLIDE BOX =>', r);
-      App.ZOMBY = r;
-      r.position.set(4, 0, 10);
+    // this.myBigDataFlag.push(this.loader.fbx('./assets/objects/zombies/test-b.fbx', 'bot-zombie-woman').then((r) => {
+    //   console.info('Setup BOT ENEMY animation character obj ADD COLLIDE BOX =>', r);
+    //   App.ZOMBY = r;
+    //   r.position.set(4, 0, 10);
 
-      dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
+    //   dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
 
-      setTimeout(() => {
-        this.attachBoxCollider(r,
-          new THREE.Vector3(2, 2, 2),
-          'zombi-collide-1',
-          false,
-          true,
-          2
-        );
-      }, 5000)
+    //   // setTimeout(() => {
+    //   //   this.attachBoxCollider(r,
+    //   //     new THREE.Vector3(1, 2, 1),
+    //   //     'zombi-collide-1',
+    //   //     false,
+    //   //     true,
+    //   //     2
+    //   //   );
+    //   // }, 5000)
 
-    }));
+    // }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
       console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
@@ -196,6 +198,7 @@ export default class Application extends MagicPhysics {
     // RCSAccount WIP
     if(this.config.useRCSAccount == true) {
       this.myAccounts = new RCSAccount();
+      this.myAccounts.createDOM();
       console.log(`%c<RocketCraftingServer [Account] [wip]> ${this.myAccounts}`, REDLOG);
     }
 

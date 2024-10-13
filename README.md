@@ -249,6 +249,14 @@ No build time lost.
 # Map [] ⏳
 
 Working example:
+
+
+becouse on mobile devices it is not recommended video chat streming on load also in game play for now.
+
+New config flag:
+`ifMobileNoVideoOnLoad`
+
+
 ```js
 
 let map = {

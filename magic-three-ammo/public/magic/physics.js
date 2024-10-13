@@ -517,7 +517,7 @@ export class MagicPhysics extends MagicNetworking {
       mat
     );
 
-    object.position.y = 6;
+    object.position.y = 2;
     // object.quaternion.copy(quat);
 
     object.castShadow = false;
@@ -536,7 +536,7 @@ export class MagicPhysics extends MagicNetworking {
 
     if(isDynamic) colShape.calculateLocalInertia(mass, localInertia);
 
-    startTransform.setOrigin(new Ammo.btVector3(object.position.x, object.position.y, object.position.z));
+    startTransform.setOrigin(new Ammo.btVector3(object2.position.x, object2.position.y + 2, object2.position.z));
 
     var myMotionState = new Ammo.btDefaultMotionState(startTransform),
       rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, myMotionState, colShape, localInertia),

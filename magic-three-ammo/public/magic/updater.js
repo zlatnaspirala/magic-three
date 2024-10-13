@@ -12,39 +12,39 @@ export function updatePhysics(deltaTime) {
   t = deltaTime * 2;
   // Test - can be used for shared net objs
   this.cbContactPairResult.hasContact = false;
-  if(this.bulletB) {
-    for(var key in this.net.netPlayersCollisionBox) {
-      // this.physicsWorld.contactPairTest(this.bulletB, this.net.netPlayersCollisionBox[key].userData.physicsBody, this.cbContactPairResult);
-    }
-  }
+  // if(this.bulletB) {
+  //   for(var key in this.net.netPlayersCollisionBox) {
+  //     // this.physicsWorld.contactPairTest(this.bulletB, this.net.netPlayersCollisionBox[key].userData.physicsBody, this.cbContactPairResult);
+  //   }
+  // }
 
   // BOT - zombie kinematix but not fixed axis Y up and down.
-  if(window.R) {
-    R.lookAt(App.camera.position);
-    var newX = lerp(window.R.position.x, App.camera.position.x, ease(t));
-    var newY = lerp(window.R.position.y, App.camera.position.y, ease(t));
-    var newZ = lerp(window.R.position.z, App.camera.position.z, ease(t));
-    R.position.set(newX, newY, newZ);  // set new position
-  }
+  // if(window.R) {
+  //   R.lookAt(App.camera.position);
+  //   var newX = lerp(window.R.position.x, App.camera.position.x, ease(t));
+  //   var newY = lerp(window.R.position.y, App.camera.position.y, ease(t));
+  //   var newZ = lerp(window.R.position.z, App.camera.position.z, ease(t));
+  //   R.position.set(newX, newY, newZ);  // set new position
+  // }
 
   // Update rigid bodies
   for(let i = 0, il = this.rigidBodies.length;i < il;i++) {
     const objThree = this.rigidBodies[i];
     const objPhys = objThree.userData.physicsBody;
-    var ms ;
+    var ms;
     try {
-     ms = objPhys.getMotionState();
-    } catch (err) {
+      ms = objPhys.getMotionState();
+    } catch(err) {
       console.warn("EERR FOR ", objThree)
       return;
     }
     if(ms) {
-      ms.getWorldTransform(this.transformAux1);
-      const p = this.transformAux1.getOrigin();
-      const q = this.transformAux1.getRotation();
-      objThree.position.set(p.x(), p.y(), p.z());
-      objThree.quaternion.set(q.x(), q.y(), q.z(), q.w());
-      objThree.userData.collided = false;
+      ms.getWorldTransform(this.transformAux1)
+      const p = this.transformAux1.getOrigin()
+      const q = this.transformAux1.getRotation()
+      objThree.position.set(p.x(), p.y(), p.z())
+      objThree.quaternion.set(q.x(), q.y(), q.z(), q.w())
+      objThree.userData.collided = false
     }
   }
 

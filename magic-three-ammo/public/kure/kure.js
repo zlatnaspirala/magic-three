@@ -1,10 +1,11 @@
-import {BIGLOG, byId} from "../magic/utility.js";
+import {BIGLOG, byId, isMobile} from "../magic/utility.js";
 import * as THREE from "three";
 
 var OV; var numVideos = 0; var sessionName; var token;
 export var session;
 
 export var MEDIASERVER = {
+	config: {},
 	domain: ''
 };
 
@@ -15,6 +16,8 @@ export function joinSession(options) {
 			resolution: '320x240'
 		};
 	}
+
+	console.log('>>>>', MEDIASERVER)
 
 	document.getElementById("join-btn").disabled = true;
 	document.getElementById("join-btn").innerHTML = "Joining...";
@@ -123,6 +126,10 @@ export function joinSession(options) {
 
 		dispatchEvent(new CustomEvent(`setupSessionObject`, {detail: {session}}))
 
+		if(MEDIASERVER.config.mobilePublishVideo == false) {
+			if(isMobile) MEDIASERVER.config.publishVideo = false;
+		}
+
 		session.connect(token)
 			.then(() => {
 				byId('session-title').innerText = sessionName;
@@ -131,8 +138,8 @@ export function joinSession(options) {
 				var publisher = OV.initPublisher('video-container', {
 					audioSource: undefined, // The source of audio. If undefined default microphone
 					videoSource: undefined, // The source of video. If undefined default webcam
-					publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-					publishVideo: true, // Whether you want to start publishing with your video enabled or not
+					publishAudio: MEDIASERVER.config.publishAudio, // Whether you want to start publishing with your audio unmuted or not
+					publishVideo: MEDIASERVER.config.publishVideo, // Whether you want to start publishing with your video enabled or not
 					resolution: options.resolution, // The resolution of your video
 					frameRate: 30, // The frame rate of your video
 					insertMode: 'APPEND', // How the video is inserted in the target element 'video-container'

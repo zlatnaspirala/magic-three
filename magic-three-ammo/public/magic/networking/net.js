@@ -127,9 +127,11 @@ export class Broadcaster {
 
     this.engineConfig = config.networking;
     this.engineConfig2 = config.networking2;
+    // <<<<<<<<<<<<<<<<<<<<<<<<< OLD
     if(this.engineConfig.broadcasterInit == true) {
       this.runBroadcaster();
     }
+    // <<<<<<<<<<<<<<<<<<<<<<<<< OLD
   }
 
   closeAllPeers() {
