@@ -167,7 +167,8 @@ export class KureBroadcaster {
     const myInstance = this;
 
     fetch("./kure/index.html", {headers: htmlHeader, }).then(function(res) {return res.text()})
-      .then(function(html) {
+      .then((html) => {
+        // MEDIASERVER.config = config.networking2;
         myInstance.popupUI = byId("matrix-net");
         myInstance.popupUI.style = 'table';
         myInstance.popupUI.innerHTML = html;

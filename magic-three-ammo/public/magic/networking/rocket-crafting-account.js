@@ -1,5 +1,5 @@
 import {mobileAdaptation} from "../../mobile.js";
-import {byId, HeaderTypes, jsonHeaders, REDLOG} from "../utility.js";
+import {byId, HeaderTypes, isMobile, jsonHeaders, REDLOG} from "../utility.js";
 
 export class RCSAccount {
 
@@ -27,6 +27,16 @@ export class RCSAccount {
 			height: 30%;
 			padding: 10px 10px 10px 10px;
 		`;
+		if(isMobile) {
+			parent.style = `
+		position: absolute;
+    top: 20%;
+    left: 0%;
+    width: 100%;
+    height: 30%;
+    padding: 10px;`;
+		}
+
 		parent.id = 'myAccountLoginForm';
 
 		var title = document.createElement('div');
@@ -34,7 +44,7 @@ export class RCSAccount {
 
 		var content = document.createElement('div');
 		content.style.display = 'flex';
-		content.style.flexDirection= 'column';
+		content.style.flexDirection = 'column';
 
 		var emailLabel = document.createElement('span');
 		emailLabel.innerHTML = `Email:`;
@@ -57,7 +67,7 @@ export class RCSAccount {
 		hideLoginMyAccount.addEventListener('click', () => {
 			byId('myAccountLoginForm').remove();
 		})
-		
+
 		parent.appendChild(title)
 		parent.appendChild(content)
 		content.appendChild(emailLabel)

@@ -704,7 +704,7 @@ export default class Application extends MagicPhysics {
   render() {
     const deltaTime = this.clock.getDelta();
     this.netflag++;
-    if(this.netflag > 20) {
+    if(this.netflag > 4) {
       this.networkEmisionObjs.forEach((i, index) => {
         if(i.name == 'player') {
           // indicate local Player object !
