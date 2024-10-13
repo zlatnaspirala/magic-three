@@ -11,6 +11,8 @@ export class MagicTheme {
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
 		setCssVar("--LG1", "linear-gradient(87deg,#ff6f00,#b5830f,#df494b,#fff,#fff,#e90b0f)")
 		setCssVar("--mainFont", "Accuratist")
+
+		setCssVar("--mainDivBorder", "box-shadow: inset 0 0 35px 5px rgba(0,0,0,0.25), inset 0 2px 1px 1px rgba(255,255,255,0.9), inset 0 -2px 1px rgba(0,0,0,0.25);")
 	}
 
 	Dark() {
@@ -22,6 +24,9 @@ export class MagicTheme {
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
 		setCssVar("--LG1", "linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9)")
 		setCssVar("--mainFont", "stormfaze")
+
+		setCssVar("--mainDivBorder", "box-shadow: inset 0 0 35px 5px rgba(0,0,0,0.25), inset 0 2px 1px 1px rgba(255,255,255,0.9), inset 0 -2px 1px rgba(0,0,0,0.25);")
+		
 	}
 
 	Green() {
@@ -33,6 +38,8 @@ export class MagicTheme {
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
 		setCssVar("--LG1", "linear-gradient(87deg,#10f30f,#fff,#10f30f,#000000,#10f30f,#000000)")
 		setCssVar("--mainFont", "WARGAMES")
+
+		setCssVar("--mainDivBorder", "-1px 0px 19px 4px rgba(0,0,0,0.62) inset")
 	}
 
 	Orange() {
@@ -44,6 +51,9 @@ export class MagicTheme {
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
 		setCssVar("--LG1", "linear-gradient(87deg,#f31a0f,#fff,#f31a0f,#000000,#f31a0f,#000000)")
 		setCssVar("--mainFont", "WARGAMES")
+
+		setCssVar("--mainDivBorder", "-1px 0px 19px 4px rgba(0,0,0,0.62) inset")
+
 	}
 
 	Blood() {
@@ -55,6 +65,8 @@ export class MagicTheme {
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
 		setCssVar("--LG1", "linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9)")
 		setCssVar("--mainFont", "stormfaze")
+
+		setCssVar("--mainDivBorder", "-1px 0px 19px 4px rgba(0,0,0,0.62) inset")
 	}
 
 	constructor() {

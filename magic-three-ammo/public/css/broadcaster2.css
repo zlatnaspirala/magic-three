@@ -854,7 +854,7 @@ a:hover .demo-logo {
 	display: flex;
 	margin-bottom: 20px;
 	height: 8%;
-	/* margin-top: 70px; */
+	padding: 10px 38px 10px 38px;
 }
 
 #session-header form {

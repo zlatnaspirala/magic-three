@@ -39,6 +39,8 @@ p {
   /*linear-gradient(90deg, rgba(23, 28, 2, 0.1) 14%, rgba(31, 10, 3, 0.2) 46%, rgb(90, 71, 4) 100%);
   */
   font-size: var(--fontBig20);
+  box-shadow: var(--mainDivBorder);
+  -webkit-box-shadow: var(--mainDivBorder);
 
   @media only screen and (max-width: 768px) {
     /* For mobile phones: */
@@ -131,6 +133,7 @@ a,
 button,
 input,
 select {
+  font-family: var(--mainFont);
   pointer-events: auto;
 }
 
@@ -245,6 +248,11 @@ option {
 
 .hudItem {
   width: 50%;
+
+  height: 25px;
+  margin-top: 7px;
+  background: transparent;
+  box-shadow: unset;
 }
 
 .response {
@@ -294,3 +302,41 @@ option {
 }
 
 .theme-color {}
+
+
+#msgBox {
+  text-shadow: 0px 4px 4px #282828;
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+  background: rgb(2, 0, 36);
+  background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(9, 81, 121, 0.8463760504201681) 34%, rgba(0, 212, 255, 1) 100%);
+}
+
+.msg-box {
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: 50%;
+  translate: -50%;
+  border-radius: 6px !important;
+  font-size: 15px !important;
+  width: 300px;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+	z-index: 1000;
+  &.error {
+    /* background-color: rgb(93, 4, 5); */
+    color: rgb(255, 0, 30);
+  }
+
+  &.success {
+    /* background-color: rgb(220, 14, 14); */
+    color: rgb(32, 255, 84);
+    text-align: center;
+    margin-left: -150px;
+  }
+}

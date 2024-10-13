@@ -102,7 +102,7 @@
   animation-duration: 2.5s;
   animation-iteration-count: 1;
   -webkit-animation-fill-mode: none;
-  animation-fill-mode: none;
+  animation-fill-mode:both;
   animation-play-state: running;
 }
 

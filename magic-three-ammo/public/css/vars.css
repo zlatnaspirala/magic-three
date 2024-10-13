@@ -18,4 +18,6 @@
 	--fontBig: "36px";
 	--fontMid: "14px";
 	--fontSmall: "12px";
+
+	--mainDivBorder: -1px 0px 19px 4px rgba(0,0,0,0.62) inset;
 }
