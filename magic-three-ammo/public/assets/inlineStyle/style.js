@@ -10,7 +10,7 @@ export let startUpScreen = () => `
   <span data-label="look" >${t('look')}</span>: <span data-label="mouse" >${t('mouse')}</span>
   </p>
   <br>
-  ${ ( isMobile ? "For mobile devices video streaming disabled on startup." : "" ) }
+  ${ ( isMobile ? "For mobile devices video streaming disabled on startup." : " This app use webcam device." ) }
   <br>
   <small><span data-label="createdBy"></span> @zlatnaspirala <a href='https://github.com/zlatnaspirala/'>github</a></small>
   <small><span data-label="Project"></span> : <a href='https://github.com/zlatnaspirala/magic-three'>github</a></small>

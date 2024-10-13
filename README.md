@@ -224,6 +224,17 @@ No build time lost.
   I borrowed a service with an address `https://maximumroulette.com:2020`
   Interface send(arg) function is the same like other variant of networking.
 
+Because on mobile devices it is not recommended video chat streming on load also in game play for now.
+New config flag:
+```js
+    mobilePublishVideo: false,
+    mobilePublishAudio: false
+```
+
+NEXT FEATURE:
+ Check for user internet speed with `navigator.connection.downlink`
+ For low net disable streaming.
+ 
 
 ## Dev stage 🌐
    Easy running also on VPS:
@@ -249,13 +260,6 @@ No build time lost.
 # Map [] ⏳
 
 Working example:
-
-
-becouse on mobile devices it is not recommended video chat streming on load also in game play for now.
-
-New config flag:
-`ifMobileNoVideoOnLoad`
-
 
 ```js
 

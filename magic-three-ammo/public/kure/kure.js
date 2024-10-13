@@ -129,6 +129,9 @@ export function joinSession(options) {
 		if(MEDIASERVER.config.mobilePublishVideo == false) {
 			if(isMobile) MEDIASERVER.config.publishVideo = false;
 		}
+		if(MEDIASERVER.config.mobilePublishAudio == false) {
+			if(isMobile) MEDIASERVER.config.publishAudio = false;
+		}
 
 		session.connect(token)
 			.then(() => {
