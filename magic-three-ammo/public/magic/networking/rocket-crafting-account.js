@@ -24,7 +24,7 @@ export class RCSAccount {
 			top: 20%;
 			left: 35%;
 			width: 30%;
-			height: 30%;
+			height: 36.6%;
 			padding: 10px 10px 10px 10px;
 			box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 		`;
@@ -46,6 +46,7 @@ export class RCSAccount {
 		var content = document.createElement('div');
 		content.style.display = 'flex';
 		content.style.flexDirection = 'column';
+		content.style.background = 'transparent';
 
 		var emailLabel = document.createElement('span');
 		emailLabel.innerHTML = `Email:`;
@@ -57,6 +58,7 @@ export class RCSAccount {
 		pass.id = 'arg-pass';
 
 		var loginBtn = document.createElement('button');
+		loginBtn.id = 'loginRCSBtn'
 		loginBtn.innerHTML = `LOGIN`;
 		loginBtn.classList.add('btn')
 		loginBtn.addEventListener('click', () => {
@@ -65,10 +67,15 @@ export class RCSAccount {
 
 		var hideLoginMyAccount = document.createElement('button');
 		hideLoginMyAccount.classList = `btn`;
-		hideLoginMyAccount.innerHTML = `HIDE`;
+		hideLoginMyAccount.innerHTML = `NO LOGIN -> FREE PLAY`;
 		hideLoginMyAccount.addEventListener('click', () => {
 			byId('myAccountLoginForm').remove();
 		})
+
+		var logo = document.createElement('img');
+		logo.id = 'logologin';
+		logo.style = 'width: max-content;'
+		logo.src = './assets/icons/icon96.png';
 
 		parent.appendChild(title)
 		parent.appendChild(content)
@@ -78,32 +85,29 @@ export class RCSAccount {
 		content.appendChild(pass)
 		content.appendChild(loginBtn)
 		content.appendChild(hideLoginMyAccount)
-
+		content.appendChild(logo)
 		document.body.appendChild(parent)
-
 	}
 
 	async login() {
 		let route = this.apiDomain || location.origin;
-		byId('loginBtn-real').disabled = true;
+		byId('loginRCSBtn').disabled = true;
 		let args = {
 			emailField: (byId('arg-email') != null ? byId('arg-email').value : null),
 			passwordField: (byId('arg-pass') != null ? byId('arg-pass').value : null)
 		}
-		var response = fetch(route + '/rocket/login', {
+		fetch(route + '/rocket/login', {
 			method: 'POST',
 			headers: jsonHeaders,
 			body: JSON.stringify(args)
 		}).then((d) => {
 			return d.json();
 		}).then((r) => {
-
 			console.log(r.message);
 			notify.show(`${r.message}`)
-			if (r.message == "User logged") {
-
+			if(r.message == "User logged") {
+				byId('myAccountLoginForm').style.display = 'none';
 			}
-
 		}).catch((err) => {
 			console.log('[My Account Error]', err)
 			setTimeout(() => {

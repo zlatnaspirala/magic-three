@@ -94,7 +94,8 @@ export default class Application extends MagicPhysics {
     console.log(`%c ------------------------------------------`, BIGLOG);
     console.log(`%c ☢️HANG3D REBORN☢️ Version ${this.APP_VERSION}`, BIGLOG);
     console.log(`%c ------------------------------------------`, BIGLOG);
-    console.log(`%c -Deep in space -`, BIGLOG);
+    console.log(`%c - From deep space -`, BIGLOG);
+    console.log(`%c -H3d map: freeforall.`, BIGLOG);
     // console.info = () => {} // destroy logs
 
     if(isMobile == true || isAndroid == true) {
@@ -109,7 +110,6 @@ export default class Application extends MagicPhysics {
       }
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
       document.title = t('title');
-      setTimeout(() => App.label.update(), 960)
     });
 
     // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
@@ -127,9 +127,8 @@ export default class Application extends MagicPhysics {
         }
       })
       // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
-    } else {
-
     }
+    // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
 
     // Player data - locals only - this is not secured if you wanna some validation data...
     if(load('playerData') !== false) {
@@ -241,6 +240,8 @@ export default class Application extends MagicPhysics {
     this.attachFire();
     this.initGamePlayEvents();
     this.createPlayer();
+
+    App.label.update()
   }
 
   initGamePlayEvents() {

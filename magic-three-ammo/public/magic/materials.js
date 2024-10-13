@@ -36,7 +36,6 @@ export class MagicMaterials {
         shininess: 20,
       });
 
-      console.log('xxxxxxxxxxxx')
       this.assets.BlackBronze.needsUpdate = true;
 
       this.assets.Bronze = new THREE.MeshPhongMaterial({
