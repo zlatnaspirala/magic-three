@@ -14,6 +14,13 @@ export class RCSAccount {
 			this.visitor(e.detail)
 		})
 		mobileAdaptation.testExperimental.catchHacker();
+
+		// 
+		// leaderboardBtn
+		const leaderboardBtn = document.getElementById('leaderboardBtn');
+		leaderboardBtn.addEventListener("click", (e) => {
+			e.preventDefault();
+		})
 	}
 
 	createDOM = () => {
@@ -107,15 +114,15 @@ export class RCSAccount {
 			notify.show(`${r.message}`)
 			if(r.message == "User logged") {
 				byId('myAccountLoginForm').style.display = 'none';
+				sessionStorage.setItem('RocketAcount', JSON.stringify(r.flag))
 			}
 		}).catch((err) => {
 			console.log('[My Account Error]', err)
 			setTimeout(() => {
 				this.preventDBLOG = false;
 				this.preventDBREG = false;
-				byId('loginBtn-real').disabled = false;
-				byId('registerBtn-real').disabled = false;
-			}, 500)
+				byId('loginRCSBtn').disabled = false;
+			}, 1000)
 			return;
 		})
 	}
