@@ -16,6 +16,7 @@ export function createFPSController() {
       width: ${this.config.playerController.mobile.hudBtnsWidth};
       height: ${this.config.playerController.mobile.hudBtnsHeight};
       background: rgba(255,255,255,0.2);
+      background-image: url(assets/icons/down.png);
       margin: auto;
       align-items: center;
     `)

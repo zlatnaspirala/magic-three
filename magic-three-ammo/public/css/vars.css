@@ -10,7 +10,7 @@
 	--bgBlocker: rgba(10, 10, 10, 0.9);
 	--bgTransparent1: rgba(0, 0, 0, 0.1);
 
-	--bgRadial1: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+	--bgRadial1: radial-gradient(circle, rgba(63,94,251,0.8) 0%, rgba(216, 216, 216, 0.01) 100%);
 	--LG1: linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9);
 
 	--mainFont: "stormfaze";
