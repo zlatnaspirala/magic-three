@@ -381,7 +381,7 @@ export let notify = {
     if(t == 'ok') {
       iMsg.style = 'font-family: stormfaze;color:white;padding:7px;margin:2px';
     } else {
-      iMsg.style = 'font-family: stormfaze;color:white;padding:7px;margin:2px';
+      iMsg.style = 'font-family: stormfaze;color:red;padding:7px;margin:2px; border : solid 1px red;';
     }
   },
   kill: function() {

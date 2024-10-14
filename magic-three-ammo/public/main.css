@@ -248,9 +248,8 @@ option {
 
 .hudItem {
   width: 50%;
-
-  height: 25px;
-  margin-top: 7px;
+  /* height: 25px; */
+  margin-top: 10px;
   background: transparent;
   box-shadow: unset;
 }
@@ -314,6 +313,18 @@ option {
   /* Standard syntax */
   background: rgb(2, 0, 36);
   background: radial-gradient(circle, rgba(2, 0, 36, 1) 0%, rgba(9, 81, 121, 0.8463760504201681) 34%, rgba(0, 212, 255, 1) 100%);
+
+  &.error {
+    /* background-color: rgb(93, 4, 5); */
+    color: rgb(255, 0, 30);
+  }
+
+  &.success {
+    /* background-color: rgb(220, 14, 14); */
+    color: rgb(32, 255, 84);
+    text-align: center;
+    margin-left: -150px;
+  }
 }
 
 .msg-box {

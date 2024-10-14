@@ -1,8 +1,7 @@
 import * as THREE from "three";
 import {MagicLoader} from "../loaders.js";
 import {BIGLOG, NETLOG, REDLOG, byId, createAppEvent, getAxisAndAngelFromQuaternion, htmlHeader} from "../utility.js";
-import {closeSession, MEDIASERVER, joinSession, removeUser, session} from "../../kure/kure.js";
-// import {label} from "../multi-lang.js";
+import {closeSession, MEDIASERVER, joinSession, removeUser, session, leaveSession} from "../../kure/kure.js";
 
 export class KureBroadcaster {
 
@@ -14,9 +13,7 @@ export class KureBroadcaster {
     this.injector;
     this.openOrJoinBtn;
     this.connection = {};
-
     this.session = session;
-
     this.engineConfig;
     this.popupUI = null;
     this.broadcasterUI = null;
@@ -113,23 +110,18 @@ export class KureBroadcaster {
 
     addEventListener('setupSessionObject', (e) => {
       this.connection.session = session;
-      this.connection.session.on(`signal:${this.config.networking2.masterChannel}`, (event) => {
-        // console.log("RECEIVED=>", JSON.parse(event.data));
-        App.net.injector.update(event);
-      });
+      this.connection.session.on(`signal:${this.config.networking2.masterChannel}`, (event) => {App.net.injector.update(event)});
       var CHANNEL = this.config.networking2.masterChannel
       // console.log("ONLY ONES CHANNEL =>", CHANNEL);
+      // to Array of Connection objects (optional. Broadcast to everyone if empty)
       this.connection.send = (netArg) => {
-        // to Array of Connection objects (optional. Broadcast to everyone if empty)
         this.connection.session.signal({
           data: JSON.stringify(netArg),
           to: [],
           type: CHANNEL
-        }).then(() => {
-          // console.log('emit all successfully');
-        }).catch(error => {
+        }).then(() => {}).catch(error => {
           console.error("Erro signal => ", error);
-        });
+        })
       }
     })
   }

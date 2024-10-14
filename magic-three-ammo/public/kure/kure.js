@@ -17,7 +17,8 @@ export function joinSession(options) {
 		};
 	}
 
-	console.log('>>>>', MEDIASERVER)
+	byId("sessionName").value = MEDIASERVER.config.masterChannel;
+	// console.log('-> ', MEDIASERVER)
 
 	document.getElementById("join-btn").disabled = true;
 	document.getElementById("join-btn").innerHTML = "Joining...";
