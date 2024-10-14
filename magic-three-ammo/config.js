@@ -73,7 +73,9 @@ const config = {
     cameraInitPosition: {x: 0, y: 0, z: 72},
     alwaysRun: false,
     mobile: {
-      hudControls: true
+      hudControls: true,
+      hudBtnsWidth: '16%',
+      hudBtnsHeight: '6%'
     },
     movementSpeed: {
       forward: 20, backward: 10,

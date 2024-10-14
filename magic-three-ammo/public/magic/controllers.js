@@ -13,8 +13,8 @@ export function createFPSController() {
       position:absolute;
       left: 80%;
       top: 80%;
-      width: 14%;
-      height: 4%;
+      width: ${this.config.playerController.mobile.hudBtnsWidth};
+      height: ${this.config.playerController.mobile.hudBtnsHeight};
       background: rgba(255,255,255,0.2);
       margin: auto;
       align-items: center;
