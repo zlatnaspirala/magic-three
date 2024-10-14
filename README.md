@@ -231,7 +231,8 @@ New config flag:
     mobilePublishAudio: false
 ```
 
-NEXT FEATURE:
+
+## NEXT FEATURE:
  Check for user internet speed with `navigator.connection.downlink`
  For low net disable streaming.
  
@@ -378,19 +379,27 @@ Only on startup for now:
     });
 ```
 
-### Networking [WEBRTC/IOSOCKET] 💫
+## Networking [WEBRTC/IOSOCKET] 💫
 
   - I use classic broadcester from matrix-engine-server/visual ts [multiRTC3]
   - Every player send own `net.connection.userid`.
   - Type of gameObject `boxs` map loader have support for net emit. ⏳
 
-### Explanation of FPS used concept
- - Local Player have no any visual objs , only main three.js camera follow player position and look direction.
+  
+
+  Force streaming on mobile with URL Params `?video=true&audio=true`:
+  ```
+  https://maximumroulette.com/apps/magic/public/module.html?video=true&audio=true
+  ```
+
+### Explanation of FPS concept
+ - Local Player have no any visual objs, only main three.js camera follow player position and look direction.
  - Net Player [remote player] have visualization with FBX animation. Net rotated only for Y axis for now.
  - Local Player have physics body ball who is moved from physics world
    on that way we got all collision problem fixed.
  - Net Player have no physics body also no any collision objs i use raycaster from three.js in net player case
    On that way i got optimised and precise situation with netplayer handling.
+ - Video and audio (streaming) are disabled on mobile devices by default.
 
 ## Credits && Licence
  - https://threejs.org/
@@ -403,18 +412,17 @@ Only on startup for now:
  - Audios , Great staff at https://gamesounds.xyz/?dir=OpenBundle
    https://gamesounds.xyz/OpenBundle/LICENSE.txt
 
+
+
 ## More
 
 ### Most effect dimanic thermes with native css and control from javascript
-
 Using css vars from `vars.css`.
 
 Script:
-```
+```js
 import {setCssVar} from "./utility.js"
-
 export class MagicTheme {
-
 	Light() {
 		console.log('THEME LIGHT SET')
 		setCssVar("--bg", "#6b6b6b33")
@@ -426,7 +434,6 @@ export class MagicTheme {
 		setCssVar("--LG1", "linear-gradient(87deg,#ff6f00,#b5830f,#df494b,#fff,#fff,#e90b0f)")
 		setCssVar("--mainFont", "Accuratist")
 	}
-
 	Dark() {
 		setCssVar("--bg", "#0d2d4e")
 		setCssVar("--text", "hsl(0, 0%, 100%)")
@@ -437,7 +444,6 @@ export class MagicTheme {
 		setCssVar("--LG1", "linear-gradient(87deg,#00b3ff,#510fb5,#49cbdf,#000000,#000000,#1d0be9)")
 		setCssVar("--mainFont", "stormfaze")
 	}
-
 	Green() {
 		setCssVar("--bg", "#000")
 		setCssVar("--text", "hsl(107.39deg 82.83% 47.02%)")
@@ -448,18 +454,56 @@ export class MagicTheme {
 		setCssVar("--LG1", "linear-gradient(87deg,#10f30f,#fff,#10f30f,#000000,#10f30f,#000000)")
 		setCssVar("--mainFont", "WARGAMES")
 	}
-
 	constructor() {
 		addEventListener("theme", (e) => {
 			this[e.detail]();
 		})
 	}
-
 }
 ```
 
 
-### Implementing account for GamePlay platform based on RocketCraaftingServer
+### Implementing account for GamePlay platform based on RocketCraftingServer
+
+Login example:
+```js
+	async login() {
+		let route = this.apiDomain || location.origin;
+		byId('loginRCSBtn').disabled = true;
+		byId('registerBtn').disabled = true;
+		let args = {
+			emailField: (byId('arg-email') != null ? byId('arg-email').value : null),
+			passwordField: (byId('arg-pass') != null ? byId('arg-pass').value : null)
+		}
+		fetch(route + '/rocket/login', {
+			method: 'POST',
+			headers: jsonHeaders,
+			body: JSON.stringify(args)
+		}).then((d) => {
+			return d.json();
+		}).then((r) => {
+			console.log(r.message);
+			notify.show(`${r.message}`)
+			if(r.message == "User logged") {
+				this.email = byId('arg-email').value;
+				byId('myAccountLoginForm').style.display = 'none';
+				sessionStorage.setItem('RocketAcount', JSON.stringify(r.flag))
+			}
+		}).catch((err) => {
+			console.log('[My Account Error]', err)
+			notify.show("Next Login call try in 5 secounds...")
+			setTimeout(() => {
+				this.preventDBLOG = false;
+				this.preventDBREG = false;
+				byId('registerBtn').disabled = false;
+				byId('loginRCSBtn').disabled = false;
+			}, 5000)
+			return;
+		})
+	}
+```
+
+
 ```js
  fetch("http://maximumroulette.com/rocket/login", {
                   "headers": {

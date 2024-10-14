@@ -18,7 +18,6 @@ export class RCSAccount {
 		})
 		mobileAdaptation.testExperimental.catchHacker();
 
-		// 
 		// leaderboardBtn
 		const leaderboardBtn = document.getElementById('leaderboardBtn');
 		leaderboardBtn.addEventListener("click", (e) => {
@@ -28,6 +27,7 @@ export class RCSAccount {
 
 	createDOM = () => {
 		var parent = document.createElement('div');
+		this.parent = parent;
 
 		parent.style = `
 		  position: absolute;
@@ -183,6 +183,9 @@ export class RCSAccount {
 			if(r.message == "Wrong confirmation code.") {
 			} else if (r.message == "Confirmation done.") {
 				alert(r.message)
+				this.parent.innerHTML = '';
+				// ----
+				this.createDOM();
 			}
 			notify.error(`${r.message}`)
 		})

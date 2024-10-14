@@ -1,4 +1,4 @@
-import {BIGLOG, byId, isMobile} from "../magic/utility.js";
+import {BIGLOG, byId, isMobile, QueryString} from "../magic/utility.js";
 import * as THREE from "three";
 
 var OV; var numVideos = 0; var sessionName; var token;
@@ -127,12 +127,16 @@ export function joinSession(options) {
 
 		dispatchEvent(new CustomEvent(`setupSessionObject`, {detail: {session}}))
 
+		// From config
 		if(MEDIASERVER.config.mobilePublishVideo == false) {
 			if(isMobile) MEDIASERVER.config.publishVideo = false;
 		}
 		if(MEDIASERVER.config.mobilePublishAudio == false) {
 			if(isMobile) MEDIASERVER.config.publishAudio = false;
 		}
+		// Override from url params
+		if (QueryString.video == "true") {MEDIASERVER.config.publishVideo = true}
+		if (QueryString.audio == "true") {MEDIASERVER.config.publishAudio = true}
 
 		session.connect(token)
 			.then(() => {
