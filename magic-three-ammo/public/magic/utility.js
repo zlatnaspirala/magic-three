@@ -420,3 +420,49 @@ export let notify = {
     notify.show(content, 'ok');
   }
 }
+
+export function FS() {
+  if(!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    if(document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+
+  if(isTouchableDevice() == true) {
+    removeEventListener('touchstart', FS)
+  } else {
+    removeEventListener('click', FS)
+  }
+
+}
+
+export function fullScreen() {
+  // Just one time force
+  if(!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    if(document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
+
+export function toggleFullScreeniOS() {
+  if(!document.fullscreenElement) {
+    document.documentElement.webkitRequestFullScreen();
+  } else {
+    if(document.exitFullscreen) {
+      document.webkitCancelFullScreen();
+    }
+  }
+}
+
+export function attachFirstClick() {
+  if(isTouchableDevice() == true) {
+    addEventListener('touchstart', FS)
+  } else {
+    addEventListener('click', FS)
+  }
+}

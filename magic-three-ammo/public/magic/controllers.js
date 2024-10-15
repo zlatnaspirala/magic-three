@@ -1,6 +1,6 @@
 import {PointerLockControls} from 'three/addons/controls/PointerLockControls.js';
 import * as PointerLockControlsMobile from 'three/addons/controls/mobileController.js';
-import {ANYLOG, BIGLOG, byId, isAndroid, isMobile, isTouchableDevice, REDLOG, toUnicodeVariant} from './utility.js';
+import {ANYLOG, BIGLOG, byId, fullScreen, isAndroid, isMobile, isTouchableDevice, REDLOG, toUnicodeVariant} from './utility.js';
 
 export function createFPSController() {
 
@@ -235,17 +235,8 @@ export function createFPSController() {
       `)
   })
 
-  // const videoChatBtn = document.getElementById('videoChatBtn');
-  // videoChatBtn.addEventListener("click", (e) => {
-  //   e.preventDefault();
-  //   console.log('ACTIVATE CAMERA: to the other side', e.target.innerHTML);
-  //   if(byId('matrix-net').style.display == 'block') {
-  //     byId('matrix-net').style.display = 'none';
-  //     e.target.innerHTML = "🔴"
-  //   } else {
-  //     byId('matrix-net').style.display = 'block';
-  //   }
-  // })
+  const fullScreenBtn = document.getElementById('fullScreenBtn');
+  fullScreenBtn.addEventListener("click", fullScreen)
 
   const playBtn = document.getElementById('playBtn');
   playBtn.addEventListener(CLICK, (e) => {

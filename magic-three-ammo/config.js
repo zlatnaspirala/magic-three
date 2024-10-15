@@ -7,6 +7,7 @@ import {getProtocolFromAddressBar, getDomain} from "./public/magic/utility.js";
 const config = {
   cache: false,
   stats: false,
+  forceFullScreen: true,
   camera: {
     fov: 60,
     near: 0.2,

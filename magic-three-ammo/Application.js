@@ -14,7 +14,7 @@ import {MagicPhysics} from "./public/magic/physics.js";
 import {updateControls} from "./public/magic/updater.js";
 import {MagicMaterials} from "./public/magic/materials.js";
 import {MagicLoader} from "./public/magic/loaders.js";
-import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid, isTouchableDevice, ORBIT, OSCILLATOR} from "./public/magic/utility.js";
+import {BIGLOG, REDLOG, byId, createAppEvent, isMobile, load, runCache, save, QueryString, ANYLOG, setCssVar, isAndroid, isTouchableDevice, ORBIT, OSCILLATOR, attachFirstClick} from "./public/magic/utility.js";
 import {startUpScreen} from "./public/assets/inlineStyle/style.js";
 import {loadMap} from "./public/magic/magicmap-loader.js";
 import {Sky} from 'three/addons/objects/Sky.js';
@@ -96,10 +96,15 @@ export default class Application extends MagicPhysics {
     console.log(`%c ------------------------------------------`, BIGLOG);
     console.log(`%c - From deep space -`, BIGLOG);
     console.log(`%c -H3d map: freeforall.`, BIGLOG);
+
     // console.info = () => {} // destroy logs
+    if (this.config.forceFullScreen == true) {
+      
+      attachFirstClick()
+    }
 
     if(isMobile == true || isAndroid == true) {
-      console.log(`%c Mobile device detected ...`, BIGLOG);
+      console.log(`%c Mobile device detected ...`, REDLOG);
       mobileAdaptation.fixStyle();
     }
 
