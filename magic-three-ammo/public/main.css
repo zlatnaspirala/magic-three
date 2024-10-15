@@ -31,6 +31,10 @@ body {
   font-size: var(--fontMid);
   overscroll-behavior: none;
   overflow: hidden;
+
+  -webkit-text-stroke: var(--strokeText);
+  -webkit-text-fill-color: var(--textFill);
+  -webkit-text-stroke-width: 1px;
 }
 
 div,
@@ -338,7 +342,8 @@ option {
   width: 300px;
   padding: 10px;
   font-family: Arial, Helvetica, sans-serif;
-	z-index: 1000;
+  z-index: 1000;
+
   &.error {
     /* background-color: rgb(93, 4, 5); */
     color: rgb(255, 0, 30);

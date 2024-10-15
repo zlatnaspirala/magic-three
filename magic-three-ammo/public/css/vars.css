@@ -20,4 +20,9 @@
 	--fontSmall: "12px";
 
 	--mainDivBorder: -1px 0px 19px 4px rgba(0,0,0,0.62) inset;
+
+	--strokeText: 3px rgb(52, 52, 52);
+	--textFill: rgb(255, 77, 0);
+	/* // -webkit-text-stroke: 3px darkgrey; */
+  /* -webkit-text-fill-color: white; */
 }

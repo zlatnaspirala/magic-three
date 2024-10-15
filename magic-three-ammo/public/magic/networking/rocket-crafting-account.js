@@ -1,5 +1,5 @@
 import {mobileAdaptation} from "../../mobile.js";
-import {byId, HeaderTypes, isMobile, jsonHeaders, notify, REDLOG} from "../utility.js";
+import {byId, isMobile, jsonHeaders, notify, REDLOG} from "../utility.js";
 
 export class RCSAccount {
 
@@ -18,28 +18,8 @@ export class RCSAccount {
 		})
 		mobileAdaptation.testExperimental.catchHacker();
 
-		// leaderboardBtn
-		const leaderboardBtn = document.getElementById('leaderboardBtn');
-		leaderboardBtn.addEventListener("click", (e) => {
-			e.preventDefault();
-			fetch(this.apiDomain + '/rocket/public-leaderboard', {
-				method: 'POST',
-				headers: jsonHeaders,
-				body: JSON.stringify({})
-			}).then((d) => {
-				return d.json();
-			}).then((r) => {
-				notify.error(`${r.message}`)
-				if(r.message == "Check email for conmfirmation key.") {
-					this.leaderboardData = r;
-				}
-			}).catch((err) => {
-				console.log('[Leaderboard Error]', err)
-				notify.show("Next call try in 5 secounds...")
-				return;
-			})
-
-		})
+		this.leaderboardBtn = document.getElementById('leaderboardBtn');
+		this.leaderboardBtn.addEventListener("click", this.getLeaderboard)
 	}
 
 	createDOM = () => {
@@ -132,6 +112,67 @@ export class RCSAccount {
 		content.appendChild(hideLoginMyAccount)
 		// content.appendChild(logo)
 		content.appendChild(descText)
+		document.body.appendChild(parent)
+	}
+
+	createLeaderboardDOM = (data) => {
+		var parent = document.createElement('div');
+		parent.style = `
+			position: absolute;
+			border-radius: 4px;
+			top: 10%;
+			left: 15%;
+			width: 60%;
+			padding: 10px 10px 10px 10px;
+			box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+		`;
+		if(isMobile) {
+			parent.style = `
+			position: absolute;
+			border-radius: 4px;
+			top: 20%;
+			left: 0%;
+			width: 100%;
+			padding: 10px;`;
+		}
+		parent.id = 'leaderboard';
+
+		var title = document.createElement('div');
+		title.innerHTML = `<h3>Top 10 leaderboard [RocketCraftingServer]</h3>`;
+		parent.appendChild(title)
+
+		var tableLabel = document.createElement('div');
+		tableLabel.style.display = 'flex';
+		tableLabel.style.flexDirection = 'row';
+		var nicklabel = document.createElement('div');
+		nicklabel.innerText = 'Nickname';
+		nicklabel.style.width = '100%';
+			var pointslabel = document.createElement('div');
+			pointslabel.innerText = 'Points';
+			pointslabel.style.width = '100%';
+			tableLabel.appendChild(nicklabel)
+			tableLabel.appendChild(pointslabel)
+
+			parent.appendChild(tableLabel)
+
+		data.forEach(element => {
+			var table = document.createElement('div');
+			table.style.display = 'flex';
+			table.style.flexDirection = 'row';
+			// var logo = document.createElement('img');
+			// logo.id = 'logologin';
+			// logo.style = 'width: max-content;'
+			// logo.src = './assets/icons/icon96.png';
+			var nick = document.createElement('div');
+			nick.innerText = element.nickname;
+			nick.style.width = '100%';
+			var points = document.createElement('div');
+			points.innerText = element.points;
+			points.style.width = '100%';
+			table.appendChild(nick)
+			table.appendChild(points)
+			parent.appendChild(table)
+		});
 		document.body.appendChild(parent)
 	}
 
@@ -277,16 +318,28 @@ export class RCSAccount {
 		}).catch((err) => {console.log('ERR', err)})
 	}
 
-	async getLeaderboard() {
-		fetch(route + '/rocket/leaderboard', {
+	getLeaderboard = async (e) => {
+		e.preventDefault();
+		this.leaderboardBtn.disabled = true;
+		fetch(this.apiDomain + '/rocket/public-leaderboard', {
 			method: 'POST',
 			headers: jsonHeaders,
-			body: JSON.stringify(args)
+			body: JSON.stringify({})
 		}).then((d) => {
 			return d.json();
-		}).then(() => {
-			localStorage.setItem("visitor", "welcome")
-		}).catch((err) => {console.log('ERR', err)})
+		}).then((r) => {
+			notify.error(`${r.message}`)
+			if(r.message == "You got leaderboard data.") {
+				this.leaderboardData = r.leaderboard;
+				this.createLeaderboardDOM(r.leaderboard);
+			}
+			setTimeout(() => {this.leaderboardBtn.disabled = false}, 5000)
+		}).catch((err) => {
+			console.log('[Leaderboard Error]', err)
+			notify.show("Next call try in 5 secounds...")
+			setTimeout(() => {this.leaderboardBtn.disabled = false}, 5000)
+			return;
+		})
 	}
 
 }
