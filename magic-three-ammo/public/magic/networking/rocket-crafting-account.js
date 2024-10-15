@@ -22,6 +22,23 @@ export class RCSAccount {
 		const leaderboardBtn = document.getElementById('leaderboardBtn');
 		leaderboardBtn.addEventListener("click", (e) => {
 			e.preventDefault();
+			fetch(this.apiDomain + '/rocket/public-leaderboard', {
+				method: 'POST',
+				headers: jsonHeaders,
+				body: JSON.stringify({})
+			}).then((d) => {
+				return d.json();
+			}).then((r) => {
+				notify.error(`${r.message}`)
+				if(r.message == "Check email for conmfirmation key.") {
+					this.leaderboardData = r;
+				}
+			}).catch((err) => {
+				console.log('[Leaderboard Error]', err)
+				notify.show("Next call try in 5 secounds...")
+				return;
+			})
+
 		})
 	}
 
@@ -31,27 +48,36 @@ export class RCSAccount {
 
 		parent.style = `
 		  position: absolute;
+			border-radius: 4px;
 			top: 20%;
 			left: 35%;
 			width: 30%;
-			height: 36.6%;
 			padding: 10px 10px 10px 10px;
 			box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 		`;
 		if(isMobile) {
 			parent.style = `
 		position: absolute;
+		border-radius: 4px;
     top: 20%;
     left: 0%;
     width: 100%;
-    height: 30%;
     padding: 10px;`;
 		}
 
 		parent.id = 'myAccountLoginForm';
 
+		var logo = document.createElement('img');
+		logo.id = 'logologin';
+		logo.style = 'width: max-content;'
+		logo.src = './assets/icons/icon96.png';
+
 		var title = document.createElement('div');
-		title.innerHTML = `<h2>Rocket GamePlay Login Form</h2>`;
+		title.style.display = 'flex';
+		title.innerHTML = `
+		<h2 style='margin: 5px 5px;'>Rocket GamePlay Login Form</h2>
+		`;
+		title.appendChild(logo)
 
 		var content = document.createElement('div');
 		content.style.display = 'flex';
@@ -88,10 +114,12 @@ export class RCSAccount {
 			byId('myAccountLoginForm').remove();
 		})
 
-		var logo = document.createElement('img');
-		logo.id = 'logologin';
-		logo.style = 'width: max-content;'
-		logo.src = './assets/icons/icon96.png';
+		var descText = document.createElement('span');
+		descText.id = 'descText';
+		// logo.style = 'width: max-content;'
+		descText.innerHTML = `<span>Hang3d use webcam for video chat and streaming data</span>
+		<span>Add Url params '?video=false&audio=false' to disable streaming</span>
+		`;
 
 		parent.appendChild(title)
 		parent.appendChild(content)
@@ -102,7 +130,8 @@ export class RCSAccount {
 		content.appendChild(loginBtn)
 		content.appendChild(gotoRegisterMyAccount)
 		content.appendChild(hideLoginMyAccount)
-		content.appendChild(logo)
+		// content.appendChild(logo)
+		content.appendChild(descText)
 		document.body.appendChild(parent)
 	}
 
@@ -181,7 +210,7 @@ export class RCSAccount {
 			return d.json();
 		}).then((r) => {
 			if(r.message == "Wrong confirmation code.") {
-			} else if (r.message == "Confirmation done.") {
+			} else if(r.message == "Confirmation done.") {
 				alert(r.message)
 				this.parent.innerHTML = '';
 				// ----

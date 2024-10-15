@@ -107,7 +107,7 @@ button {
   position: absolute;
   display: flex;
   font-size: var(--fontSmall);
-  top: 35px;
+  top: 50px;
   left: 33%;
   width: 33%;
   padding: 10px;
@@ -350,4 +350,11 @@ option {
     text-align: center;
     margin-left: -150px;
   }
+}
+
+#fullScreenBtn {
+  width: 48px;
+  background-image: url(assets/icons/fs.png);
+  background-size: contain;
+  background-repeat: no-repeat;
 }
