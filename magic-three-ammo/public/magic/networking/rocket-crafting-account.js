@@ -1,5 +1,6 @@
 import {mobileAdaptation} from "../../mobile.js";
 import {byId, isMobile, jsonHeaders, notify, REDLOG} from "../utility.js";
+import {ROCK_RANK} from "./player-skills.js";
 
 export class RCSAccount {
 
@@ -41,7 +42,7 @@ export class RCSAccount {
 		border-radius: 4px;
     top: 20%;
     left: 0%;
-    width: 100%;
+  
     padding: 10px;`;
 		}
 
@@ -116,6 +117,11 @@ export class RCSAccount {
 	}
 
 	createLeaderboardDOM = (data) => {
+		if (byId('leaderboard') != null) {
+			byId('leaderboard').style.display = 'block';
+			return;
+		}
+		console.log('TEST MOBILE +++')
 		var parent = document.createElement('div');
 		parent.style = `
 			position: absolute;
@@ -127,12 +133,13 @@ export class RCSAccount {
 			box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 		`;
 		if(isMobile) {
+			console.log('TEST MOBILE ')
 			parent.style = `
 			position: absolute;
 			border-radius: 4px;
-			top: 20%;
+			top: 10%;
 			left: 0%;
-			width: 100%;
+			width: 95%;
 			padding: 10px;`;
 		}
 		parent.id = 'leaderboard';
@@ -159,20 +166,32 @@ export class RCSAccount {
 			var table = document.createElement('div');
 			table.style.display = 'flex';
 			table.style.flexDirection = 'row';
-			// var logo = document.createElement('img');
-			// logo.id = 'logologin';
-			// logo.style = 'width: max-content;'
-			// logo.src = './assets/icons/icon96.png';
+			table.style.justifyContent = 'center';
+			table.style.alignItems = 'center';
+			
 			var nick = document.createElement('div');
 			nick.innerText = element.nickname;
 			nick.style.width = '100%';
 			var points = document.createElement('div');
 			points.innerText = element.points;
 			points.style.width = '100%';
+			// var medal = document.createElement('img');
+			// medal.id = 'medal';
+			// logo.src = './assets/icons/icon96.png';
 			table.appendChild(nick)
 			table.appendChild(points)
+			table.innerHTML += (ROCK_RANK.getRankMedalImg(ROCK_RANK.getRank(element.points)))
 			parent.appendChild(table)
 		});
+
+		var hideBtn = document.createElement('button');
+		hideBtn.classList = 'btn';
+		hideBtn.innerText = 'HIDE';
+		hideBtn.addEventListener('click', () => {
+			parent.style.display = 'none';
+		})
+		parent.appendChild(hideBtn)
+
 		document.body.appendChild(parent)
 	}
 
