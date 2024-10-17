@@ -69,8 +69,8 @@ button {
   cursor: pointer;
   text-transform: uppercase;
   border: none;
-  color: var(--bg);
-  background: var(--text2);
+  /* color: var(--bg); */
+  background: var(--bg);
   margin: 1px;
 }
 

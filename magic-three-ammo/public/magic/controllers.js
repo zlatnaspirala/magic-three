@@ -16,8 +16,6 @@ export function createFPSController() {
       width: ${this.config.playerController.mobile.hudBtnsWidth};
       height: ${this.config.playerController.mobile.hudBtnsHeight};
       background: rgba(255,255,255,0.2);
-      background-image: url(assets/icons/up.png);
-      background-size: cover;
       margin: auto;
       align-items: center;
     `)
@@ -41,10 +39,11 @@ export function createFPSController() {
       background: rgba(255,255,255,0.2);
       background-image: url(assets/icons/right.png);
       background-size: cover;
+      background-position: center;
       margin: auto;
       align-items: center;
     `)
-    domRight.innerText = `RIGHT`;
+    // domRight.innerText = `RIGHT`;
     domRight.addEventListener('touchstart', (e) => {
       e.preventDefault();
       console.log('TEST RIGHT')
@@ -69,10 +68,11 @@ export function createFPSController() {
       background: rgba(255,255,255,0.2);
       background-image: url(assets/icons/left.png);
       background-size: cover;
+      background-position: center;
       margin: auto;
       align-items: center;
     `)
-    domLeft.innerText = `LEFT`;
+    // domLeft.innerText = `LEFT`;
     domLeft.addEventListener('touchstart', (e) => {
       e.preventDefault();
       console.log('TEST domLeft')
@@ -125,10 +125,11 @@ export function createFPSController() {
       background: rgba(255,255,255,0.2);
       background-image: url(assets/icons/up.png);
       background-size: cover;
+      background-position: center;
       margin: auto;
       align-items: center;
     `)
-    domUp.innerText = `UP`;
+    // domUp.innerText = `UP`;
     domUp.addEventListener('touchstart', (e) => {
       e.preventDefault();
       console.log('TEST domUp')
@@ -153,10 +154,11 @@ export function createFPSController() {
       background: rgba(255,255,255,0.1);
       background-image: url(assets/icons/down.png);
       background-size: cover;
+      background-position: center;
       margin: auto;
       align-items: center;
     `)
-    domDown.innerText = `DOWN`;
+    // domDown.innerText = `DOWN`;
     domDown.addEventListener('touchstart', (e) => {
       e.preventDefault();
       this.moveBackward = true;
