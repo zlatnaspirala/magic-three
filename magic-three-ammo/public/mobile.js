@@ -32,7 +32,6 @@ export const mobileAdaptation = {
 	},
 	fixStyle: () => {
 		// App.label.get.about = '🛈';
-		byId('desktopAbout').remove();
-		// App.label.update()
+		if (byId('desktopAbout') != null) byId('desktopAbout').remove();
 	}
 }

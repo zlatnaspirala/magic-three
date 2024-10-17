@@ -1,16 +1,17 @@
 import ClientConfig from "../../../config.js";
-import {session} from "../../kure/kure.js";
 import {ANYLOG} from "../utility.js";
 import {KureBroadcaster} from "./net2.js";
-import {Broadcaster} from "./net.js";
+// import {Broadcaster} from "./net.js"; OPTIMISATION
 
 export class MagicNetworking {
   net = {};
   constructor() {}
   activateNet = (arg) => {
     if(typeof arg === 'undefined') {
-      this.net = new Broadcaster(ClientConfig, this.scene);
-      console.info('%cMagic-Three: Networking (rtcMulti) is active.', ANYLOG);
+      this.net = new KureBroadcaster(ClientConfig, this.scene);
+      console.info('%cMagic-Three: Networking (kurento/OpenVidu) is active.', ANYLOG);
+      // this.net = new Broadcaster(ClientConfig, this.scene);
+      // console.info('%cMagic-Three: Networking (rtcMulti) is active.', ANYLOG);
     } else {
       this.net = new KureBroadcaster(ClientConfig, this.scene);
       console.info('%cMagic-Three: Networking (kurento/OpenVidu) is active.', ANYLOG);

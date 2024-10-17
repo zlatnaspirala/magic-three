@@ -1,7 +1,7 @@
 
 import * as THREE from "three";
 import {FBXLoader} from 'three/addons/loaders/FBXLoader.js';
-import {ColladaLoader} from 'three/addons/loaders/ColladaLoader.js';
+// import {ColladaLoader} from 'three/addons/loaders/ColladaLoader.js';
 import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
 import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
 import {ANYLOG} from "./utility.js";

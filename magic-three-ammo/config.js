@@ -148,8 +148,8 @@ const config = {
     domain: 'https://maximumroulette.com:2020',
     masterChannel: "magic",
     runKureOnInt: true,
-    publishAudio: true, // Whether you want to start publishing with your audio unmuted or not
-    publishVideo: true, // Whether you want to start publishing with your video enabled or not
+    publishAudio: true,
+    publishVideo: true,
     mobilePublishVideo: false,
     mobilePublishAudio: false
   }

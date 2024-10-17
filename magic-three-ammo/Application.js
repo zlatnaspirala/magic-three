@@ -568,8 +568,6 @@ export default class Application extends MagicPhysics {
     //   ground.material.map = texture;
     //   ground.material.needsUpdate = true;
     // });
-
-    console.log('TEST')
     // ground.material.map = this.materials.assets.frontTexturePil;
     // ground.material.map.repeat.set(40,40)
     // ground.material.needsUpdate = true;

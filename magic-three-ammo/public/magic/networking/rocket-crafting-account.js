@@ -27,29 +27,12 @@ export class RCSAccount {
 	createDOM = () => {
 		var parent = document.createElement('div');
 		this.parent = parent;
-
-		parent.style = `
-		  position: absolute;
-			border-radius: 4px;
-			top: 20%;
-			left: 35%;
-			width: 30%;
-			padding: 10px 10px 10px 10px;
-			box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
-		`;
-		if(isMobile) {
-			parent.style = `
-		position: absolute;
-		border-radius: 4px;
-    top: 24%;
-    left: 0%;
-    padding: 10px;`;
-		}
-
+		//parent.classList.add('')
 		parent.id = 'myAccountLoginForm';
 
 		var logo = document.createElement('img');
 		logo.id = 'logologin';
+		logo.alt = 'Login';
 		logo.style = 'width: max-content;'
 		logo.src = './assets/icons/icon96.png';
 
@@ -69,13 +52,14 @@ export class RCSAccount {
 		emailLabel.id = 'emailLabel';
 		emailLabel.innerHTML = `Email:`;
 		var email = document.createElement('input');
+		// email.classList.add('myInput')
 		email.id = 'arg-email';
 		var passLabel = document.createElement('span');
 		passLabel.id = 'passLabel';
 		passLabel.innerHTML = `Passw:`;
 		var pass = document.createElement('input');
 		pass.id = 'arg-pass';
-
+		// pass.classList.add('myInput')
 		var loginBtn = document.createElement('button');
 		loginBtn.id = 'loginRCSBtn'
 		loginBtn.innerHTML = `LOGIN`;
@@ -95,12 +79,14 @@ export class RCSAccount {
 			byId('myAccountLoginForm').remove();
 		})
 
+		if (isMobile == false) {
 		var descText = document.createElement('span');
 		descText.id = 'descText';
 		// logo.style = 'width: max-content;'
 		descText.innerHTML = `<span>Hang3d use webcam for video chat and streaming data</span>
 		<span>Add Url params '?video=false&audio=false' to disable streaming</span>
 		`;
+		}
 
 		parent.appendChild(title)
 		parent.appendChild(content)
@@ -112,7 +98,7 @@ export class RCSAccount {
 		content.appendChild(gotoRegisterMyAccount)
 		content.appendChild(hideLoginMyAccount)
 		// content.appendChild(logo)
-		content.appendChild(descText)
+		if (isMobile == false) content.appendChild(descText);
 		document.body.appendChild(parent)
 	}
 

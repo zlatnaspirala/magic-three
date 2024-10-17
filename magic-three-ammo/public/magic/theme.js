@@ -3,8 +3,8 @@ import {setCssVar} from "./utility.js"
 export class MagicTheme {
 
 	Light() {
-		setCssVar("--bg", "unset")
-		setCssVar("--text", "hsl(1, 20%, 100%)")
+		setCssVar("--bg", "whitesmoke")
+		setCssVar("--text", "hsl(0deg 0% 14.33%)")
 		setCssVar("--text2", "unset")
 		setCssVar("--err", "orangered")
 		setCssVar("--bgBlocker", "rgba(150, 150, 150, 0.9)")
@@ -42,7 +42,7 @@ export class MagicTheme {
 		setCssVar("--bgBlocker", "rgba(10, 10, 10, 0.9)")
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
 		setCssVar("--LG1", "linear-gradient(87deg,#10f30f,#fff,#10f30f,#000000,#10f30f,#000000)")
-		setCssVar("--mainFont", "WARGAMES")
+		setCssVar("--mainFont", "Accuratist")
 
 		setCssVar("--mainDivBorder", "-1px 0px 19px 4px rgba(0,0,0,0.62) inset")
 
@@ -58,7 +58,7 @@ export class MagicTheme {
 		setCssVar("--bgBlocker", "rgba(10, 10, 10, 0.9)")
 		setCssVar("--bgTransparent1", "rgba(0, 0, 0, 0.1)")
 		setCssVar("--LG1", "linear-gradient(87deg,#f31a0f,#fff,#f31a0f,#000000,#f31a0f,#000000)")
-		setCssVar("--mainFont", "WARGAMES")
+		setCssVar("--mainFont", "closeness")
 
 		setCssVar("--mainDivBorder", "-1px 0px 19px 4px rgba(0,0,0,0.62) inset")
 

@@ -32,9 +32,9 @@ body {
   overscroll-behavior: none;
   overflow: hidden;
 
-  -webkit-text-stroke: var(--strokeText);
+  /* -webkit-text-stroke: var(--strokeText);
   -webkit-text-fill-color: var(--textFill);
-  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-width: 1px; */
 }
 
 div,
@@ -99,7 +99,7 @@ button {
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {
     padding: 2px;
-    font-size: 9px;
+    font-size: 13px;
   }
 }
 
@@ -130,6 +130,7 @@ button {
   @media only screen and (max-width: 600px) {
     padding: 2px;
     font-size: 10px;
+    top:34px;
   }
 }
 
@@ -218,7 +219,7 @@ select {
   background-color: var(--bgTransparent1);
 
   @media only screen and (max-width: 600px) {
-    font-size: 8px;
+    font-size: 13px;
   }
 }
 
@@ -230,7 +231,7 @@ option {
 
 #videoChatBtn {
   @media only screen and (max-width: 600px) {
-    font-size: 8px;
+    font-size: 13px;
   }
 }
 
@@ -360,7 +361,32 @@ option {
 
 #fullScreenBtn {
   width: 48px;
-  background-image: url(assets/icons/fs.png);
+  /* background-image: url(assets/icons/fs.png); */
   background-size: contain;
   background-repeat: no-repeat;
+}
+
+.smallIcon{
+  width: 100%;
+  margin-top: 1px;
+}
+
+#myAccountLoginForm {
+  position: absolute;
+  border-radius: 4px;
+  top: 20%;
+  left: 35%;
+  width: 30%;
+  padding: 10px 10px 10px 10px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
+
+  @media only screen and (max-width: 600px) {
+    position: absolute;
+		border-radius: 4px;
+    top: 24%;
+    width: unset;
+    left: 0%;
+    padding: 10px;
+  }
+
 }

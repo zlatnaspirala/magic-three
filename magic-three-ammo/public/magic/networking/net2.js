@@ -165,7 +165,7 @@ export class KureBroadcaster {
         myInstance.popupUI.style = 'table';
         myInstance.popupUI.innerHTML = html;
         var testLoadJS = document.createElement('script')
-        testLoadJS.src = "./kure/openvidu-browser-2.20.0.js"
+        testLoadJS.src = "./kure/ov2.20.0.js"
         testLoadJS.onload = () => {
           myInstance.initDOMKure();
         }
