@@ -95,6 +95,8 @@ button {
   user-select: none;
   pointer-events: none;
   z-index: 1;
+  border-bottom-left-radius: 9px;
+  border-bottom-right-radius: 9px;
 
   /* TODO Solve this in HTML */
   @media only screen and (max-width: 600px) {

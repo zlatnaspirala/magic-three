@@ -175,14 +175,14 @@ let map = {
       pos: {x: 24, y: 25, z: 28},
       helper: true
     },
-    {
-      name: 'l2',
-      color: 0x22ff20,
-      radius: 8,
-      intensity: 20,
-      pos: {x: 24, y: 25, z: 38},
-      helper: true
-    },
+    // {
+    //   name: 'l2',
+    //   color: 0x22ff20,
+    //   radius: 8,
+    //   intensity: 20,
+    //   pos: {x: 24, y: 25, z: 38},
+    //   helper: true
+    // },
     {
       name: 'l3',
       color: 0x22ff20,
@@ -191,14 +191,14 @@ let map = {
       pos: {x: 24, y: 25, z: -10},
       helper: true
     },
-    {
-      name: 'l4',
-      color: 0x22ff20,
-      radius: 8,
-      intensity: 20,
-      pos: {x: 24, y: 25, z: -20},
-      helper: true
-    },
+    // {
+    //   name: 'l4',
+    //   color: 0x22ff20,
+    //   radius: 8,
+    //   intensity: 20,
+    //   pos: {x: 24, y: 25, z: -20},
+    //   helper: true
+    // },
     {
       name: 'r1',
       color: 0xff0000,
@@ -207,14 +207,14 @@ let map = {
       pos: {x: -24, y: 25, z: 28},
       helper: true
     },
-    {
-      name: 'r2',
-      color: 0x22ff20,
-      radius: 8,
-      intensity: 20,
-      pos: {x: -24, y: 25, z: 38},
-      helper: true
-    },
+    // {
+    //   name: 'r2',
+    //   color: 0x22ff20,
+    //   radius: 8,
+    //   intensity: 20,
+    //   pos: {x: -24, y: 25, z: 38},
+    //   helper: true
+    // },
     {
       name: 'r3',
       color: 0x22ff20,
@@ -223,14 +223,14 @@ let map = {
       pos: {x: -24, y: 25, z: -10},
       helper: true
     },
-    {
-      name: 'r4',
-      color: 0x22ff20,
-      radius: 8,
-      intensity: 20,
-      pos: {x: -24, y: 25, z: -20},
-      helper: true
-    },
+    // {
+    //   name: 'r4',
+    //   color: 0x22ff20,
+    //   radius: 8,
+    //   intensity: 20,
+    //   pos: {x: -24, y: 25, z: -20},
+    //   helper: true
+    // },
 
     // down center
     {

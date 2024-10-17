@@ -345,8 +345,10 @@ export default class Application extends MagicPhysics {
     // Lights
     this.textureLoader = new THREE.TextureLoader();
 
+    if (isTouchableDevice() == false) {
     this.ambientLight = new THREE.AmbientLight(this.config.map.ambientLight.color);
     this.scene.add(this.ambientLight);
+    }
 
     this.light = new THREE.DirectionalLight(this.config.map.directionLight.color, this.config.map.directionLight.intensity);
     this.light.position.set(0, 100, 0);
