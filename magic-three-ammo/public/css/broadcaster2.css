@@ -306,60 +306,11 @@ option::-webkit-scrollbar {
 	animation-duration: 1.2s;
 }
 
-.individual-hide-animation {
-	-webkit-animation-fill-mode: forwards;
-	-webkit-animation-name: tozero;
-	-webkit-animation-duration: 1.2s;
-	animation-fill-mode: forwards;
-	animation-name: tozero;
-	animation-duration: 1.2s;
-}
-
-.individual-show-animation {
-	-webkit-animation-fill-mode: forwards;
-	-webkit-animation-name: tofull;
-	-webkit-animation-duration: 1.2s;
-	animation-fill-mode: forwards;
-	animation-name: tofull;
-	animation-duration: 1.2s;
-}
-
-.panel-hide-animation {
-	-webkit-animation-fill-mode: forwards;
-	-webkit-animation-name: showPrivateChats;
-	-webkit-animation-duration: 1.2s;
-	animation-fill-mode: forwards;
-	animation-name: showPrivateChats;
-	animation-duration: 1.2s;
-}
-
-.panel-show-animation {
-	-webkit-animation-fill-mode: forwards;
-	-webkit-animation-name: hidePrivateChats;
-	-webkit-animation-duration: 1.2s;
-	animation-fill-mode: forwards;
-	animation-name: hidePrivateChats;
-	animation-duration: 1.2s;
-}
-
-/** Test Text */
-
 .form-control[disabled],
 .form-control[readonly],
 fieldset[disabled] .form-control {
 	background-color: #000;
 	opacity: 1;
-}
-
-h1 {
-	text-align: center;
-	font: bold 80px monospace;
-	padding: 40px 0;
-}
-
-.brownText {
-	background: #91877b;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .btn {
@@ -663,64 +614,6 @@ input.btn {
 .btn-info {
 	background-color: #0088aa !important;
 	border-color: #0088aa;
-}
-
-.btn-info:hover {
-	background-color: #00708c !important;
-	border-color: #00708c;
-}
-
-.btn-warning {
-	background-color: #ffcc00 !important;
-	border-color: #ffcc00;
-	color: #4d4d4d;
-}
-
-.btn-warning:hover {
-	background-color: #eabb3a !important;
-	border-color: #eabb3a;
-	color: #4d4d4d;
-}
-
-.btn-warning:active {
-	color: #4d4d4d;
-}
-
-.btn-warning:focus {
-	color: #4d4d4d;
-}
-
-.btn-warning:active:focus {
-	color: #4d4d4d;
-}
-
-.footer {
-	position: fixed;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	bottom: 0;
-	width: 100%;
-	height: 50px;
-	background-color: #000000;
-	color: var(--thermeTextLabel);
-	/* text-shadow: 2px 2px 2px #0c4475; */
-	/* -webkit-box-shadow: 0 0 5px 4px #1F8BDE; */
-	box-shadow: 2px 0px 0px 1px var(--thermePrimary);
-}
-
-.footerText {
-	font-size: large;
-}
-
-.footer .text-muted {
-	margin: 20px 0;
-	color: #ccc;
-}
-
-.body-content-private-policy {
-	margin: 2px 2px 2px 2px;
-	padding: 15px 15px 15px 15px;
 }
 
 label {
