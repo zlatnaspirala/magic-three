@@ -32,7 +32,7 @@ export class RCSAccount {
 
 		var logo = document.createElement('img');
 		logo.id = 'logologin';
-		logo.alt = 'Login';
+		logo.setAttribute('alt', 'Login');
 		logo.style = 'width: max-content;'
 		logo.src = './assets/icons/icon96.png';
 
