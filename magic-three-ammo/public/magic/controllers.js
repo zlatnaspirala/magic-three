@@ -11,12 +11,13 @@ export function createFPSController() {
       text-align: center;
       display: none;
       position:absolute;
-      left: 80%;
-      top: 80%;
+      left: 71.5%;
+      top: 70.5%;
       width: ${this.config.playerController.mobile.hudBtnsWidth};
       height: ${this.config.playerController.mobile.hudBtnsHeight};
       background: rgba(255,255,255,0.2);
-      background-image: url(assets/icons/down.png);
+      background-image: url(assets/icons/up.png);
+      background-size: cover;
       margin: auto;
       align-items: center;
     `)
@@ -33,11 +34,13 @@ export function createFPSController() {
       text-align: center;
       display: none;
       position:absolute;
-      left: 85%;
-      top: 90%;
-      width: 14%;
-      height: 4%;
+      left: 81%;
+      top: 83%;
+      width: 16%;
+      height: 6%;
       background: rgba(255,255,255,0.2);
+      background-image: url(assets/icons/right.png);
+      background-size: cover;
       margin: auto;
       align-items: center;
     `)
@@ -59,11 +62,13 @@ export function createFPSController() {
       text-align: center;
       display: none;
       position:absolute;
-      left: 70%;
-      top: 90%;
-      width: 14%;
-      height: 4%;
+      left: 62%;
+      top: 83%;
+      width: 16%;
+      height: 6%;
       background: rgba(255,255,255,0.2);
+      background-image: url(assets/icons/left.png);
+      background-size: cover;
       margin: auto;
       align-items: center;
     `)
@@ -86,9 +91,9 @@ export function createFPSController() {
       text-align: center;
       display: none;
       position:absolute;
-      left: 60%;
-      top: 80%;
-      width: 13%;
+      left: 54%;
+      top: 74%;
+      width: 16%;
       height: 6%;
       background: rgba(255,155,155,0.2);
       margin: auto;
@@ -113,11 +118,13 @@ export function createFPSController() {
       text-align: center;
       display: none;
       position:absolute;
-      left: 78%;
-      top: 86%;
-      width: 14%;
-      height: 4%;
+      left: 71.5%;
+      top: 77%;
+      width: 16%;
+      height: 6%;
       background: rgba(255,255,255,0.2);
+      background-image: url(assets/icons/up.png);
+      background-size: cover;
       margin: auto;
       align-items: center;
     `)
@@ -139,11 +146,13 @@ export function createFPSController() {
       text-align: center;
       display: none;
       position:absolute;
-      left: 78%;
-      top: 94%;
-      width: 14%;
-      height: 4%;
+      left: 71.5%;
+      top: 89%;
+      width: 16%;
+      height: 6%;
       background: rgba(255,255,255,0.1);
+      background-image: url(assets/icons/down.png);
+      background-size: cover;
       margin: auto;
       align-items: center;
     `)

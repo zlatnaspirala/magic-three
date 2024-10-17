@@ -251,9 +251,10 @@ option {
 }
 
 .hudItem {
+  display: flex;
   width: 50%;
-  /* height: 25px; */
-  margin-top: 10px;
+  justify-content: center;
+  align-items: center;
   background: transparent;
   box-shadow: unset;
 }

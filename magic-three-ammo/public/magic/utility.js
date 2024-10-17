@@ -429,13 +429,18 @@ export function FS() {
       document.exitFullscreen();
     }
   }
+  byId('blocker').removeEventListener('click', FS)
+}
 
-  if(isTouchableDevice() == true) {
-    removeEventListener('touchstart', FS)
+export function FS_MOB() {
+  if(!document.fullscreenElement) {
+    document.documentElement.webkitRequestFullscreen();
   } else {
-    removeEventListener('click', FS)
+    if(document.exitFullscreen) {
+      document.webkitExitFullscreen()
+    }
   }
-
+  byId('blocker').removeEventListener('touchstart', FS_MOB)
 }
 
 export function fullScreen() {
@@ -461,8 +466,8 @@ export function toggleFullScreeniOS() {
 
 export function attachFirstClick() {
   if(isTouchableDevice() == true) {
-    addEventListener('touchstart', FS)
+    byId('blocker').addEventListener('touchstart', FS_MOB)
   } else {
-    addEventListener('click', FS)
+    byId('blocker').addEventListener('click', FS)
   }
 }

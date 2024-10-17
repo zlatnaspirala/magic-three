@@ -4,12 +4,13 @@ import {ROCK_RANK} from "./player-skills.js";
 
 export class RCSAccount {
 
-	apiDomain = "https://maximumroulette.com";
-
 	email = null;
 	token = null;
 
-	constructor() {
+	constructor(apiDomain) {
+
+		this.apiDomain = apiDomain;
+
 		this.visitor()
 
 		addEventListener('F12', (e) => {
@@ -40,9 +41,8 @@ export class RCSAccount {
 			parent.style = `
 		position: absolute;
 		border-radius: 4px;
-    top: 20%;
+    top: 24%;
     left: 0%;
-  
     padding: 10px;`;
 		}
 
@@ -117,7 +117,7 @@ export class RCSAccount {
 	}
 
 	createLeaderboardDOM = (data) => {
-		if (byId('leaderboard') != null) {
+		if(byId('leaderboard') != null) {
 			byId('leaderboard').style.display = 'block';
 			return;
 		}
@@ -154,35 +154,42 @@ export class RCSAccount {
 		var nicklabel = document.createElement('div');
 		nicklabel.innerText = 'Nickname';
 		nicklabel.style.width = '100%';
-			var pointslabel = document.createElement('div');
-			pointslabel.innerText = 'Points';
-			pointslabel.style.width = '100%';
-			tableLabel.appendChild(nicklabel)
-			tableLabel.appendChild(pointslabel)
+		var pointslabel = document.createElement('div');
+		pointslabel.innerText = 'Points';
+		pointslabel.style.width = '100%';
+		tableLabel.appendChild(nicklabel)
+		tableLabel.appendChild(pointslabel)
 
-			parent.appendChild(tableLabel)
+		parent.appendChild(tableLabel)
 
+		var parentForTable = document.createElement('div');
+		parentForTable.style.height = '70vh';
+		parentForTable.style.overflow = 'scroll';
 		data.forEach(element => {
 			var table = document.createElement('div');
 			table.style.display = 'flex';
 			table.style.flexDirection = 'row';
 			table.style.justifyContent = 'center';
 			table.style.alignItems = 'center';
-			
+
 			var nick = document.createElement('div');
 			nick.innerText = element.nickname;
 			nick.style.width = '100%';
+			nick.style.boxShadow = 'none';
 			var points = document.createElement('div');
 			points.innerText = element.points;
 			points.style.width = '100%';
+			points.style.boxShadow = 'none';
 			// var medal = document.createElement('img');
 			// medal.id = 'medal';
 			// logo.src = './assets/icons/icon96.png';
 			table.appendChild(nick)
 			table.appendChild(points)
 			table.innerHTML += (ROCK_RANK.getRankMedalImg(ROCK_RANK.getRank(element.points)))
-			parent.appendChild(table)
+			parentForTable.appendChild(table)
 		});
+
+		parent.appendChild(parentForTable)
 
 		var hideBtn = document.createElement('button');
 		hideBtn.classList = 'btn';
@@ -256,7 +263,7 @@ export class RCSAccount {
 		})
 	}
 
-	async confirmation() {
+	confirmation = async () => {
 		let route = this.apiDomain;
 		const args = {
 			emailField: this.email,
@@ -281,7 +288,7 @@ export class RCSAccount {
 
 	}
 
-	async login() {
+	login = async () => {
 		let route = this.apiDomain || location.origin;
 		byId('loginRCSBtn').disabled = true;
 		byId('registerBtn').disabled = true;

@@ -201,7 +201,7 @@ export default class Application extends MagicPhysics {
     // Check from config is it Account used here.
     // RCSAccount WIP
     if(this.config.useRCSAccount == true) {
-      this.myAccounts = new RCSAccount();
+      this.myAccounts = new RCSAccount(this.config.RCSAccountDomain);
       this.myAccounts.createDOM();
       console.log(`%c<RocketCraftingServer [Account] [wip]> ${this.myAccounts}`, REDLOG);
     }
