@@ -48,15 +48,17 @@ export class RCSAccount {
 		content.style.flexDirection = 'column';
 		content.style.background = 'transparent';
 
-		var emailLabel = document.createElement('span');
+		var emailLabel = document.createElement('label');
 		emailLabel.id = 'emailLabel';
 		emailLabel.innerHTML = `Email:`;
+		emailLabel.setAttribute('for', 'arg-email');
 		var email = document.createElement('input');
 		// email.classList.add('myInput')
 		email.id = 'arg-email';
-		var passLabel = document.createElement('span');
+		var passLabel = document.createElement('label');
 		passLabel.id = 'passLabel';
 		passLabel.innerHTML = `Passw:`;
+		passLabel.setAttribute('for', 'arg-pass');
 		var pass = document.createElement('input');
 		pass.id = 'arg-pass';
 		// pass.classList.add('myInput')

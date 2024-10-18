@@ -80,6 +80,8 @@ export default class Application extends MagicPhysics {
   bulletMesh;
 
   netflag = 0;
+  // memo last sended pos - for optimisation
+  LAST_POS = { x : -1 , y: -1 , z: -1}; 
   fx = new MagicSounds();
 
   nightAndDayThread = null;
@@ -98,42 +100,22 @@ export default class Application extends MagicPhysics {
     console.log(`%c -H3d map: freeforall.`, BIGLOG);
 
     // console.info = () => {} // destroy logs
-    if (this.config.forceFullScreen == true) {
-      
+    if(this.config.forceFullScreen == true) {
       attachFirstClick()
     }
 
     if(isMobile == true || isAndroid == true) {
-      console.log(`%c Mobile device detected ...`, REDLOG);
+      console.log(`%c Mobile device detected.`, REDLOG);
       mobileAdaptation.fixStyle();
     }
 
     addEventListener('multi-lang', () => {
-      // const domLoader = document.getElementById('instructions');
       if(this.config.networking.broadcasterInit == true) {
         if(App.net && App.net.connection && App.net.connection.isInitiator == true) byId('hud-message').innerHTML = t('you.are.host');
       }
       if(isMobile == true) byId('header.title').innerHTML += 'Mobile✭';
       document.title = t('title');
     });
-
-    // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
-    if(this.config.networking.broadcasterInit == true) {
-      addEventListener('stream-loaded', (e) => {
-        console.info('[stream-loaded]', e);
-        if(this.net.connection.isInitiator === true) {
-          if(document.title != t('you.are.host')) {
-            dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.host')}}))
-            document.title = t('you.are.host');
-          }
-        } else {
-          dispatchEvent(new CustomEvent('onHudMsg', {detail: {msg: t('you.are.guest')}}))
-          document.title = t('you.are.guest');
-        }
-      })
-      // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
-    }
-    // -<<<<<<<<<<<<<<<<<<<<<<<<<< OLD
 
     // Player data - locals only - this is not secured if you wanna some validation data...
     if(load('playerData') !== false) {
@@ -179,9 +161,7 @@ export default class Application extends MagicPhysics {
     //   console.info('Setup BOT ENEMY animation character obj ADD COLLIDE BOX =>', r);
     //   App.ZOMBY = r;
     //   r.position.set(4, 0, 10);
-
     //   dispatchEvent(new CustomEvent('addToOnlyIntersects', {detail: {o: r}}))
-
     //   // setTimeout(() => {
     //   //   this.attachBoxCollider(r,
     //   //     new THREE.Vector3(1, 2, 1),
@@ -191,11 +171,10 @@ export default class Application extends MagicPhysics {
     //   //     2
     //   //   );
     //   // }, 5000)
-
     // }));
 
     Promise.all(this.myBigDataFlag).then((values) => {
-      console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
+      // console.info(`%cAll big data [fbx animations ...] loaded ${values}`, ANYLOG);
     });
 
     // Check from config is it Account used here.
@@ -203,7 +182,7 @@ export default class Application extends MagicPhysics {
     if(this.config.useRCSAccount == true) {
       this.myAccounts = new RCSAccount(this.config.RCSAccountDomain);
       this.myAccounts.createDOM();
-      console.log(`%c<RocketCraftingServer [Account] [wip]> ${this.myAccounts}`, REDLOG);
+      console.log(`%c<RocketCraftingServer [Account]> ${this.myAccounts}`, REDLOG);
     }
 
     // Attach funcs
@@ -228,7 +207,7 @@ export default class Application extends MagicPhysics {
       setTimeout(() => {
         byId('matrix-net').style.display = 'none';
         if(QueryString.dev && QueryString.dev == "true") {
-          console.log('MAKE BLOCK VOLUMES VISIBLE DISPATCH')
+          console.log('%c[DEV-REGIME]MAKE BLOCK VOLUMES VISIBLE DISPATCH', REDLOG)
           dispatchEvent(new CustomEvent('config.map.blockingVolumes.visible', {detail: {map: {blockingVolumes: {visible: true}}}}))
         }
       }, 1500)
@@ -245,8 +224,7 @@ export default class Application extends MagicPhysics {
     this.attachFire();
     this.initGamePlayEvents();
     this.createPlayer();
-
-    App.label.update()
+    App.label.update();
   }
 
   initGamePlayEvents() {
@@ -345,9 +323,9 @@ export default class Application extends MagicPhysics {
     // Lights
     this.textureLoader = new THREE.TextureLoader();
 
-    if (isTouchableDevice() == false) {
-    this.ambientLight = new THREE.AmbientLight(this.config.map.ambientLight.color);
-    this.scene.add(this.ambientLight);
+    if(isTouchableDevice() == false) {
+      this.ambientLight = new THREE.AmbientLight(this.config.map.ambientLight.color);
+      this.scene.add(this.ambientLight);
     }
 
     this.light = new THREE.DirectionalLight(this.config.map.directionLight.color, this.config.map.directionLight.intensity);
@@ -717,23 +695,33 @@ export default class Application extends MagicPhysics {
           // 1.5 is correction
           // if(this.config.networking.broadcasterInit == true) {
           // remove READY flag for multiRTC(old net)
-          if(this.net.connection && typeof this.net.READY !== 'undefined') this.net.connection.send({
-            netPos: {
-              x: i.position.x,
-              y: i.position.y - 1.5,
-              z: i.position.z
-            },
-            netRot: {
-              x: this.camera.rotation.x,
-              y: this.camera.rotation.y,
-              z: this.camera.rotation.z
-            },
-            // netDamage: 0,
-            netQuaternion: this.camera.quaternion,
-            netObjId: this.net.connection.session.connection.connectionId,
-            netType: 'netPlayer' // can be shared or enemy comp
-          })
-          // }s
+          if(this.net.connection && typeof this.net.READY !== 'undefined' &&
+             // |TEST 
+            parseFloat(i.position.x.toFixed(2)) != this.LAST_POS.x 
+          ) {
+            this.net.connection.send({
+              netPos: {
+                x: i.position.x.toFixed(2),
+                y: i.position.y.toFixed(2) - 1.4,
+                z: i.position.z.toFixed(2)
+              },
+              netRot: {
+
+                x: this.camera.rotation.x,
+                y: this.camera.rotation.y,
+                z: this.camera.rotation.z
+              },
+              // netDamage: 0,
+              netQuaternion: this.camera.quaternion,
+              netObjId: this.net.connection.session.connection.connectionId,
+              netType: 'netPlayer' // can be shared or enemy comp
+            })
+            this.LAST_POS = {
+              x: parseFloat(i.position.x.toFixed(2)),
+              y: parseFloat(i.position.y.toFixed(2)) - 1.5,
+              z: parseFloat(i.position.z.toFixed(2))
+            }
+          }
         } else if(i.netType == 'envObj') {
           // if(this.config.networking.broadcasterInit == true) {
           if(this.net.connection) this.net.connection.send({
@@ -772,7 +760,6 @@ export default class Application extends MagicPhysics {
       i.update(deltaTime);
     });
 
-
     if(this.config.map.collision.detectCollision == true) {
       this.detectCollision()
       if(this.bulletMesh) {
@@ -793,7 +780,6 @@ export default class Application extends MagicPhysics {
     //     console.log("on hit =>", intersects[i].object.name)
     //   }
     // }
-
     this.renderer.render(this.scene, this.camera);
   }
 

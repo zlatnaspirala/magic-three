@@ -3,14 +3,14 @@
 let defaultMat = 'Bronze';
 let map = {
   breakable: [
-    {
-      name: "hang3dLogo",
-      mass: 10,
-      scale: {x: 4, y: 4, z: 1},
-      pos: {x: 0, y: 21, z: 50.4},
-      quat: [0, 0, 0, 1],
-      matFlag: 'matHang3dIcon'
-    },
+    // {
+    //   name: "hang3dLogo",
+    //   mass: 10,
+    //   scale: {x: 4, y: 4, z: 1},
+    //   pos: {x: 0, y: 21, z: 50.4},
+    //   quat: [0, 0, 0, 1],
+    //   matFlag: 'matHang3dIcon'
+    // },
     // {
     //   name: "glassWindow1",
     //   mass: 1,
@@ -22,9 +22,20 @@ let map = {
   ],
   boxs: [
     {
+      name: "hang3dLogo",
+      net: false,
+      mass: 10,
+      scale: {x: 4, y: 4, z: 1},
+      pos: {x: 0, y: 21, z: 50.4},
+      quat: [0, 0, 0, 1],
+      matFlag: 'matHang3dIcon',
+      collide: false,
+      state: 4
+    },
+    {
       name: "bottom-platform-left2-bottom",
       net: false,
-      mascrosss: 0,
+      mass: 0,
       scale: {x: 15, y: 15, z: 0.5},
       pos: {x: -65, y: 12, z: 45},
       quat: [0, 0, 0, 1],
@@ -239,7 +250,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: 24, y: 10, z: 28},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
     {
       name: 'ldown2',
@@ -247,7 +259,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: 24, y: 10, z: 38},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
     {
       name: 'ldown3',
@@ -255,7 +268,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: 24, y: 10, z: -10},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
     {
       name: 'ldown4',
@@ -263,7 +277,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: 24, y: 10, z: -20},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
 
     {
@@ -272,7 +287,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: -24, y: 10, z: 28},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
     {
       name: 'rdown2',
@@ -280,7 +296,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: -24, y: 10, z: 38},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
     {
       name: 'rdown3',
@@ -288,7 +305,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: -24, y: 10, z: -10},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
     {
       name: 'rdown4',
@@ -296,7 +314,8 @@ let map = {
       radius: 8,
       intensity: 20,
       pos: {x: -24, y: 10, z: -20},
-      helper: true
+      helper: true,
+      mobileSupport: false
     },
 
   ],

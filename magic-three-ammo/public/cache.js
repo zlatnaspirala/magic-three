@@ -5,7 +5,7 @@
  * You must increment or decrement app cache version var `version`
  * @author Nikola Lukic
  */
-var version = 1;
+var version = 2;
 
 const cacheFlag = 'magic-three';
 var cacheName = cacheFlag + version;

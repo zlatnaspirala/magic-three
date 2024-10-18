@@ -28,12 +28,17 @@ Using power of Three.js, ammo.js. MagicThree is nice class sorted top level of t
     https://docs.openvidu.io/en/2.11.0/cheatsheet/send-messages/
 
 
+    ⚠️From 23 oct 2024 -> frontend old net code will be removed.
+    server part is still present.
+
    ⚠️(only if you wanna use RTCMulti)
     In folder ./backend we have package.json to import deps (npm i) for server part.
     Run in folder  `./backend` cmd: `npm i` and `npm run magic` for host and broadcaster.
     
   - [⚠️ Old ]Networking based on webRtc multiRTC3 library. Signaling server,
     video chat or stream to texture.
+
+    If you wanna use new net just run your own openvidu server on your VPS [i use 2.20.0 version].
 
 
 <img src="https://github.com/zlatnaspirala/magic-three/blob/main/non-project-files/kure.png" width="700">
@@ -50,7 +55,7 @@ import myGamePlayMagicMap from './public/assets/maps/free-for-all.js';
 let App = new Application(config, myGamePlayMagicMap);
 ```
 
-### Client Config
+### Client Config (☣All important stuff controlled form config)
 
 ```js
 const config = {
@@ -379,18 +384,20 @@ Only on startup for now:
     });
 ```
 
-## Networking [WEBRTC/IOSOCKET] 💫
+## Networking [WEBRTC/OV] 💫
 
-  - I use classic broadcester from matrix-engine-server/visual ts [multiRTC3]
-  - Every player send own `net.connection.userid`.
-  - Type of gameObject `boxs` map loader have support for net emit. ⏳
-
+  - If you wanna use all yours code (also server part) than use old net with broadcaster [multiRTC3]
+  From 18 oct 2024 no support for old net.
   
-
+  New networking based on kurento/openvidu server.
   Force streaming on mobile with URL Params `?video=true&audio=true`:
   ```
   https://maximumroulette.com/apps/magic/public/module.html?video=true&audio=true
   ```
+  - Not sending data if player is in sleep mode
+
+  You need to start your own openvidu server.
+
 
 ### Explanation of FPS concept
  - Local Player have no any visual objs, only main three.js camera follow player position and look direction.
@@ -503,7 +510,7 @@ Login example:
 	}
 ```
 
-
+ - RCS Fetch example
 ```js
  fetch("http://maximumroulette.com/rocket/login", {
                   "headers": {

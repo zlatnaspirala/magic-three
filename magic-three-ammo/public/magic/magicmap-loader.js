@@ -76,7 +76,11 @@ export function loadMap(map) {
   });
 
   map.pointLights.forEach((l, index) => {
-     
+    
+    if (l.mobileSupport) {
+      return;
+    }
+    console.info(`load map point lights index => ${index}  => `, l.mobileSupport);
     let light = new THREE.PointLight(l.color, l.radius, l.intensity);
     light.position.set(l.pos.x, l.pos.y, l.pos.z);
     const sphere = new THREE.SphereGeometry(0.5, 8, 4);

@@ -69,7 +69,7 @@ button {
   cursor: pointer;
   text-transform: uppercase;
   border: none;
-  /* color: var(--bg); */
+  color: var(--text);
   background: var(--bg);
   margin: 1px;
 }
@@ -304,7 +304,7 @@ option {
 #playBtn {
   font-size: var(--fontBig);
   font-family: var(--mainFont);
-  background: var(--text);
+  /* background: var(--text); */
   padding: 7px;
 }
 
@@ -389,6 +389,13 @@ option {
     width: unset;
     left: 0%;
     padding: 10px;
+  }
+
+  @media only screen and (min-width: 601px) and  (max-width: 900px) {
+		border-radius: 4px;
+    top: 24%;
+    width: 50%;
+    left: 25%;
   }
 
 }

@@ -28,13 +28,13 @@
   <meta property="og:url" content="https://maximumroulette.com">
   <meta property="og:title" content="Hang3D-Reborn is web multiplayer FPS - hosted on maximumroulette.com">
   <meta property="og:description" content="Hang3D-Reborn is web multiplayer FPS template based on threejs, ammojs, kurento and openvide project. Welcome here">
-  <meta property="og:image" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.png">
+  <meta property="og:image" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.webp">
   <!-- Twitter -->
-  <meta property="twitter:card" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.png">
+  <meta property="twitter:card" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.webp">
   <meta property="twitter:url" content="https://maximumroulette.com">
   <meta property="twitter:title" content="Hang3D-Reborn is web multiplayer FPS - hosted on maximumroulette.com">
   <meta property="twitter:description" content="Hang3D-Reborn is web multiplayer FPS template based on threejs, ammojs, kurento and openvide project. Welcome here">
-  <meta property="twitter:image" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.png">
+  <meta property="twitter:image" content="https://maximumroulette.com/apps/magic/public/assets/textures/cube/hang3d.webp">
 </head>
 
 <body oncontextmenu="return false;">
@@ -67,17 +67,24 @@
   <div id="bootomMenu">
     <div style="display: flex;width: 100%;">
       <div style="display: flex;width: 66%;">
+
+        <div style="display: flex;flex-direction: column;">
+        <label style="font-size:xx-small" for="theme-color">Select theme</label>
         <select class="theme-color" name="theme-color" id="theme-color">
           <option data-label="dark" value="Dark"></option>
           <option value="Light">Light</option>
           <option value="Green">Green</option>
           <option value="Orange">Orange</option>
         </select>
+      </div>
 
+      <div style="display: flex;flex-direction: column;">
+        <label style="font-size:xx-small" for="language">Language</label>
         <select class="theme-color" name="language" id="language">
           <option data-label="en" value="en"></option>
           <option data-label="sr" value="sr"></option>
         </select>
+      </div>
 
       </div>
       <button id="leaderboardBtn" style="z-index:100">TOP 10</button>
