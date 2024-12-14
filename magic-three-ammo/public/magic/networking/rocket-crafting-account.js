@@ -1,4 +1,4 @@
-import {mobileAdaptation} from "../../mobile.js";
+
 import {byId, isMobile, jsonHeaders, notify, REDLOG} from "../utility.js";
 import {ROCK_RANK} from "./player-skills.js";
 
@@ -18,7 +18,6 @@ export class RCSAccount {
 			localStorage.removeItem("visitor");
 			this.visitor(e.detail)
 		})
-		mobileAdaptation.testExperimental.catchHacker();
 
 		this.leaderboardBtn = document.getElementById('leaderboardBtn');
 		this.leaderboardBtn.addEventListener("click", this.getLeaderboard)
