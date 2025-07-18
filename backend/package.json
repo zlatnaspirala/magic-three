@@ -25,7 +25,7 @@
     "minimist": "1.2.8"
   },
   "dependencies": {
-    "compression": "^1.7.4",
+    "compression": "^1.8.1",
     "express": "^4.21.2",
     "fs": "0.0.1-security",
     "path": "^0.12.7",
